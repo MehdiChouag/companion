@@ -1,0 +1,14 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.anyfetch.companion.wear.UpcomingEventsActivity"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="@dimen/card_content_padding_rect_left">
+
+    <view
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/upcoming_events_list"
+        class="android.support.wearable.view.WearableListView"/>
+
+</FrameLayout>
