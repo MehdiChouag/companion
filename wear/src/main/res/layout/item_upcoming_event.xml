@@ -15,21 +15,17 @@
         android:layout_height="fill_parent">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@android:style/TextAppearance.Medium"
             android:text="Event Title"
-            android:textAlignment="center"
-            android:id="@+id/event_title"
-            android:layout_gravity="center_horizontal" />
+            android:id="@+id/event_title" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Event date"
-            android:textAlignment="center"
-            android:id="@+id/event_date"
-            android:layout_gravity="center_horizontal" />
+            android:id="@+id/event_date" />
     </LinearLayout>
 </LinearLayout>

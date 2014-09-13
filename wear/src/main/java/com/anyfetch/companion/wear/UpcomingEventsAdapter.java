@@ -29,6 +29,8 @@ public class UpcomingEventsAdapter extends RecyclerView.Adapter {
         Event e = list.get(i);
 
         ((TextView) view.findViewById(R.id.event_title)).setText(e.getTitle());
+        // TODO: Better date formatting
+        ((TextView) view.findViewById(R.id.event_date)).setText(e.getStart().getHours() + ":" +e.getStart().getMinutes());
 
         return new WearableListView.ViewHolder(view);
     }

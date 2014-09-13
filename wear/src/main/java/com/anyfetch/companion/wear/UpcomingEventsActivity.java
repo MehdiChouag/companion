@@ -24,10 +24,6 @@ public class UpcomingEventsActivity extends Activity {
         // TODO: for demo purposes only
         List<Event> fakeList = new ArrayList<Event>();
         fakeList.add(new DemoEvent());
-        fakeList.add(new DemoEvent());
-        fakeList.add(new DemoEvent());
-        fakeList.add(new DemoEvent());
-        fakeList.add(new DemoEvent());
 
         mListView.setAdapter(new UpcomingEventsAdapter(this, fakeList));
     }
