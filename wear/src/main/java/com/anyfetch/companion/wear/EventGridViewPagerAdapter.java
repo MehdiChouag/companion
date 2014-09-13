@@ -2,6 +2,7 @@ package com.anyfetch.companion.wear;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.support.wearable.activity.InsetActivity;
 import android.support.wearable.view.CardFragment;
 import android.support.wearable.view.FragmentGridPagerAdapter;
 import android.support.wearable.view.ImageReference;
@@ -16,9 +17,9 @@ import com.anyfetch.companion.commons.models.Event;
  */
 public class EventGridViewPagerAdapter extends FragmentGridPagerAdapter {
     private final Event event;
-    private final android.content.Context context;
+    private final InsetActivity context;
 
-    public EventGridViewPagerAdapter(android.content.Context context, FragmentManager fm, Event event) {
+    public EventGridViewPagerAdapter(InsetActivity context, FragmentManager fm, Event event) {
         super(fm);
         this.event = event;
         this.context = context;
@@ -42,9 +43,9 @@ public class EventGridViewPagerAdapter extends FragmentGridPagerAdapter {
 
     @Override
     public Fragment getFragment(int row, int col) {
-        CardFragment card;
+        String title;
+        String text = "";
         if(row == 0 && col == 0) { // Event presentation
-            String text = "";
             if(event.getAttendees().size() > 0) {
                 text = event.getAttendees().get(0).getName() + " ";
                 if(event.getAttendees().size() > 1) {
@@ -52,10 +53,11 @@ public class EventGridViewPagerAdapter extends FragmentGridPagerAdapter {
                 }
             }
             text += event.getStart().getHours() + ":" + event.getStart().getMinutes();
-            card = CardFragment.create(event.getTitle(), text);
+            title = event.getTitle();
         } else if(row > 0 && col == 0) { // Attendee presentation
             Attendee attendee = event.getAttendees().get(row - 1);
-            card = CardFragment.create(attendee.getName(), attendee.getJob());
+            title = attendee.getName();
+            text = attendee.getJob();
         } else { // Document context
             Document document;
             if(row == 0) {
@@ -64,8 +66,13 @@ public class EventGridViewPagerAdapter extends FragmentGridPagerAdapter {
                 Context attendeeContext = (Context) event.getAttendees().get(row - 1);
                 document = attendeeContext.getAssociatedDocuments().get(col - 1);
             }
-            card = CardFragment.create(document.getTitle(), document.getSnippet());
+            title = document.getTitle();
+            text = document.getSnippet();
         }
+        if(context.isRound()) {
+            text += "\n";
+        }
+        CardFragment card = CardFragment.create(title, text);
         card.setExpansionEnabled(true);
         return card;
     }
