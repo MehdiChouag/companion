@@ -4,5 +4,9 @@
     <string name="app_name">AnyFetch Companion</string>
     <string name="title_activity_upcoming_events">AnyFetch Events</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_event_grid">View Event</string>
+    <string name="title_notification_upcoming_event">Upcoming event</string>
+    <string name="prepare_action">Prepare</string>
+    <string name="other_attendees">others…</string>
 
 </resources>

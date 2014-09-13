@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.wearable.view.WearableListView;
 
-import com.anyfetch.companion.R;
 import com.anyfetch.companion.commons.models.Event;
 import com.anyfetch.companion.commons.models.demo.DemoEvent;
 

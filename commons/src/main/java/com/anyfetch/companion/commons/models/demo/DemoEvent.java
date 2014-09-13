@@ -42,6 +42,8 @@ public class DemoEvent implements Event, Context {
 
     @Override
     public List<Attendee> getAttendees() {
-        return null;
+        List<Attendee> attendees = new ArrayList<Attendee>();
+        attendees.add(new DemoBenioff());
+        return attendees;
     }
 }

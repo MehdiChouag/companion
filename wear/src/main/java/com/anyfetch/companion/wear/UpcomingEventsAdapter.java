@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.anyfetch.companion.R;
 import com.anyfetch.companion.commons.models.Event;
 
 import java.util.List;
