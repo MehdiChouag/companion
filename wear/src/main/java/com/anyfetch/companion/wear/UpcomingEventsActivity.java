@@ -1,6 +1,7 @@
 package com.anyfetch.companion.wear;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.wearable.view.WearableListView;
 
@@ -10,7 +11,7 @@ import com.anyfetch.companion.commons.models.demo.DemoEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UpcomingEventsActivity extends Activity {
+public class UpcomingEventsActivity extends Activity implements WearableListView.ClickListener {
 
     private WearableListView mListView;
 
@@ -25,5 +26,19 @@ public class UpcomingEventsActivity extends Activity {
         fakeList.add(new DemoEvent());
 
         mListView.setAdapter(new UpcomingEventsAdapter(this, fakeList));
+        mListView.setClickListener(this);
+    }
+
+    @Override
+    public void onClick(WearableListView.ViewHolder viewHolder) {
+        // TODO: for demo purposes only
+        Intent prepareIntent = new Intent(this, EventGridActivity.class);
+        prepareIntent.putExtra(PostEventNotificationReceiver.CONTENT_KEY, "demo");
+        startActivity(prepareIntent);
+    }
+
+    @Override
+    public void onTopEmptyRegionClick() {
+
     }
 }
