@@ -51,6 +51,8 @@ public class DemoEvent implements Event, Context {
     public List<Attendee> getAttendees() {
         List<Attendee> attendees = new ArrayList<Attendee>();
         attendees.add(new DemoBenioff(activity));
+        attendees.add(new DemoDayon(activity));
+        attendees.add(new DemoBouheddi(activity));
         return attendees;
     }
 }
