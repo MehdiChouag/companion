@@ -1,7 +1,10 @@
 package com.anyfetch.companion.commons.models.demo;
 
-import android.media.Image;
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
+import com.anyfetch.companion.commons.R;
 import com.anyfetch.companion.commons.models.Attendee;
 import com.anyfetch.companion.commons.models.Context;
 import com.anyfetch.companion.commons.models.Document;
@@ -14,6 +17,12 @@ import java.util.Map;
  * A Marc Benioff Object (TM)
  */
 public class DemoBenioff implements Attendee, Context {
+    private android.content.Context activity;
+
+    public DemoBenioff(android.content.Context activity) {
+        this.activity = activity;
+    }
+
     @Override
     public String getName() {
         return "Marc Benioff";
@@ -25,8 +34,9 @@ public class DemoBenioff implements Attendee, Context {
     }
 
     @Override
-    public Image getFace() {
-        return null;
+    public Bitmap getFace() {
+
+        return BitmapFactory.decodeResource(activity.getResources(), R.drawable.bg_benioff);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.anyfetch.companion.commons.models.demo;
 
+import android.app.Activity;
+
 import com.anyfetch.companion.commons.models.Attendee;
 import com.anyfetch.companion.commons.models.Context;
 import com.anyfetch.companion.commons.models.Document;
@@ -17,6 +19,11 @@ public class DemoEvent implements Event, Context {
     private static final int SECOND = 1000;
     private static final int MINUTE = SECOND * 60;
     private static final long HOUR = MINUTE * 60;
+    private android.content.Context activity;
+
+    public DemoEvent(android.content.Context activity) {
+        this.activity = activity;
+    }
 
     @Override
     public List<Document> getAssociatedDocuments() {
@@ -43,7 +50,7 @@ public class DemoEvent implements Event, Context {
     @Override
     public List<Attendee> getAttendees() {
         List<Attendee> attendees = new ArrayList<Attendee>();
-        attendees.add(new DemoBenioff());
+        attendees.add(new DemoBenioff(activity));
         return attendees;
     }
 }

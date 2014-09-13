@@ -23,7 +23,7 @@ public class UpcomingEventsActivity extends Activity implements WearableListView
 
         // TODO: for demo purposes only
         List<Event> fakeList = new ArrayList<Event>();
-        fakeList.add(new DemoEvent());
+        fakeList.add(new DemoEvent(this));
 
         mListView.setAdapter(new UpcomingEventsAdapter(this, fakeList));
         mListView.setClickListener(this);

@@ -18,7 +18,7 @@ public class EventGridActivity extends Activity {
         String eventId = this.getIntent().getStringExtra(PostEventNotificationReceiver.CONTENT_KEY);
         Event event;
         if(eventId.equals("demo")) {
-            event = new DemoEvent();
+            event = new DemoEvent(this);
         } else {
             // TODO: Handle real data
             event = null;

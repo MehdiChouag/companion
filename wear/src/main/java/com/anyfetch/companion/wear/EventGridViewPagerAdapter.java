@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.wearable.view.CardFragment;
 import android.support.wearable.view.FragmentGridPagerAdapter;
+import android.support.wearable.view.ImageReference;
 
 import com.anyfetch.companion.commons.models.Attendee;
 import com.anyfetch.companion.commons.models.Context;
@@ -69,8 +70,12 @@ public class EventGridViewPagerAdapter extends FragmentGridPagerAdapter {
         return card;
     }
 
-    /*@Override
-    public ImageReference getBackground(int row, int column) {
-        return ImageReference.forDrawable(something.getBackground());
-    }*/
+    @Override
+    public ImageReference getBackground(int row, int col) {
+        if(row > 0) { // Attendee presentation
+            Attendee attendee = event.getAttendees().get(row - 1);
+            return ImageReference.forBitmap(attendee.getFace());
+        }
+        return ImageReference.forDrawable(R.drawable.bg_generic);
+    }
 }
