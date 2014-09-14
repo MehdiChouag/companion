@@ -2,6 +2,7 @@ package com.anyfetch.companion.commons.models.demo;
 
 import android.media.Image;
 
+import com.anyfetch.companion.commons.R;
 import com.anyfetch.companion.commons.models.Document;
 
 import java.net.URL;
@@ -13,17 +14,18 @@ public class DemoMail implements Document {
 
     @Override
     public String getTitle() {
-        return "Dreamforce '14 demo";
+        return "Dreamforce '14";
     }
 
     @Override
     public String getSnippet() {
-        return "I Just wanted to know if you guys are ready for the big presentation ?";
+        return "Marc B. wrote:\n" +
+               "Hi guys, just wanted to give you some feedbacks before DF14…";
     }
 
     @Override
-    public Image getIcon() {
-        return null;
+    public int getIcon() {
+        return R.drawable.ic_gmail;
     }
 
     @Override

@@ -45,6 +45,7 @@ public class EventGridViewPagerAdapter extends FragmentGridPagerAdapter {
     public Fragment getFragment(int row, int col) {
         String title;
         String text = "";
+        int icon = 0;
         if(row == 0 && col == 0) { // Event presentation
             if(event.getAttendees().size() > 0) {
                 text = event.getAttendees().get(0).getName() + " ";
@@ -54,10 +55,12 @@ public class EventGridViewPagerAdapter extends FragmentGridPagerAdapter {
             }
             text += event.getStart().getHours() + ":" + event.getStart().getMinutes();
             title = event.getTitle();
+            icon = R.drawable.ic_event;
         } else if(row > 0 && col == 0) { // Attendee presentation
             Attendee attendee = event.getAttendees().get(row - 1);
             title = attendee.getName();
             text = attendee.getJob();
+            icon = R.drawable.ic_sfdc; // TODO: for demo purposes only
         } else { // Document context
             Document document;
             if(row == 0) {
@@ -68,11 +71,17 @@ public class EventGridViewPagerAdapter extends FragmentGridPagerAdapter {
             }
             title = document.getTitle();
             text = document.getSnippet();
+            icon = document.getIcon();
         }
         if(context.isRound()) {
             text += "\n";
         }
-        CardFragment card = CardFragment.create(title, text);
+        CardFragment card;
+        if(icon != 0) {
+            card = CardFragment.create(title, text, icon);
+        } else {
+            card = CardFragment.create(title, text);
+        }
         card.setExpansionEnabled(true);
         return card;
     }

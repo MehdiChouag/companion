@@ -29,6 +29,7 @@ public class DemoEvent implements Event, Context {
     public List<Document> getAssociatedDocuments() {
         ArrayList<Document> list = new ArrayList<Document>();
         list.add(new DemoNote());
+        list.add(new DemoMail());
         return list;
     }
 

@@ -10,6 +10,6 @@ import java.net.URL;
 public interface Document {
     public String getTitle();
     public String getSnippet();
-    public Image getIcon();
+    public int getIcon();
     public URL getMobileURL();
 }

@@ -54,8 +54,7 @@ public class DemoDayon implements Attendee, Context {
     @Override
     public List<Document> getAssociatedDocuments() {
         ArrayList<Document> list = new ArrayList<Document>();
-        list.add(new DemoMail());
-        list.add(new DemoNote());
+        list.add(new DemoText());
         return list;
     }
 }

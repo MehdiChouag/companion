@@ -7,23 +7,20 @@ import com.anyfetch.companion.commons.models.Document;
 
 import java.net.URL;
 
-/**
- * A sample evernote note !
- */
-public class DemoNote implements Document {
+public class DemoText implements Document {
     @Override
     public String getTitle() {
-        return "DF '14 Aftermeeting";
+        return "Final Review";
     }
 
     @Override
     public String getSnippet() {
-        return "Debrief on the wearables presentation with anyfetch and salesforce";
+        return "The anyfetch wearable product could change the way we use salesforce";
     }
 
     @Override
     public int getIcon() {
-        return R.drawable.ic_evernote;
+        return R.drawable.ic_gdrive;
     }
 
     @Override

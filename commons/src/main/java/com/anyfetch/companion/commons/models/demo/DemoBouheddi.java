@@ -27,7 +27,7 @@ public class DemoBouheddi implements Attendee, Context {
 
     @Override
     public String getJob() {
-        return "CEO, AnyFetch";
+        return "CEO, AnyF etch";
     }
 
     @Override
@@ -54,6 +54,7 @@ public class DemoBouheddi implements Attendee, Context {
     @Override
     public List<Document> getAssociatedDocuments() {
         ArrayList<Document> list = new ArrayList<Document>();
+        list.add(new DemoNote());
         return list;
     }
 }

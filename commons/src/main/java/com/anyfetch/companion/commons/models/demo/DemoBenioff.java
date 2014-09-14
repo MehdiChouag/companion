@@ -58,6 +58,7 @@ public class DemoBenioff implements Attendee, Context {
     public List<Document> getAssociatedDocuments() {
         ArrayList<Document> list = new ArrayList<Document>();
         list.add(new DemoMail());
+        list.add(new DemoText());
         return list;
     }
 }
