@@ -27,7 +27,7 @@ public class DemoBouheddi implements Attendee, Context {
 
     @Override
     public String getJob() {
-        return "CEO, AnyF etch";
+        return "CEO, AnyFetch";
     }
 
     @Override

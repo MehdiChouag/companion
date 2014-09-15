@@ -2,10 +2,12 @@ package com.anyfetch.companion.wear;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.wearable.activity.InsetActivity;
 import android.support.wearable.view.CardFragment;
 import android.support.wearable.view.FragmentGridPagerAdapter;
 import android.support.wearable.view.ImageReference;
+import android.view.View;
 
 import com.anyfetch.companion.commons.models.Attendee;
 import com.anyfetch.companion.commons.models.Context;
@@ -45,7 +47,8 @@ public class EventGridViewPagerAdapter extends FragmentGridPagerAdapter {
     public Fragment getFragment(int row, int col) {
         String title;
         String text = "";
-        int icon = 0;
+        int icon;
+        CardFragment card = null;
         if(row == 0 && col == 0) { // Event presentation
             if(event.getAttendees().size() > 0) {
                 text = event.getAttendees().get(0).getName() + " ";
@@ -72,15 +75,13 @@ public class EventGridViewPagerAdapter extends FragmentGridPagerAdapter {
             title = document.getTitle();
             text = document.getSnippet();
             icon = document.getIcon();
+            card = DocumentCardFragment.create(title, text, icon);
         }
-        if(context.isRound()) {
-            text += "\n";
-        }
-        CardFragment card;
-        if(icon != 0) {
+        if(card == null) {
+            if(context.isRound()) {
+                text += "\n";
+            }
             card = CardFragment.create(title, text, icon);
-        } else {
-            card = CardFragment.create(title, text);
         }
         card.setExpansionEnabled(true);
         return card;

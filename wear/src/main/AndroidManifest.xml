@@ -50,6 +50,21 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.anyfetch.companion.wear.UpcomingEventsActivity" />
         </activity>
+        <!-- ## Menus -->
+        <activity
+            android:name=".OpenDocumentMenuActivity"
+            android:label="@string/title_activity_open_document_menu"
+            android:parentActivityName=".EventGridActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anyfetch.companion.wear.EventGridActivity" />
+        </activity>
+
+        <!-- Wear Activities -->
+        <activity
+            android:name="android.support.wearable.activity.ConfirmationActivity" >
+        </activity>
+
     </application>
 
 </manifest>
