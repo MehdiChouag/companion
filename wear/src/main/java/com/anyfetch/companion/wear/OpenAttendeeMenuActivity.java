@@ -13,8 +13,8 @@ public class OpenAttendeeMenuActivity extends WearMenuActivity implements View.O
     protected WearMenuAction[] getMenuActions() {
         Context context = getApplicationContext();
         WearMenuAction[] actions =  new WearMenuAction[2];
-        actions[0] = new WearMenuAction(context.getString(R.string.action_show_linkedin), android.R.drawable.ic_menu_share, this);
-        actions[1] = new WearMenuAction(context.getString(R.string.action_open_in_companion), R.drawable.ic_launcher, this);
+        actions[0] = new WearMenuAction(context.getString(R.string.action_show_linkedin), R.drawable.ic_linked_in, this);
+        actions[1] = new WearMenuAction(context.getString(R.string.action_open_in_companion), R.drawable.ic_phone_companion, this);
         return actions;
     }
 

@@ -16,9 +16,9 @@ public class OpenDocumentMenuActivity extends WearMenuActivity implements View.O
     protected WearMenuAction[] getMenuActions() {
         Context context = getApplicationContext();
         WearMenuAction[] actions =  new WearMenuAction[3];
-        actions[0] = new WearMenuAction(context.getString(R.string.action_open_in_app), android.R.drawable.ic_menu_share, this);
-        actions[1] = new WearMenuAction(context.getString(R.string.action_open_in_companion), R.drawable.ic_launcher, this);
-        actions[2] = new WearMenuAction(context.getString(R.string.action_mark_important), android.R.drawable.ic_menu_add, this);
+        actions[0] = new WearMenuAction(context.getString(R.string.action_open_in_app), R.drawable.ic_phone, this);
+        actions[1] = new WearMenuAction(context.getString(R.string.action_open_in_companion), R.drawable.ic_phone_companion, this);
+        actions[2] = new WearMenuAction(context.getString(R.string.action_mark_important), R.drawable.ic_important, this);
         return actions;
     }
 

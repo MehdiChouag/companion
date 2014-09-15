@@ -41,7 +41,7 @@ public class PostEventNotificationReceiver extends BroadcastReceiver {
                 .setContentText(event.getTitle())
                 // TODO: Better date formatting
                 .setContentTitle(context.getString(R.string.title_notification_upcoming_event) + ", " + event.getStart().getHours() + ":" + event.getStart().getMinutes())
-                .addAction(android.R.drawable.ic_media_play, context.getString(R.string.prepare_action), preparePendingIntent)
+                .addAction(R.drawable.ic_prepare, context.getString(R.string.prepare_action), preparePendingIntent)
                 .build();
         ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).notify(0, notification);
     }
