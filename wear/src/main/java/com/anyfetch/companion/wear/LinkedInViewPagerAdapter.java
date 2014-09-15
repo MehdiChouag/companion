@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
+import android.support.wearable.activity.InsetActivity;
 import android.support.wearable.view.CardFragment;
 import android.support.wearable.view.CircledImageView;
 import android.support.wearable.view.ImageReference;
@@ -23,32 +24,36 @@ import com.anyfetch.companion.wear.ui.WearMenuAction;
 public class LinkedInViewPagerAdapter extends FragmentPagerAdapter {
 
 
-    private final Context mContext;
+    private final InsetActivity mContext;
     private final LinkedInProfile mProfile;
 
-    public LinkedInViewPagerAdapter(Context context,FragmentManager fm, LinkedInProfile linkedInProfile) {
+    public LinkedInViewPagerAdapter(InsetActivity context,FragmentManager fm, LinkedInProfile linkedInProfile) {
         super(fm);
-        mContext  = context;
+        mContext = context;
         mProfile = linkedInProfile;
     }
 
     @Override
     public Fragment getItem(int page) {
+        String clearFix = "\n";
         if(page == 0) { // Connections
             String text = "0 Connections";
             if(mProfile.getConnections().size() > 0) {
-                text = mProfile.getConnections().get(0).getName();
-                if(mProfile.getConnections().size() > 1) {
-                    text += " & " + (mProfile.getConnections().size() - 1) + mContext.getString(R.string.other_attendees);
+                text = "";
+                for(int i = 0; i < mProfile.getConnections().size() && i < 3; i ++) {
+                    text += mProfile.getConnections().get(i).getName() + " ";
+                }
+                if(mProfile.getConnections().size() > 3) {
+                    text += " & " + (mProfile.getConnections().size() - 3) + mContext.getString(R.string.other_attendees);
                 }
             }
-            return CardFragment.create(mContext.getString(R.string.linked_in_connections), text); // TODO: add a linked in icon
+            return CardFragment.create(mContext.getString(R.string.linked_in_connections), text + clearFix); // TODO: add a linked in icon
         } else { // Icebreakers
             String text = "";
             for(int i = 0; i < mProfile.getLikes().size() && i < 5; i ++) {
                 text += mProfile.getLikes().get(i) + " ";
             }
-            return CardFragment.create(mContext.getString(R.string.linked_in_likes), text);
+            return CardFragment.create(mContext.getString(R.string.linked_in_likes), text + clearFix);
         }
     }
 

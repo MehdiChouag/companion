@@ -5,18 +5,18 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.wearable.activity.InsetActivity;
 
 import com.anyfetch.companion.commons.models.LinkedInProfile;
 import com.anyfetch.companion.commons.models.demo.DemoLinkedBenioff;
 
-public class LinkedInActivity extends Activity {
+public class LinkedInActivity extends InsetActivity {
 
     private ViewPager mViewPager;
     private PagerAdapter mViewPagerAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onReadyForContent() {
         setContentView(R.layout.activity_linked_in);
         mViewPager = (ViewPager) findViewById(R.id.linked_in_view_pager);
         // TODO: demo choice, use real data next
