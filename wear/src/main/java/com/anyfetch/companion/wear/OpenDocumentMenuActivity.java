@@ -15,21 +15,24 @@ public class OpenDocumentMenuActivity extends WearMenuActivity implements View.O
     @Override
     protected WearMenuAction[] getMenuActions() {
         Context context = getApplicationContext();
-        WearMenuAction[] actions =  new WearMenuAction[2];
+        WearMenuAction[] actions =  new WearMenuAction[3];
         actions[0] = new WearMenuAction(context.getString(R.string.action_open_in_app), android.R.drawable.ic_menu_share, this);
         actions[1] = new WearMenuAction(context.getString(R.string.action_open_in_companion), R.drawable.ic_launcher, this);
+        actions[2] = new WearMenuAction(context.getString(R.string.action_mark_important), android.R.drawable.ic_menu_add, this);
         return actions;
     }
 
     @Override
     public void onClick(View v) {
+        Intent confirmationIntent = new Intent(this, ConfirmationActivity.class);
         switch (getSelectedIndex()) {
+            case 2:
+                break;
             default:
-                Intent confirmationIntent = new Intent(this, ConfirmationActivity.class);
                 confirmationIntent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE, ConfirmationActivity.OPEN_ON_PHONE_ANIMATION);
-                startActivity(confirmationIntent);
-                finish();
                 break;
         }
+        startActivity(confirmationIntent);
+        finish();
     }
 }

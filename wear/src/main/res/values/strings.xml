@@ -13,5 +13,6 @@
     <string name="action_open_in_app">Open In App</string>
     <string name="action_open_in_companion">Open in Companion</string>
     <string name="title_activity_open_document_menu">Open Document Activity</string>
+    <string name="action_mark_important">Mark as Important</string>
 
 </resources>

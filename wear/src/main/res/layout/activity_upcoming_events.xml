@@ -3,7 +3,8 @@
     tools:activity="com.anyfetch.companion.wear.UpcomingEventsActivity"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="@dimen/card_content_padding_rect_left">
+    android:padding="@dimen/card_content_padding_rect_left"
+    android:background="@color/white">
 
     <view
         android:layout_width="fill_parent"
