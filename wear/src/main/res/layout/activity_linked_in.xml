@@ -1,0 +1,15 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.anyfetch.companion.wear.ui.LinkedInActivity">
+
+    <view
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        class="android.support.v4.view.ViewPager"
+        android:id="@+id/linked_in_view_pager"
+        android:layout_gravity="center"
+        android:background="@color/white" />
+
+</FrameLayout>

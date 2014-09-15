@@ -2,12 +2,10 @@ package com.anyfetch.companion.wear;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.support.wearable.activity.InsetActivity;
 import android.support.wearable.view.CardFragment;
 import android.support.wearable.view.FragmentGridPagerAdapter;
 import android.support.wearable.view.ImageReference;
-import android.view.View;
 
 import com.anyfetch.companion.commons.models.Attendee;
 import com.anyfetch.companion.commons.models.Context;
@@ -45,11 +43,9 @@ public class EventGridViewPagerAdapter extends FragmentGridPagerAdapter {
 
     @Override
     public Fragment getFragment(int row, int col) {
-        String title;
-        String text = "";
-        int icon;
         CardFragment card = null;
         if(row == 0 && col == 0) { // Event presentation
+            String text = "";
             if(event.getAttendees().size() > 0) {
                 text = event.getAttendees().get(0).getName() + " ";
                 if(event.getAttendees().size() > 1) {
@@ -57,13 +53,11 @@ public class EventGridViewPagerAdapter extends FragmentGridPagerAdapter {
                 }
             }
             text += event.getStart().getHours() + ":" + event.getStart().getMinutes();
-            title = event.getTitle();
-            icon = R.drawable.ic_event;
+            return CardFragment.create(event.getTitle(), text, R.drawable.ic_event);
         } else if(row > 0 && col == 0) { // Attendee presentation
             Attendee attendee = event.getAttendees().get(row - 1);
-            title = attendee.getName();
-            text = attendee.getJob();
-            icon = R.drawable.ic_sfdc; // TODO: for demo purposes only
+            // TODO: icon for demo purposes only
+            return AttendeeCardFragment.create(attendee.getName(), attendee.getJob(), R.drawable.ic_sfdc);
         } else { // Document context
             Document document;
             if(row == 0) {
@@ -72,19 +66,8 @@ public class EventGridViewPagerAdapter extends FragmentGridPagerAdapter {
                 Context attendeeContext = (Context) event.getAttendees().get(row - 1);
                 document = attendeeContext.getAssociatedDocuments().get(col - 1);
             }
-            title = document.getTitle();
-            text = document.getSnippet();
-            icon = document.getIcon();
-            card = DocumentCardFragment.create(title, text, icon);
+            return DocumentCardFragment.create(document.getTitle(), document.getSnippet(), document.getIcon());
         }
-        if(card == null) {
-            if(context.isRound()) {
-                text += "\n";
-            }
-            card = CardFragment.create(title, text, icon);
-        }
-        card.setExpansionEnabled(true);
-        return card;
     }
 
     @Override

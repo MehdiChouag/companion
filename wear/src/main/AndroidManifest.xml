@@ -59,10 +59,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.anyfetch.companion.wear.EventGridActivity" />
         </activity>
-
-        <!-- Wear Activities -->
         <activity
-            android:name="android.support.wearable.activity.ConfirmationActivity" >
+            android:name=".OpenAttendeeMenuActivity"
+            android:label="@string/title_activity_open_attendee_menu"
+            android:parentActivityName=".EventGridActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anyfetch.companion.wear.EventGridActivity" />
+        </activity>
+        <activity
+            android:name=".LinkedInActivity"
+            android:label="@string/title_activity_linked_in"
+            android:parentActivityName=".OpenAttendeeMenuActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anyfetch.companion.wear.OpenAttendeeMenuActivity" />
+        </activity>
+        <!-- Wear Activities -->
+        <activity android:name="android.support.wearable.activity.ConfirmationActivity" >
         </activity>
 
     </application>

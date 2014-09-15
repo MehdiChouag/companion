@@ -14,5 +14,11 @@
     <string name="action_open_in_companion">Open in Companion</string>
     <string name="title_activity_open_document_menu">Open Document Activity</string>
     <string name="action_mark_important">Mark as Important</string>
+    <string name="action_show_linkedin">LinkedIn Information</string>
+    <string name="title_activity_linked_in">LinkedInActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="linked_in_connections">Connections</string>
+    <string name="linked_in_likes">Icebreakers</string>
+    <string name="title_activity_open_attendee_menu">Open Attendee</string>
 
 </resources>
