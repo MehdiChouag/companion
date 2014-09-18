@@ -9,6 +9,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.wearable.activity.InsetActivity;
 import android.support.wearable.view.CardFragment;
 import android.support.wearable.view.CircledImageView;
+import android.support.wearable.view.FragmentGridPagerAdapter;
 import android.support.wearable.view.ImageReference;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,7 @@ import com.anyfetch.companion.wear.ui.WearMenuAction;
 /**
  * Created by rricard on 15/09/14.
  */
-public class LinkedInViewPagerAdapter extends FragmentPagerAdapter {
+public class LinkedInViewPagerAdapter extends FragmentGridPagerAdapter {
 
 
     private final Activity mContext;
@@ -35,9 +36,9 @@ public class LinkedInViewPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public Fragment getItem(int page) {
+    public Fragment getFragment(int row, int col) {
         String clearFix = "\n";
-        if(page == 0) { // Connections
+        if(col == 0) { // Connections
             String text = "0 Connections";
             if(mProfile.getConnections().size() > 0) {
                 text = "";
@@ -59,7 +60,17 @@ public class LinkedInViewPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public int getCount() {
+    public int getRowCount() {
+        return 1;
+    }
+
+    @Override
+    public int getColumnCount(int i) {
         return 2;
+    }
+
+    @Override
+    public ImageReference getBackground(int row, int col) {
+        return ImageReference.forBitmap(mProfile.getFace());
     }
 }
