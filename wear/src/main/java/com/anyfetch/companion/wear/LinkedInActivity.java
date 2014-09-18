@@ -10,13 +10,14 @@ import android.support.wearable.activity.InsetActivity;
 import com.anyfetch.companion.commons.models.LinkedInProfile;
 import com.anyfetch.companion.commons.models.demo.DemoLinkedBenioff;
 
-public class LinkedInActivity extends InsetActivity {
+public class LinkedInActivity extends Activity {
 
     private ViewPager mViewPager;
     private PagerAdapter mViewPagerAdapter;
 
     @Override
-    public void onReadyForContent() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_linked_in);
         mViewPager = (ViewPager) findViewById(R.id.linked_in_view_pager);
         // TODO: demo choice, use real data next

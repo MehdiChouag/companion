@@ -1,5 +1,6 @@
 package com.anyfetch.companion.wear;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
@@ -24,10 +25,10 @@ import com.anyfetch.companion.wear.ui.WearMenuAction;
 public class LinkedInViewPagerAdapter extends FragmentPagerAdapter {
 
 
-    private final InsetActivity mContext;
+    private final Activity mContext;
     private final LinkedInProfile mProfile;
 
-    public LinkedInViewPagerAdapter(InsetActivity context,FragmentManager fm, LinkedInProfile linkedInProfile) {
+    public LinkedInViewPagerAdapter(Activity context,FragmentManager fm, LinkedInProfile linkedInProfile) {
         super(fm);
         mContext = context;
         mProfile = linkedInProfile;

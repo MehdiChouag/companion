@@ -1,5 +1,6 @@
 package com.anyfetch.companion.wear;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.wearable.activity.InsetActivity;
@@ -17,9 +18,9 @@ import com.anyfetch.companion.commons.models.Event;
  */
 public class EventGridViewPagerAdapter extends FragmentGridPagerAdapter {
     private final Event event;
-    private final InsetActivity context;
+    private final Activity context;
 
-    public EventGridViewPagerAdapter(InsetActivity context, FragmentManager fm, Event event) {
+    public EventGridViewPagerAdapter(Activity context, FragmentManager fm, Event event) {
         super(fm);
         this.event = event;
         this.context = context;
@@ -44,7 +45,7 @@ public class EventGridViewPagerAdapter extends FragmentGridPagerAdapter {
     @Override
     public Fragment getFragment(int row, int col) {
         CardFragment card = null;
-        String clearFix = context.isRound() ? "\n" : "";
+        String clearFix = "";
         if(row == 0 && col == 0) { // Event presentation
             String text = "";
             if(event.getAttendees().size() > 0) {
