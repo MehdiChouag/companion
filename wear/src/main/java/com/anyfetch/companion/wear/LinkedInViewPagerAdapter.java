@@ -37,7 +37,6 @@ public class LinkedInViewPagerAdapter extends FragmentGridPagerAdapter {
 
     @Override
     public Fragment getFragment(int row, int col) {
-        String clearFix = "\n";
         if(col == 0) { // Connections
             String text = "0 Connections";
             if(mProfile.getConnections().size() > 0) {
@@ -49,13 +48,13 @@ public class LinkedInViewPagerAdapter extends FragmentGridPagerAdapter {
                     text += " & " + (mProfile.getConnections().size() - 3) + mContext.getString(R.string.other_attendees);
                 }
             }
-            return CardFragment.create(mContext.getString(R.string.linked_in_connections), text + clearFix); // TODO: add a linked in icon
+            return CardFragment.create(mContext.getString(R.string.linked_in_connections), text); // TODO: add a linked in icon
         } else { // Icebreakers
             String text = "";
             for(int i = 0; i < mProfile.getLikes().size() && i < 5; i ++) {
                 text += mProfile.getLikes().get(i) + " ";
             }
-            return CardFragment.create(mContext.getString(R.string.linked_in_likes), text + clearFix);
+            return CardFragment.create(mContext.getString(R.string.linked_in_likes), text);
         }
     }
 

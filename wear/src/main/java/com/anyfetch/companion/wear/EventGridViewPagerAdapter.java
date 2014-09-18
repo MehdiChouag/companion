@@ -44,8 +44,6 @@ public class EventGridViewPagerAdapter extends FragmentGridPagerAdapter {
 
     @Override
     public Fragment getFragment(int row, int col) {
-        CardFragment card = null;
-        String clearFix = "";
         if(row == 0 && col == 0) { // Event presentation
             String text = "";
             if(event.getAttendees().size() > 0) {
@@ -55,11 +53,11 @@ public class EventGridViewPagerAdapter extends FragmentGridPagerAdapter {
                 }
             }
             text += event.getStart().getHours() + ":" + event.getStart().getMinutes();
-            return CardFragment.create(event.getTitle(), text + clearFix, R.drawable.ic_event);
+            return CardFragment.create(event.getTitle(), text, R.drawable.ic_event);
         } else if(row > 0 && col == 0) { // Attendee presentation
             Attendee attendee = event.getAttendees().get(row - 1);
             // TODO: icon for demo purposes only
-            return AttendeeCardFragment.create(attendee.getName(), attendee.getJob() + clearFix, R.drawable.ic_sfdc);
+            return AttendeeCardFragment.create(attendee.getName(), attendee.getJob(), R.drawable.ic_sfdc);
         } else { // Document context
             Document document;
             if(row == 0) {
@@ -68,7 +66,7 @@ public class EventGridViewPagerAdapter extends FragmentGridPagerAdapter {
                 Context attendeeContext = (Context) event.getAttendees().get(row - 1);
                 document = attendeeContext.getAssociatedDocuments().get(col - 1);
             }
-            return DocumentCardFragment.create(document.getTitle(), document.getSnippet() + clearFix, document.getIcon());
+            return DocumentCardFragment.create(document.getTitle(), document.getSnippet(), document.getIcon());
         }
     }
 
