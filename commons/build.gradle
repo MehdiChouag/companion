@@ -1,5 +1,4 @@
-apply plugin: 'com.android.application'
-
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 20
@@ -7,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId "com.anyfetch.companion"
-        minSdkVersion 20
-        targetSdkVersion 20
+        minSdkVersion 15
+        targetSdkVersion 15
         versionCode 1
         versionName "1.0"
     }
@@ -17,10 +16,4 @@ android {
             runProguard false
         }
     }
-}
-
-dependencies {
-    compile project(':commons')
-    compile 'com.google.android.support:wearable:1.0.0'
-    compile 'com.google.android.gms:play-services-wearable:5.0.77'
 }
