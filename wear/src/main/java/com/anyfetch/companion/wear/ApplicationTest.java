@@ -1,4 +1,4 @@
-package com.anyfetch.companion;
+package com.anyfetch.companion.wear;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
