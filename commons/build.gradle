@@ -17,3 +17,11 @@ android {
         }
     }
 }
+
+dependencies {
+    compile('com.octo.android.robospice:robospice-google-http-client:1.4.14') {
+        exclude module: 'xpp3'
+        exclude group: 'stax'
+    }
+    compile 'com.google.code.gson:gson:2.3'
+}
