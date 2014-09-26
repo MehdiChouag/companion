@@ -4,6 +4,7 @@ import android.test.suitebuilder.annotation.LargeTest;
 
 import com.anyfetch.companion.api.pojo.Document;
 import com.anyfetch.companion.api.pojo.DocumentsList;
+import com.octo.android.robospice.JacksonSpringAndroidSpiceService;
 
 @LargeTest
 public class DocumentsRequestTest extends BaseRequestTest {
@@ -13,6 +14,7 @@ public class DocumentsRequestTest extends BaseRequestTest {
     protected void setUp() throws Exception {
         super.setUp();
         mRequest = new DocumentsRequest(getTestContext(), "test");
+        mRequest.setRestTemplate(new JacksonSpringAndroidSpiceService().createRestTemplate());
     }
 
     public void test_loadDataFromNetwork() throws Exception {
