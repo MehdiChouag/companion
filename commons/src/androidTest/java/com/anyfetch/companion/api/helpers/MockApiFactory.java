@@ -1,4 +1,4 @@
-package com.anyfetch.companion.api;
+package com.anyfetch.companion.api.helpers;
 
 import com.squareup.okhttp.mockwebserver.Dispatcher;
 import com.squareup.okhttp.mockwebserver.MockResponse;
