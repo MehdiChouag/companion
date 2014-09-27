@@ -6,6 +6,10 @@ import com.anyfetch.companion.api.helpers.BaseRequest;
 import com.anyfetch.companion.api.pojo.DocumentsList;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
+import com.google.api.client.http.HttpResponse;
+import com.google.gson.Gson;
+
+import org.apache.commons.io.IOUtils;
 
 import java.net.URLEncoder;
 
@@ -35,7 +39,7 @@ public class GetDocumentsListRequest extends BaseRequest<DocumentsList> {
         HttpRequest request = getHttpRequestFactory()
                 .buildGetRequest(url);
         request.setHeaders(getHeaders());
-        request.setParser(getParser());
-        return request.execute().parseAs(getResultType());
+        HttpResponse response = request.execute();
+        return new Gson().fromJson(IOUtils.toString(response.getContent(), "UTF-8"), getResultType());
     }
 }
