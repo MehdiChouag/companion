@@ -3,9 +3,10 @@ package com.anyfetch.companion.api;
 import android.content.Context;
 
 import com.anyfetch.companion.api.pojo.DocumentsList;
+import com.google.api.client.http.GenericUrl;
+import com.google.api.client.http.HttpRequest;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.net.URLEncoder;
 
 /**
  * A Request for getting documents from a search query
@@ -26,12 +27,15 @@ public class DocumentsRequest extends BaseRequest<DocumentsList> {
 
     @Override
     public DocumentsList loadDataFromNetwork() throws Exception {
-        String url = String.format("%s/documents", getApiUrl());
-        Map<String, String> queryString = new HashMap<String, String>();
-        queryString.put("access_token", getApiToken());
-        queryString.put("context", mContextQuery);
-
-        return getRestTemplate().getForObject(url, DocumentsList.class);
+        GenericUrl url = new GenericUrl(
+                getApiUrl() +
+                "/documents?context=" +
+                URLEncoder.encode(mContextQuery, "UTF-8"));
+        HttpRequest request = getHttpRequestFactory()
+                .buildGetRequest(url);
+        request.setHeaders(getHeaders());
+        request.setParser(getParser());
+        return request.execute().parseAs(getResultType());
     }
 
     public String createCacheKey() {

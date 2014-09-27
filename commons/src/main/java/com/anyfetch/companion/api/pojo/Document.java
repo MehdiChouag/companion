@@ -1,19 +1,25 @@
 package com.anyfetch.companion.api.pojo;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
 /**
  * A class used to deflate AnyFetch documents
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Document {
-    private String title;
+    private String mTitle;
+    private String mId;
 
     public String getTitle() {
-        return title;
+        return mTitle;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        mTitle = title;
+    }
+
+    public String getId() {
+        return mId;
+    }
+
+    public void setId(String Id) {
+        mId = Id;
     }
 }

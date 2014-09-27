@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest;
+import com.google.api.client.http.HttpHeaders;
+import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.client.util.ObjectParser;
+import com.octo.android.robospice.request.googlehttpclient.GoogleHttpClientSpiceRequest;
 
 /**
  * Defines a base request to the API
  */
-public abstract class BaseRequest<T> extends SpringAndroidSpiceRequest<T> {
+public abstract class BaseRequest<T> extends GoogleHttpClientSpiceRequest<T> {
     private final String mApiUrl;
     private final String mApiToken;
 
@@ -39,5 +42,23 @@ public abstract class BaseRequest<T> extends SpringAndroidSpiceRequest<T> {
      */
     public String getApiToken() {
         return mApiToken;
+    }
+
+    /**
+     * Returns the authentication header
+     * @return A set of HTTP headers
+     */
+    public HttpHeaders getHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAuthorization("Bearer " + getApiToken());
+        return headers;
+    }
+
+    /**
+     * Returns the Gson JSON Parser
+     * @return An Object parser
+     */
+    public ObjectParser getParser() {
+        return new GsonFactory().createJsonObjectParser();
     }
 }

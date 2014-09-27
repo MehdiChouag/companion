@@ -4,9 +4,8 @@ import android.test.suitebuilder.annotation.LargeTest;
 
 import com.anyfetch.companion.api.pojo.Document;
 import com.anyfetch.companion.api.pojo.DocumentsList;
-import com.octo.android.robospice.JacksonSpringAndroidSpiceService;
+import com.octo.android.robospice.GsonGoogleHttpClientSpiceService;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
-import com.squareup.okhttp.mockwebserver.RecordedRequest;
 
 @LargeTest
 public class DocumentsRequestTest extends BaseRequestTest {
@@ -20,19 +19,18 @@ public class DocumentsRequestTest extends BaseRequestTest {
         mMockServer.play();
         setApiUrl(mMockServer.getUrl("").toString());
 
-        mRequest = new DocumentsRequest(getContext(), "test");
-        mRequest.setRestTemplate(new JacksonSpringAndroidSpiceService().createRestTemplate());
+        mRequest = new DocumentsRequest(getContext(), "test context");
+        mRequest.setHttpRequestFactory(new GsonGoogleHttpClientSpiceService().createRequestFactory());
     }
 
     public void test_loadDataFromNetwork() throws Exception {
         DocumentsList docs = mRequest.loadDataFromNetwork();
-        RecordedRequest record = mMockServer.takeRequest();
-        assertEquals("/documents", record.getPath());
 
-        assertEquals(docs.size(), 1);
+        assertEquals(1, docs.size());
 
         Document doc = docs.get(0);
-        assertEquals(doc.getTitle(), "test");
+        assertEquals("docId", doc.getId());
+        assertEquals("test", doc.getTitle());
     }
 
     @Override

@@ -13,21 +13,28 @@ public class MockApiFactory {
             public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
                 MockResponse response = null;
                 // 1. Check for Auth
-                if(!request.getPath().matches("access_token=" + testToken)) {
+                if(!request.getHeader("Authorization").equals("Bearer " + testToken)) {
                     response = new MockResponse();
                     response.setResponseCode(403);
+                    response.setStatus("Forbidden");
                 }
                 // 2. Route request
                 if(response == null) {
                     if(request.getPath().startsWith("/documents")) {
                         response = new MockResponse();
-                        response.setBody("[{\"title\": \"test\"}]");
+                        if(request.getPath().equals("/documents?context=test%20context")) {
+                            response.setBody("[{\"id\": \"docId\", \"title\": \"test\"}]");
+                        } else {
+                            response.setResponseCode(409);
+                            response.setStatus("Conflict");
+                        }
                     }
                 }
                 // 3. 404 otherwise
                 if(response == null) {
                     response = new MockResponse();
                     response.setResponseCode(404);
+                    response.setStatus("Not Found");
                 }
 
                 return response;

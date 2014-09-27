@@ -6,7 +6,7 @@
         android:theme="@style/MobileCompanionTheme">
 
         <service
-            android:name="com.octo.android.robospice.JacksonSpringAndroidSpiceService"
+            android:name="com.octo.android.robospice.GsonGoogleHttpClientSpiceService"
             android:exported="false" />
     </application>
 
