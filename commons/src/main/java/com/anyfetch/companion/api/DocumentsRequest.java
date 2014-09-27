@@ -20,18 +20,18 @@ public class DocumentsRequest extends BaseRequest<DocumentsList> {
      * @param contextQuery An Anyfetch search query
      */
     public DocumentsRequest(Context context, String contextQuery) {
-        super(DocumentsList.class,
-                context,
-                BaseRequest.GET,
-                String.format("/documents"),
-                getParameters(contextQuery));
+        super(DocumentsList.class, context);
         mContextQuery = contextQuery;
     }
 
-    private static Map<String, String> getParameters(String contextQuery) {
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("context", contextQuery);
-        return map;
+    @Override
+    public DocumentsList loadDataFromNetwork() throws Exception {
+        String url = String.format("%s/documents", getApiUrl());
+        Map<String, String> queryString = new HashMap<String, String>();
+        queryString.put("access_token", getApiToken());
+        queryString.put("context", mContextQuery);
+
+        return getRestTemplate().getForObject(url, DocumentsList.class);
     }
 
     public String createCacheKey() {

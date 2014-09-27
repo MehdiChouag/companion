@@ -5,8 +5,8 @@ import android.test.suitebuilder.annotation.LargeTest;
 import com.anyfetch.companion.api.pojo.Document;
 import com.anyfetch.companion.api.pojo.DocumentsList;
 import com.octo.android.robospice.JacksonSpringAndroidSpiceService;
-import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
+import com.squareup.okhttp.mockwebserver.RecordedRequest;
 
 @LargeTest
 public class DocumentsRequestTest extends BaseRequestTest {
@@ -16,23 +16,23 @@ public class DocumentsRequestTest extends BaseRequestTest {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mMockServer = new MockWebServer();
-        MockResponse response = new MockResponse();
-        response.setBody("[{}]");
-        mMockServer.enqueue(response);
+        mMockServer = MockApiFactory.create(BaseRequestTest.DEFAULT_API_TOKEN);
         mMockServer.play();
-        String url = mMockServer.getUrl("/").toString();
-        setApiUrl(url);
+        setApiUrl(mMockServer.getUrl("").toString());
 
-        mRequest = new DocumentsRequest(getTestContext(), "test");
+        mRequest = new DocumentsRequest(getContext(), "test");
         mRequest.setRestTemplate(new JacksonSpringAndroidSpiceService().createRestTemplate());
     }
 
     public void test_loadDataFromNetwork() throws Exception {
         DocumentsList docs = mRequest.loadDataFromNetwork();
+        RecordedRequest record = mMockServer.takeRequest();
+        assertEquals("/documents", record.getPath());
+
         assertEquals(docs.size(), 1);
 
         Document doc = docs.get(0);
+        assertEquals(doc.getTitle(), "test");
     }
 
     @Override

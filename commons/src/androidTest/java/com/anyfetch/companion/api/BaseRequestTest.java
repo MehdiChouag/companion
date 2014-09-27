@@ -6,20 +6,32 @@ import android.preference.PreferenceManager;
 import android.test.InstrumentationTestCase;
 
 public abstract class BaseRequestTest extends InstrumentationTestCase {
-    private static final String API_TOKEN = "testToken";
+    public static final String DEFAULT_API_URL = "http://localhost";
+    public static final String DEFAULT_API_TOKEN = "testToken";
 
-    private String mApiUrl = "/";
+    private Context mContext;
 
-    public void setApiUrl(String apiUrl) {
-        mApiUrl = apiUrl;
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        mContext = getInstrumentation().getContext();
+        setApiUrl(DEFAULT_API_URL);
+        setApiToken(DEFAULT_API_TOKEN);
     }
 
-    public Context getTestContext() {
-        Context context = getInstrumentation().getContext();
-        SharedPreferences.Editor preferences = PreferenceManager.getDefaultSharedPreferences(context).edit();
-        preferences.putString("apiUrl", mApiUrl);
-        preferences.putString("apiToken", API_TOKEN);
-        preferences.commit();
-        return context;
+    protected void setApiUrl(String apiUrl) {
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
+        editor.putString("apiUrl", apiUrl);
+        editor.commit();
+    }
+
+    protected void setApiToken(String apiToken) {
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
+        editor.putString("apiToken", apiToken);
+        editor.commit();
+    }
+
+    protected Context getContext() {
+        return mContext;
     }
 }
