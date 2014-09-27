@@ -2,6 +2,8 @@ package com.anyfetch.companion.api;
 
 import android.content.Context;
 
+import com.anyfetch.companion.api.helpers.BaseRequest;
+import com.anyfetch.companion.api.pojo.Document;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
 

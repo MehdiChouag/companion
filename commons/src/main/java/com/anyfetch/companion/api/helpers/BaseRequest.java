@@ -1,4 +1,4 @@
-package com.anyfetch.companion.api;
+package com.anyfetch.companion.api.helpers;
 
 import android.content.Context;
 import android.content.SharedPreferences;

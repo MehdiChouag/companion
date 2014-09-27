@@ -1,4 +1,4 @@
-package com.anyfetch.companion.api;
+package com.anyfetch.companion.api.pojo;
 
 /**
  * A class used to deflate AnyFetch documents
