@@ -5,18 +5,29 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.InstrumentationTestCase;
 
+import com.squareup.okhttp.mockwebserver.MockWebServer;
+
 public abstract class BaseRequestTest extends InstrumentationTestCase {
-    public static final String DEFAULT_API_URL = "http://localhost";
     public static final String DEFAULT_API_TOKEN = "testToken";
 
     private Context mContext;
+    private MockWebServer mMockServer;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         mContext = getInstrumentation().getContext();
-        setApiUrl(DEFAULT_API_URL);
         setApiToken(DEFAULT_API_TOKEN);
+
+        mMockServer = MockApiFactory.create(BaseRequestTest.DEFAULT_API_TOKEN);
+        mMockServer.play();
+        setApiUrl(mMockServer.getUrl("").toString());
+    }
+
+
+    @Override
+    protected void tearDown() throws Exception {
+        mMockServer.shutdown();
     }
 
     protected void setApiUrl(String apiUrl) {
