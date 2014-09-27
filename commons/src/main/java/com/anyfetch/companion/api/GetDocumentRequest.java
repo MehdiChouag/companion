@@ -4,14 +4,8 @@ import android.content.Context;
 
 import com.anyfetch.companion.api.helpers.BaseRequest;
 import com.anyfetch.companion.api.pojo.Document;
-import com.google.api.client.http.GenericUrl;
-import com.google.api.client.http.HttpRequest;
-import com.google.api.client.http.HttpResponse;
-import com.google.gson.Gson;
 
-import org.apache.commons.io.IOUtils;
-
-import java.net.URLEncoder;
+import java.util.Map;
 
 /**
  * Gets a single document
@@ -34,18 +28,20 @@ public class GetDocumentRequest extends BaseRequest<Document> {
     }
 
     @Override
-    public Document loadDataFromNetwork() throws Exception {
-        GenericUrl url = new GenericUrl(
-                getApiUrl() +
-                        "/documents/" +
-                        mDocumentId +
-                        "?context=" +
-                        URLEncoder.encode(mContextQuery, "UTF-8"));
-        HttpRequest request = getHttpRequestFactory()
-                .buildGetRequest(url);
-        request.setHeaders(getHeaders());
-        HttpResponse response = request.execute();
-        return new Gson().fromJson(IOUtils.toString(response.getContent(), "UTF-8"), getResultType());
+    protected String getMethod() {
+        return "GET";
+    }
+
+    @Override
+    protected String getPath() {
+        return "/documents/" + mDocumentId;
+    }
+
+    @Override
+    protected Map<String, String> getQueryParameters() {
+        Map<String, String> qp = super.getQueryParameters();
+        qp.put("context", mContextQuery);
+        return qp;
     }
 
     public String createCacheKey() {
