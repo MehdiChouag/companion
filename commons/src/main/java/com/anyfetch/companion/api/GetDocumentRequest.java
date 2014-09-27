@@ -2,35 +2,39 @@ package com.anyfetch.companion.api;
 
 import android.content.Context;
 
-import com.anyfetch.companion.api.pojo.DocumentsList;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
 
 import java.net.URLEncoder;
 
 /**
- * A Request for getting documents from a search query
+ * Gets a single document
  */
-public class DocumentsRequest extends BaseRequest<DocumentsList> {
+public class GetDocumentRequest extends BaseRequest<Document> {
     private final String mContextQuery;
+    private final String mDocumentId;
 
     /**
      * Constructs new documents search context
      *
      * @param context An Android Context
-     * @param contextQuery An Anyfetch search query
+     * @param documentId The id of the document
+     * @param contextQuery An Anyfetch search query for highlighting
      */
-    public DocumentsRequest(Context context, String contextQuery) {
-        super(DocumentsList.class, context);
+    public GetDocumentRequest(Context context, String documentId, String contextQuery) {
+        super(Document.class, context);
+        mDocumentId = documentId;
         mContextQuery = contextQuery;
     }
 
     @Override
-    public DocumentsList loadDataFromNetwork() throws Exception {
+    public Document loadDataFromNetwork() throws Exception {
         GenericUrl url = new GenericUrl(
                 getApiUrl() +
-                "/documents?context=" +
-                URLEncoder.encode(mContextQuery, "UTF-8"));
+                        "/documents/" +
+                        mDocumentId +
+                        "?context=" +
+                        URLEncoder.encode(mContextQuery, "UTF-8"));
         HttpRequest request = getHttpRequestFactory()
                 .buildGetRequest(url);
         request.setHeaders(getHeaders());
@@ -39,6 +43,6 @@ public class DocumentsRequest extends BaseRequest<DocumentsList> {
     }
 
     public String createCacheKey() {
-        return "documents." + mContextQuery;
+        return "document." + mDocumentId;
     }
 }

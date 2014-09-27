@@ -20,14 +20,13 @@ public class MockApiFactory {
                 }
                 // 2. Route request
                 if(response == null) {
-                    if(request.getPath().startsWith("/documents")) {
+                    if(request.getPath().startsWith("/documents?")) {
                         response = new MockResponse();
-                        if(request.getPath().equals("/documents?context=test%20context")) {
-                            response.setBody("[{\"id\": \"docId\", \"title\": \"test\"}]");
-                        } else {
-                            response.setResponseCode(409);
-                            response.setStatus("Conflict");
-                        }
+                        response.setBody("[{\"id\": \"docId\", \"title\": \"test\"}]");
+                    }
+                    if(request.getPath().startsWith("/documents/")) {
+                        response = new MockResponse();
+                        response.setBody("{\"id\": \"docId\", \"title\": \"test\"}");
                     }
                 }
                 // 3. 404 otherwise

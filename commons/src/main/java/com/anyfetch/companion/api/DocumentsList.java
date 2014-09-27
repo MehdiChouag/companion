@@ -1,4 +1,4 @@
-package com.anyfetch.companion.api.pojo;
+package com.anyfetch.companion.api;
 
 import java.util.ArrayList;
 
