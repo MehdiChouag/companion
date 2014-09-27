@@ -9,7 +9,7 @@
         android:theme="@style/MobileCompanionTheme">
 
         <service
-            android:name="com.octo.android.robospice.GsonGoogleHttpClientSpiceService"
+            android:name="com.octo.android.robospice.OkHttpSpiceService"
             android:exported="false" />
     </application>
 

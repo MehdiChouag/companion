@@ -29,10 +29,7 @@ android {
 
 dependencies {
     compile 'com.octo.android.robospice:robospice:1.4.14'
-    compile('com.octo.android.robospice:robospice-google-http-client:1.4.14') {
-        exclude module: 'xpp3'
-        exclude group: 'stax'
-    }
-    compile 'com.google.http-client:google-http-client-gson:1.19.0'
+    compile 'com.octo.android.robospice:robospice-okhttp:1.4.14'
     compile 'com.squareup.okhttp:mockwebserver:2.0.0'
+    compile 'com.google.code.gson:gson:2.3'
 }

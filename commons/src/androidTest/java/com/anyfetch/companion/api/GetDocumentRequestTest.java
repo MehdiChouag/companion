@@ -4,7 +4,7 @@ import android.test.suitebuilder.annotation.LargeTest;
 
 import com.anyfetch.companion.api.helpers.BaseRequestTest;
 import com.anyfetch.companion.api.pojo.Document;
-import com.octo.android.robospice.GsonGoogleHttpClientSpiceService;
+import com.squareup.okhttp.OkHttpClient;
 
 @LargeTest
 public class GetDocumentRequestTest extends BaseRequestTest {
@@ -14,7 +14,7 @@ public class GetDocumentRequestTest extends BaseRequestTest {
     protected void setUp() throws Exception {
         super.setUp();
         mRequest = new GetDocumentRequest(getContext(), "docId", "test context");
-        mRequest.setHttpRequestFactory(new GsonGoogleHttpClientSpiceService().createRequestFactory());
+        mRequest.setOkHttpClient(new OkHttpClient());
     }
 
     public void test_loadDataFromNetwork() throws Exception {

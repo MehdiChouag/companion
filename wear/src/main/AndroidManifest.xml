@@ -10,7 +10,7 @@
         android:theme="@android:style/Theme.DeviceDefault">
 
         <service
-            android:name="com.octo.android.robospice.GsonGoogleHttpClientSpiceService"
+            android:name="com.octo.android.robospice.OkHttpSpiceService"
             android:exported="false" />
     </application>
 

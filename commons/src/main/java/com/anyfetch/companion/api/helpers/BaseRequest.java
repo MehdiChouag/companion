@@ -2,28 +2,26 @@ package com.anyfetch.companion.api.helpers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 
-import com.google.api.client.http.GenericUrl;
-import com.google.api.client.http.HttpContent;
-import com.google.api.client.http.HttpHeaders;
-import com.google.api.client.http.HttpRequest;
-import com.google.api.client.http.HttpResponse;
 import com.google.gson.Gson;
-import com.octo.android.robospice.request.googlehttpclient.GoogleHttpClientSpiceRequest;
+import com.octo.android.robospice.request.okhttp.OkHttpSpiceRequest;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpException;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Defines a base request to the API
  */
-public abstract class BaseRequest<T> extends GoogleHttpClientSpiceRequest<T> {
-    private static final String ENCODING = "UTF-8";
+public abstract class BaseRequest<T> extends OkHttpSpiceRequest<T> {
     private final String mApiUrl;
     private final String mApiToken;
 
@@ -41,17 +39,28 @@ public abstract class BaseRequest<T> extends GoogleHttpClientSpiceRequest<T> {
 
     @Override
     public T loadDataFromNetwork() throws Exception {
-        HttpRequest request = getHttpRequestFactory().buildRequest(getMethod(), getUrl(), getContent());
-        request.setHeaders(getHeaders());
-        HttpResponse response = request.execute();
-        return new Gson().fromJson(IOUtils.toString(response.getContent(), ENCODING), getResultType());
+        Request.Builder builder = new Request.Builder().url(getUri().toURL());
+        Map<String, String> headers = getHeaders();
+        for(String key : headers.keySet()) {
+            builder.addHeader(key, headers.get(key));
+        }
+        Request request = builder.build();
+        Response response = getOkHttpClient().newCall(request).execute();
+        if(getExpectedCode() != response.code()) {
+            throw new HttpException("Server returned code " + response.code());
+        }
+        if(getParseJson()) {
+            return new Gson().fromJson(response.body().string(), getResultType());
+        } else {
+            return null;
+        }
     }
 
     /**
      * Gets the content of the request (could be overridden)
      * @return No content
      */
-    protected HttpContent getContent() {
+    protected String getContent() {
         return null;
     }
 
@@ -75,9 +84,9 @@ public abstract class BaseRequest<T> extends GoogleHttpClientSpiceRequest<T> {
      * Gets the request headers (could be overridden)
      * @return A set of HTTP headers containing the auth header
      */
-    protected HttpHeaders getHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAuthorization("Bearer " + getApiToken());
+    protected Map<String, String> getHeaders() {
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put("Authorization", "Bearer " + getApiToken());
         return headers;
     }
 
@@ -101,20 +110,29 @@ public abstract class BaseRequest<T> extends GoogleHttpClientSpiceRequest<T> {
      */
     protected abstract String getPath();
 
-    private GenericUrl getUrl() throws UnsupportedEncodingException {
-        Map<String, String> qp = getQueryParameters();
-        String qs = "";
-        if(!qp.isEmpty()) {
-            qs = "?";
+    private URI getUri() throws URISyntaxException {
+        Uri.Builder uriBuilder = Uri.parse(getApiUrl() + getPath()).buildUpon();
+        Map<String, String> queryParameters = getQueryParameters();
+        for(String key : queryParameters.keySet()) {
+            uriBuilder.appendQueryParameter(key, queryParameters.get(key));
         }
-        for(String key : qp.keySet()) {
-            qs += key + "=" + URLEncoder.encode(qp.get(key), ENCODING) + "&";
-        }
-        if(qs.length() > 0) {
-            qs = qs.substring(0, qs.length()-1);
-        }
-
-
-        return new GenericUrl(getApiUrl() + getPath() + qs);
+        return new URI(uriBuilder.build().toString());
     }
+
+    /**
+     * Code asserted for the response (could be overridden)
+     * @return 200
+     */
+    protected int getExpectedCode() {
+        return 200;
+    }
+
+    /**
+     * Defines if the json has to be parsed
+     * @return true
+     */
+    protected boolean getParseJson() {
+        return true;
+    }
+
 }
