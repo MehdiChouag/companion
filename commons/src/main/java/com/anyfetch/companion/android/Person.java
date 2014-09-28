@@ -1,34 +1,156 @@
 package com.anyfetch.companion.android;
 
-import android.graphics.Bitmap;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.database.Cursor;
+import android.provider.ContactsContract;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Represents a Contact/Attendee
  */
 public class Person {
+    private static final String[] CONTACT_PROJECTION = new String[] {
+            ContactsContract.Contacts._ID,
+            ContactsContract.Contacts.DISPLAY_NAME_PRIMARY,
+            ContactsContract.Contacts.PHOTO_URI,
+            ContactsContract.Contacts.PHOTO_THUMBNAIL_URI,
+    };
+    private static final int PRJ_CON_ID = 0;
+    private static final int PRJ_CON_NAME = 1;
+    private static final int PRJ_CON_PHOTO = 2;
+    private static final int PRJ_CON_THUMB = 3;
+
+    private static final String[] PHONE_PROJECTION = new String[] {
+            ContactsContract.CommonDataKinds.Email.CONTACT_ID,
+            ContactsContract.CommonDataKinds.Email.ADDRESS
+    };
+    private static final int PRJ_EMAIL_ADDRESS = 1;
+
+    private static final String[] EMAIL_PROJECTION = new String[] {
+            ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
+            ContactsContract.CommonDataKinds.Phone.NUMBER
+    };
+    private static final int PRJ_PHONE_NUMBER = 1;
+
+    private static final String[] JOB_PROJECTION = new String[] {
+            ContactsContract.CommonDataKinds.Organization.CONTACT_ID,
+            ContactsContract.CommonDataKinds.Organization.COMPANY,
+            ContactsContract.CommonDataKinds.Organization.TITLE,
+    };
+    private static final int PRJ_JOB_COMPANY = 1;
+    private static final int PRJ_JOB_TITLE = 2;
+
     private final String mName;
+    private final String mJob;
+    private final String mCompany;
     private final List<String> mEmails;
     private final List<String> mNumbers;
-    private final Map<String, String> mAccounts;
-    private final Bitmap mPhoto;
+    private final String mPhotoUri;
+
+    private static Person personFromCursor(Context context, Cursor cur, boolean thumb) {
+        ContentResolver cr = context.getContentResolver();
+        int contactId = cur.getInt(PRJ_CON_ID);
+        if(contactId == 0) {
+            return null;
+        }
+        String photoUri;
+        if(thumb) {
+            photoUri = cur.getString(PRJ_CON_THUMB);
+        } else {
+            photoUri = cur.getString(PRJ_CON_PHOTO);
+        }
+        Cursor emCur = cr.query(
+                ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+                EMAIL_PROJECTION,
+                ContactsContract.CommonDataKinds.Email.CONTACT_ID + "=" + contactId,
+                null,
+                null);
+        List<String> emails = new ArrayList<String>();
+        for (int i = 0; i < emCur.getCount(); i++) {
+            emails.add(emCur.getString(PRJ_EMAIL_ADDRESS));
+        }
+        Cursor phCur = cr.query(
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                PHONE_PROJECTION,
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + contactId,
+                null,
+                null);
+        List<String> numbers = new ArrayList<String>();
+        for (int i = 0; i < phCur.getCount(); i++) {
+            numbers.add(emCur.getString(PRJ_PHONE_NUMBER));
+        }
+        Cursor jobCur = cr.query(
+                ContactsContract.Data.CONTENT_URI,
+                JOB_PROJECTION,
+                ContactsContract.CommonDataKinds.Organization.CONTACT_ID + "=" + contactId,
+                null,
+                null);
+        return new Person(
+                cur.getString(PRJ_CON_NAME),
+                jobCur.getString(PRJ_JOB_TITLE),
+                jobCur.getString(PRJ_JOB_COMPANY),
+                emails,
+                numbers,
+                photoUri
+        );
+    }
+
+    /**
+     * Retrieve a person from their id
+     * @param context The context to fetch from
+     * @param id Their id
+     * @param thumb Fetch the thumb instead of the full image
+     * @return The person
+     */
+    public static Person getPerson(Context context, int id, boolean thumb) {
+        ContentResolver cr = context.getContentResolver();
+        Cursor perCur = cr.query(
+                ContactsContract.Contacts.CONTENT_URI,
+                CONTACT_PROJECTION,
+                ContactsContract.Contacts._ID + "=" + id,
+                null,
+                null);
+        return personFromCursor(context, perCur, thumb);
+    }
+
+    /**
+     * Retrieve a person from one of their email address
+     * @param context The context to fetch from
+     * @param email Their email
+     * @param thumb Fetch the thumb instead of the full image
+     * @return The person
+     */
+    public static Person getPerson(Context context, String email, boolean thumb) {
+        ContentResolver cr = context.getContentResolver();
+        Cursor emCur = cr.query(
+                ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+                EMAIL_PROJECTION,
+                ContactsContract.CommonDataKinds.Email.CONTACT_ID + "=" + email,
+                null,
+                null);
+
+        return getPerson(context, emCur.getString(PRJ_EMAIL_ADDRESS), thumb);
+    }
 
     /**
      * Creates a new Person
      * @param name Their name
+     * @param job Their job name
+     * @param company Their company
      * @param emails Their emails
      * @param numbers Their phone numbers
-     * @param accounts Their web accounts (profiles)
-     * @param photo Their photo
+     * @param photoUri Their photoUri
      */
-    public Person(String name, List<String> emails, List<String> numbers, Map<String, String> accounts, Bitmap photo) {
-        this.mName = name;
-        this.mEmails = emails;
-        this.mNumbers = numbers;
-        this.mAccounts = accounts;
-        this.mPhoto = photo;
+    public Person(String name, String company, String job, List<String> emails, List<String> numbers, String photoUri) {
+        mName = name;
+        mCompany = company;
+        mJob = job;
+        mEmails = emails;
+        mNumbers = numbers;
+        mPhotoUri = photoUri;
     }
 
     /**
@@ -37,6 +159,22 @@ public class Person {
      */
     public String getName() {
         return mName;
+    }
+
+    /**
+     * Gets the job
+     * @return A job title
+     */
+    public String getJob() {
+        return mJob;
+    }
+
+    /**
+     * Gets the company
+     * @return A company name
+     */
+    public String getCompany() {
+        return mCompany;
     }
 
     /**
@@ -56,19 +194,10 @@ public class Person {
     }
 
     /**
-     * Gets the internet profiles
-     * @return A map of services - profile names
+     * Gets the image uri
+     * @return An URI
      */
-    public Map<String, String> getAccounts() {
-        return mAccounts;
+    public String getPhotoUri() {
+        return mPhotoUri;
     }
-
-    /**
-     * Gets the image
-     * @return A Bitmap
-     */
-    public Bitmap getPhoto() {
-        return mPhoto;
-    }
-
 }

@@ -4,12 +4,14 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -47,10 +49,70 @@ public class Event {
     private final List<Person> mAttendees;
     private final String mLocation;
 
+    private static Event eventFromCusrsor(Context context, Cursor cur) {
+        ContentResolver cr = context.getContentResolver();
+        int eventId = cur.getInt(PRJ_EVT_ID);
+        if(eventId == 0) {
+            return null;
+        }
+        Cursor attCur = cr.query(
+                CalendarContract.Attendees.CONTENT_URI,
+                ATTENDEE_PROJECTION,
+                CalendarContract.Attendees.EVENT_ID + "=" + eventId,
+                null,
+                null
+        );
+        List<Person> attendees = new ArrayList<Person>();
+        for (int i = 0; i < attCur.getCount(); i++) {
+            String email = attCur.getString(PRJ_ATT_EMAIL);
+            Person attendee = Person.getPerson(context, email, true);
+            if(attendee == null) {
+                List<String> emails = new ArrayList<String>();
+                emails.add(email);
+                attendee = new Person(
+                    attCur.getString(PRJ_ATT_NAME),
+                    "",
+                    "",
+                    emails,
+                    new ArrayList<String>(),
+                    ""
+                );
+            }
+            attendees.add(attendee);
+        }
+        Date dtStart = new Date(cur.getInt(PRJ_EVT_DTSTART));
+        Date dtEnd = new Date(cur.getInt(PRJ_EVT_DTEND));
+        return new Event(
+                Integer.toString(eventId),
+                cur.getString(PRJ_EVT_TITLE),
+                cur.getString(PRJ_EVT_DESCRIPTION),
+                dtStart,
+                dtEnd,
+                attendees,
+                cur.getString(PRJ_EVT_LOC)
+        );
+    }
+
+    /**
+     * Gets a specific event
+     * @param context The android context to fetch from
+     * @param id The event id
+     */
+    public static Event getEvent(Context context, String id) {
+        ContentResolver cr = context.getContentResolver();
+        Cursor evtCur = cr.query(
+                CalendarContract.Events.CONTENT_URI,
+                EVENT_PROJECTION,
+                CalendarContract.Events._ID + "=" + id,
+                null,
+                null);
+        return eventFromCusrsor(context, evtCur);
+    }
+
     /**
      * Gets a certain amount of upcoming events
      * @param context A context to fetch the events and the amount from
-     * @return
+     * @return A list of events
      */
     public static List<Event> getUpcomingEvents(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -73,37 +135,7 @@ public class Event {
                 CalendarContract.Events.DTSTART + " ASC");
         List<Event> events = new ArrayList<Event>();
         for (int i = 0; i < evtCur.getCount(); i++) {
-            int eventId = evtCur.getInt(PRJ_EVT_ID);
-            Cursor attCur = cr.query(
-                    CalendarContract.Attendees.CONTENT_URI,
-                    ATTENDEE_PROJECTION,
-                    CalendarContract.Attendees.EVENT_ID + "=" + eventId,
-                    null,
-                    null
-            );
-            List<Person> attendees = new ArrayList<Person>();
-            for (int j = 0; j < attCur.getCount(); j++) {
-                List<String> emails = new ArrayList<String>();
-                emails.add(attCur.getString(PRJ_ATT_EMAIL));
-                attendees.add(new Person(
-                        attCur.getString(PRJ_ATT_NAME),
-                        emails,
-                        null,
-                        null,
-                        null
-                ));
-            }
-            Date dtStart = new Date(evtCur.getInt(PRJ_EVT_DTSTART));
-            Date dtEnd = new Date(evtCur.getInt(PRJ_EVT_DTEND));
-            events.add(new Event(
-                    Integer.toString(eventId),
-                    evtCur.getString(PRJ_EVT_TITLE),
-                    evtCur.getString(PRJ_EVT_DESCRIPTION),
-                    dtStart,
-                    dtEnd,
-                    attendees,
-                    evtCur.getString(PRJ_EVT_LOC)
-            ));
+            events.add(eventFromCusrsor(context, evtCur));
         }
         return events;
     }
