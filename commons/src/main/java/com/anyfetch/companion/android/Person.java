@@ -51,11 +51,11 @@ public class Person {
     private final String mPhotoUri;
 
     private static Person personFromCursor(Context context, Cursor cur, boolean thumb) {
-        ContentResolver cr = context.getContentResolver();
-        int contactId = cur.getInt(PRJ_CON_ID);
-        if(contactId == 0) {
+        if(cur.getCount() < 1) {
             return null;
         }
+        ContentResolver cr = context.getContentResolver();
+        int contactId = cur.getInt(PRJ_CON_ID);
         String photoUri;
         if(thumb) {
             photoUri = cur.getString(PRJ_CON_THUMB);
@@ -68,9 +68,11 @@ public class Person {
                 ContactsContract.CommonDataKinds.Email.CONTACT_ID + "=" + contactId,
                 null,
                 null);
+        emCur.moveToFirst();
         List<String> emails = new ArrayList<String>();
         for (int i = 0; i < emCur.getCount(); i++) {
             emails.add(emCur.getString(PRJ_EMAIL_ADDRESS));
+            emCur.moveToNext();
         }
         Cursor phCur = cr.query(
                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
@@ -78,20 +80,29 @@ public class Person {
                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + contactId,
                 null,
                 null);
+        phCur.moveToFirst();
         List<String> numbers = new ArrayList<String>();
         for (int i = 0; i < phCur.getCount(); i++) {
             numbers.add(emCur.getString(PRJ_PHONE_NUMBER));
+            phCur.moveToNext();
         }
+        String title = "";
+        String company = "";
         Cursor jobCur = cr.query(
                 ContactsContract.Data.CONTENT_URI,
                 JOB_PROJECTION,
                 ContactsContract.CommonDataKinds.Organization.CONTACT_ID + "=" + contactId,
                 null,
                 null);
+        if(jobCur.getCount() > 0) {
+            title = jobCur.getString(PRJ_JOB_TITLE);
+            company = jobCur.getString(PRJ_JOB_COMPANY);
+        }
+        jobCur.moveToFirst();
         return new Person(
                 cur.getString(PRJ_CON_NAME),
-                jobCur.getString(PRJ_JOB_TITLE),
-                jobCur.getString(PRJ_JOB_COMPANY),
+                title,
+                company,
                 emails,
                 numbers,
                 photoUri
@@ -113,6 +124,7 @@ public class Person {
                 ContactsContract.Contacts._ID + "=" + id,
                 null,
                 null);
+        perCur.moveToFirst();
         return personFromCursor(context, perCur, thumb);
     }
 
@@ -128,10 +140,13 @@ public class Person {
         Cursor emCur = cr.query(
                 ContactsContract.CommonDataKinds.Email.CONTENT_URI,
                 EMAIL_PROJECTION,
-                ContactsContract.CommonDataKinds.Email.CONTACT_ID + "=" + email,
+                ContactsContract.CommonDataKinds.Email.CONTACT_ID + "='" + email + "'",
                 null,
                 null);
-
+        emCur.moveToFirst();
+        if(emCur.getCount() < 1) {
+            return null;
+        }
         return getPerson(context, emCur.getString(PRJ_EMAIL_ADDRESS), thumb);
     }
 

@@ -4,14 +4,12 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -50,11 +48,11 @@ public class Event {
     private final String mLocation;
 
     private static Event eventFromCusrsor(Context context, Cursor cur) {
-        ContentResolver cr = context.getContentResolver();
-        int eventId = cur.getInt(PRJ_EVT_ID);
-        if(eventId == 0) {
+        if(cur.getCount() < 1) {
             return null;
         }
+        ContentResolver cr = context.getContentResolver();
+        int eventId = cur.getInt(PRJ_EVT_ID);
         Cursor attCur = cr.query(
                 CalendarContract.Attendees.CONTENT_URI,
                 ATTENDEE_PROJECTION,
@@ -62,6 +60,7 @@ public class Event {
                 null,
                 null
         );
+        attCur.moveToFirst();
         List<Person> attendees = new ArrayList<Person>();
         for (int i = 0; i < attCur.getCount(); i++) {
             String email = attCur.getString(PRJ_ATT_EMAIL);
@@ -79,6 +78,7 @@ public class Event {
                 );
             }
             attendees.add(attendee);
+            attCur.moveToNext();
         }
         Date dtStart = new Date(cur.getInt(PRJ_EVT_DTSTART));
         Date dtEnd = new Date(cur.getInt(PRJ_EVT_DTEND));
@@ -106,6 +106,7 @@ public class Event {
                 CalendarContract.Events._ID + "=" + id,
                 null,
                 null);
+        evtCur.moveToFirst();
         return eventFromCusrsor(context, evtCur);
     }
 
@@ -134,8 +135,10 @@ public class Event {
                 null,
                 CalendarContract.Events.DTSTART + " ASC");
         List<Event> events = new ArrayList<Event>();
+        evtCur.moveToFirst();
         for (int i = 0; i < evtCur.getCount(); i++) {
             events.add(eventFromCusrsor(context, evtCur));
+            evtCur.moveToNext();
         }
         return events;
     }
