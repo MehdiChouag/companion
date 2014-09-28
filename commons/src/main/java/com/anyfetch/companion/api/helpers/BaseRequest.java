@@ -7,7 +7,9 @@ import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.octo.android.robospice.request.okhttp.OkHttpSpiceRequest;
+import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import org.apache.commons.io.IOUtils;
@@ -22,6 +24,9 @@ import java.util.Map;
  * Defines a base request to the API
  */
 public abstract class BaseRequest<T> extends OkHttpSpiceRequest<T> {
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    public static final MediaType TEXT = MediaType.parse("text/plain; charset=utf-8");
+
     private final String mApiUrl;
     private final String mApiToken;
 
@@ -39,7 +44,14 @@ public abstract class BaseRequest<T> extends OkHttpSpiceRequest<T> {
 
     @Override
     public T loadDataFromNetwork() throws Exception {
-        Request.Builder builder = new Request.Builder().url(getUri().toURL());
+        RequestBody body = null;
+        String content = getContent();
+        if(content != null) {
+            body = RequestBody.create(JSON, content);
+        } else if(getMethod() != "GET") {
+            body = RequestBody.create(TEXT, "");
+        }
+        Request.Builder builder = new Request.Builder().url(getUri().toURL()).method(getMethod(), body);
         Map<String, String> headers = getHeaders();
         for(String key : headers.keySet()) {
             builder.addHeader(key, headers.get(key));

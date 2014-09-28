@@ -15,9 +15,10 @@ public class GetImportantDocumentsListRequest extends BaseRequest<DocumentsList>
     private final String mContextQuery;
 
     /**
-     * Constructs new documents search context
+     * Constructs new important documents context
      *
      * @param context An Android Context
+     * @param eventId The event ID
      * @param contextQuery An Anyfetch search query
      */
     public GetImportantDocumentsListRequest(Context context, String eventId, String contextQuery) {

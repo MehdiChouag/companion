@@ -51,6 +51,12 @@ public class MockApiFactory {
                     } else if(request.getPath().startsWith("/events/eventId/importants") && request.getMethod().equals("GET")) {
                         response = new MockResponse();
                         response.setBody(gson.toJson(createFakeDocumentSet(2, true)));
+                    } else if(request.getPath().startsWith("/events/eventId/importants/") && request.getMethod().equals("POST")) {
+                        response = new MockResponse();
+                        response.setResponseCode(204);
+                    } else if(request.getPath().startsWith("/events/eventId/importants/") && request.getMethod().equals("DELETE")) {
+                        response = new MockResponse();
+                        response.setResponseCode(204);
                     }
                 }
                 // 3. 404 otherwise
