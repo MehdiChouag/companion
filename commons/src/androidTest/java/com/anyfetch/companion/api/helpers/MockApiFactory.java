@@ -11,14 +11,14 @@ import com.squareup.okhttp.mockwebserver.RecordedRequest;
 import java.util.Date;
 
 public class MockApiFactory {
-    private static DocumentsList createFakeDocumentSet(int amount) {
+    private static DocumentsList createFakeDocumentSet(int amount, boolean isImportant) {
         DocumentsList docs = new DocumentsList();
         for(int i = 0; i < amount; i ++) {
             docs.add(new Document(
                     "file",
                     "doc" + i,
-                    null,
-                    null,
+                    isImportant ? "company0" : null,
+                    isImportant ? "event0" : null,
                     new Date(0),
                     "Doc" + i,
                     "Docu" + i,
@@ -42,13 +42,15 @@ public class MockApiFactory {
                 }
                 // 2. Route request
                 if(response == null) {
-                    if(request.getPath().startsWith("/documents?")) {
+                    if(request.getPath().startsWith("/documents?") && request.getMethod().equals("GET")) {
                         response = new MockResponse();
-                        response.setBody(gson.toJson(createFakeDocumentSet(2)));
-                    }
-                    if(request.getPath().startsWith("/documents/")) {
+                        response.setBody(gson.toJson(createFakeDocumentSet(2, false)));
+                    } else if(request.getPath().startsWith("/documents/") && request.getMethod().equals("GET")) {
                         response = new MockResponse();
-                        response.setBody(gson.toJson(createFakeDocumentSet(1).get(0)));
+                        response.setBody(gson.toJson(createFakeDocumentSet(1, false).get(0)));
+                    } else if(request.getPath().startsWith("/events/eventId/importants") && request.getMethod().equals("GET")) {
+                        response = new MockResponse();
+                        response.setBody(gson.toJson(createFakeDocumentSet(2, true)));
                     }
                 }
                 // 3. 404 otherwise
