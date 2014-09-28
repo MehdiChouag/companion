@@ -21,10 +21,9 @@ public class GetDocumentsListRequestTest extends BaseRequestTest {
     public void test_loadDataFromNetwork() throws Exception {
         DocumentsList docs = mRequest.loadDataFromNetwork();
 
-        assertEquals(1, docs.size());
+        assertEquals(2, docs.size());
 
-        Document doc = docs.get(0);
-        assertEquals("docId", doc.getId());
-        assertEquals("test", doc.getTitle());
+        assertEquals("doc0", docs.get(0).getDocumentId());
+        assertEquals("doc1", docs.get(1).getDocumentId());
     }
 }
