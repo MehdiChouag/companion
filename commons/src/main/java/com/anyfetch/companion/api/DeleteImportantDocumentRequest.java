@@ -6,22 +6,21 @@ import com.anyfetch.companion.api.helpers.BaseRequest;
 import com.anyfetch.companion.api.pojo.Document;
 import com.anyfetch.companion.api.pojo.DocumentsList;
 
-
 /**
- * Flag a new document as important
+ * Unflag an important document
  */
-public class PostImportantDocumentRequest extends BaseRequest<DocumentsList> {
+public class DeleteImportantDocumentRequest  extends BaseRequest<DocumentsList> {
     private final String mEventId;
     private final String mDocumentId;
 
     /**
-     * Constructs a new important document flagging request
+     * Constructs a new important document unflagging request
      *
      * @param context An Android Context
      * @param eventId The event ID
-     * @param document The document to flag as important
+     * @param document The document to unflag as important
      */
-    public PostImportantDocumentRequest(Context context, String eventId, Document document) {
+    public DeleteImportantDocumentRequest(Context context, String eventId, Document document) {
         super(DocumentsList.class, context);
         mEventId = eventId;
         mDocumentId = document.getDocumentId();
@@ -29,7 +28,7 @@ public class PostImportantDocumentRequest extends BaseRequest<DocumentsList> {
 
     @Override
     protected String getMethod() {
-        return "POST";
+        return "DELETE";
     }
 
     @Override
