@@ -69,6 +69,7 @@ public class Event {
                 List<String> emails = new ArrayList<String>();
                 emails.add(email);
                 attendee = new Person(
+                    0,
                     attCur.getString(PRJ_ATT_NAME),
                     "",
                     "",

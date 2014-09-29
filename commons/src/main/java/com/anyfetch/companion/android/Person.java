@@ -56,6 +56,7 @@ public class Person {
     private final List<String> mNumbers;
     private final Bitmap mThumb;
     private final long mPhotoId;
+    private final long mId;
 
     /**
      * Retrieve a person from their id
@@ -63,7 +64,7 @@ public class Person {
      * @param id Their id
      * @return The person
      */
-    public static Person getPerson(Context context, int id) {
+    public static Person getPerson(Context context, long id) {
         // This is an awful piece of code, if there's a way to do it better, well go on ! This is open to refactoring.
         ContentResolver cr = context.getContentResolver();
 
@@ -154,6 +155,7 @@ public class Person {
         jobCur.close();
 
         return new Person(
+                id,
                 name,
                 company,
                 title,
@@ -182,13 +184,14 @@ public class Person {
         if(emCur.getCount() < 1) {
             return null;
         }
-        int id = emCur.getInt(PRJ_CON_ID);
+        long id = emCur.getLong(PRJ_CON_ID);
         emCur.close();
         return getPerson(context, id);
     }
 
     /**
      * Creates a new Person
+     * @param id Their id
      * @param name Their name
      * @param job Their job name
      * @param company Their company
@@ -197,7 +200,8 @@ public class Person {
      * @param thumb Their photo thumb
      * @param photoId A reference to the photo
      */
-    public Person(String name, String company, String job, List<String> emails, List<String> numbers, Bitmap thumb, long photoId) {
+    public Person(long id, String name, String company, String job, List<String> emails, List<String> numbers, Bitmap thumb, long photoId) {
+        mId = id;
         mName = name;
         mCompany = company;
         mJob = job;
@@ -205,6 +209,14 @@ public class Person {
         mNumbers = numbers;
         mThumb = thumb;
         mPhotoId = photoId;
+    }
+
+    /**
+     * Gets the id
+     * @return An ID
+     */
+    public long getId() {
+        return mId;
     }
 
     /**

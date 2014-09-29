@@ -60,10 +60,10 @@ public class AndroidServicesMockInjecter {
                         ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE)
                 .withValue(ContactsContract.CommonDataKinds.Organization.COMPANY, "ISIS")
                 .withValue(ContactsContract.CommonDataKinds.Organization.TYPE, ContactsContract.CommonDataKinds.Organization.TYPE_WORK)
-                .withValue(ContactsContract.CommonDataKinds.Organization.TITLE, "Secred Agent")
+                .withValue(ContactsContract.CommonDataKinds.Organization.TITLE, "Secret Agent")
                 .withValue(ContactsContract.CommonDataKinds.Organization.TYPE, ContactsContract.CommonDataKinds.Organization.TYPE_WORK)
                 .build());
 
-        ContentProviderResult[] contact = context.getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
+        context.getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
     }
 }
