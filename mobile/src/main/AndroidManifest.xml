@@ -9,7 +9,7 @@
         android:theme="@style/MobileCompanionTheme">
 
         <service
-            android:name="com.octo.android.robospice.OkHttpSpiceService"
+            android:name="com.anyfetch.companion.api.HttpSpiceService"
             android:exported="false" />
     </application>
 
