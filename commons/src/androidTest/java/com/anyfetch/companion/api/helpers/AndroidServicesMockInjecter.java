@@ -1,6 +1,7 @@
 package com.anyfetch.companion.api.helpers;
 
 import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
 import android.content.Context;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
@@ -9,10 +10,6 @@ import android.provider.ContactsContract;
 import java.util.ArrayList;
 
 public class AndroidServicesMockInjecter {
-    public static void injectAll(Context context) throws RemoteException, OperationApplicationException {
-        injectContact(context);
-    }
-
     public static void injectContact(Context context) throws RemoteException, OperationApplicationException {
         ArrayList <ContentProviderOperation> ops = new ArrayList< ContentProviderOperation >();
 
@@ -67,6 +64,6 @@ public class AndroidServicesMockInjecter {
                 .withValue(ContactsContract.CommonDataKinds.Organization.TYPE, ContactsContract.CommonDataKinds.Organization.TYPE_WORK)
                 .build());
 
-        context.getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
+        ContentProviderResult[] contact = context.getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
     }
 }

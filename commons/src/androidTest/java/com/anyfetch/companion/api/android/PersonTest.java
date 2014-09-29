@@ -17,7 +17,7 @@ public class PersonTest  extends InstrumentationTestCase {
     }
 
     public void test_getPerson_email() throws Exception {
-        Person person = Person.getPerson(mContext, "sarcher@gmail.com", false);
+        Person person = Person.getPerson(mContext, "sarcher@gmail.com");
 
         assertEquals("Sterling Archer", person.getName());
     }

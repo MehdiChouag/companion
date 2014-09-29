@@ -64,7 +64,7 @@ public class Event {
         List<Person> attendees = new ArrayList<Person>();
         for (int i = 0; i < attCur.getCount(); i++) {
             String email = attCur.getString(PRJ_ATT_EMAIL);
-            Person attendee = Person.getPerson(context, email, true);
+            Person attendee = Person.getPerson(context, email);
             if(attendee == null) {
                 List<String> emails = new ArrayList<String>();
                 emails.add(email);
@@ -74,7 +74,8 @@ public class Event {
                     "",
                     emails,
                     new ArrayList<String>(),
-                    ""
+                    null,
+                    0
                 );
             }
             attendees.add(attendee);
