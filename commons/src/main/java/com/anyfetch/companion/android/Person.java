@@ -64,6 +64,7 @@ public class Person {
      * @return The person
      */
     public static Person getPerson(Context context, int id) {
+        // This is an awful piece of code, if there's a way to do it better, well go on ! This is open to refactoring.
         ContentResolver cr = context.getContentResolver();
 
         Cursor nameCur = cr.query(
