@@ -107,6 +107,6 @@ public class AndroidServicesMockInjecter {
         att1.put(CalendarContract.Attendees.ATTENDEE_EMAIL, "malory@isis.org");
         cr.insert(CalendarContract.Attendees.CONTENT_URI, att1);
 
-        return calId;
+        return eventID;
     }
 }

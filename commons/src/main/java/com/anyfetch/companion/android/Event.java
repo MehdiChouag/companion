@@ -41,9 +41,6 @@ public class Event {
     public static final int SECOND = 1000;
     public static final int MINUTE = 60 * SECOND;
     public static final int HOUR = 60 * MINUTE;
-    public static final int DAY = 24 * HOUR;
-    public static final int WEEK = 7 * DAY;
-    public static final long MONTH = 4 * WEEK;
 
     private final long mId;
     private final String mTitle;
@@ -107,7 +104,7 @@ public class Event {
      * @param context The android context to fetch from
      * @param id The event id
      */
-    public static Event getEvent(Context context, String id) {
+    public static Event getEvent(Context context, long id) {
         ContentResolver cr = context.getContentResolver();
         Cursor evtCur = cr.query(
                 CalendarContract.Events.CONTENT_URI,
@@ -135,7 +132,7 @@ public class Event {
         Cursor evtCur = cr.query(
                 CalendarContract.Events.CONTENT_URI,
                 EVENT_PROJECTION,
-                CalendarContract.Events.DTSTART + ">" + (now.getTimeInMillis())
+                CalendarContract.Events.DTSTART + ">" + now.getTimeInMillis()
                 ,
                 null,
                 CalendarContract.Events.DTSTART + " ASC LIMIT 50");
