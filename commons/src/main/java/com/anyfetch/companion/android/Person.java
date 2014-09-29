@@ -148,15 +148,15 @@ public class Person {
                 null);
         jobCur.moveToFirst();
         if(jobCur.getCount() > 0) {
-            title = jobCur.getString(PRJ_JOB_TITLE);
             company = jobCur.getString(PRJ_JOB_COMPANY);
+            title = jobCur.getString(PRJ_JOB_TITLE);
         }
         jobCur.close();
 
         return new Person(
                 name,
-                title,
                 company,
+                title,
                 emails,
                 numbers,
                 thumb,
