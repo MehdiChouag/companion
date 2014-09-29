@@ -9,7 +9,7 @@ import android.provider.ContactsContract;
 import java.util.ArrayList;
 
 public class AndroidServicesMockInjecter {
-    public static void inject1ll(Context context) throws RemoteException, OperationApplicationException {
+    public static void injectAll(Context context) throws RemoteException, OperationApplicationException {
         injectContact(context);
     }
 

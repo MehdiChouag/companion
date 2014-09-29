@@ -147,7 +147,7 @@ public class Person {
         if(emCur.getCount() < 1) {
             return null;
         }
-        return getPerson(context, emCur.getString(PRJ_EMAIL_ADDRESS), thumb);
+        return getPerson(context, emCur.getInt(PRJ_CON_ID), thumb);
     }
 
     /**
