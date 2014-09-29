@@ -10,7 +10,7 @@ import com.octo.android.robospice.request.SpiceRequest;
 public class GetEventRequest extends SpiceRequest<Event> {
 
     private final long mId;
-    private Context mContext;
+    private final Context mContext;
 
     public GetEventRequest(Class<Event> klass, Context context, long id) {
         super(klass);

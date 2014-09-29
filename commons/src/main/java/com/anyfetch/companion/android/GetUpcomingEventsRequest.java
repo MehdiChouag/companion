@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class GetUpcomingEventsRequest extends SpiceRequest<List<Event>> {
 
-    private Context mContext;
+    private final Context mContext;
 
     public GetUpcomingEventsRequest(Class<List<Event>> klass, Context context) {
         super(klass);

@@ -1,13 +1,10 @@
 package com.anyfetch.companion.api.helpers;
 
-import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.RemoteException;
 import android.provider.CalendarContract;
 import android.provider.ContactsContract;
 
@@ -17,7 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class AndroidServicesMockInjecter {
-    public static long injectContact(Context context) throws RemoteException, OperationApplicationException {
+    public static long injectContact(Context context) {
         ContentResolver cr = context.getContentResolver();
 
         ContentValues contact = new ContentValues();
@@ -64,7 +61,7 @@ public class AndroidServicesMockInjecter {
         return contactId;
     }
 
-    public static long injectEvent(Context context) throws RemoteException, OperationApplicationException {
+    public static long injectEvent(Context context) {
         Cursor calCur = context.getContentResolver().query(
                 CalendarContract.Calendars.CONTENT_URI,
                 new String[] {

@@ -11,7 +11,7 @@ public class GetPersonRequest extends SpiceRequest<Person> {
 
     private String mEmail = "";
     private long mId = 0;
-    private Context mContext;
+    private final Context mContext;
 
     public GetPersonRequest(Class<Person> klass, Context context, long id) {
         super(klass);

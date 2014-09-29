@@ -2,9 +2,7 @@ package com.anyfetch.companion.android;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 
 import java.util.ArrayList;

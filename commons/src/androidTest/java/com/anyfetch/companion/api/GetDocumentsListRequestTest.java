@@ -3,7 +3,6 @@ package com.anyfetch.companion.api;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.anyfetch.companion.api.helpers.BaseRequestTest;
-import com.anyfetch.companion.api.pojo.Document;
 import com.anyfetch.companion.api.pojo.DocumentsList;
 import com.squareup.okhttp.OkHttpClient;
 
