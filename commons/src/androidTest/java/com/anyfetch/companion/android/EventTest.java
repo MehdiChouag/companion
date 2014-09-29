@@ -1,4 +1,4 @@
-package com.anyfetch.companion.api.android;
+package com.anyfetch.companion.android;
 
 import android.content.Context;
 import android.test.InstrumentationTestCase;
