@@ -31,7 +31,6 @@ public class Event {
     private static final int PRJ_EVT_DTEND = 4;
     private static final int PRJ_EVT_LOC = 5;
 
-
     private static final String[] ATTENDEE_PROJECTION = new String[] {
             CalendarContract.Attendees.ATTENDEE_NAME,
             CalendarContract.Attendees.ATTENDEE_EMAIL,
@@ -39,7 +38,14 @@ public class Event {
     private static final int PRJ_ATT_NAME = 0;
     private static final int PRJ_ATT_EMAIL = 1;
 
-    private final String mId;
+    public static final int SECOND = 1000;
+    public static final int MINUTE = 60 * SECOND;
+    public static final int HOUR = 60 * MINUTE;
+    public static final int DAY = 24 * HOUR;
+    public static final int WEEK = 7 * DAY;
+    public static final long MONTH = 4 * WEEK;
+
+    private final long mId;
     private final String mTitle;
     private final String mDescription;
     private final Date mStartDate;
@@ -48,10 +54,12 @@ public class Event {
     private final String mLocation;
 
     private static Event eventFromCusrsor(Context context, Cursor cur) {
-        if(cur.getCount() < 1) {
-            return null;
-        }
         ContentResolver cr = context.getContentResolver();
+        String title = cur.getString(PRJ_EVT_TITLE);
+        String description = cur.getString(PRJ_EVT_DESCRIPTION);
+        Date dtStart = new Date(cur.getInt(PRJ_EVT_DTSTART));
+        Date dtEnd = new Date(cur.getInt(PRJ_EVT_DTEND));
+        String location = cur.getString(PRJ_EVT_LOC);
         int eventId = cur.getInt(PRJ_EVT_ID);
         Cursor attCur = cr.query(
                 CalendarContract.Attendees.CONTENT_URI,
@@ -82,16 +90,15 @@ public class Event {
             attendees.add(attendee);
             attCur.moveToNext();
         }
-        Date dtStart = new Date(cur.getInt(PRJ_EVT_DTSTART));
-        Date dtEnd = new Date(cur.getInt(PRJ_EVT_DTEND));
+        attCur.close();
         return new Event(
-                Integer.toString(eventId),
-                cur.getString(PRJ_EVT_TITLE),
-                cur.getString(PRJ_EVT_DESCRIPTION),
+                eventId,
+                title,
+                description,
                 dtStart,
                 dtEnd,
                 attendees,
-                cur.getString(PRJ_EVT_LOC)
+                location
         );
     }
 
@@ -109,17 +116,17 @@ public class Event {
                 null,
                 null);
         evtCur.moveToFirst();
-        return eventFromCusrsor(context, evtCur);
+        Event event = eventFromCusrsor(context, evtCur);
+        evtCur.close();
+        return event;
     }
 
     /**
-     * Gets a certain amount of upcoming events
-     * @param context A context to fetch the events and the amount from
+     * Gets the upcoming events
+     * @param context A context to fetch the events from
      * @return A list of events
      */
     public static List<Event> getUpcomingEvents(Context context) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        int amount = preferences.getInt("eventsAmount", 20);
         ContentResolver cr = context.getContentResolver();
 
         Calendar now = Calendar.getInstance();
@@ -128,20 +135,17 @@ public class Event {
         Cursor evtCur = cr.query(
                 CalendarContract.Events.CONTENT_URI,
                 EVENT_PROJECTION,
-                "(" +
-                        CalendarContract.Events.DTSTART + ">" + now.getTimeInMillis()
-                        + " and " +
-                        CalendarContract.Events._COUNT + "<" + amount +
-                ")"
+                CalendarContract.Events.DTSTART + ">" + (now.getTimeInMillis())
                 ,
                 null,
-                CalendarContract.Events.DTSTART + " ASC");
+                CalendarContract.Events.DTSTART + " ASC LIMIT 50");
         List<Event> events = new ArrayList<Event>();
         evtCur.moveToFirst();
         for (int i = 0; i < evtCur.getCount(); i++) {
             events.add(eventFromCusrsor(context, evtCur));
             evtCur.moveToNext();
         }
+        evtCur.close();
         return events;
     }
 
@@ -154,7 +158,7 @@ public class Event {
      * @param endDate The end
      * @param attendees The attendees
      */
-    public Event(String id, String title, String description, Date startDate, Date endDate, List<Person> attendees, String location) {
+    public Event(long id, String title, String description, Date startDate, Date endDate, List<Person> attendees, String location) {
         mId = id;
         mTitle = title;
         mDescription = description;
@@ -168,7 +172,7 @@ public class Event {
      * Gets the id
      * @return An unique identifier
      */
-    public String getId() {
+    public long getId() {
         return mId;
     }
 

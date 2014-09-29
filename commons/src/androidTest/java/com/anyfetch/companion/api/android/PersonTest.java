@@ -14,9 +14,7 @@ public class PersonTest  extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         mContext = getInstrumentation().getContext();
-        AndroidServicesMockInjecter.injectContact(mContext);
-        Person person = Person.getPerson(mContext, "sarcher@gmail.com");
-        mId = person.getId();
+        mId = AndroidServicesMockInjecter.injectContact(mContext);
     }
 
     public void test_getPerson_email() throws Exception {

@@ -1,69 +1,112 @@
 package com.anyfetch.companion.api.helpers;
 
 import android.content.ContentProviderOperation;
-import android.content.ContentProviderResult;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.RemoteException;
+import android.provider.CalendarContract;
 import android.provider.ContactsContract;
 
-import java.util.ArrayList;
+import com.anyfetch.companion.android.Event;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class AndroidServicesMockInjecter {
-    public static void injectContact(Context context) throws RemoteException, OperationApplicationException {
-        ArrayList <ContentProviderOperation> ops = new ArrayList< ContentProviderOperation >();
+    public static long injectContact(Context context) throws RemoteException, OperationApplicationException {
+        ContentResolver cr = context.getContentResolver();
 
-        ops.add(ContentProviderOperation.newInsert(
-                ContactsContract.RawContacts.CONTENT_URI)
-                .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
-                .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
-                .build());
+        ContentValues contact = new ContentValues();
+        contact.put(ContactsContract.RawContacts.ACCOUNT_TYPE, (String)null);
+        contact.put(ContactsContract.RawContacts.ACCOUNT_NAME, (String)null);
+        Uri uri = cr.insert(ContactsContract.RawContacts.CONTENT_URI, contact);
 
-        ops.add(ContentProviderOperation.newInsert(
-                ContactsContract.Data.CONTENT_URI)
-                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-                .withValue(ContactsContract.Data.MIMETYPE,
-                        ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
-                .withValue(
-                        ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
-                        "Sterling Archer").build());
+        long contactId = Long.parseLong(uri.getLastPathSegment());
 
-        ops.add(ContentProviderOperation.
-                newInsert(ContactsContract.Data.CONTENT_URI)
-                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-                .withValue(ContactsContract.Data.MIMETYPE,
-                        ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
-                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, "000")
-                .withValue(ContactsContract.CommonDataKinds.Phone.TYPE,
-                        ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
-                .build());
+        ContentValues name = new ContentValues();
+        name.put(ContactsContract.Data.RAW_CONTACT_ID, contactId);
+        name.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE);
+        name.put(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, "Sterling Archer");
+        cr.insert(ContactsContract.Data.CONTENT_URI, name);
 
-        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-                .withValue(ContactsContract.Data.MIMETYPE,
-                        ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)
-                .withValue(ContactsContract.CommonDataKinds.Email.DATA, "sterling@isis.org")
-                .withValue(ContactsContract.CommonDataKinds.Email.TYPE, ContactsContract.CommonDataKinds.Email.TYPE_WORK)
-                .build());
+        ContentValues phone = new ContentValues();
+        phone.put(ContactsContract.Data.RAW_CONTACT_ID, contactId);
+        phone.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
+        phone.put(ContactsContract.CommonDataKinds.Phone.NUMBER, "000");
+        cr.insert(ContactsContract.Data.CONTENT_URI, phone);
 
-        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-                .withValue(ContactsContract.Data.MIMETYPE,
-                        ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)
-                .withValue(ContactsContract.CommonDataKinds.Email.DATA, "sarcher@gmail.com")
-                .withValue(ContactsContract.CommonDataKinds.Email.TYPE, ContactsContract.CommonDataKinds.Email.TYPE_HOME)
-                .build());
+        ContentValues emailWork = new ContentValues();
+        emailWork.put(ContactsContract.Data.RAW_CONTACT_ID, contactId);
+        emailWork.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE);
+        emailWork.put(ContactsContract.CommonDataKinds.Email.DATA, "sterling@isis.org");
+        emailWork.put(ContactsContract.CommonDataKinds.Email.TYPE, ContactsContract.CommonDataKinds.Email.TYPE_WORK);
+        cr.insert(ContactsContract.Data.CONTENT_URI, emailWork);
 
-        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-                .withValue(ContactsContract.Data.MIMETYPE,
-                        ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE)
-                .withValue(ContactsContract.CommonDataKinds.Organization.COMPANY, "ISIS")
-                .withValue(ContactsContract.CommonDataKinds.Organization.TYPE, ContactsContract.CommonDataKinds.Organization.TYPE_WORK)
-                .withValue(ContactsContract.CommonDataKinds.Organization.TITLE, "Secret Agent")
-                .withValue(ContactsContract.CommonDataKinds.Organization.TYPE, ContactsContract.CommonDataKinds.Organization.TYPE_WORK)
-                .build());
+        ContentValues emailHome = new ContentValues();
+        emailHome.put(ContactsContract.Data.RAW_CONTACT_ID, contactId);
+        emailHome.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE);
+        emailHome.put(ContactsContract.CommonDataKinds.Email.DATA, "sarcher@gmail.com");
+        emailHome.put(ContactsContract.CommonDataKinds.Email.TYPE, ContactsContract.CommonDataKinds.Email.TYPE_HOME);
+        cr.insert(ContactsContract.Data.CONTENT_URI, emailHome);
 
-        context.getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
+        ContentValues org = new ContentValues();
+        org.put(ContactsContract.Data.RAW_CONTACT_ID, contactId);
+        org.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE);
+        org.put(ContactsContract.CommonDataKinds.Organization.COMPANY, "ISIS");
+        org.put(ContactsContract.CommonDataKinds.Organization.TITLE, "Secret Agent");
+        org.put(ContactsContract.CommonDataKinds.Organization.TYPE, ContactsContract.CommonDataKinds.Organization.TYPE_WORK);
+        cr.insert(ContactsContract.Data.CONTENT_URI, org);
+
+        return contactId;
+    }
+
+    public static long injectEvent(Context context) throws RemoteException, OperationApplicationException {
+        Cursor calCur = context.getContentResolver().query(
+                CalendarContract.Calendars.CONTENT_URI,
+                new String[] {
+                        CalendarContract.Calendars._ID
+                },
+                null,
+                null,
+                null
+        );
+        calCur.moveToFirst();
+        long calId = calCur.getLong(0);
+        calCur.close();
+
+        Calendar now = Calendar.getInstance();
+        now.setTime(new Date());
+
+        ContentResolver cr = context.getContentResolver();
+
+        ContentValues event = new ContentValues();
+        event.put(CalendarContract.Events.CALENDAR_ID, calId);
+        event.put(CalendarContract.Events.TITLE, "Secret Briefing");
+        event.put(CalendarContract.Events.DESCRIPTION, "Not Disclosed");
+        event.put(CalendarContract.Events.DTSTART, now.getTimeInMillis() + Event.MINUTE);
+        event.put(CalendarContract.Events.DTEND, now.getTimeInMillis() + Event.HOUR);
+        event.put(CalendarContract.Events.EVENT_LOCATION, "A Secret Place");
+        event.put(CalendarContract.Events.EVENT_TIMEZONE, "America/New_York");
+        Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, event);
+
+        long eventID = Long.parseLong(uri.getLastPathSegment());
+
+        ContentValues att0 = new ContentValues();
+        att0.put(CalendarContract.Attendees.EVENT_ID, eventID);
+        att0.put(CalendarContract.Attendees.ATTENDEE_NAME, "Sterling Archer");
+        att0.put(CalendarContract.Attendees.ATTENDEE_EMAIL, "sterling@isis.org");
+        cr.insert(CalendarContract.Attendees.CONTENT_URI, att0);
+
+        ContentValues att1 = new ContentValues();
+        att1.put(CalendarContract.Attendees.EVENT_ID, eventID);
+        att1.put(CalendarContract.Attendees.ATTENDEE_NAME, "Malory Archer");
+        att1.put(CalendarContract.Attendees.ATTENDEE_EMAIL, "malory@isis.org");
+        cr.insert(CalendarContract.Attendees.CONTENT_URI, att1);
+
+        return calId;
     }
 }
