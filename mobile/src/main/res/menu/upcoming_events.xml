@@ -5,7 +5,7 @@
         android:title="@string/action_settings"
         android:orderInCategory="100"
         android:showAsAction="never" />
-    <item android:id="@+id/action_settings"
+    <item android:id="@+id/action_log_out"
           android:title="@string/action_log_out"
           android:orderInCategory="100"
           android:showAsAction="never" />
