@@ -10,6 +10,8 @@ import com.octo.android.robospice.persistence.exception.CacheCreationException;
 
 /**
  * Provides a Service for local async tasks such as Android content providers queries
+ *
+ * https://github.com/stephanenicolas/robospice/wiki/Advanced-RoboSpice-Usages-and-FAQ#can-i-use-robospice-for-a-non-network-related-task-like-a-long-running-computation-
  */
 public class AndroidSpiceService extends SpiceService {
     @Override

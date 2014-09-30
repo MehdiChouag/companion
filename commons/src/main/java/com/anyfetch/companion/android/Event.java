@@ -48,7 +48,7 @@ public class Event {
     private final List<Person> mAttendees;
     private final String mLocation;
 
-    private static Event eventFromCusrsor(Context context, Cursor cur) {
+    private static Event fromCursor(Context context, Cursor cur) {
         ContentResolver cr = context.getContentResolver();
         String title = cur.getString(PRJ_EVT_TITLE);
         String description = cur.getString(PRJ_EVT_DESCRIPTION);
@@ -111,7 +111,10 @@ public class Event {
                 null,
                 null);
         evtCur.moveToFirst();
-        Event event = eventFromCusrsor(context, evtCur);
+        if(evtCur.getCount() < 1) {
+            return null;
+        }
+        Event event = fromCursor(context, evtCur);
         evtCur.close();
         return event;
     }
@@ -122,6 +125,16 @@ public class Event {
      * @return A list of events
      */
     public static List<Event> getUpcomingEvents(Context context) {
+        return  getUpcomingEvents(context, 50);
+    }
+
+    /**
+     * Gets the upcoming events
+     * @param context A context to fetch the events from
+     * @param limit The amount of maximum events to fetch
+     * @return A list of events
+     */
+    public static List<Event> getUpcomingEvents(Context context, int limit) {
         ContentResolver cr = context.getContentResolver();
 
         Calendar now = Calendar.getInstance();
@@ -133,11 +146,11 @@ public class Event {
                 CalendarContract.Events.DTSTART + ">" + now.getTimeInMillis()
                 ,
                 null,
-                CalendarContract.Events.DTSTART + " ASC LIMIT 50");
+                CalendarContract.Events.DTSTART + " ASC LIMIT " + limit);
         List<Event> events = new ArrayList<Event>();
         evtCur.moveToFirst();
         for (int i = 0; i < evtCur.getCount(); i++) {
-            events.add(eventFromCusrsor(context, evtCur));
+            events.add(fromCursor(context, evtCur));
             evtCur.moveToNext();
         }
         evtCur.close();
