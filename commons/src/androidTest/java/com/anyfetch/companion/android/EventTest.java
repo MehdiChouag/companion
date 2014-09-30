@@ -9,7 +9,7 @@ import com.anyfetch.companion.api.helpers.AndroidServicesMockInjecter;
 
 import java.util.List;
 
-public class EventTest  extends InstrumentationTestCase {
+public class EventTest extends InstrumentationTestCase {
     private Context mContext;
     private long mId;
 
