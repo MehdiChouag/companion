@@ -37,7 +37,8 @@ public abstract class BaseRequest<T> extends OkHttpSpiceRequest<T> {
     protected BaseRequest(Class<T> klass, Context context) {
         super(klass);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        mApiUrl = preferences.getString("apiUrl", "https://anyfetch-companion.herokuapp.com");
+        // TODO: get rid of -staging before merging
+        mApiUrl = preferences.getString("apiUrl", "https://anyfetch-companion-staging.herokuapp.com");
         mApiToken = preferences.getString("apiToken", null);
     }
 
