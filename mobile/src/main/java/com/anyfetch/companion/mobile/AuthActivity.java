@@ -55,5 +55,6 @@ public class AuthActivity extends Activity {
         editor.commit();
 
         Intent intent = new Intent(getApplicationContext(), UpcomingEventsActivity.class);
-        startActivity(intent);    }
+        startActivity(intent);
+    }
 }
