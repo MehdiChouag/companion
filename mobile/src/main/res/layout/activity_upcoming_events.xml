@@ -1,8 +1,18 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.anyfetch.companion.mobile.UpcomingEventsActivity">
+<FrameLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@android:color/white">
 
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@android:id/list"/>
 
-</RelativeLayout>
+    <TextView android:id="@android:id/empty"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:text="@string/text_no_events"
+              android:layout_marginLeft="@dimen/list_margin"
+              android:layout_marginRight="@dimen/list_margin"/>
+</FrameLayout>

@@ -3,9 +3,7 @@ package com.anyfetch.companion.android;
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 
-import com.anyfetch.companion.android.Event;
-import com.anyfetch.companion.android.Person;
-import com.anyfetch.companion.api.helpers.AndroidServicesMockInjecter;
+import com.anyfetch.companion.android.helpers.AndroidServicesMockInjecter;
 
 import java.util.List;
 

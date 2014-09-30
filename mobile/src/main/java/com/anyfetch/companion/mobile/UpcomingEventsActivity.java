@@ -1,17 +1,40 @@
 package com.anyfetch.companion.mobile;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.anyfetch.companion.mobile.R;
 
-public class UpcomingEventsActivity extends Activity {
+import com.anyfetch.companion.android.AndroidSpiceService;
+import com.anyfetch.companion.android.EventsList;
+import com.anyfetch.companion.android.GetUpcomingEventsRequest;
+import com.anyfetch.companion.mobile.adapters.EventsListAdapter;
+import com.octo.android.robospice.SpiceManager;
+import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.listener.RequestListener;
+
+public class UpcomingEventsActivity extends ListActivity implements RequestListener<EventsList> {
+    protected SpiceManager spiceManager = new SpiceManager(AndroidSpiceService.class);
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        spiceManager.start(this);
+    }
+
+    @Override
+    protected void onStop() {
+        spiceManager.shouldStop();
+        super.onStop();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upcoming_events);
+
+        GetUpcomingEventsRequest request = new GetUpcomingEventsRequest(getApplicationContext());
+        spiceManager.execute(request, null, 0, this);
     }
 
 
@@ -32,5 +55,13 @@ public class UpcomingEventsActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRequestFailure(SpiceException spiceException) {}
+
+    @Override
+    public void onRequestSuccess(EventsList events) {
+        setListAdapter(new EventsListAdapter(getApplicationContext(), events));
     }
 }

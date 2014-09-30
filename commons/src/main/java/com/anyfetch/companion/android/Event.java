@@ -124,8 +124,8 @@ public class Event {
      * @param context A context to fetch the events from
      * @return A list of events
      */
-    public static List<Event> getUpcomingEvents(Context context) {
-        return  getUpcomingEvents(context, 50);
+    public static EventsList getUpcomingEvents(Context context) {
+        return getUpcomingEvents(context, 50);
     }
 
     /**
@@ -134,7 +134,7 @@ public class Event {
      * @param limit The amount of maximum events to fetch
      * @return A list of events
      */
-    public static List<Event> getUpcomingEvents(Context context, int limit) {
+    public static EventsList getUpcomingEvents(Context context, int limit) {
         ContentResolver cr = context.getContentResolver();
 
         Calendar now = Calendar.getInstance();
@@ -147,7 +147,7 @@ public class Event {
                 ,
                 null,
                 CalendarContract.Events.DTSTART + " ASC LIMIT " + limit);
-        List<Event> events = new ArrayList<Event>();
+        EventsList events = new EventsList();
         evtCur.moveToFirst();
         for (int i = 0; i < evtCur.getCount(); i++) {
             events.add(fromCursor(context, evtCur));

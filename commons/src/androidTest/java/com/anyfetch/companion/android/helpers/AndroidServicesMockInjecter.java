@@ -1,4 +1,4 @@
-package com.anyfetch.companion.api.helpers;
+package com.anyfetch.companion.android.helpers;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
