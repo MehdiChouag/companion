@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.CalendarContract;
 
+import com.anyfetch.companion.helpers.DatedItem;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -13,7 +15,7 @@ import java.util.List;
 /**
  * Represents a calendar event
  */
-public class Event {
+public class Event implements DatedItem {
     private static final String[] EVENT_PROJECTION = new String[] {
             CalendarContract.Events._ID,
             CalendarContract.Events.TITLE,
@@ -230,5 +232,10 @@ public class Event {
      */
     public String getLocation() {
         return mLocation;
+    }
+
+    @Override
+    public Date getDate() {
+        return getStartDate();
     }
 }

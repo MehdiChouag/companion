@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.anyfetch.companion.android.Event;
@@ -21,7 +22,7 @@ import java.util.List;
 /**
  * Adapt events to a list
  */
-public class EventsListAdapter extends ArrayAdapter<Event> {
+public class EventsListAdapter extends ArrayAdapter<Event> implements SectionIndexer {
     private final EventsList mEvents;
     private final Context mContext;
 
@@ -50,7 +51,7 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
 
         imageView.setImageBitmap(createAttendeesMosaic(event.getAttendees()));
         titleView.setText(event.getTitle());
-        infoView.setText(start.getHours() + ":" + start.getMinutes() + ", " + event.getLocation());
+        infoView.setText(String.format("%d:%d, %s", start.getHours(), start.getMinutes(), event.getLocation()));
 
         return rowView;
     }
@@ -60,4 +61,18 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
         return BitmapFactory.decodeResource(mContext.getResources(), android.R.drawable.ic_menu_today);
     }
 
+    @Override
+    public Object[] getSections() {
+        return new Object[0];
+    }
+
+    @Override
+    public int getPositionForSection(int sectionIndex) {
+        return 0;
+    }
+
+    @Override
+    public int getSectionForPosition(int position) {
+        return 0;
+    }
 }
