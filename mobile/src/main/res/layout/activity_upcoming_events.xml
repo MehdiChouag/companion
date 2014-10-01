@@ -7,7 +7,9 @@
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@android:id/list"/>
+        android:id="@android:id/list"
+        android:layout_marginLeft="@dimen/list_margin"
+        android:layout_marginRight="@dimen/list_margin"/>
 
     <TextView android:id="@android:id/empty"
               android:layout_width="match_parent"

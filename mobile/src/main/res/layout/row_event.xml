@@ -10,7 +10,8 @@
         android:layout_width="@dimen/thumb_event_size"
         android:layout_height="@dimen/thumb_event_size"
         android:id="@+id/imageView"
-        android:layout_gravity="center_vertical"/>
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/list_margin"/>
 
     <LinearLayout
         android:orientation="vertical"

@@ -31,15 +31,15 @@ public class EventsListAdapter extends GroupedListAdapter<Event> {
         Date now = new Date();
         Date then = element.getStartDate();
         if(now.getYear() == then.getYear() &&
-           now.getDay() == then.getDay() &&
+           now.getDate() == then.getDate() &&
            now.getMonth() == then.getMonth()) {
             return getContext().getString(R.string.date_today);
         } else if(now.getYear() == then.getYear() &&
-                  now.getDay() + 1 == then.getDay() &&
+                  now.getDate() + 1 == then.getDate() &&
                   now.getMonth() == then.getMonth()) {
             return getContext().getString(R.string.date_tomorrow);
         } else {
-            return then.getDay() + "/" + (then.getMonth() + 1);
+            return then.getDate() + "/" + (then.getMonth() + 1);
         }
     }
 
