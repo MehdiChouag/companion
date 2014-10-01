@@ -52,8 +52,8 @@ public class Event {
         ContentResolver cr = context.getContentResolver();
         String title = cur.getString(PRJ_EVT_TITLE);
         String description = cur.getString(PRJ_EVT_DESCRIPTION);
-        Date dtStart = new Date(cur.getInt(PRJ_EVT_DTSTART));
-        Date dtEnd = new Date(cur.getInt(PRJ_EVT_DTEND));
+        Date dtStart = new Date(cur.getLong(PRJ_EVT_DTSTART));
+        Date dtEnd = new Date(cur.getLong(PRJ_EVT_DTEND));
         String location = cur.getString(PRJ_EVT_LOC);
         int eventId = cur.getInt(PRJ_EVT_ID);
         Cursor attCur = cr.query(

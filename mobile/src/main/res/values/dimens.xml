@@ -2,4 +2,5 @@
 <resources>
     <dimen name="thumb_event_size">40dp</dimen>
     <dimen name="list_margin">10dp</dimen>
+    <dimen name="header_height">60dp</dimen>
 </resources>
