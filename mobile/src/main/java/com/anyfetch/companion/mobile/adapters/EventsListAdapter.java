@@ -50,13 +50,25 @@ public class EventsListAdapter extends GroupedListAdapter<Event> {
         View rowView = inflater.inflate(R.layout.row_event, parent, false);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView);
         TextView titleView = (TextView) rowView.findViewById(R.id.titleView);
-        TextView infoView = (TextView) rowView.findViewById(R.id.infoView);
+        TextView locationView = (TextView) rowView.findViewById(R.id.locationView);
+        TextView timeView = (TextView) rowView.findViewById(R.id.timeView);
+        TextView attendeeView = (TextView) rowView.findViewById(R.id.attendeeView);
+
+        int attendees = event.getAttendees().size();
+        attendeeView.setText(String.format("%d %s", attendees, event.getAttendees().size() == 1 ? getContext().getString(R.string.one_attendee) : getContext().getString(R.string.multiple_attendees)));
 
         Date start = event.getStartDate();
+        Date end = event.getEndDate();
+
+        String location = event.getLocation();
+        if(location == null) {
+            location = "";
+        }
+        locationView.setText(location);
 
         imageView.setImageBitmap(createAttendeesMosaic(event.getAttendees()));
         titleView.setText(event.getTitle());
-        infoView.setText(String.format("%d:%d, %s", start.getHours(), start.getMinutes(), event.getLocation()));
+        timeView.setText(String.format("%d:%d - %d:%d", start.getHours(), start.getMinutes(), end.getHours(), end.getMinutes()));
 
         return rowView;
     }

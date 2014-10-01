@@ -4,38 +4,56 @@
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="@dimen/list_margin">
 
     <ImageView
         android:layout_width="@dimen/thumb_event_size"
         android:layout_height="@dimen/thumb_event_size"
         android:id="@+id/imageView"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="@dimen/list_margin"/>
+        android:layout_gravity="center_vertical"/>
 
-    <LinearLayout
+    <FrameLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:layout_gravity="center_vertical">
+        android:layout_height="@dimen/event_height"
+        android:paddingLeft="@dimen/list_margin">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black"
             android:text="Title"
             android:id="@+id/titleView"
-            android:textColor="@android:color/black"/>
+            android:layout_gravity="start|left|top"
+            android:ellipsize="start"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Info"
-            android:id="@+id/infoView"
-            android:textColor="@android:color/darker_gray"/>
+            android:textColor="@android:color/darker_gray"
+            android:text="Time"
+            android:id="@+id/timeView"
+            android:layout_gravity="end|top"/>
 
-    </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/black"
+            android:text="Location"
+            android:id="@+id/locationView"
+            android:layout_gravity="bottom|end"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/black"
+            android:text="Attendees"
+            android:id="@+id/attendeeView"
+            android:layout_gravity="bottom|start"/>
+    </FrameLayout>
 </LinearLayout>
