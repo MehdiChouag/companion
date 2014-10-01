@@ -13,7 +13,9 @@ import com.anyfetch.companion.android.Event;
 import com.anyfetch.companion.android.EventsList;
 import com.anyfetch.companion.android.Person;
 import com.anyfetch.companion.mobile.R;
+import com.anyfetch.companion.mobile.ui.ImageHelper;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -74,6 +76,23 @@ public class EventsListAdapter extends GroupedListAdapter<Event> {
     }
 
     private Bitmap createAttendeesMosaic(List<Person> attendees) {
+        List<Bitmap> thumbs = new ArrayList<Bitmap>();
+        for(Person attendee : attendees) {
+            Bitmap thumb = attendee.getThumb();
+            if(thumb != null) {
+                thumbs.add(thumb);
+            }
+        }
+        int size = thumbs.size();
+        if(size > 0) {
+            if(size > 3) {
+
+            } else if(size > 1) {
+
+            }
+            return ImageHelper.getRoundedCornerBitmap(thumbs.get(0), 200);
+        }
+
         // TODO: Change this icon
         return BitmapFactory.decodeResource(getContext().getResources(), android.R.drawable.ic_menu_today);
     }
