@@ -1,13 +1,11 @@
 package com.anyfetch.companion.api.pojo;
 
-import com.anyfetch.companion.helpers.DatedItem;
-
 import java.util.Date;
 
 /**
  * A class used to deflate AnyFetch documents
  */
-public class Document implements DatedItem {
+public class Document {
     private final String type;
     private final String documentId;
     private final String companyId;
