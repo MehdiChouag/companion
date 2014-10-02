@@ -2,7 +2,7 @@
 
 export PATH="$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:$PATH"
 
-pushd YourTestApp
+pushd companion
 
 # clear the logs
 adb logcat -c
