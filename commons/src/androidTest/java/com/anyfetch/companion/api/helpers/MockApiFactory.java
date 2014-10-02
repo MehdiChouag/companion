@@ -3,6 +3,7 @@ package com.anyfetch.companion.api.helpers;
 import com.anyfetch.companion.api.pojo.Document;
 import com.anyfetch.companion.api.pojo.DocumentsList;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.mockwebserver.Dispatcher;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
@@ -32,7 +33,9 @@ public class MockApiFactory {
         mock.setDispatcher(new Dispatcher() {
             @Override
             public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
-                Gson gson = new Gson();
+                Gson gson = new GsonBuilder()
+                        .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+                        .create();
                 MockResponse response = null;
                 // 1. Check for Auth
                 if(!request.getHeader("Authorization").equals("Bearer " + testToken)) {

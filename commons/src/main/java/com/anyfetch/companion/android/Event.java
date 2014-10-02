@@ -3,6 +3,8 @@ package com.anyfetch.companion.android;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.provider.CalendarContract;
 
 import java.util.ArrayList;
@@ -13,7 +15,31 @@ import java.util.List;
 /**
  * Represents a calendar event
  */
-public class Event {
+public class Event implements Parcelable {
+    public static final int SECOND = 1000;
+    public static final int MINUTE = 60 * SECOND;
+    public static final int HOUR = 60 * MINUTE;
+    public static final Parcelable.Creator<Event> CREATOR = new Parcelable.Creator<Event>() {
+
+        @Override
+        public Event createFromParcel(Parcel source) {
+            long id = source.readLong();
+            String title = source.readString();
+            String description = source.readString();
+            Date start = new Date(source.readLong());
+            Date end = new Date(source.readLong());
+            List<Person> attendees = new ArrayList<Person>();
+            source.readTypedList(attendees, Person.CREATOR);
+            String location = source.readString();
+
+            return new Event(id, title, description, start, end, attendees, location);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
     private static final String[] EVENT_PROJECTION = new String[] {
             CalendarContract.Events._ID,
             CalendarContract.Events.TITLE,
@@ -28,18 +54,13 @@ public class Event {
     private static final int PRJ_EVT_DTSTART = 3;
     private static final int PRJ_EVT_DTEND = 4;
     private static final int PRJ_EVT_LOC = 5;
-
     private static final String[] ATTENDEE_PROJECTION = new String[] {
             CalendarContract.Attendees.ATTENDEE_NAME,
             CalendarContract.Attendees.ATTENDEE_EMAIL,
     };
     private static final int PRJ_ATT_NAME = 0;
     private static final int PRJ_ATT_EMAIL = 1;
-
-    public static final int SECOND = 1000;
-    public static final int MINUTE = 60 * SECOND;
-    public static final int HOUR = 60 * MINUTE;
-
+    private static final int EVENT_PARCELABLE = 10;
     private final long mId;
     private final String mTitle;
     private final String mDescription;
@@ -48,12 +69,31 @@ public class Event {
     private final List<Person> mAttendees;
     private final String mLocation;
 
+    /**
+     * Creates a new event
+     * @param id The unique identifier for the event
+     * @param title The title
+     * @param description The description
+     * @param startDate The beginning
+     * @param endDate The end
+     * @param attendees The attendees
+     */
+    public Event(long id, String title, String description, Date startDate, Date endDate, List<Person> attendees, String location) {
+        mId = id;
+        mTitle = title;
+        mDescription = description;
+        mStartDate = startDate;
+        mEndDate = endDate;
+        mAttendees = attendees;
+        mLocation = location;
+    }
+
     private static Event fromCursor(Context context, Cursor cur) {
         ContentResolver cr = context.getContentResolver();
         String title = cur.getString(PRJ_EVT_TITLE);
         String description = cur.getString(PRJ_EVT_DESCRIPTION);
-        Date dtStart = new Date(cur.getInt(PRJ_EVT_DTSTART));
-        Date dtEnd = new Date(cur.getInt(PRJ_EVT_DTEND));
+        Date dtStart = new Date(cur.getLong(PRJ_EVT_DTSTART));
+        Date dtEnd = new Date(cur.getLong(PRJ_EVT_DTEND));
         String location = cur.getString(PRJ_EVT_LOC);
         int eventId = cur.getInt(PRJ_EVT_ID);
         Cursor attCur = cr.query(
@@ -68,18 +108,18 @@ public class Event {
         for (int i = 0; i < attCur.getCount(); i++) {
             String email = attCur.getString(PRJ_ATT_EMAIL);
             Person attendee = Person.getPerson(context, email);
-            if(attendee == null) {
+            if (attendee == null) {
                 List<String> emails = new ArrayList<String>();
                 emails.add(email);
                 attendee = new Person(
-                    0,
-                    attCur.getString(PRJ_ATT_NAME),
-                    "",
-                    "",
-                    emails,
-                    new ArrayList<String>(),
-                    null,
-                    0
+                        0,
+                        attCur.getString(PRJ_ATT_NAME),
+                        "",
+                        "",
+                        emails,
+                        new ArrayList<String>(),
+                        null,
+                        0
                 );
             }
             attendees.add(attendee);
@@ -111,7 +151,7 @@ public class Event {
                 null,
                 null);
         evtCur.moveToFirst();
-        if(evtCur.getCount() < 1) {
+        if (evtCur.getCount() < 1) {
             return null;
         }
         Event event = fromCursor(context, evtCur);
@@ -124,8 +164,8 @@ public class Event {
      * @param context A context to fetch the events from
      * @return A list of events
      */
-    public static List<Event> getUpcomingEvents(Context context) {
-        return  getUpcomingEvents(context, 50);
+    public static EventsList getUpcomingEvents(Context context) {
+        return getUpcomingEvents(context, 50);
     }
 
     /**
@@ -134,7 +174,7 @@ public class Event {
      * @param limit The amount of maximum events to fetch
      * @return A list of events
      */
-    public static List<Event> getUpcomingEvents(Context context, int limit) {
+    public static EventsList getUpcomingEvents(Context context, int limit) {
         ContentResolver cr = context.getContentResolver();
 
         Calendar now = Calendar.getInstance();
@@ -147,7 +187,7 @@ public class Event {
                 ,
                 null,
                 CalendarContract.Events.DTSTART + " ASC LIMIT " + limit);
-        List<Event> events = new ArrayList<Event>();
+        EventsList events = new EventsList();
         evtCur.moveToFirst();
         for (int i = 0; i < evtCur.getCount(); i++) {
             events.add(fromCursor(context, evtCur));
@@ -155,25 +195,6 @@ public class Event {
         }
         evtCur.close();
         return events;
-    }
-
-    /**
-     * Creates a new event
-     * @param id The unique identifier for the event
-     * @param title The title
-     * @param description The description
-     * @param startDate The beginning
-     * @param endDate The end
-     * @param attendees The attendees
-     */
-    public Event(long id, String title, String description, Date startDate, Date endDate, List<Person> attendees, String location) {
-        mId = id;
-        mTitle = title;
-        mDescription = description;
-        mStartDate = startDate;
-        mEndDate = endDate;
-        mAttendees = attendees;
-        mLocation = location;
     }
 
     /**
@@ -230,5 +251,21 @@ public class Event {
      */
     public String getLocation() {
         return mLocation;
+    }
+
+    @Override
+    public int describeContents() {
+        return EVENT_PARCELABLE;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(mId);
+        dest.writeString(mTitle);
+        dest.writeString(mDescription);
+        dest.writeLong(mStartDate.getTime());
+        dest.writeLong(mEndDate.getTime());
+        dest.writeTypedList(mAttendees);
+        dest.writeString(mLocation);
     }
 }

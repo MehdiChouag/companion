@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.provider.ContactsContract;
 
 import java.util.ArrayList;
@@ -13,14 +15,35 @@ import java.util.List;
 /**
  * Represents a Contact/Attendee
  */
-public class Person {
+public class Person implements Parcelable {
+    public static final Parcelable.Creator<Person> CREATOR = new Parcelable.Creator<Person>() {
+
+        @Override
+        public Person createFromParcel(Parcel source) {
+            long id = source.readLong();
+            String name = source.readString();
+            String company = source.readString();
+            String job = source.readString();
+            List<String> emails = new ArrayList<String>();
+            source.readStringList(emails);
+            List<String> numbers = new ArrayList<String>();
+            source.readStringList(numbers);
+            Bitmap thumb = source.readParcelable(ClassLoader.getSystemClassLoader());
+            long imgId = source.readLong();
+            return new Person(id, name, company, job, emails, numbers, thumb, imgId);
+        }
+
+        @Override
+        public Person[] newArray(int size) {
+            return new Person[size];
+        }
+    };
     private static final String[] NAME_PROJECTION = new String[] {
             ContactsContract.Data.CONTACT_ID,
             ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME
     };
     private static final int PRJ_CON_ID = 0;
     private static final int PRJ_DISP_NAME = 1;
-
     private static final String[] PHOTO_PROJECTION = new String[] {
             ContactsContract.Data.CONTACT_ID,
             ContactsContract.CommonDataKinds.Photo.PHOTO,
@@ -28,19 +51,16 @@ public class Person {
     };
     private static final int PRJ_PHOTO_THUMB = 1;
     private static final int PRJ_PHOTO_ID = 2;
-
     private static final String[] PHONE_PROJECTION = new String[] {
             ContactsContract.Data.CONTACT_ID,
             ContactsContract.CommonDataKinds.Email.ADDRESS
     };
     private static final int PRJ_EMAIL_ADDRESS = 1;
-
     private static final String[] EMAIL_PROJECTION = new String[] {
             ContactsContract.Data.CONTACT_ID,
             ContactsContract.CommonDataKinds.Phone.NUMBER
     };
     private static final int PRJ_PHONE_NUMBER = 1;
-
     private static final String[] JOB_PROJECTION = new String[] {
             ContactsContract.Data.CONTACT_ID,
             ContactsContract.CommonDataKinds.Organization.COMPANY,
@@ -48,7 +68,7 @@ public class Person {
     };
     private static final int PRJ_JOB_COMPANY = 1;
     private static final int PRJ_JOB_TITLE = 2;
-
+    private static final int PERSON_PARCELABLE = 11;
     private final String mName;
     private final String mJob;
     private final String mCompany;
@@ -57,6 +77,28 @@ public class Person {
     private final Bitmap mThumb;
     private final long mPhotoId;
     private final long mId;
+
+    /**
+     * Creates a new Person
+     * @param id Their id
+     * @param name Their name
+     * @param job Their job name
+     * @param company Their company
+     * @param emails Their emails
+     * @param numbers Their phone numbers
+     * @param thumb Their photo thumb
+     * @param photoId A reference to the photo
+     */
+    public Person(long id, String name, String company, String job, List<String> emails, List<String> numbers, Bitmap thumb, long photoId) {
+        mId = id;
+        mName = name;
+        mCompany = company;
+        mJob = job;
+        mEmails = emails;
+        mNumbers = numbers;
+        mThumb = thumb;
+        mPhotoId = photoId;
+    }
 
     /**
      * Retrieve a person from their id
@@ -72,13 +114,13 @@ public class Person {
                 ContactsContract.Data.CONTENT_URI,
                 NAME_PROJECTION,
                 ContactsContract.Data.CONTACT_ID + "=" + id +
-                " and " +
-                ContactsContract.Data.MIMETYPE + "='" + ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE + "'",
+                        " and " +
+                        ContactsContract.Data.MIMETYPE + "='" + ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE + "'",
                 null,
                 null);
         nameCur.moveToFirst();
         String name;
-        if(nameCur.getCount() > 0) {
+        if (nameCur.getCount() > 0) {
             name = nameCur.getString(PRJ_DISP_NAME);
         } else {
             return null;
@@ -89,16 +131,16 @@ public class Person {
                 ContactsContract.Data.CONTENT_URI,
                 PHOTO_PROJECTION,
                 ContactsContract.Data.CONTACT_ID + "=" + id +
-                " and " +
-                ContactsContract.Data.MIMETYPE + "='" + ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE + "'",
+                        " and " +
+                        ContactsContract.Data.MIMETYPE + "='" + ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE + "'",
                 null,
                 null);
         photoCur.moveToFirst();
         Bitmap thumb = null;
         long photoId = 0;
-        if(photoCur.getCount() > 0) {
+        if (photoCur.getCount() > 0) {
             byte[] thumbBlob = photoCur.getBlob(PRJ_PHOTO_THUMB);
-            if(thumbBlob != null) {
+            if (thumbBlob != null) {
                 thumb = BitmapFactory.decodeByteArray(thumbBlob, 0, thumbBlob.length);
                 photoId = photoCur.getLong(PRJ_PHOTO_ID);
             }
@@ -109,8 +151,8 @@ public class Person {
                 ContactsContract.Data.CONTENT_URI,
                 EMAIL_PROJECTION,
                 ContactsContract.Data.CONTACT_ID + "=" + id +
-                " and " +
-                ContactsContract.Data.MIMETYPE + "='" + ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE + "'",
+                        " and " +
+                        ContactsContract.Data.MIMETYPE + "='" + ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE + "'",
                 null,
                 null);
         emCur.moveToFirst();
@@ -125,8 +167,8 @@ public class Person {
                 ContactsContract.Data.CONTENT_URI,
                 PHONE_PROJECTION,
                 ContactsContract.Data.CONTACT_ID + "=" + id +
-                " and " +
-                ContactsContract.Data.MIMETYPE + "='" + ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE + "'",
+                        " and " +
+                        ContactsContract.Data.MIMETYPE + "='" + ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE + "'",
                 null,
                 null);
         phCur.moveToFirst();
@@ -143,12 +185,12 @@ public class Person {
                 ContactsContract.Data.CONTENT_URI,
                 JOB_PROJECTION,
                 ContactsContract.Data.CONTACT_ID + "=" + id +
-                " and " +
-                ContactsContract.Data.MIMETYPE + "='" + ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE + "'",
+                        " and " +
+                        ContactsContract.Data.MIMETYPE + "='" + ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE + "'",
                 null,
                 null);
         jobCur.moveToFirst();
-        if(jobCur.getCount() > 0) {
+        if (jobCur.getCount() > 0) {
             company = jobCur.getString(PRJ_JOB_COMPANY);
             title = jobCur.getString(PRJ_JOB_TITLE);
         }
@@ -181,34 +223,12 @@ public class Person {
                 null,
                 null);
         emCur.moveToFirst();
-        if(emCur.getCount() < 1) {
+        if (emCur.getCount() < 1) {
             return null;
         }
         long id = emCur.getLong(PRJ_CON_ID);
         emCur.close();
         return getPerson(context, id);
-    }
-
-    /**
-     * Creates a new Person
-     * @param id Their id
-     * @param name Their name
-     * @param job Their job name
-     * @param company Their company
-     * @param emails Their emails
-     * @param numbers Their phone numbers
-     * @param thumb Their photo thumb
-     * @param photoId A reference to the photo
-     */
-    public Person(long id, String name, String company, String job, List<String> emails, List<String> numbers, Bitmap thumb, long photoId) {
-        mId = id;
-        mName = name;
-        mCompany = company;
-        mJob = job;
-        mEmails = emails;
-        mNumbers = numbers;
-        mThumb = thumb;
-        mPhotoId = photoId;
     }
 
     /**
@@ -273,5 +293,22 @@ public class Person {
      */
     public long getPhotoId() {
         return mPhotoId;
+    }
+
+    @Override
+    public int describeContents() {
+        return PERSON_PARCELABLE;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(mId);
+        dest.writeString(mName);
+        dest.writeString(mCompany);
+        dest.writeString(mJob);
+        dest.writeStringList(mEmails);
+        dest.writeStringList(mNumbers);
+        dest.writeParcelable(mThumb, flags);
+        dest.writeLong(mPhotoId);
     }
 }

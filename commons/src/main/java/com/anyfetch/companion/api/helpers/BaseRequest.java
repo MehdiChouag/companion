@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.octo.android.robospice.request.okhttp.OkHttpSpiceRequest;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.Request;
@@ -37,7 +38,8 @@ public abstract class BaseRequest<T> extends OkHttpSpiceRequest<T> {
     protected BaseRequest(Class<T> klass, Context context) {
         super(klass);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        mApiUrl = preferences.getString("apiUrl", "https://anyfetch-companion.herokuapp.com");
+        // TODO: get rid of -staging before merging
+        mApiUrl = preferences.getString("apiUrl", "https://anyfetch-companion-staging.herokuapp.com");
         mApiToken = preferences.getString("apiToken", null);
     }
 
@@ -61,7 +63,10 @@ public abstract class BaseRequest<T> extends OkHttpSpiceRequest<T> {
             throw new HttpException("Server returned code " + response.code());
         }
         if(getParseJson()) {
-            return new Gson().fromJson(response.body().string(), getResultType());
+            Gson gson = new GsonBuilder()
+                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+                    .create();
+            return gson.fromJson(response.body().string(), getResultType());
         } else {
             return null;
         }
