@@ -15,5 +15,8 @@
     <string name="action_improve_context">Improve Context</string>
     <string name="date_yesterday">Yesterday</string>
     <string name="text_no_documents">No matching context</string>
+    <string name="action_prepare_on_wear">Prepare on Wear</string>
+    <string name="notification_prepare_your_meeting">Prepare your next meeting !</string>
+    <string name="notification_remaining">In %1$d minutes: %2$s </string>
 
 </resources>

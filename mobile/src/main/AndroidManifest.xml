@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -38,6 +39,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.anyfetch.companion.mobile.UpcomingEventsActivity"/>
         </activity>
+
+        <receiver
+            android:name=".commons.notifications.MeetingPreparationAlarm"
+            android:process=":remote"></receiver>
+        <receiver
+            android:name=".notifications.MeetingPreparationNotification"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.anyfetch.companion.SHOW_NOTIFICATION"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
