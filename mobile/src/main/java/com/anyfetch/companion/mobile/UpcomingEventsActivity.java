@@ -22,18 +22,18 @@ import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
 public class UpcomingEventsActivity extends ListActivity implements RequestListener<EventsList> {
-    protected SpiceManager spiceManager = new SpiceManager(AndroidSpiceService.class);
+    protected SpiceManager mSpiceManager = new SpiceManager(AndroidSpiceService.class);
     private EventsListAdapter mListAdapter;
 
     @Override
     protected void onStart() {
         super.onStart();
-        spiceManager.start(this);
+        mSpiceManager.start(this);
     }
 
     @Override
     protected void onStop() {
-        spiceManager.shouldStop();
+        mSpiceManager.shouldStop();
         super.onStop();
     }
 
@@ -53,7 +53,7 @@ public class UpcomingEventsActivity extends ListActivity implements RequestListe
             setListAdapter(mListAdapter);
 
             GetUpcomingEventsRequest request = new GetUpcomingEventsRequest(getApplicationContext());
-            spiceManager.execute(request, null, 0, this);
+            mSpiceManager.execute(request, null, 0, this);
         }
     }
 

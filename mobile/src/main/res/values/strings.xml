@@ -12,5 +12,8 @@
     <string name="multiple_attendees">Attendees</string>
     <string name="title_upcoming_meetings">Upcoming Meetings</string>
     <string name="title_activity_context">Context</string>
+    <string name="action_improve_context">Improve Context</string>
+    <string name="date_yesterday">Yesterday</string>
+    <string name="text_no_documents">No matching context</string>
 
 </resources>

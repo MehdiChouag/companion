@@ -29,7 +29,7 @@ public class AuthActivity extends Activity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 if (url.startsWith("https://localhost/done/")) {
-                    String apiToken = url.substring(0, url.lastIndexOf('/') + 1);
+                    String apiToken = url.substring(url.lastIndexOf('/') + 1, url.length());
                     backToUpcoming(apiToken);
                 }
             }

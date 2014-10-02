@@ -2,8 +2,8 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="com.anyfetch.companion.mobile.ContextActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_improve_context"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/action_settings"/>
+        android:title="@string/action_improve_context"/>
 </menu>

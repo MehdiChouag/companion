@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.octo.android.robospice.request.okhttp.OkHttpSpiceRequest;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.Request;
@@ -62,7 +63,10 @@ public abstract class BaseRequest<T> extends OkHttpSpiceRequest<T> {
             throw new HttpException("Server returned code " + response.code());
         }
         if(getParseJson()) {
-            return new Gson().fromJson(response.body().string(), getResultType());
+            Gson gson = new GsonBuilder()
+                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+                    .create();
+            return gson.fromJson(response.body().string(), getResultType());
         } else {
             return null;
         }

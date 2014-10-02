@@ -1,34 +1,37 @@
 package com.anyfetch.companion.mobile.fragments;
 
-import android.app.Fragment;
+import android.app.ListFragment;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 
-import com.anyfetch.companion.android.AndroidSpiceService;
 import com.anyfetch.companion.android.Event;
+import com.anyfetch.companion.android.Person;
+import com.anyfetch.companion.api.GetDocumentsListRequest;
 import com.anyfetch.companion.api.HttpSpiceService;
+import com.anyfetch.companion.api.pojo.DocumentsList;
 import com.anyfetch.companion.mobile.R;
+import com.anyfetch.companion.mobile.adapters.DocumentsListAdapter;
 import com.octo.android.robospice.SpiceManager;
+import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.listener.RequestListener;
 
 /**
  * Stores the context around an given context (Event, Person, …)
  */
-public class ContextFragment extends Fragment {
+public class ContextFragment extends ListFragment implements RequestListener<DocumentsList> {
     public static final String ARG_TYPE = "type";
     public static final String ARG_PARCELABLE = "parcelable";
 
     public static final String TYPE_EVENT = "event";
 
-    private SpiceManager mAndroidSpiceManager = new SpiceManager(AndroidSpiceService.class);
-    private SpiceManager mApiSpiceManager = new SpiceManager(HttpSpiceService.class);
+    private SpiceManager mSpiceManager = new SpiceManager(HttpSpiceService.class);
 
     private String mType;
     private Object mContext;
-    private WebView mWebView;
+    private DocumentsListAdapter mListAdapter;
 
 
     public ContextFragment() {
@@ -54,14 +57,12 @@ public class ContextFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        mAndroidSpiceManager.start(getActivity());
-        mApiSpiceManager.start(getActivity());
+        mSpiceManager.start(getActivity());
     }
 
     @Override
     public void onStop() {
-        mAndroidSpiceManager.shouldStop();
-        mApiSpiceManager.shouldStop();
+        mSpiceManager.shouldStop();
         super.onStop();
     }
 
@@ -79,14 +80,39 @@ public class ContextFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_context, container, false);
 
-        mWebView = (WebView) view.findViewById(R.id.webView);
-
-        if (mType.equals(TYPE_EVENT)) {
-            Event event = (Event) mContext;
-        }
+        GetDocumentsListRequest request = new GetDocumentsListRequest(getActivity(), getContextQuery());
+        mSpiceManager.execute(request, null, 0, this);
 
         return view;
     }
 
 
+    public String getContextQuery() {
+        if (mType.equals(TYPE_EVENT)) {
+            Event event = (Event) mContext;
+            String query = "(" + event.getTitle() + ")";
+            for (Person attendee : event.getAttendees()) {
+                if (attendee.getName() != null) {
+                    query += " OR (" + attendee.getName() + ")";
+                }
+                for (String email : attendee.getEmails()) {
+                    query += " OR (" + email + ")";
+                }
+            }
+            return query;
+        } else {
+            return "";
+        }
+    }
+
+    @Override
+    public void onRequestFailure(SpiceException spiceException) {
+        // TODO
+    }
+
+    @Override
+    public void onRequestSuccess(DocumentsList documents) {
+        mListAdapter = new DocumentsListAdapter(getActivity(), documents);
+        setListAdapter(mListAdapter);
+    }
 }
