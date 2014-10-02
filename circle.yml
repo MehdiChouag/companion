@@ -12,4 +12,4 @@ test:
   - $ANDROID_HOME/tools/emulator -avd testing -no-window -no-boot-anim -no-audio:
       background: true
   - ./wait.sh
-  - ./test.sh
+  -./companion/gradlew clean test
