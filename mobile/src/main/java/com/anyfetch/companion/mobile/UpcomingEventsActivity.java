@@ -1,7 +1,10 @@
 package com.anyfetch.companion.mobile;
 
 import android.app.ListActivity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -31,10 +34,24 @@ public class UpcomingEventsActivity extends ListActivity implements RequestListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upcoming_events);
 
-        GetUpcomingEventsRequest request = new GetUpcomingEventsRequest(getApplicationContext());
-        spiceManager.execute(request, null, 0, this);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String apiToken = preferences.getString("apiToken", null);
+
+        if(apiToken == null) {
+            openAuthActivity();
+        } else {
+            setContentView(R.layout.activity_upcoming_events);
+
+            GetUpcomingEventsRequest request = new GetUpcomingEventsRequest(getApplicationContext());
+            spiceManager.execute(request, null, 0, this);
+        }
+    }
+
+    private void openAuthActivity() {
+        Intent intent = new Intent(getApplicationContext(), AuthActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 
@@ -51,7 +68,18 @@ public class UpcomingEventsActivity extends ListActivity implements RequestListe
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        switch(id) {
+            case R.id.action_settings:
+                break;
+            case R.id.action_log_out:
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+                editor.putString("apiToken", null);
+                editor.commit();
+                openAuthActivity();
+                break;
+        }
         if (id == R.id.action_settings) {
+            openAuthActivity();
             return true;
         }
         return super.onOptionsItemSelected(item);

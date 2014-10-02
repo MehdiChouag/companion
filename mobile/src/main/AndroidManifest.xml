@@ -18,23 +18,13 @@
         <activity
             android:name=".AuthActivity"
             android:label="@string/title_activity_auth" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".UpcomingEventsActivity"
-            android:label="@string/title_activity_upcoming_events"
-            android:parentActivityName=".AuthActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.anyfetch.companion.mobile.AuthActivity" />
-
-            <!-- TODO: Before Merging delete this Intent Filter -->
+            android:label="@string/title_activity_upcoming_events">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
