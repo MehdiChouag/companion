@@ -12,6 +12,6 @@ if [ ! -e $DEPS ]; then
   echo y | android update sdk -u -a -t build-tools-20.0.0 &&
   echo y | android update sdk -u -a -t sys-img-x86-android-20 &&
   echo y | android update sdk -u -a -t addon-google_apis-google-20 &&
-  echo n | android create avd -n testing -f -t android-20 &&
+  echo n | android create avd -n testing -f -t android-20 --abi armeabi-v7a &&
   touch $DEPS
 fi
