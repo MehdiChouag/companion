@@ -14,28 +14,20 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * TODO: doc
+ * Generates a ListAdapter and group items in sections
  */
 public abstract class GroupedListAdapter<T> extends ArrayAdapter<T> {
     private final Context mContext;
     private HashMap<String, List<T>> mSections;
     private List<String> mSectionsOrder;
 
-    @Override
-    public boolean isEnabled(int position) {
-        int counted = 0;
-        for(String sectionName : mSectionsOrder) {
-            List<T> elements = mSections.get(sectionName);
-            if(counted == position) { // header
-                return false;
-            } else if(counted < position && position <= counted + elements.size()) { // element
-                return true;
-            }
-            counted += 1 + elements.size();
-        }
-        return false;
-    }
-
+    /**
+     * Creates a new GroupedListAdapter
+     *
+     * @param context  The app context
+     * @param resource The base resource
+     * @param elements The elements in the list
+     */
     public GroupedListAdapter(Context context, int resource, List<T> elements) {
         super(context, resource);
         mContext = context;
@@ -51,7 +43,21 @@ public abstract class GroupedListAdapter<T> extends ArrayAdapter<T> {
         }
     }
 
+    /**
+     * Gets the section name for an element
+     *
+     * @param element The element
+     * @return A title
+     */
     protected abstract String getSection(T element);
+
+    /**
+     * Gets the row view for an element
+     * @param element The element
+     * @param convertView The convert view
+     * @param parent The parent view
+     * @return A view (the row)
+     */
     protected abstract View getView(T element, View convertView, ViewGroup parent);
 
     @Override
@@ -64,6 +70,20 @@ public abstract class GroupedListAdapter<T> extends ArrayAdapter<T> {
         return count;
     }
 
+    @Override
+    public boolean isEnabled(int position) {
+        int counted = 0;
+        for (String sectionName : mSectionsOrder) {
+            List<T> elements = mSections.get(sectionName);
+            if (counted == position) { // header
+                return false;
+            } else if (counted < position && position <= counted + elements.size()) { // element
+                return true;
+            }
+            counted += 1 + elements.size();
+        }
+        return false;
+    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

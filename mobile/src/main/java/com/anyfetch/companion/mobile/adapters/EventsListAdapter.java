@@ -16,6 +16,7 @@ import com.anyfetch.companion.mobile.R;
 import com.anyfetch.companion.mobile.ui.ImageHelper;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -24,24 +25,30 @@ import java.util.List;
  */
 public class EventsListAdapter extends GroupedListAdapter<Event> {
 
+    /**
+     * Creates a new events adapter
+     *
+     * @param context The app context
+     * @param events  The events to show
+     */
     public EventsListAdapter(Context context, EventsList events) {
         super(context, R.layout.row_event, events);
     }
 
     @Override
     protected String getSection(Event element) {
-        Date now = new Date();
-        Date then = element.getStartDate();
-        if(now.getYear() == then.getYear() &&
-           now.getDate() == then.getDate() &&
-           now.getMonth() == then.getMonth()) {
+        Calendar now = Calendar.getInstance();
+        now.setTime(new Date());
+        Calendar then = Calendar.getInstance();
+        then.setTime(element.getStartDate());
+        if (now.get(Calendar.YEAR) == then.get(Calendar.YEAR) &&
+                now.get(Calendar.DAY_OF_YEAR) == then.get(Calendar.DAY_OF_YEAR)) {
             return getContext().getString(R.string.date_today);
-        } else if(now.getYear() == then.getYear() &&
-                  now.getDate() + 1 == then.getDate() &&
-                  now.getMonth() == then.getMonth()) {
+        } else if (now.get(Calendar.YEAR) == then.get(Calendar.YEAR) &&
+                now.get(Calendar.DAY_OF_YEAR) + 1 == then.get(Calendar.DAY_OF_YEAR)) {
             return getContext().getString(R.string.date_tomorrow);
         } else {
-            return then.getDate() + "/" + (then.getMonth() + 1);
+            return then.get(Calendar.DAY_OF_MONTH) + "/" + (then.get(Calendar.MONTH));
         }
     }
 
@@ -50,27 +57,39 @@ public class EventsListAdapter extends GroupedListAdapter<Event> {
         LayoutInflater inflater = (LayoutInflater) getContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.row_event, parent, false);
+
         ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView);
+        imageView.setImageBitmap(createAttendeesMosaic(event.getAttendees()));
+
         TextView titleView = (TextView) rowView.findViewById(R.id.titleView);
+        titleView.setText(event.getTitle());
+
         TextView locationView = (TextView) rowView.findViewById(R.id.locationView);
-        TextView timeView = (TextView) rowView.findViewById(R.id.timeView);
-        TextView attendeeView = (TextView) rowView.findViewById(R.id.attendeeView);
-
-        int attendees = event.getAttendees().size();
-        attendeeView.setText(String.format("%d %s", attendees, event.getAttendees().size() == 1 ? getContext().getString(R.string.one_attendee) : getContext().getString(R.string.multiple_attendees)));
-
-        Date start = event.getStartDate();
-        Date end = event.getEndDate();
-
         String location = event.getLocation();
         if(location == null) {
             location = "";
         }
         locationView.setText(location);
 
-        imageView.setImageBitmap(createAttendeesMosaic(event.getAttendees()));
-        titleView.setText(event.getTitle());
-        timeView.setText(String.format("%d:%d - %d:%d", start.getHours(), start.getMinutes(), end.getHours(), end.getMinutes()));
+        TextView timeView = (TextView) rowView.findViewById(R.id.timeView);
+        Calendar start = Calendar.getInstance();
+        start.setTime(event.getStartDate());
+        Calendar end = Calendar.getInstance();
+        end.setTime(event.getEndDate());
+        timeView.setText(
+                String.format("%d:%d - %d:%d",
+                        start.get(Calendar.HOUR_OF_DAY),
+                        start.get(Calendar.MINUTE),
+                        end.get(Calendar.HOUR_OF_DAY),
+                        end.get(Calendar.MINUTE)));
+
+        TextView attendeeView = (TextView) rowView.findViewById(R.id.attendeeView);
+        int attendees = event.getAttendees().size();
+        if (attendees > 0) {
+            attendeeView.setText(String.format("%d %s", attendees, event.getAttendees().size() == 1 ? getContext().getString(R.string.one_attendee) : getContext().getString(R.string.multiple_attendees)));
+        } else {
+            attendeeView.setText("");
+        }
 
         return rowView;
     }
@@ -85,11 +104,6 @@ public class EventsListAdapter extends GroupedListAdapter<Event> {
         }
         int size = thumbs.size();
         if(size > 0) {
-            if(size > 3) {
-
-            } else if(size > 1) {
-
-            }
             return ImageHelper.getRoundedCornerBitmap(thumbs.get(0), 200);
         }
 

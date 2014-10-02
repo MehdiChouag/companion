@@ -1,15 +1,25 @@
 package com.anyfetch.companion.mobile.ui;
 
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.Bitmap.Config;
-import android.graphics.PorterDuff.Mode;
 
+/**
+ * Various helpers to work with bitmaps
+ */
 public class ImageHelper {
+    /**
+     * Round the corners of an image
+     *
+     * @param bitmap The image
+     * @param pixels The border radius
+     * @return A new bitmap
+     */
     public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
                 .getHeight(), Config.ARGB_8888);

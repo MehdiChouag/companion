@@ -30,8 +30,8 @@ public class AuthActivity extends Activity {
             }
 
             @Override
-            public void onPageFinished(WebView view, String url)  {
-                if(url.startsWith("https://localhost/done/")) {
+            public void onPageFinished(WebView view, String url) {
+                if (url.startsWith("https://localhost/done/")) {
                     String apiToken = url.substring(0, url.lastIndexOf('/') + 1);
                     quitActivity(apiToken);
                 }
