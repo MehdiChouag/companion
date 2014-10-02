@@ -23,7 +23,7 @@ public class DocumentsListAdapter extends GroupedListAdapter<Document> {
                     "<meta charset='utf-8'>" +
                     "<style type='text/css'>" + CSS + "</style>" +
                     "</head>" +
-                    "<body style='font-family: Roboto; margin: 0; padding: 0;'>";
+                    "<body style='font-family: Roboto; font-size: 14px; margin: 0; padding: 0;'>";
     private final String FOOTER =
             "</body>" +
                     "</html>";
