@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-    package="com.anyfetch.companion.mobile"
+    package="com.anyfetch.companion"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -18,11 +18,11 @@
             android:exported="false"/>
 
         <activity
-            android:name=".AuthActivity"
+            android:name=".mobile.AuthActivity"
             android:label="@string/title_activity_auth">
         </activity>
         <activity
-            android:name=".UpcomingEventsActivity"
+            android:name=".mobile.UpcomingEventsActivity"
             android:label="@string/title_activity_upcoming_events">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -31,9 +31,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ContextActivity"
+            android:name=".mobile.ContextActivity"
             android:label="@string/title_activity_context"
-            android:parentActivityName=".UpcomingEventsActivity">
+            android:parentActivityName=".mobile.UpcomingEventsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.anyfetch.companion.mobile.UpcomingEventsActivity"/>

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.anyfetch.companion.wear">
+    package="com.anyfetch.companion">
     <uses-feature android:name="android.hardware.type.watch" />
 
     <uses-permission android:name="android.permission.INTERNET" />
