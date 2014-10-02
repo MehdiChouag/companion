@@ -1,0 +1,16 @@
+machine:
+  environment:
+    ANDROID_HOME: /home/ubuntu/android
+dependencies:
+  cache_directories:
+    - ~/.android
+    - ~/android
+  override:
+    - ./install-dependencies.sh
+    - ./wait.sh
+test:
+  override:
+  - $ANDROID_HOME/tools/emulator -avd testing -no-window -no-boot-anim -no-audio:
+      background: true
+  - ./wait.sh
+  - ./test.sh
