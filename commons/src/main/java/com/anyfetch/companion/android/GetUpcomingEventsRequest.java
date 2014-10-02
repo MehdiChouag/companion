@@ -21,3 +21,4 @@ public class GetUpcomingEventsRequest extends SpiceRequest<EventsList> {
         return Event.getUpcomingEvents(mContext);
     }
 }
+
