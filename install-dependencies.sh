@@ -13,6 +13,8 @@ if [ ! -e $DEPS ]; then
   echo y | android update sdk -u -a -t build-tools-20.0.0 > /dev/null &&
   echo y | android update sdk -u -a -t sys-img-x86-android-19 > /dev/null &&
   echo y | android update sdk -u -a -t addon-google_apis-google-18 > /dev/null &&
+  echo y | android update sdk -u -a -t extra-google-m2repository > /dev/null &&
+  echo y | android update sdk -u -a -t extra-android-m2repository > /dev/null &&
   echo n | android create avd -n testing -f -t android-19 &&
   touch $DEPS
 fi
