@@ -12,8 +12,8 @@ public class GetEventRequest extends SpiceRequest<Event> {
     private final long mId;
     private final Context mContext;
 
-    public GetEventRequest(Class<Event> klass, Context context, long id) {
-        super(klass);
+    public GetEventRequest(Context context, long id) {
+        super(Event.class);
         mContext = context;
         mId = id;
     }

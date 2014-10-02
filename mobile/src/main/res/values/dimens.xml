@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <dimen name="thumb_event_size">40dp</dimen>
     <dimen name="list_margin">15dp</dimen>
     <dimen name="header_height">60dp</dimen>
     <dimen name="event_height">40dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
 </resources>

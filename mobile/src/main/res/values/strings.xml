@@ -11,5 +11,6 @@
     <string name="one_attendee">Attendee</string>
     <string name="multiple_attendees">Attendees</string>
     <string name="title_upcoming_meetings">Upcoming Meetings</string>
+    <string name="title_activity_context">Context</string>
 
 </resources>
