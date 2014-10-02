@@ -2,6 +2,8 @@ package com.anyfetch.companion.mobile;
 
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.anyfetch.companion.UpcomingEventsActivity;
+
 public class UpcomingEventsActivityTest extends ActivityInstrumentationTestCase2<UpcomingEventsActivity> {
     private UpcomingEventsActivity mActivity;
 
