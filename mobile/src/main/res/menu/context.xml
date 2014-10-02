@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:tools="http://schemas.android.com/tools"
-      tools:context="com.anyfetch.companion.mobile.ContextActivity">
+      tools:context="com.anyfetch.companion.ContextActivity">
     <item
         android:id="@+id/action_improve_context"
         android:orderInCategory="100"
