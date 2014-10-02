@@ -7,7 +7,6 @@ dependencies:
     - ~/android
   override:
     - ./install-dependencies.sh
-    - ./wait.sh
 test:
   override:
   - $ANDROID_HOME/tools/emulator -avd testing -no-window -no-boot-anim -no-audio:
