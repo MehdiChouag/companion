@@ -6,11 +6,11 @@ import java.util.Date;
  * A class used to deflate AnyFetch documents
  */
 public class Document {
-    private String type;
-    private String documentId;
-    private String companyId;
-    private String eventId;
-    private Date date;
+    private final String type;
+    private final String documentId;
+    private final String companyId;
+    private final String eventId;
+    private final Date date;
 
     public Document() {
         this.type = "";

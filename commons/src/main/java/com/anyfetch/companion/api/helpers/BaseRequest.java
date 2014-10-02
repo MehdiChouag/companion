@@ -12,7 +12,6 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpException;
 
 import java.net.URI;
@@ -24,8 +23,8 @@ import java.util.Map;
  * Defines a base request to the API
  */
 public abstract class BaseRequest<T> extends OkHttpSpiceRequest<T> {
-    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    public static final MediaType TEXT = MediaType.parse("text/plain; charset=utf-8");
+    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private static final MediaType TEXT = MediaType.parse("text/plain; charset=utf-8");
 
     private final String mApiUrl;
     private final String mApiToken;
@@ -35,7 +34,7 @@ public abstract class BaseRequest<T> extends OkHttpSpiceRequest<T> {
      * @param klass The class used to deflate the result
      * @param context An Android Context
      */
-    public BaseRequest(Class<T> klass, Context context) {
+    protected BaseRequest(Class<T> klass, Context context) {
         super(klass);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         mApiUrl = preferences.getString("apiUrl", "https://anyfetch-companion.herokuapp.com");
@@ -48,7 +47,7 @@ public abstract class BaseRequest<T> extends OkHttpSpiceRequest<T> {
         String content = getContent();
         if(content != null) {
             body = RequestBody.create(JSON, content);
-        } else if(getMethod() != "GET") {
+        } else if(!getMethod().equals("GET")) {
             body = RequestBody.create(TEXT, "");
         }
         Request.Builder builder = new Request.Builder().url(getUri().toURL()).method(getMethod(), body);
