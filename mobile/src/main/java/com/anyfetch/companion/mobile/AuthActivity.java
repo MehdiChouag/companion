@@ -9,9 +9,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 public class AuthActivity extends Activity {
-    private String mApiUrl;
-    private WebView mWebView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,10 +16,10 @@ public class AuthActivity extends Activity {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         // TODO: get rid of -staging before merging
-        mApiUrl = preferences.getString("apiUrl", "https://anyfetch-companion-staging.herokuapp.com");
+        String apiUrl = preferences.getString("apiUrl", "https://anyfetch-companion-staging.herokuapp.com");
 
-        mWebView = (WebView) findViewById(R.id.webView);
-        mWebView.setWebViewClient(new WebViewClient() {
+        WebView webView = (WebView) findViewById(R.id.webView);
+        webView.setWebViewClient(new WebViewClient() {
             // Ignore redirection to browser
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -33,17 +30,17 @@ public class AuthActivity extends Activity {
             public void onPageFinished(WebView view, String url) {
                 if (url.startsWith("https://localhost/done/")) {
                     String apiToken = url.substring(0, url.lastIndexOf('/') + 1);
-                    quitActivity(apiToken);
+                    backToUpcoming(apiToken);
                 }
             }
         });
-        mWebView.loadUrl(mApiUrl + "/init/connect");
+        webView.loadUrl(apiUrl + "/init/connect");
     }
 
-    private void quitActivity(String apiToken) {
+    private void backToUpcoming(String apiToken) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
         editor.putString("apiToken", apiToken);
-        editor.commit();
+        editor.apply();
 
         Intent intent = new Intent(getApplicationContext(), UpcomingEventsActivity.class);
         startActivity(intent);

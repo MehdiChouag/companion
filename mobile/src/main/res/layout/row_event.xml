@@ -1,59 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout
-    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
     android:padding="@dimen/list_margin">
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="@dimen/thumb_event_size"
         android:layout_height="@dimen/thumb_event_size"
-        android:id="@+id/imageView"
         android:layout_gravity="center_vertical"/>
 
     <FrameLayout
-        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/event_height"
+        android:orientation="vertical"
         android:paddingLeft="@dimen/list_margin">
 
         <TextView
+            android:id="@+id/titleView"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
+            android:layout_gravity="start|top"
+            android:ellipsize="start"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black"
-            android:text="Title"
-            android:id="@+id/titleView"
-            android:layout_gravity="start|left|top"
-            android:ellipsize="start"/>
+            android:textColor="@android:color/black"/>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/darker_gray"
-            android:text="Time"
             android:id="@+id/timeView"
-            android:layout_gravity="end|top"/>
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end|top"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/black"
-            android:text="Location"
+            android:textColor="@android:color/darker_gray"/>
+
+        <TextView
             android:id="@+id/locationView"
-            android:layout_gravity="bottom|end"/>
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/black"
-            android:text="Attendees"
+            android:textColor="@android:color/black"/>
+
+        <TextView
             android:id="@+id/attendeeView"
-            android:layout_gravity="bottom|start"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/black"/>
     </FrameLayout>
 </LinearLayout>

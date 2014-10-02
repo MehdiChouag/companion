@@ -4,8 +4,6 @@ import android.content.Context;
 
 import com.octo.android.robospice.request.SpiceRequest;
 
-import java.util.List;
-
 /**
  * Gets the upcoming requests
  */

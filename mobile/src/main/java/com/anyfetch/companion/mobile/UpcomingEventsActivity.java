@@ -71,7 +71,7 @@ public class UpcomingEventsActivity extends ListActivity implements RequestListe
             case R.id.action_log_out:
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
                 editor.putString("apiToken", null);
-                editor.commit();
+                editor.apply();
                 openAuthActivity();
                 break;
         }
