@@ -11,5 +11,4 @@ test:
   override:
   - $ANDROID_HOME/tools/emulator -avd testing -no-window -no-boot-anim -no-audio:
       background: true
-  - cd companion
   - ./gradlew clean test
