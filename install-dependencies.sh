@@ -9,6 +9,7 @@ if [ ! -e $DEPS ]; then
   cp -r /usr/local/android-sdk-linux $ANDROID_HOME &&
   echo y | android update sdk -u -a -t android-L > /dev/null &&
   echo y | android update sdk -u -a -t android-19 > /dev/null &&
+  echo y | android update sdk -u -a -t android-20 > /dev/null &&
   echo y | android update sdk -u -a -t platform-tools > /dev/null &&
   echo y | android update sdk -u -a -t build-tools-20.0.0 > /dev/null &&
   echo y | android update sdk -u -a -t sys-img-x86-android-19 > /dev/null &&
