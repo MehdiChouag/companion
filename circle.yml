@@ -15,7 +15,7 @@ test:
   - ./gradlew clean
   - ./gradlew lint
   - ./wait.sh
-  - ./gradlew build connectedCheck
+  - ./gradlew connectedCheck
 general:
   artifacts:
     - commons/build/outputs
