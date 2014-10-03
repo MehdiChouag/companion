@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issue id="InvalidPackage">
+    <ignore regexp="okio-1.0.0.jar" />
+    <ignore regexp="bcprov-jdk15on-1.50.jar" />
+</issue>

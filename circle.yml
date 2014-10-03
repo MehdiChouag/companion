@@ -11,4 +11,7 @@ test:
   override:
   - $ANDROID_HOME/tools/emulator -avd testing -no-window -no-boot-anim -no-audio:
       background: true
-  - ./gradlew clean test
+  - ./gradlew clean
+  - ./gradlew lint
+  - ./wait.sh
+  - ./gradlew build connectedCheck
