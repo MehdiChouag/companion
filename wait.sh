@@ -2,7 +2,6 @@
 
 export PATH="$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:$PATH"
 
-sleep 20
 while true; do
   BOOTUP=$(adb shell getprop init.svc.bootanim | grep -oe '[a-z]\+')
   if [[ "$BOOTUP" = "stopped" ]]; then
