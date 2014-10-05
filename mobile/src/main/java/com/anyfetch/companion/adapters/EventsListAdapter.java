@@ -3,6 +3,7 @@ package com.anyfetch.companion.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,36 +55,46 @@ public class EventsListAdapter extends GroupedListAdapter<Event> {
 
     @Override
     protected View getView(Event event, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) getContext()
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.row_event, parent, false);
+		if(convertView == null || convertView.findViewById(R.id.imageView) == null) {
+			LayoutInflater inflater = (LayoutInflater) getContext()
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			convertView = inflater.inflate(R.layout.row_event, parent, false);
+		}
 
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView);
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
         imageView.setImageBitmap(createAttendeesMosaic(event.getAttendees()));
 
-        TextView titleView = (TextView) rowView.findViewById(R.id.titleView);
+        TextView titleView = (TextView) convertView.findViewById(R.id.titleView);
         titleView.setText(event.getTitle());
 
-        TextView locationView = (TextView) rowView.findViewById(R.id.locationView);
+        TextView locationView = (TextView) convertView.findViewById(R.id.locationView);
         String location = event.getLocation();
         if(location == null) {
             location = "";
         }
         locationView.setText(location);
 
-        TextView timeView = (TextView) rowView.findViewById(R.id.timeView);
+        TextView timeView = (TextView) convertView.findViewById(R.id.timeView);
         Calendar start = Calendar.getInstance();
         start.setTime(event.getStartDate());
         Calendar end = Calendar.getInstance();
         end.setTime(event.getEndDate());
-        timeView.setText(
-                String.format("%d:%d - %d:%d",
-                        start.get(Calendar.HOUR_OF_DAY),
-                        start.get(Calendar.MINUTE),
-                        end.get(Calendar.HOUR_OF_DAY),
-                        end.get(Calendar.MINUTE)));
 
-        TextView attendeeView = (TextView) rowView.findViewById(R.id.attendeeView);
+		Log.e("WTF", "Duration:" + (end.getTimeInMillis() - start.getTimeInMillis()));
+
+		if(end.getTimeInMillis() - start.getTimeInMillis() != 1000 * 60 * 60 * 24) {
+			timeView.setText(
+					String.format("%d:%d - %d:%d",
+							start.get(Calendar.HOUR_OF_DAY),
+							start.get(Calendar.MINUTE),
+							end.get(Calendar.HOUR_OF_DAY),
+							end.get(Calendar.MINUTE)));
+		}
+		else {
+			timeView.setText("");
+		}
+
+        TextView attendeeView = (TextView) convertView.findViewById(R.id.attendeeView);
         int attendees = event.getAttendees().size();
         if (attendees > 0) {
             attendeeView.setText(String.format("%d %s", attendees, event.getAttendees().size() == 1 ? getContext().getString(R.string.one_attendee) : getContext().getString(R.string.multiple_attendees)));
@@ -91,7 +102,7 @@ public class EventsListAdapter extends GroupedListAdapter<Event> {
             attendeeView.setText("");
         }
 
-        return rowView;
+        return convertView;
     }
 
     private Bitmap createAttendeesMosaic(List<Person> attendees) {
