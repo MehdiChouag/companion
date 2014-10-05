@@ -4,11 +4,13 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
 import com.anyfetch.companion.ContextActivity;
+import com.anyfetch.companion.R;
 import com.anyfetch.companion.commons.android.Event;
 import com.anyfetch.companion.commons.android.Person;
 import com.anyfetch.companion.commons.api.GetDocumentsListRequest;
@@ -18,6 +20,7 @@ import com.anyfetch.companion.fragments.ContextFragment;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -63,19 +66,34 @@ public class BuildNotificationTask extends AsyncTask<Event, Object, Object> {
         viewIntent.putExtra(ContextFragment.ARG_PARCELABLE, event);
         PendingIntent viewPendingIntent = PendingIntent.getActivity(mContext, 0, viewIntent, 0);
 
-
-        NotificationCompat.WearableExtender extender =
-                new NotificationCompat.WearableExtender()
-                        .addPages(getPagesFromDocuments(documents));
+        // Big View
+        NotificationCompat.BigTextStyle bigView = new NotificationCompat.BigTextStyle();
+        int attNumber = event.getAttendees().size();
+        String location = event.getLocation();
+        String bigViewText = "";
+        if(location != null) {
+            bigViewText += location + ", ";
+        }
+        if(attNumber == 1) {
+            bigViewText += mContext.getString(R.string.single_attendee);
+        } else {
+            bigViewText += String.format(mContext.getString(R.string.multiple_attendees), attNumber);
+        }
+        bigView.bigText(bigViewText);
 
         // Build the notification
+        long minutesBefore = (event.getStartDate().getTime() - new Date().getTime()) / (1000 * 60);
+
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(mContext)
                         .setSmallIcon(com.anyfetch.companion.commons.R.drawable.ic_launcher)
-                        .setContentTitle(event.getTitle())
-                        .setContentText("TODO: some text")
+                        .setContentTitle(String.format(mContext.getString(R.string.minutes_before), minutesBefore))
+                        .setContentText(event.getTitle())
                         .setContentIntent(viewPendingIntent)
-                        .extend(extender)
+                        .setStyle(bigView)
+                        /*.setLargeIcon(BitmapFactory.decodeResource(
+                                mContext.getResources(), R.drawable.notif_background
+                        ))*/
                         .setGroup(GROUP_KEY_EVENT + notificationId);
 
         // Wearable extender
@@ -104,12 +122,15 @@ public class BuildNotificationTask extends AsyncTask<Event, Object, Object> {
         request.setOkHttpClient(mClient);
         DocumentsList documents = request.loadDataFromNetwork();
 
+
+
         // Build the notification
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(mContext)
                         .setSmallIcon(com.anyfetch.companion.commons.R.drawable.ic_launcher)
                         .setContentTitle(attendee.getName())
                         .setContentText("TODO: some text")
+                        .setLargeIcon(attendee.getThumb())
                         .setGroup(GROUP_KEY_EVENT + notificationId);
 
         // Wearable extender
@@ -125,6 +146,12 @@ public class BuildNotificationTask extends AsyncTask<Event, Object, Object> {
         List<Notification> pages = new ArrayList<Notification>();
         for (int i = 0; i < documents.size() && i < WEAR_CONTEXT_SIZE; i++) {
             Document document = documents.get(i);
+
+            // Big View
+            NotificationCompat.BigTextStyle bigView = new NotificationCompat.BigTextStyle();
+            bigView.bigText(document.getSnippet());
+
+            // Standard View
             NotificationCompat.Builder builder =
                     new NotificationCompat.Builder(mContext)
                             .setContentTitle(document.getTitle());

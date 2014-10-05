@@ -25,6 +25,8 @@ import java.util.List;
  */
 public class EventsListAdapter extends GroupedListAdapter<Event> {
 
+    private final Context mContext;
+
     /**
      * Creates a new events adapter
      *
@@ -33,6 +35,7 @@ public class EventsListAdapter extends GroupedListAdapter<Event> {
      */
     public EventsListAdapter(Context context, EventsList events) {
         super(context, R.layout.row_event, events);
+        mContext = context;
     }
 
     @Override
@@ -85,10 +88,10 @@ public class EventsListAdapter extends GroupedListAdapter<Event> {
 
         TextView attendeeView = (TextView) rowView.findViewById(R.id.attendeeView);
         int attendees = event.getAttendees().size();
-        if (attendees > 0) {
-            attendeeView.setText(String.format("%d %s", attendees, event.getAttendees().size() == 1 ? getContext().getString(R.string.one_attendee) : getContext().getString(R.string.multiple_attendees)));
+        if(attendees == 1) {
+            attendeeView.setText(mContext.getString(R.string.single_attendee));
         } else {
-            attendeeView.setText("");
+            attendeeView.setText(String.format(mContext.getString(R.string.multiple_attendees), attendees));
         }
 
         return rowView;

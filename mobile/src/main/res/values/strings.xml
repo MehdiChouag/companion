@@ -8,15 +8,14 @@
     <string name="text_no_events">No Events</string>
     <string name="date_today">TODAY</string>
     <string name="date_tomorrow">TOMORROW</string>
-    <string name="one_attendee">Attendee</string>
-    <string name="multiple_attendees">Attendees</string>
     <string name="title_upcoming_meetings">Upcoming Meetings</string>
     <string name="title_activity_context">Context</string>
     <string name="action_improve_context">Improve Context</string>
     <string name="date_yesterday">Yesterday</string>
     <string name="text_no_documents">No matching context</string>
     <string name="action_prepare_on_wear">Prepare on Wear</string>
-    <string name="notification_prepare_your_meeting">Prepare your next meeting !</string>
-    <string name="notification_remaining">In %1$d minutes: %2$s </string>
+    <string name="single_attendee">1 Attendee</string>
+    <string name="multiple_attendees">%d$1 Attendees</string>
+    <string name="minutes_before">In %d$1\'</string>
 
 </resources>
