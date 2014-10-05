@@ -25,6 +25,7 @@
             android:layout_height="25dp"
             android:layout_gravity="start|top"
             android:ellipsize="start"
+            android:text="Event title"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/black"/>
 
@@ -33,6 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|top"
+            android:text="5:50 - 7:40"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@android:color/darker_gray"/>
 
@@ -42,6 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="38 rue Chares de Gaulle, 75900 Paris 18ème"
             android:textColor="@android:color/black"/>
 
         <TextView
@@ -50,6 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|start"
             android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="2 attendees"
             android:textColor="@android:color/black"/>
     </FrameLayout>
 </LinearLayout>
