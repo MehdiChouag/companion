@@ -84,7 +84,7 @@ public class EventsListAdapter extends GroupedListAdapter<Event> {
 
 		if(end.getTimeInMillis() - start.getTimeInMillis() != 1000 * 60 * 60 * 24) {
 			timeView.setText(
-					String.format("%d:%d - %d:%d",
+					String.format("%02d:%02d - %02d:%02d",
 							start.get(Calendar.HOUR_OF_DAY),
 							start.get(Calendar.MINUTE),
 							end.get(Calendar.HOUR_OF_DAY),
