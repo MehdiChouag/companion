@@ -3,7 +3,6 @@ package com.anyfetch.companion.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +54,7 @@ public class EventsListAdapter extends GroupedListAdapter<Event> {
 
     @Override
     protected View getView(Event event, View convertView, ViewGroup parent) {
-		if(convertView == null || convertView.findViewById(R.id.imageView) == null) {
+		if(convertView == null) {
 			LayoutInflater inflater = (LayoutInflater) getContext()
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(R.layout.row_event, parent, false);
@@ -79,8 +78,6 @@ public class EventsListAdapter extends GroupedListAdapter<Event> {
         start.setTime(event.getStartDate());
         Calendar end = Calendar.getInstance();
         end.setTime(event.getEndDate());
-
-		Log.e("WTF", "Duration:" + (end.getTimeInMillis() - start.getTimeInMillis()));
 
 		if(end.getTimeInMillis() - start.getTimeInMillis() != 1000 * 60 * 60 * 24) {
 			timeView.setText(
