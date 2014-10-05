@@ -108,33 +108,78 @@ public abstract class GroupedListAdapter<T> extends ArrayAdapter<T> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        T element = null;
-        String section = "";
-
-        int counted = 0;
-        for (String sectionName : mSectionsOrder) {
-            List<T> elements = mSections.get(sectionName);
-            if (counted == position) { // header
-                section = sectionName;
-                break;
-            } else if (counted < position && position <= counted + elements.size()) { // element
-                element = elements.get(position - 1 - counted);
-                break;
-            }
-            counted += 1 + elements.size();
-        }
+        T element = getElementAtPosition(position);
 
         if (element == null) {
-            LayoutInflater inflater = (LayoutInflater) mContext
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View headerView = inflater.inflate(R.layout.row_group_header, parent, false);
-            TextView titleView = (TextView) headerView.findViewById(R.id.titleView);
-            titleView.setText(section);
-            return headerView;
+			// We're displaying a section
+			if(convertView == null) {
+				LayoutInflater inflater = (LayoutInflater) mContext
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				convertView = inflater.inflate(R.layout.row_group_header, parent, false);
+			}
+
+            TextView titleView = (TextView) convertView.findViewById(R.id.titleView);
+            titleView.setText(getSectionAtPosition(position));
+            return convertView;
         } else {
             return getView(element, convertView, parent);
         }
-
-
     }
+
+	public int getViewTypeCount() {
+		return 2; // Standard view + grouped list view
+	}
+
+	public int getItemViewType (int position) {
+		if(getElementAtPosition(position) == null) {
+			return 0;
+		}
+		else {
+			return 1;
+		}
+	}
+
+	public T getElementAtPosition(int position) {
+		T element = null;
+		String section = "";
+
+		int counted = 0;
+		for (String sectionName : mSectionsOrder) {
+			List<T> elements = mSections.get(sectionName);
+			if (counted == position) { // header
+				section = sectionName;
+				break;
+			} else if (counted < position && position <= counted + elements.size()) { // element
+				element = elements.get(position - 1 - counted);
+				break;
+			}
+			counted += 1 + elements.size();
+		}
+
+		return element;
+	}
+
+
+	/**
+	 * Returns the section at specified position. Works even if position holds an event, in which case the current section is returned
+	 * @param position
+	 * @return section name
+	 */
+	public String getSectionAtPosition(int position) {
+		String section = "";
+
+		int counted = 0;
+		for (String sectionName : mSectionsOrder) {
+			List<T> elements = mSections.get(sectionName);
+			if (counted == position) { // header
+				section = sectionName;
+				break;
+			} else if (counted < position && position <= counted + elements.size()) { // element
+				break;
+			}
+			counted += 1 + elements.size();
+		}
+
+		return section;
+	}
 }
