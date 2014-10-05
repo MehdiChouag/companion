@@ -15,7 +15,7 @@
     <string name="text_no_documents">No matching context</string>
     <string name="action_prepare_on_wear">Prepare on Wear</string>
     <string name="single_attendee">1 Attendee</string>
-    <string name="multiple_attendees">%d$1 Attendees</string>
-    <string name="minutes_before">In %d$1\'</string>
+    <string name="multiple_attendees">%d Attendees</string>
+    <string name="minutes_before">In %d\'</string>
 
 </resources>
