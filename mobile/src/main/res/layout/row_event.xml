@@ -10,8 +10,8 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="@dimen/thumb_event_size"
-        android:layout_gravity="center_vertical"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"/>
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -20,52 +20,58 @@
         android:paddingLeft="@dimen/list_margin">
 
         <TextView
-            android:id="@+id/titleView"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:layout_gravity="start|top"
-            android:ellipsize="end"
-            android:layout_alignParentLeft="true"
-            android:text="Event title (can be long in some situations and must not roll over new line"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:singleLine="true"
-            android:textColor="@android:color/black"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="0dp"/>
-
-        <TextView
             android:id="@+id/timeView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5:50 - 7:40"
-            android:singleLine="true"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/darker_gray"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:singleLine="true"
+            android:text="5:50 - 7:40"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/darker_gray"
+            />
+
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="start|top"
+            android:layout_marginTop="0dp"
+            android:layout_toLeftOf="@id/timeView"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="Event title (can be long in some situations and must not roll over new line"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/attendeeView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/titleView"
+            android:paddingRight="5dp"
+            android:singleLine="true"
+            android:text="2 attendees"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/black"
             />
 
         <TextView
             android:id="@+id/locationView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/titleView"
+            android:layout_toRightOf="@id/attendeeView"
+            android:gravity="right"
             android:singleLine="true"
             android:text="38 rue Charles de Gaulle, 75900 Paris 18ème"
-            android:textColor="@android:color/black"
-            android:layout_below="@id/titleView"
-            />
-
-        <TextView
-            android:id="@+id/attendeeView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="2 attendees"
-            android:textColor="@android:color/black"
-            android:layout_below="@id/titleView"
-            android:layout_alignParentRight="true"
-/>
+            android:textColor="@android:color/darker_gray"
+            />
 
     </RelativeLayout>
 </LinearLayout>
