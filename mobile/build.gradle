@@ -32,4 +32,6 @@ dependencies {
     compile project(':commons')
     //noinspection GradleDynamicVersion
     compile 'com.google.android.gms:play-services:+'
+    //noinspection GradleDynamicVersion
+    compile "com.android.support:support-v4:20.0.+"
 }
