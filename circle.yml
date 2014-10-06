@@ -1,0 +1,22 @@
+machine:
+  environment:
+    ANDROID_HOME: /home/ubuntu/android
+dependencies:
+  cache_directories:
+    - ~/.android
+    - ~/android
+  override:
+    - ./install-dependencies.sh
+test:
+  override:
+  - $ANDROID_HOME/tools/emulator -avd testing -no-window -no-boot-anim -no-audio:
+      background: true
+  - ./gradlew clean
+  - ./gradlew lint
+  - ./wait.sh
+  - ./gradlew connectedCheck
+general:
+  artifacts:
+    - commons/build/outputs
+    - mobile/build/outputs
+    - wear/build/outputs
