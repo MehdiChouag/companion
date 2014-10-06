@@ -16,6 +16,12 @@ public class PersonTest extends InstrumentationTestCase {
         mId = AndroidServicesMockInjecter.injectContact(mContext);
     }
 
+	public void test_getPerson_id() throws Exception {
+		Person person = Person.getPerson(mContext, mId);
+
+		assertEquals("Sterling Archer", person.getName());
+	}
+	
     public void test_getPerson_email() throws Exception {
         Person person = Person.getPerson(mContext, "sarcher@gmail.com");
 
@@ -25,11 +31,5 @@ public class PersonTest extends InstrumentationTestCase {
         assertEquals("ISIS", person.getCompany());
         assertEquals("Secret Agent", person.getJob());
         assertEquals("sterling@isis.org", person.getEmails().get(0));
-    }
-
-    public void test_getPerson_id() throws Exception {
-        Person person = Person.getPerson(mContext, mId);
-
-        assertEquals("Sterling Archer", person.getName());
     }
 }
