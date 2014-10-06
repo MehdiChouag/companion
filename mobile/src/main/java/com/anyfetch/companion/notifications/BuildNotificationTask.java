@@ -19,9 +19,14 @@ import com.anyfetch.companion.commons.api.pojo.DocumentsList;
 import com.anyfetch.companion.fragments.ContextFragment;
 import com.squareup.okhttp.OkHttpClient;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * Because a broadcast receiver is on the main thread ...
@@ -160,12 +165,13 @@ public class BuildNotificationTask extends AsyncTask<Event, Object, Object> {
 
             // Big View
             NotificationCompat.BigTextStyle bigView = new NotificationCompat.BigTextStyle();
-            bigView.bigText(document.getSnippet());
+            bigView.bigText(Html.fromHtml(stripHtml(selectMain(document.getSnippet()))));
 
             // Standard View
             NotificationCompat.Builder builder =
                     new NotificationCompat.Builder(mContext)
-                            .setContentTitle(Html.fromHtml(convertHlt(document.getTitle())));
+                            .setContentTitle(Html.fromHtml(convertHlt(document.getTitle())))
+                            .setStyle(bigView);
             pages.add(builder.build());
         }
         return pages;
@@ -173,5 +179,22 @@ public class BuildNotificationTask extends AsyncTask<Event, Object, Object> {
 
     private String convertHlt(String origin) {
         return origin.replaceAll("<span[^>]+?anyfetch-hlt[^>]+?>(.+?)</span>", "<b>$1</b>");
+    }
+
+    private String selectMain(String origin) {
+        InputStream is = new ByteArrayInputStream(origin.getBytes());
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        try {
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            org.w3c.dom.Document doc = dBuilder.parse(is);
+            return doc.getElementsByTagName("main").item(0).getTextContent();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    private String stripHtml(String origin) {
+        return origin.replaceAll("</*[^>]+?/*>", "");
     }
 }
