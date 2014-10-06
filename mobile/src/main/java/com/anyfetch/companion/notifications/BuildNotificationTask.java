@@ -4,10 +4,10 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.text.Html;
 
 import com.anyfetch.companion.ContextActivity;
 import com.anyfetch.companion.R;
@@ -70,8 +70,8 @@ public class BuildNotificationTask extends AsyncTask<Event, Object, Object> {
         NotificationCompat.BigTextStyle bigView = new NotificationCompat.BigTextStyle();
         int attNumber = event.getAttendees().size();
         String location = event.getLocation();
-        String bigViewText = "";
-        if(location != null) {
+        String bigViewText = "<b>" + event.getTitle() + "</b><br/>";
+        if (location != null && !location.equals("")) {
             bigViewText += location + ", ";
         }
         if(attNumber == 1) {
@@ -79,7 +79,7 @@ public class BuildNotificationTask extends AsyncTask<Event, Object, Object> {
         } else {
             bigViewText += String.format(mContext.getString(R.string.multiple_attendees), attNumber);
         }
-        bigView.bigText(bigViewText);
+        bigView.bigText(Html.fromHtml(bigViewText));
 
         // Build the notification
         long minutesBefore = (event.getStartDate().getTime() - new Date().getTime()) / (1000 * 60);
@@ -88,7 +88,6 @@ public class BuildNotificationTask extends AsyncTask<Event, Object, Object> {
                 new NotificationCompat.Builder(mContext)
                         .setSmallIcon(com.anyfetch.companion.commons.R.drawable.ic_launcher)
                         .setContentTitle(String.format(mContext.getString(R.string.minutes_before), minutesBefore))
-                        .setContentText(event.getTitle())
                         .setContentIntent(viewPendingIntent)
                         .setStyle(bigView)
                         /*.setLargeIcon(BitmapFactory.decodeResource(
@@ -123,13 +122,25 @@ public class BuildNotificationTask extends AsyncTask<Event, Object, Object> {
         DocumentsList documents = request.loadDataFromNetwork();
 
 
+        // Big View
+        NotificationCompat.BigTextStyle bigView = new NotificationCompat.BigTextStyle();
+        String job = "";
+        String jobTitle = attendee.getJob();
+        String company = attendee.getCompany();
+        if (jobTitle != null && !jobTitle.equals("")) {
+            job += jobTitle + ", ";
+        }
+        if (company != null && !company.equals("")) {
+            job += company;
+        }
+        bigView.bigText(Html.fromHtml("<b>" + attendee.getName() + "</b><br/>" + job));
 
         // Build the notification
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(mContext)
                         .setSmallIcon(com.anyfetch.companion.commons.R.drawable.ic_launcher)
-                        .setContentTitle(attendee.getName())
-                        .setContentText("TODO: some text")
+                        .setContentTitle(mContext.getString(R.string.event_s_attendee))
+                        .setStyle(bigView)
                         .setLargeIcon(attendee.getThumb())
                         .setGroup(GROUP_KEY_EVENT + notificationId);
 
@@ -154,9 +165,13 @@ public class BuildNotificationTask extends AsyncTask<Event, Object, Object> {
             // Standard View
             NotificationCompat.Builder builder =
                     new NotificationCompat.Builder(mContext)
-                            .setContentTitle(document.getTitle());
+                            .setContentTitle(Html.fromHtml(convertHlt(document.getTitle())));
             pages.add(builder.build());
         }
         return pages;
+    }
+
+    private String convertHlt(String origin) {
+        return origin.replaceAll("<span[^>]+?anyfetch-hlt[^>]+?>(.+?)</span>", "<b>$1</b>");
     }
 }

@@ -17,5 +17,6 @@
     <string name="single_attendee">1 Attendee</string>
     <string name="multiple_attendees">%d Attendees</string>
     <string name="minutes_before">In %d\'</string>
+    <string name="event_s_attendee">Event\'s Attendee</string>
 
 </resources>
