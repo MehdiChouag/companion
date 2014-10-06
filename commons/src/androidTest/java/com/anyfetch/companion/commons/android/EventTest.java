@@ -2,6 +2,7 @@ package com.anyfetch.companion.commons.android;
 
 import android.content.Context;
 import android.test.InstrumentationTestCase;
+import android.test.suitebuilder.annotation.Suppress;
 
 import com.anyfetch.companion.commons.android.helpers.AndroidServicesMockInjecter;
 
@@ -19,6 +20,7 @@ public class EventTest extends InstrumentationTestCase {
         mId = AndroidServicesMockInjecter.injectEvent(mContext);
     }
 
+	@Suppress
     public void test_getUpcomingEvents() throws Exception {
         List<Event> events = Event.getUpcomingEvents(mContext);
 
@@ -28,6 +30,7 @@ public class EventTest extends InstrumentationTestCase {
         assertEquals("Secret Briefing", event.getTitle());
     }
 
+	@Suppress
     public void test_getEvent() throws Exception {
         Event event = Event.getEvent(mContext, mId);
 
