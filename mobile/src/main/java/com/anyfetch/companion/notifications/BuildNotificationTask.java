@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -95,9 +96,9 @@ public class BuildNotificationTask extends AsyncTask<Event, Object, Object> {
                         .setContentTitle(String.format(mContext.getString(R.string.minutes_before), minutesBefore))
                         .setContentIntent(viewPendingIntent)
                         .setStyle(bigView)
-                        /*.setLargeIcon(BitmapFactory.decodeResource(
+                        .setLargeIcon(BitmapFactory.decodeResource(
                                 mContext.getResources(), R.drawable.notif_background
-                        ))*/
+                        ))
                         .setGroup(GROUP_KEY_EVENT + notificationId);
 
         // Wearable extender
@@ -174,7 +175,8 @@ public class BuildNotificationTask extends AsyncTask<Event, Object, Object> {
             NotificationCompat.Builder builder =
                     new NotificationCompat.Builder(mContext)
                             .setContentTitle(Html.fromHtml(stripHtml(selectTag(document.getSnippet(), "ul"))))
-                            .setStyle(bigView);
+                            .setStyle(bigView)
+                            .setSmallIcon(matchIcon(document.getType()));
             pages.add(builder.build());
         }
         return pages;
@@ -199,5 +201,22 @@ public class BuildNotificationTask extends AsyncTask<Event, Object, Object> {
 
     private String stripHtml(String origin) {
         return origin.replaceAll("</*[^>]+?/*>", "");
+    }
+
+    private int matchIcon(String dt) {
+        // TODO: replace with generic doctype icons
+        if (dt.equals("contact")) {
+            return R.drawable.ic_sfdc;
+        }
+        if (dt.equals("document") || dt.equals("file") || dt.equals("image")) {
+            return R.drawable.ic_gdrive;
+        }
+        if (dt.equals("email-thread") || dt.equals("email")) {
+            return R.drawable.ic_gmail;
+        }
+        if (dt.equals("event")) {
+            return R.drawable.ic_event;
+        }
+        return R.drawable.ic_gdrive;
     }
 }
