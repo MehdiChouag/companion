@@ -165,12 +165,15 @@ public class BuildNotificationTask extends AsyncTask<Event, Object, Object> {
 
             // Big View
             NotificationCompat.BigTextStyle bigView = new NotificationCompat.BigTextStyle();
-            bigView.bigText(Html.fromHtml(stripHtml(selectMain(document.getSnippet()))));
+            bigView.bigText(Html.fromHtml(
+                    "<b>" + convertHlt(document.getTitle()) + "</b><br/>" +
+                            stripHtml(selectTag(document.getSnippet(), "main"))
+            ));
 
             // Standard View
             NotificationCompat.Builder builder =
                     new NotificationCompat.Builder(mContext)
-                            .setContentTitle(Html.fromHtml(convertHlt(document.getTitle())))
+                            .setContentTitle(Html.fromHtml(stripHtml(selectTag(document.getSnippet(), "ul"))))
                             .setStyle(bigView);
             pages.add(builder.build());
         }
@@ -181,13 +184,13 @@ public class BuildNotificationTask extends AsyncTask<Event, Object, Object> {
         return origin.replaceAll("<span[^>]+?anyfetch-hlt[^>]+?>(.+?)</span>", "<b>$1</b>");
     }
 
-    private String selectMain(String origin) {
+    private String selectTag(String origin, String tag) {
         InputStream is = new ByteArrayInputStream(origin.getBytes());
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             org.w3c.dom.Document doc = dBuilder.parse(is);
-            return doc.getElementsByTagName("main").item(0).getTextContent();
+            return doc.getElementsByTagName(tag).item(0).getTextContent();
         } catch (Exception e) {
             e.printStackTrace();
         }
