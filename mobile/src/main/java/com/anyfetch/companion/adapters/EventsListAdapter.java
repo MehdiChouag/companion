@@ -57,11 +57,11 @@ public class EventsListAdapter extends GroupedListAdapter<Event> {
 
     @Override
     protected View getView(Event event, View convertView, ViewGroup parent) {
-		if(convertView == null) {
-			LayoutInflater inflater = (LayoutInflater) getContext()
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = inflater.inflate(R.layout.row_event, parent, false);
-		}
+        //if(convertView == null) {
+        LayoutInflater inflater = (LayoutInflater) getContext()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView = inflater.inflate(R.layout.row_event, parent, false);
+        //}
 
         ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
         imageView.setImageBitmap(createAttendeesMosaic(event.getAttendees()));
@@ -82,22 +82,21 @@ public class EventsListAdapter extends GroupedListAdapter<Event> {
         Calendar end = Calendar.getInstance();
         end.setTime(event.getEndDate());
 
-		if(end.getTimeInMillis() - start.getTimeInMillis() != 1000 * 60 * 60 * 24) {
-			timeView.setText(
-					String.format("%02d:%02d - %02d:%02d",
-							start.get(Calendar.HOUR_OF_DAY),
-							start.get(Calendar.MINUTE),
-							end.get(Calendar.HOUR_OF_DAY),
-							end.get(Calendar.MINUTE)));
-		}
-		else {
-			timeView.setText("");
-		}
+        if (end.getTimeInMillis() - start.getTimeInMillis() != 1000 * 60 * 60 * 24) {
+            timeView.setText(
+                    String.format("%02d:%02d - %02d:%02d",
+                            start.get(Calendar.HOUR_OF_DAY),
+                            start.get(Calendar.MINUTE),
+                            end.get(Calendar.HOUR_OF_DAY),
+                            end.get(Calendar.MINUTE)));
+        } else {
+            timeView.setText("");
+        }
 
         TextView attendeeView = (TextView) convertView.findViewById(R.id.attendeeView);
         int attendees = event.getAttendees().size();
         if(attendees == 1) {
-            attendeeView.setText(mContext.getString(R.string.single_attendee));
+            attendeeView.setText(event.getAttendees().get(0).getName());
         } else {
             attendeeView.setText(String.format(mContext.getString(R.string.multiple_attendees), attendees));
         }

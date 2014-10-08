@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.ImageView;
 
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.commons.api.pojo.Document;
@@ -23,7 +24,7 @@ public class DocumentsListAdapter extends GroupedListAdapter<Document> {
                     "<meta charset='utf-8'>" +
                     "<style type='text/css'>" + CSS + "</style>" +
                     "</head>" +
-                    "<body style='font-family: Roboto; font-size: 14px; margin: 0; padding: 0;'>";
+                    "<body style='font-family: Roboto; font-size: 12px; margin: 0; padding: 0;'>";
     private final String FOOTER =
             "</body>" +
                     "</html>";
@@ -51,11 +52,14 @@ public class DocumentsListAdapter extends GroupedListAdapter<Document> {
 
     @Override
     protected View getView(Document document, View convertView, ViewGroup parent) {
-        if (convertView == null || convertView.findViewById(R.id.webView) == null) {
+        //if (convertView == null || convertView.findViewById(R.id.webView) == null) {
             LayoutInflater inflater = (LayoutInflater) getContext()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.row_document, parent, false);
-        }
+        //}
+        ImageView dtIcon = (ImageView) convertView.findViewById(R.id.dtIcon);
+        dtIcon.setImageResource(matchIcon(document.getType()));
+
         WebView webView = (WebView) convertView.findViewById(R.id.webView);
         webView.setOnTouchListener(new View.OnTouchListener() {
 
@@ -66,5 +70,22 @@ public class DocumentsListAdapter extends GroupedListAdapter<Document> {
 
         webView.loadData(HEADER + document.getSnippet() + FOOTER, "text/html", "UTF-8");
         return convertView;
+    }
+
+    private int matchIcon(String dt) {
+        // TODO: replace with generic doctype icons
+        if (dt.equals("contact")) {
+            return R.drawable.ic_sfdc;
+        }
+        if (dt.equals("document") || dt.equals("file") || dt.equals("image")) {
+            return R.drawable.ic_gdrive;
+        }
+        if (dt.equals("email-thread") || dt.equals("email")) {
+            return R.drawable.ic_gmail;
+        }
+        if (dt.equals("event")) {
+            return R.drawable.ic_event;
+        }
+        return R.drawable.ic_gdrive;
     }
 }
