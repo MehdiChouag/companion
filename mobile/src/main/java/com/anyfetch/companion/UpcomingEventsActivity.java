@@ -16,6 +16,7 @@ import com.anyfetch.companion.commons.android.AndroidSpiceService;
 import com.anyfetch.companion.commons.android.Event;
 import com.anyfetch.companion.commons.android.EventsList;
 import com.anyfetch.companion.commons.android.GetUpcomingEventsRequest;
+import com.anyfetch.companion.commons.notifications.MeetingPreparationAlarm;
 import com.anyfetch.companion.fragments.ContextFragment;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
@@ -92,6 +93,9 @@ public class UpcomingEventsActivity extends ListActivity implements RequestListe
 
     @Override
     public void onRequestSuccess(EventsList events) {
+        if (events.size() > 0) {
+            MeetingPreparationAlarm.setForEvent(this, events.get(0));
+        }
         mListAdapter = new EventsListAdapter(getApplicationContext(), events);
         setListAdapter(mListAdapter);
     }

@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.anyfetch.companion.commons.android.Event;
+import com.anyfetch.companion.commons.notifications.MeetingPreparationAlarm;
 import com.anyfetch.companion.fragments.ContextFragment;
 
 /**
@@ -16,6 +17,7 @@ import com.anyfetch.companion.fragments.ContextFragment;
  */
 public class ContextActivity extends Activity {
     private String mTitle;
+    private Event mEvent = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,7 @@ public class ContextActivity extends Activity {
         if (type.equals(ContextFragment.TYPE_EVENT)) {
             Event event = (Event) parcelable;
             mTitle = event.getTitle();
+            mEvent = event;
         } else {
             mTitle = "";
         }
@@ -54,8 +57,15 @@ public class ContextActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_prepare_on_wear:
+                if (mEvent != null) {
+                    Intent i = new Intent();
+                    i.setAction("com.anyfetch.companion.SHOW_NOTIFICATION");
+                    i.putExtra(MeetingPreparationAlarm.ARG_EVENT, mEvent);
+                    this.sendBroadcast(i);
+                }
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

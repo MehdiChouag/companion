@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest
     package="com.anyfetch.companion"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -11,13 +12,13 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.DeviceDefault">
-
         <service
             android:name=".commons.api.HttpSpiceService"
             android:exported="false"/>
         <service
             android:name=".commons.android.AndroidSpiceService"
             android:exported="false"/>
+
     </application>
 
 </manifest>
