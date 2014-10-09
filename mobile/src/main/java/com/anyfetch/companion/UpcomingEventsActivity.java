@@ -1,7 +1,7 @@
 package com.anyfetch.companion;
 
 import android.app.ActionBar;
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
+import android.widget.AdapterView;
 
 import com.anyfetch.companion.adapters.EventsListAdapter;
 import com.anyfetch.companion.commons.android.AndroidSpiceService;
@@ -22,8 +22,11 @@ import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
-public class UpcomingEventsActivity extends ListActivity implements RequestListener<EventsList> {
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+
+public class UpcomingEventsActivity extends Activity implements RequestListener<EventsList>, AdapterView.OnItemClickListener {
     protected SpiceManager mSpiceManager = new SpiceManager(AndroidSpiceService.class);
+    private StickyListHeadersListView mListView;
     private EventsListAdapter mListAdapter;
 
     @Override
@@ -49,9 +52,11 @@ public class UpcomingEventsActivity extends ListActivity implements RequestListe
             openAuthActivity();
         } else {
             setContentView(R.layout.activity_upcoming_events);
+            mListView = (StickyListHeadersListView) findViewById(R.id.listView);
 
             mListAdapter = new EventsListAdapter(getApplicationContext(), new EventsList());
-            setListAdapter(mListAdapter);
+            mListView.setAdapter(mListAdapter);
+            mListView.setOnItemClickListener(this);
 
             GetUpcomingEventsRequest request = new GetUpcomingEventsRequest(getApplicationContext());
             mSpiceManager.execute(request, null, 0, this);
@@ -97,20 +102,17 @@ public class UpcomingEventsActivity extends ListActivity implements RequestListe
             MeetingPreparationAlarm.setForEvent(this, events.get(0));
         }
         mListAdapter = new EventsListAdapter(getApplicationContext(), events);
-        setListAdapter(mListAdapter);
+        mListView.setAdapter(mListAdapter);
     }
 
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-        Event event = mListAdapter.getElement(position);
+    public void onItemClick(AdapterView parent, View view, int position, long id) {
+        Event event = mListAdapter.getEvent(position);
 
-        if (event != null) {
-            Intent intent = new Intent(getApplicationContext(), ContextActivity.class);
-            intent.putExtra(ContextFragment.ARG_TYPE, ContextFragment.TYPE_EVENT);
-            intent.putExtra(ContextFragment.ARG_PARCELABLE, event);
-            startActivity(intent);
-        }
+        Intent intent = new Intent(getApplicationContext(), ContextActivity.class);
+        intent.putExtra(ContextFragment.ARG_TYPE, ContextFragment.TYPE_EVENT);
+        intent.putExtra(ContextFragment.ARG_PARCELABLE, event);
+        startActivity(intent);
     }
 
     private void openAuthActivity() {

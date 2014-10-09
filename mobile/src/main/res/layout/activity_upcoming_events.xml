@@ -3,14 +3,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <ListView
-        android:id="@android:id/list"
+    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
+        android:id="@+id/listView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"/>
-
-    <TextView android:id="@android:id/empty"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_margin="@dimen/list_margin"
-              android:text="@string/text_no_events"/>
 </FrameLayout>

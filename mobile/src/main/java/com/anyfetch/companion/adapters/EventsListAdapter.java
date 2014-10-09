@@ -3,7 +3,6 @@ package com.anyfetch.companion.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -20,12 +19,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+
 /**
  * Adapt events to a list
  */
-public class EventsListAdapter extends GroupedListAdapter<Event> {
+public class EventsListAdapter extends TimedListAdapter implements StickyListHeadersAdapter {
 
     private final Context mContext;
+    private final EventsList mEvents;
 
     /**
      * Creates a new events adapter
@@ -34,34 +36,33 @@ public class EventsListAdapter extends GroupedListAdapter<Event> {
      * @param events  The events to show
      */
     public EventsListAdapter(Context context, EventsList events) {
-        super(context, R.layout.row_event, events);
+        super(context);
         mContext = context;
+        mEvents = events;
     }
 
     @Override
-    protected String getSection(Event element) {
-        Calendar now = Calendar.getInstance();
-        now.setTime(new Date());
-        Calendar then = Calendar.getInstance();
-        then.setTime(element.getStartDate());
-        if (now.get(Calendar.YEAR) == then.get(Calendar.YEAR) &&
-                now.get(Calendar.DAY_OF_YEAR) == then.get(Calendar.DAY_OF_YEAR)) {
-            return getContext().getString(R.string.date_today);
-        } else if (now.get(Calendar.YEAR) == then.get(Calendar.YEAR) &&
-                now.get(Calendar.DAY_OF_YEAR) + 1 == then.get(Calendar.DAY_OF_YEAR)) {
-            return getContext().getString(R.string.date_tomorrow);
-        } else {
-            return then.get(Calendar.DAY_OF_MONTH) + "/" + (then.get(Calendar.MONTH));
+    public int getCount() {
+        return mEvents.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return mEvents.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            convertView = getInflater().inflate(R.layout.row_event, parent, false);
         }
-    }
 
-    @Override
-    protected View getView(Event event, View convertView, ViewGroup parent) {
-        //if(convertView == null) {
-        LayoutInflater inflater = (LayoutInflater) getContext()
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(R.layout.row_event, parent, false);
-        //}
+        Event event = mEvents.get(position);
 
         ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
         imageView.setImageBitmap(createAttendeesMosaic(event.getAttendees()));
@@ -71,7 +72,7 @@ public class EventsListAdapter extends GroupedListAdapter<Event> {
 
         TextView locationView = (TextView) convertView.findViewById(R.id.locationView);
         String location = event.getLocation();
-        if(location == null) {
+        if (location == null) {
             location = "";
         }
         locationView.setText(location);
@@ -104,6 +105,11 @@ public class EventsListAdapter extends GroupedListAdapter<Event> {
         return convertView;
     }
 
+    @Override
+    public Date getDate(int i) {
+        return mEvents.get(i).getStartDate();
+    }
+
     private Bitmap createAttendeesMosaic(List<Person> attendees) {
         List<Bitmap> thumbs = new ArrayList<Bitmap>();
         for(Person attendee : attendees) {
@@ -118,6 +124,10 @@ public class EventsListAdapter extends GroupedListAdapter<Event> {
         }
 
         // TODO: Change this icon
-        return BitmapFactory.decodeResource(getContext().getResources(), android.R.drawable.ic_menu_today);
+        return BitmapFactory.decodeResource(mContext.getResources(), android.R.drawable.ic_menu_today);
+    }
+
+    public Event getEvent(int position) {
+        return mEvents.get(position);
     }
 }
