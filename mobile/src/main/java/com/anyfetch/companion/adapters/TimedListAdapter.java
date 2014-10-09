@@ -37,17 +37,20 @@ public abstract class TimedListAdapter extends BaseAdapter implements StickyList
         }
 
         TextView title = (TextView) convertView.findViewById(R.id.titleView);
-        if (
-                now.get(Calendar.DAY_OF_YEAR) == then.get(Calendar.DAY_OF_YEAR) &&
-                        now.get(Calendar.YEAR) == then.get(Calendar.YEAR)) {
-            title.setText(mContext.getString(R.string.date_today));
-        } else if (
-                now.get(Calendar.DAY_OF_YEAR) + 1 == then.get(Calendar.DAY_OF_YEAR) &&
-                        now.get(Calendar.YEAR) == then.get(Calendar.YEAR)) {
-            title.setText(mContext.getString(R.string.date_tomorrow));
-        } else {
-            title.setText(then.get(Calendar.DAY_OF_MONTH) + "/" + then.get(Calendar.MONTH));
+        String electedDate = "";
+        if (now.get(Calendar.YEAR) == then.get(Calendar.YEAR)) {
+            if (now.get(Calendar.DAY_OF_YEAR) == then.get(Calendar.DAY_OF_YEAR)) {
+                electedDate = mContext.getString(R.string.date_today);
+            } else if (now.get(Calendar.DAY_OF_YEAR) + 1 == then.get(Calendar.DAY_OF_YEAR)) {
+                electedDate = mContext.getString(R.string.date_tomorrow);
+            } else if (now.get(Calendar.DAY_OF_YEAR) - 1 == then.get(Calendar.DAY_OF_YEAR)) {
+                electedDate = mContext.getString(R.string.date_yesterday);
+            }
         }
+        if (electedDate.equals("")) {
+            electedDate = then.get(Calendar.DAY_OF_MONTH) + "/" + then.get(Calendar.MONTH);
+        }
+        title.setText(electedDate);
 
         return convertView;
     }

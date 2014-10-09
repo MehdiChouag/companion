@@ -3,7 +3,6 @@ package com.anyfetch.companion.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.gesture.GestureOverlayView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -13,43 +12,44 @@ import com.anyfetch.companion.FullActivity;
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.commons.api.helpers.HtmlUtils;
 import com.anyfetch.companion.commons.api.pojo.Document;
+import com.anyfetch.companion.commons.api.pojo.DocumentsList;
 import com.anyfetch.companion.fragments.FullFragment;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
-public class DocumentsListAdapter extends GroupedListAdapter<Document> {
+public class DocumentsListAdapter extends TimedListAdapter {
+    private final DocumentsList mDocuments;
+    private final Context mContext;
 
-
-    public DocumentsListAdapter(Context context, List<Document> elements) {
-        super(context, R.layout.row_document, elements);
+    public DocumentsListAdapter(Context context, DocumentsList documents) {
+        super(context);
+        mContext = context;
+        mDocuments = documents;
     }
 
     @Override
-    protected String getSection(Document document) {
-        Calendar now = Calendar.getInstance();
-        now.setTime(new Date());
-        Calendar then = Calendar.getInstance();
-        then.setTime(document.getDate());
-        if (now.get(Calendar.YEAR) == then.get(Calendar.YEAR) &&
-                now.get(Calendar.DAY_OF_YEAR) == then.get(Calendar.DAY_OF_YEAR)) {
-            return getContext().getString(R.string.date_today);
-        } else if (now.get(Calendar.YEAR) == then.get(Calendar.YEAR) &&
-                now.get(Calendar.DAY_OF_YEAR) - 1 == then.get(Calendar.DAY_OF_YEAR)) {
-            return getContext().getString(R.string.date_yesterday);
-        } else {
-            return then.get(Calendar.DAY_OF_MONTH) + "/" + (then.get(Calendar.MONTH));
+    public int getCount() {
+        return mDocuments.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return mDocuments.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            convertView = getInflater().inflate(R.layout.row_document, parent, false);
         }
-    }
 
-    @Override
-    protected View getView(final Document document, View convertView, final ViewGroup parent) {
-        //if (convertView == null || convertView.findViewById(R.id.webView) == null) {
-        LayoutInflater inflater = (LayoutInflater) getContext()
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(R.layout.row_document, parent, false);
-        //}
+        final Document document = mDocuments.get(position);
+
         ImageView dtIcon = (ImageView) convertView.findViewById(R.id.dtIcon);
         dtIcon.setImageResource(matchIcon(document.getType()));
 
@@ -61,12 +61,17 @@ public class DocumentsListAdapter extends GroupedListAdapter<Document> {
         overlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), FullActivity.class);
+                Intent intent = new Intent(mContext, FullActivity.class);
                 intent.putExtra(FullFragment.ARG_DOCUMENT, document);
-                getContext().startActivity(intent);
+                mContext.startActivity(intent);
             }
         });
         return convertView;
+    }
+
+    @Override
+    public Date getDate(int i) {
+        return mDocuments.get(i).getDate();
     }
 
     private int matchIcon(String dt) {
@@ -85,4 +90,6 @@ public class DocumentsListAdapter extends GroupedListAdapter<Document> {
         }
         return R.drawable.ic_gdrive;
     }
+
+
 }

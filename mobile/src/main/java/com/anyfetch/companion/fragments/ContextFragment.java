@@ -1,6 +1,6 @@
 package com.anyfetch.companion.fragments;
 
-import android.app.ListFragment;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -18,10 +18,12 @@ import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+
 /**
  * Stores the context around an given context (Event, Person, …)
  */
-public class ContextFragment extends ListFragment implements RequestListener<DocumentsList> {
+public class ContextFragment extends Fragment implements RequestListener<DocumentsList> {
     public static final String ARG_TYPE = "type";
     public static final String ARG_PARCELABLE = "parcelable";
 
@@ -32,6 +34,7 @@ public class ContextFragment extends ListFragment implements RequestListener<Doc
     private String mType;
     private Object mContext;
     private DocumentsListAdapter mListAdapter;
+    private StickyListHeadersListView mListView;
 
 
     public ContextFragment() {
@@ -79,6 +82,7 @@ public class ContextFragment extends ListFragment implements RequestListener<Doc
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_context, container, false);
+        mListView = (StickyListHeadersListView) view.findViewById(R.id.listView);
 
         GetDocumentsListRequest request = new GetDocumentsListRequest(getActivity(), getContextQuery());
         mSpiceManager.execute(request, null, 0, this);
@@ -113,6 +117,6 @@ public class ContextFragment extends ListFragment implements RequestListener<Doc
     @Override
     public void onRequestSuccess(DocumentsList documents) {
         mListAdapter = new DocumentsListAdapter(getActivity(), documents);
-        setListAdapter(mListAdapter);
+        mListView.setAdapter(mListAdapter);
     }
 }
