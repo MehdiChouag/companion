@@ -48,7 +48,7 @@ public abstract class TimedListAdapter extends BaseAdapter implements StickyList
             }
         }
         if (electedDate.equals("")) {
-            electedDate = then.get(Calendar.DAY_OF_MONTH) + "/" + then.get(Calendar.MONTH);
+            electedDate = then.get(Calendar.DAY_OF_MONTH) + "/" + (then.get(Calendar.MONTH) + 1);
         }
         title.setText(electedDate);
 
