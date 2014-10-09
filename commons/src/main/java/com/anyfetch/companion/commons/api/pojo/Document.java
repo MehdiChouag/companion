@@ -1,11 +1,36 @@
 package com.anyfetch.companion.commons.api.pojo;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
 /**
  * A class used to deflate AnyFetch documents
  */
-public class Document {
+public class Document implements Parcelable {
+    public static final Parcelable.Creator<Document> CREATOR = new Parcelable.Creator<Document>() {
+
+        @Override
+        public Document createFromParcel(Parcel source) {
+            String documentId = source.readString();
+            String companyId = source.readString();
+            String eventId = source.readString();
+            String type = source.readString();
+            Date date = new Date(source.readLong());
+            String title = source.readString();
+            String snippet = source.readString();
+            String full = source.readString();
+            return new Document(type, documentId, companyId, eventId, date, title, snippet, full);
+        }
+
+        @Override
+        public Document[] newArray(int size) {
+            return new Document[size];
+        }
+    };
+
+    private static final int DOCUMENT_PARCELABLE = 15;
     private final String type;
     private final String documentId;
     private final String companyId;
@@ -67,5 +92,22 @@ public class Document {
 
     public String getFull() {
         return full;
+    }
+
+    @Override
+    public int describeContents() {
+        return DOCUMENT_PARCELABLE;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(documentId);
+        dest.writeString(companyId);
+        dest.writeString(eventId);
+        dest.writeString(type);
+        dest.writeLong(date.getTime());
+        dest.writeString(title);
+        dest.writeString(snippet);
+        dest.writeString(full);
     }
 }

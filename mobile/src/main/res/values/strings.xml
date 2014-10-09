@@ -18,5 +18,8 @@
     <string name="multiple_attendees">%d Attendees</string>
     <string name="minutes_before">In %d\'</string>
     <string name="event_s_attendee">Event\'s Attendee</string>
+    <string name="title_activity_full">View Document</string>
+    <string name="action_important_document">Mark as Important</string>
+    <string name="action_open_in_app">Open in App</string>
 
 </resources>

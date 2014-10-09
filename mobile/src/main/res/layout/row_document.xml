@@ -16,4 +16,10 @@
         android:layout_height="@dimen/ic_dt_size"
         android:layout_gravity="end|top"
         android:layout_margin="@dimen/ic_dp_margin"/>
+
+    <android.gesture.GestureOverlayView
+        android:id="@+id/gestureOverlayView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+    </android.gesture.GestureOverlayView>
 </FrameLayout>

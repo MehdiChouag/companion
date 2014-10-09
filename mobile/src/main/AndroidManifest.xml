@@ -5,7 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:allowBackup="true"
@@ -33,16 +33,12 @@
         </activity>
         <activity
             android:name=".ContextActivity"
-            android:label="@string/title_activity_context"
-            android:parentActivityName=".UpcomingEventsActivity">
-        <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.anyfetch.companion.mobile.UpcomingEventsActivity"/>
+            android:label="@string/title_activity_context">
         </activity>
 
         <receiver
             android:name=".commons.notifications.MeetingPreparationAlarm"
-            android:process=":remote"></receiver>
+            android:process=":remote"/>
         <receiver
             android:name=".notifications.MeetingPreparationNotification"
             android:exported="true">
@@ -50,6 +46,11 @@
                 <action android:name="com.anyfetch.companion.SHOW_NOTIFICATION"/>
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".FullActivity"
+            android:label="@string/title_activity_full">
+        </activity>
     </application>
 
 </manifest>

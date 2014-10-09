@@ -15,19 +15,15 @@ import com.anyfetch.companion.R;
 import com.anyfetch.companion.commons.android.Event;
 import com.anyfetch.companion.commons.android.Person;
 import com.anyfetch.companion.commons.api.GetDocumentsListRequest;
+import com.anyfetch.companion.commons.api.helpers.HtmlUtils;
 import com.anyfetch.companion.commons.api.pojo.Document;
 import com.anyfetch.companion.commons.api.pojo.DocumentsList;
 import com.anyfetch.companion.fragments.ContextFragment;
 import com.squareup.okhttp.OkHttpClient;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * Because a broadcast receiver is on the main thread ...
@@ -80,7 +76,7 @@ public class BuildNotificationTask extends AsyncTask<Event, Object, Object> {
         if (location != null && !location.equals("")) {
             bigViewText += location + ", ";
         }
-        if(attNumber == 1) {
+        if (attNumber == 1) {
             bigViewText += mContext.getString(R.string.single_attendee);
         } else {
             bigViewText += String.format(mContext.getString(R.string.multiple_attendees), attNumber);
@@ -167,14 +163,14 @@ public class BuildNotificationTask extends AsyncTask<Event, Object, Object> {
             // Big View
             NotificationCompat.BigTextStyle bigView = new NotificationCompat.BigTextStyle();
             bigView.bigText(Html.fromHtml(
-                    "<b>" + convertHlt(document.getTitle()) + "</b><br/>" +
-                            stripHtml(selectTag(document.getSnippet(), "main"))
+                    "<b>" + HtmlUtils.convertHlt(document.getTitle()) + "</b><br/>" +
+                            HtmlUtils.stripHtml(HtmlUtils.selectTag(document.getSnippet(), "main"))
             ));
 
             // Standard View
             NotificationCompat.Builder builder =
                     new NotificationCompat.Builder(mContext)
-                            .setContentTitle(Html.fromHtml(stripHtml(selectTag(document.getSnippet(), "ul"))))
+                            .setContentTitle(Html.fromHtml(HtmlUtils.stripHtml(HtmlUtils.selectTag(document.getSnippet(), "ul"))))
                             .setStyle(bigView)
                             .setSmallIcon(matchIcon(document.getType()));
             pages.add(builder.build());
@@ -182,26 +178,6 @@ public class BuildNotificationTask extends AsyncTask<Event, Object, Object> {
         return pages;
     }
 
-    private String convertHlt(String origin) {
-        return origin.replaceAll("<span[^>]+?anyfetch-hlt[^>]+?>(.+?)</span>", "<b>$1</b>");
-    }
-
-    private String selectTag(String origin, String tag) {
-        InputStream is = new ByteArrayInputStream(origin.getBytes());
-        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-        try {
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            org.w3c.dom.Document doc = dBuilder.parse(is);
-            return doc.getElementsByTagName(tag).item(0).getTextContent();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
-    private String stripHtml(String origin) {
-        return origin.replaceAll("</*[^>]+?/*>", "");
-    }
 
     private int matchIcon(String dt) {
         // TODO: replace with generic doctype icons
