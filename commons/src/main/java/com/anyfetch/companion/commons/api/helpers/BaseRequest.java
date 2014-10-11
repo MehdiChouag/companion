@@ -67,7 +67,8 @@ public abstract class BaseRequest<T> extends OkHttpSpiceRequest<T> {
             Gson gson = new GsonBuilder()
                     .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
                     .create();
-            return gson.fromJson(response.body().string(), getResultType());
+            String stringBody = response.body().string();
+            return gson.fromJson(stringBody, getResultType());
         } else {
             return null;
         }

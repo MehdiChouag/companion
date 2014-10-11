@@ -85,7 +85,8 @@ public class FullFragment extends Fragment implements RequestListener<Document> 
 
     private void showFull() {
         if (mFullWebView != null && !mDocument.getFull().equals("")) {
-            mFullWebView.loadData(HtmlUtils.HEADER + mDocument.getFull() + HtmlUtils.FOOTER, "text/html", "utf-8");
+            String htmlString = HtmlUtils.HEADER + mDocument.getFull() + HtmlUtils.FOOTER;
+            mFullWebView.loadData(htmlString, "text/html; charset=UTF-8", null);
         }
     }
 
