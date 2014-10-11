@@ -20,5 +20,9 @@ public class GetUpcomingEventsRequest extends SpiceRequest<EventsList> {
     public EventsList loadDataFromNetwork() throws Exception {
         return Event.getUpcomingEvents(mContext);
     }
+
+    public String createCacheKey() {
+        return "events";
+    }
 }
 

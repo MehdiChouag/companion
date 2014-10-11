@@ -22,5 +22,9 @@ public class GetEventRequest extends SpiceRequest<Event> {
     public Event loadDataFromNetwork() throws Exception {
         return Event.getEvent(mContext, mId);
     }
+
+    public String createCacheKey() {
+        return "event." + mId;
+    }
 }
 

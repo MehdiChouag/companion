@@ -52,7 +52,6 @@ public class DocumentsListAdapter extends TimedListAdapter {
         dtIcon.setImageResource(matchIcon(document.getType()));
 
         WebView webView = (WebView) convertView.findViewById(R.id.webView);
-        webView.reload();
         webView.loadData(HtmlUtils.HEADER + document.getSnippet() + HtmlUtils.FOOTER, "text/html", "utf-8");
 
         GestureOverlayView overlay = (GestureOverlayView) convertView.findViewById(R.id.gestureOverlayView);

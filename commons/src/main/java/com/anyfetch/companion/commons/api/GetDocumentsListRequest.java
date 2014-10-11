@@ -40,4 +40,8 @@ public class GetDocumentsListRequest extends BaseRequest<DocumentsList> {
         qp.put("context", mContextQuery);
         return qp;
     }
+
+    public String createCacheKey() {
+        return "documents." + mContextQuery;
+    }
 }

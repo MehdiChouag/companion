@@ -43,4 +43,8 @@ public class GetImportantDocumentsListRequest extends BaseRequest<DocumentsList>
         qp.put("context", mContextQuery);
         return qp;
     }
+
+    public String createCacheKey() {
+        return "importants." + mEventId + "." + mContextQuery;
+    }
 }

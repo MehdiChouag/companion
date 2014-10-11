@@ -15,6 +15,7 @@ import com.anyfetch.companion.commons.api.GetDocumentsListRequest;
 import com.anyfetch.companion.commons.api.HttpSpiceService;
 import com.anyfetch.companion.commons.api.pojo.DocumentsList;
 import com.octo.android.robospice.SpiceManager;
+import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
@@ -85,7 +86,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         mListView = (StickyListHeadersListView) view.findViewById(R.id.listView);
 
         GetDocumentsListRequest request = new GetDocumentsListRequest(getActivity(), getContextQuery());
-        mSpiceManager.execute(request, null, 0, this);
+        mSpiceManager.execute(request, request.createCacheKey(), 15 * DurationInMillis.ONE_MINUTE, this);
 
         return view;
     }

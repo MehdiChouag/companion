@@ -14,6 +14,7 @@ import com.anyfetch.companion.commons.api.HttpSpiceService;
 import com.anyfetch.companion.commons.api.helpers.HtmlUtils;
 import com.anyfetch.companion.commons.api.pojo.Document;
 import com.octo.android.robospice.SpiceManager;
+import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
@@ -66,7 +67,7 @@ public class FullFragment extends Fragment implements RequestListener<Document> 
             if (mDocument.getFull().equals("")) {
                 // TODO: bring ctx query
                 GetDocumentRequest request = new GetDocumentRequest(getActivity(), mDocument.getDocumentId(), "");
-                mSpiceManager.execute(request, null, 0, this);
+                mSpiceManager.execute(request, request.createCacheKey(), 15 * DurationInMillis.ONE_MINUTE, this);
             }
         }
     }

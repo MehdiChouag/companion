@@ -16,7 +16,13 @@ import com.octo.android.robospice.persistence.exception.CacheCreationException;
 public class AndroidSpiceService extends SpiceService {
     @Override
     public CacheManager createCacheManager(Application application) throws CacheCreationException {
-        return new CacheManager();
+        CacheManager cm = new CacheManager();
+        GenericObjectPersisterFactory factory = new GenericObjectPersisterFactory(application);
+        cm.addPersister(factory.createObjectPersister(EventsList.class));
+        factory = new GenericObjectPersisterFactory(application, 256 * 1024); // 256KB
+        cm.addPersister(factory.createObjectPersister(Event.class));
+        cm.addPersister(factory.createObjectPersister(Person.class));
+        return cm;
     }
 
     @Override

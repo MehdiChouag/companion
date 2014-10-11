@@ -19,6 +19,7 @@ import com.anyfetch.companion.commons.android.GetUpcomingEventsRequest;
 import com.anyfetch.companion.commons.notifications.MeetingPreparationAlarm;
 import com.anyfetch.companion.fragments.ContextFragment;
 import com.octo.android.robospice.SpiceManager;
+import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
@@ -59,7 +60,7 @@ public class UpcomingEventsActivity extends Activity implements RequestListener<
             mListView.setOnItemClickListener(this);
 
             GetUpcomingEventsRequest request = new GetUpcomingEventsRequest(getApplicationContext());
-            mSpiceManager.execute(request, null, 0, this);
+            mSpiceManager.execute(request, request.createCacheKey(), 15 * DurationInMillis.ONE_MINUTE, this);
         }
     }
 
@@ -80,6 +81,10 @@ public class UpcomingEventsActivity extends Activity implements RequestListener<
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
+            case R.id.action_refresh:
+                GetUpcomingEventsRequest request = new GetUpcomingEventsRequest(getApplicationContext());
+                mSpiceManager.execute(request, null, 0, this);
+                break;
             case R.id.action_settings:
                 break;
             case R.id.action_log_out:

@@ -33,4 +33,8 @@ public class GetPersonRequest extends SpiceRequest<Person> {
             return Person.getPerson(mContext, mEmail);
         }
     }
+
+    public String createCacheKey() {
+        return "person." + mId;
+    }
 }

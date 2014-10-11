@@ -21,5 +21,6 @@
     <string name="title_activity_full">View Document</string>
     <string name="action_important_document">Mark as Important</string>
     <string name="action_open_in_app">Open in App</string>
+    <string name="action_refresh">Refresh</string>
 
 </resources>
