@@ -1,8 +1,8 @@
-package com.anyfetch.companion.commons.api.requests;
+package com.anyfetch.companion.commons.api;
 
 import android.app.Application;
 
-import com.anyfetch.companion.commons.android.helpers.GenericObjectPersisterFactory;
+import com.anyfetch.companion.commons.GenericObjectPersisterFactory;
 import com.anyfetch.companion.commons.api.pojo.Document;
 import com.anyfetch.companion.commons.api.pojo.DocumentsList;
 import com.octo.android.robospice.okhttp.OkHttpSpiceService;

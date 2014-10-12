@@ -10,10 +10,10 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import com.anyfetch.companion.R;
+import com.anyfetch.companion.commons.api.HttpSpiceService;
 import com.anyfetch.companion.commons.api.helpers.HtmlUtils;
 import com.anyfetch.companion.commons.api.pojo.Document;
 import com.anyfetch.companion.commons.api.requests.GetDocumentRequest;
-import com.anyfetch.companion.commons.api.requests.HttpSpiceService;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;

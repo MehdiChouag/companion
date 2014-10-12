@@ -1,8 +1,7 @@
-package com.anyfetch.companion.commons.api;
+package com.anyfetch.companion.commons.api.requests;
 
 import com.anyfetch.companion.commons.api.helpers.BaseRequestTest;
 import com.anyfetch.companion.commons.api.pojo.Document;
-import com.anyfetch.companion.commons.api.requests.DeleteImportantDocumentRequest;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.util.Date;
@@ -13,7 +12,7 @@ public class DeleteImportantDocumentRequestTest extends BaseRequestTest {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        Document document = new Document("file", "docId", "companyId", "eventId", new Date(), "Doc", "Docu", "Document");
+        Document document = new Document("file", "Dropbox", "docId", "companyId", "eventId", new Date(), "Doc", "Docu", "Document");
         mRequest = new DeleteImportantDocumentRequest(getContext(), "eventId", document);
         mRequest.setOkHttpClient(new OkHttpClient());
     }

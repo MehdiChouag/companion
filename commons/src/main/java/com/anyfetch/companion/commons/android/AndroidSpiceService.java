@@ -1,9 +1,9 @@
-package com.anyfetch.companion.commons.android.requests;
+package com.anyfetch.companion.commons.android;
 
 import android.app.Application;
 import android.content.Context;
 
-import com.anyfetch.companion.commons.android.helpers.GenericObjectPersisterFactory;
+import com.anyfetch.companion.commons.GenericObjectPersisterFactory;
 import com.anyfetch.companion.commons.android.pojo.Event;
 import com.anyfetch.companion.commons.android.pojo.EventsList;
 import com.anyfetch.companion.commons.android.pojo.Person;

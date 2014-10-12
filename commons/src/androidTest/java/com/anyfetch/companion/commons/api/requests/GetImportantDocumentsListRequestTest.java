@@ -1,8 +1,7 @@
-package com.anyfetch.companion.commons.api;
+package com.anyfetch.companion.commons.api.requests;
 
 import com.anyfetch.companion.commons.api.helpers.BaseRequestTest;
 import com.anyfetch.companion.commons.api.pojo.DocumentsList;
-import com.anyfetch.companion.commons.api.requests.GetImportantDocumentsListRequest;
 import com.squareup.okhttp.OkHttpClient;
 
 public class GetImportantDocumentsListRequestTest extends BaseRequestTest {

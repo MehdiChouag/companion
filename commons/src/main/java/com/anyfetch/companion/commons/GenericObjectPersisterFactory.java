@@ -1,4 +1,4 @@
-package com.anyfetch.companion.commons.android.helpers;
+package com.anyfetch.companion.commons;
 
 
 import android.app.Application;
