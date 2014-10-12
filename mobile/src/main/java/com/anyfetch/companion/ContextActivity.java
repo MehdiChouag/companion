@@ -50,6 +50,8 @@ public class ContextActivity extends Activity {
         if (bar != null) {
             bar.setDisplayShowHomeEnabled(false);
             bar.setTitle(mTitle);
+            bar.setDisplayHomeAsUpEnabled(true);
+            bar.setHomeButtonEnabled(true);
         }
         return true;
     }
@@ -58,6 +60,9 @@ public class ContextActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
+            case android.R.id.home:
+                finish();
+                break;
             case R.id.action_prepare_on_wear:
                 if (mEvent != null) {
                     Intent i = new Intent();

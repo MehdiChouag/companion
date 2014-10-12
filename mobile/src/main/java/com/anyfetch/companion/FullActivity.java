@@ -42,6 +42,8 @@ public class FullActivity extends Activity {
         if (bar != null) {
             bar.setDisplayShowHomeEnabled(false);
             bar.setTitle(HtmlUtils.stripHtml(mDocument.getTitle()));
+            bar.setDisplayHomeAsUpEnabled(true);
+            bar.setHomeButtonEnabled(true);
         }
         return true;
     }
@@ -52,8 +54,10 @@ public class FullActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case android.R.id.home:
+                finish();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
