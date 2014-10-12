@@ -31,8 +31,6 @@ public class GenericObjectPersisterFactory extends ObjectPersisterFactory {
     public <DATA> ObjectPersister<DATA> createObjectPersister(Class<DATA> clazz) throws CacheCreationException {
         LruCache<Object, CacheItem<DATA>> lru = new LruCache<Object, CacheItem<DATA>>(mMaxSize);
 
-        ObjectPersister<DATA> op = new LruCacheObjectPersister<DATA>(clazz, lru);
-
-        return op;
+        return new LruCacheObjectPersister<DATA>(clazz, lru);
     }
 }

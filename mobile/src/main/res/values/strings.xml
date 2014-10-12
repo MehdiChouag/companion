@@ -5,14 +5,12 @@
     <string name="title_activity_upcoming_events">Anyfetch Companion</string>
     <string name="action_settings">Settings</string>
     <string name="action_log_out">Log Out</string>
-    <string name="text_no_events">No Events</string>
     <string name="date_today">TODAY</string>
     <string name="date_tomorrow">TOMORROW</string>
     <string name="title_upcoming_meetings">Upcoming Meetings</string>
     <string name="title_activity_context">Context</string>
     <string name="action_improve_context">Improve Context</string>
     <string name="date_yesterday">Yesterday</string>
-    <string name="text_no_documents">No matching context</string>
     <string name="action_prepare_on_wear">Prepare on Wear</string>
     <string name="single_attendee">1 Attendee</string>
     <string name="multiple_attendees">%d Attendees</string>
