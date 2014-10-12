@@ -59,7 +59,7 @@ public class ImageHelper {
         } else if (provider.equals("SalesForce")) {
             return R.drawable.ic_sfdc;
         } else {
-            return R.drawable.ic_gcontacts;
+            return R.drawable.ic_launcher;
         }
     }
 }
