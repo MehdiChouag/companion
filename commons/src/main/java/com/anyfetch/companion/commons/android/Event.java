@@ -187,7 +187,7 @@ public class Event implements Parcelable {
         Cursor evtCur = cr.query(
                 CalendarContract.Events.CONTENT_URI,
                 EVENT_PROJECTION,
-                CalendarContract.Events.DTSTART + ">" + now.getTimeInMillis()
+                CalendarContract.Events.DTEND + ">" + now.getTimeInMillis()
                 ,
                 null,
                 CalendarContract.Events.DTSTART + " ASC LIMIT " + limit);
