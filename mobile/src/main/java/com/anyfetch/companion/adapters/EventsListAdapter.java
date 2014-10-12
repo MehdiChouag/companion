@@ -9,9 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.anyfetch.companion.R;
-import com.anyfetch.companion.commons.android.Event;
-import com.anyfetch.companion.commons.android.EventsList;
-import com.anyfetch.companion.commons.android.Person;
+import com.anyfetch.companion.commons.android.pojo.Event;
+import com.anyfetch.companion.commons.android.pojo.EventsList;
+import com.anyfetch.companion.commons.android.pojo.Person;
 import com.anyfetch.companion.ui.ImageHelper;
 
 import java.util.ArrayList;
@@ -96,7 +96,7 @@ public class EventsListAdapter extends TimedListAdapter implements StickyListHea
 
         TextView attendeeView = (TextView) convertView.findViewById(R.id.attendeeView);
         int attendees = event.getAttendees().size();
-        if(attendees == 1) {
+        if (attendees == 1) {
             attendeeView.setText(event.getAttendees().get(0).getName());
         } else {
             attendeeView.setText(String.format(mContext.getString(R.string.multiple_attendees), attendees));
@@ -112,14 +112,14 @@ public class EventsListAdapter extends TimedListAdapter implements StickyListHea
 
     private Bitmap createAttendeesMosaic(List<Person> attendees) {
         List<Bitmap> thumbs = new ArrayList<Bitmap>();
-        for(Person attendee : attendees) {
+        for (Person attendee : attendees) {
             Bitmap thumb = attendee.getThumb();
-            if(thumb != null) {
+            if (thumb != null) {
                 thumbs.add(thumb);
             }
         }
         int size = thumbs.size();
-        if(size > 0) {
+        if (size > 0) {
             return ImageHelper.getRoundedCornerBitmap(thumbs.get(0), 200);
         }
 

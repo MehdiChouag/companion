@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.anyfetch.companion.commons.android.Event;
+import com.anyfetch.companion.commons.android.pojo.Event;
 import com.anyfetch.companion.commons.notifications.MeetingPreparationAlarm;
 
 /**

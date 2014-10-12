@@ -8,7 +8,7 @@ import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.anyfetch.companion.commons.android.Event;
+import com.anyfetch.companion.commons.android.pojo.Event;
 import com.anyfetch.companion.commons.notifications.MeetingPreparationAlarm;
 import com.anyfetch.companion.fragments.ContextFragment;
 

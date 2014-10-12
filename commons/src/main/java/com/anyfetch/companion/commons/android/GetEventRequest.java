@@ -2,6 +2,7 @@ package com.anyfetch.companion.commons.android;
 
 import android.content.Context;
 
+import com.anyfetch.companion.commons.android.pojo.Event;
 import com.octo.android.robospice.request.SpiceRequest;
 
 /**

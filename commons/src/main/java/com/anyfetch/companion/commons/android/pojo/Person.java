@@ -1,4 +1,4 @@
-package com.anyfetch.companion.commons.android;
+package com.anyfetch.companion.commons.android.pojo;
 
 import android.content.ContentResolver;
 import android.content.Context;

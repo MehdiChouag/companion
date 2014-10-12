@@ -12,8 +12,8 @@ import android.text.Html;
 
 import com.anyfetch.companion.ContextActivity;
 import com.anyfetch.companion.R;
-import com.anyfetch.companion.commons.android.Event;
-import com.anyfetch.companion.commons.android.Person;
+import com.anyfetch.companion.commons.android.pojo.Event;
+import com.anyfetch.companion.commons.android.pojo.Person;
 import com.anyfetch.companion.commons.api.GetDocumentsListRequest;
 import com.anyfetch.companion.commons.api.helpers.HtmlUtils;
 import com.anyfetch.companion.commons.api.pojo.Document;

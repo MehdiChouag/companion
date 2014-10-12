@@ -1,4 +1,4 @@
-package com.anyfetch.companion.commons.android;
+package com.anyfetch.companion.commons.android.pojo;
 
 import android.content.Context;
 import android.test.InstrumentationTestCase;
@@ -29,7 +29,7 @@ public class PersonTest extends InstrumentationTestCase {
         assertEquals("sterling@isis.org", person.getEmails().get(0));
     }
 
-	@Suppress
+    @Suppress
     public void test_getPerson_id() throws Exception {
         Person person = Person.getPerson(mContext, mId);
 

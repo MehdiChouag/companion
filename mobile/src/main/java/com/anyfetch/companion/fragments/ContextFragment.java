@@ -10,8 +10,8 @@ import android.widget.ProgressBar;
 
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.adapters.DocumentsListAdapter;
-import com.anyfetch.companion.commons.android.Event;
-import com.anyfetch.companion.commons.android.Person;
+import com.anyfetch.companion.commons.android.pojo.Event;
+import com.anyfetch.companion.commons.android.pojo.Person;
 import com.anyfetch.companion.commons.api.GetDocumentsListRequest;
 import com.anyfetch.companion.commons.api.HttpSpiceService;
 import com.anyfetch.companion.commons.api.pojo.DocumentsList;
