@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.ProgressBar;
 
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.commons.api.GetDocumentRequest;
@@ -25,6 +26,7 @@ public class FullFragment extends Fragment implements RequestListener<Document> 
 
     private Document mDocument;
     private WebView mFullWebView;
+    private ProgressBar mProgress;
 
 
     public FullFragment() {
@@ -78,6 +80,7 @@ public class FullFragment extends Fragment implements RequestListener<Document> 
         View view = inflater.inflate(R.layout.fragment_full, container, false);
 
         mFullWebView = (WebView) view.findViewById(R.id.fullWebView);
+        mProgress = (ProgressBar) view.findViewById(R.id.progressBar);
         showFull();
 
         return view;
@@ -85,6 +88,7 @@ public class FullFragment extends Fragment implements RequestListener<Document> 
 
     private void showFull() {
         if (mFullWebView != null && !mDocument.getFull().equals("")) {
+            mProgress.setVisibility(View.INVISIBLE);
             String htmlString = HtmlUtils.HEADER + mDocument.getFull() + HtmlUtils.FOOTER;
             mFullWebView.loadData(htmlString, "text/html; charset=UTF-8", null);
         }

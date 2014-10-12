@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.adapters.DocumentsListAdapter;
@@ -36,6 +37,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
     private Object mContext;
     private DocumentsListAdapter mListAdapter;
     private StickyListHeadersListView mListView;
+    private ProgressBar mProgress;
 
 
     public ContextFragment() {
@@ -84,6 +86,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_context, container, false);
         mListView = (StickyListHeadersListView) view.findViewById(R.id.listView);
+        mProgress = (ProgressBar) view.findViewById(R.id.progressBar);
 
         GetDocumentsListRequest request = new GetDocumentsListRequest(getActivity(), getContextQuery());
         mSpiceManager.execute(request, request.createCacheKey(), 15 * DurationInMillis.ONE_MINUTE, this);
@@ -117,6 +120,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
 
     @Override
     public void onRequestSuccess(DocumentsList documents) {
+        mProgress.setVisibility(View.INVISIBLE);
         mListAdapter = new DocumentsListAdapter(getActivity(), documents);
         mListView.setAdapter(mListAdapter);
     }
