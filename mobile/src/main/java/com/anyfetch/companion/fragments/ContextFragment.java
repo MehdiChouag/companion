@@ -96,6 +96,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
 
 
     public String getContextQuery() {
+        // TODO: move logic to commons
         if (mType.equals(TYPE_EVENT)) {
             Event event = (Event) mContext;
             String query = "(" + event.getTitle() + ")";

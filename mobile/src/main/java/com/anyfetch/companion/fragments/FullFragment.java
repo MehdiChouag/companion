@@ -89,6 +89,7 @@ public class FullFragment extends Fragment implements RequestListener<Document> 
     private void showFull() {
         if (mFullWebView != null && !mDocument.getFull().equals("")) {
             mProgress.setVisibility(View.INVISIBLE);
+            // TODO: integrate html generation inside the document
             String htmlString = HtmlUtils.HEADER + mDocument.getFull() + HtmlUtils.FOOTER;
             mFullWebView.loadData(htmlString, "text/html; charset=UTF-8", null);
         }

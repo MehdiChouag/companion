@@ -19,6 +19,7 @@ import com.anyfetch.companion.commons.api.helpers.HtmlUtils;
 import com.anyfetch.companion.commons.api.pojo.Document;
 import com.anyfetch.companion.commons.api.pojo.DocumentsList;
 import com.anyfetch.companion.fragments.ContextFragment;
+import com.anyfetch.companion.ui.ImageHelper;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.util.ArrayList;
@@ -172,27 +173,9 @@ public class BuildNotificationTask extends AsyncTask<Event, Object, Object> {
                     new NotificationCompat.Builder(mContext)
                             .setContentTitle(Html.fromHtml(HtmlUtils.stripHtml(HtmlUtils.selectTag(document.getSnippet(), "ul"))))
                             .setStyle(bigView)
-                            .setSmallIcon(matchIcon(document.getType()));
+                            .setSmallIcon(ImageHelper.matchResourceForProvider(document.getProvider()));
             pages.add(builder.build());
         }
         return pages;
-    }
-
-
-    private int matchIcon(String dt) {
-        // TODO: replace with generic doctype icons
-        if (dt.equals("contact")) {
-            return R.drawable.ic_sfdc;
-        }
-        if (dt.equals("document") || dt.equals("file") || dt.equals("image")) {
-            return R.drawable.ic_gdrive;
-        }
-        if (dt.equals("email-thread") || dt.equals("email")) {
-            return R.drawable.ic_gmail;
-        }
-        if (dt.equals("event")) {
-            return R.drawable.ic_event;
-        }
-        return R.drawable.ic_gdrive;
     }
 }
