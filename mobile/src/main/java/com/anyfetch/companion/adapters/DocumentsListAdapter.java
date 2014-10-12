@@ -3,6 +3,8 @@ package com.anyfetch.companion.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.gesture.GestureOverlayView;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -51,6 +53,9 @@ public class DocumentsListAdapter extends TimedListAdapter {
 
         ImageView providerIcon = (ImageView) convertView.findViewById(R.id.providerIcon);
         providerIcon.setImageResource(ImageHelper.matchResourceForProvider(document.getProvider()));
+        ColorMatrix cm = new ColorMatrix();
+        cm.setSaturation(0);
+        providerIcon.setColorFilter(new ColorMatrixColorFilter(cm));
         providerIcon.setContentDescription(document.getProvider());
 
         WebView webView = (WebView) convertView.findViewById(R.id.webView);
