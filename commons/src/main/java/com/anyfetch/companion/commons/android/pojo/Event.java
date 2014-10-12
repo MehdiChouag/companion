@@ -7,6 +7,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.CalendarContract;
 
+import com.anyfetch.companion.commons.api.builders.ContextualObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,7 +17,7 @@ import java.util.List;
 /**
  * Represents a calendar event
  */
-public class Event implements Parcelable {
+public class Event implements Parcelable, ContextualObject {
     public static final int SECOND = 1000;
     public static final int MINUTE = 60 * SECOND;
     public static final int HOUR = 60 * MINUTE;
@@ -217,6 +219,15 @@ public class Event implements Parcelable {
      */
     public String getTitle() {
         return mTitle;
+    }
+
+    @Override
+    public String getSearchQuery() {
+        String query = "(" + mTitle + ")";
+        for (Person attendee : mAttendees) {
+            query += " OR " + attendee.getSearchQuery();
+        }
+        return query;
     }
 
     /**

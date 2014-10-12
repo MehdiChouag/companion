@@ -1,10 +1,7 @@
 package com.anyfetch.companion.commons.api.requests;
 
 import com.anyfetch.companion.commons.api.helpers.BaseRequestTest;
-import com.anyfetch.companion.commons.api.pojo.Document;
 import com.squareup.okhttp.OkHttpClient;
-
-import java.util.Date;
 
 public class PostImportantDocumentRequestTest extends BaseRequestTest {
     private PostImportantDocumentRequest mRequest;
@@ -12,8 +9,7 @@ public class PostImportantDocumentRequestTest extends BaseRequestTest {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        Document document = new Document("file", "Dropbox", "docId", "companyId", "eventId", new Date(), "Doc", "Docu", "Document");
-        mRequest = new PostImportantDocumentRequest(getContext(), "eventId", document);
+        mRequest = new PostImportantDocumentRequest(getServerUrl(), getApiToken(), "eventId", "docId");
         mRequest.setOkHttpClient(new OkHttpClient());
     }
 

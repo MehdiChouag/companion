@@ -1,9 +1,6 @@
 package com.anyfetch.companion.commons.api.helpers;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -27,21 +24,20 @@ public abstract class BaseRequest<T> extends OkHttpSpiceRequest<T> {
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final MediaType TEXT = MediaType.parse("text/plain; charset=utf-8");
 
-    private final String mApiUrl;
+    private final String mServerUrl;
     private final String mApiToken;
 
     /**
      * Constructs a new request
      *
-     * @param klass   The class used to deflate the result
-     * @param context An Android Context
+     * @param klass     The class used to deflate the result
+     * @param serverUrl The companion-server url
+     * @param apiToken  The API token
      */
-    protected BaseRequest(Class<T> klass, Context context) {
+    protected BaseRequest(Class<T> klass, String serverUrl, String apiToken) {
         super(klass);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        // TODO: get rid of -staging before merging
-        mApiUrl = preferences.getString("apiUrl", "https://anyfetch-companion-staging.herokuapp.com");
-        mApiToken = preferences.getString("apiToken", null);
+        mServerUrl = serverUrl;
+        mApiToken = apiToken;
     }
 
     @Override
@@ -84,12 +80,12 @@ public abstract class BaseRequest<T> extends OkHttpSpiceRequest<T> {
     }
 
     /**
-     * Gets the globally set Anyfetch API URL (defaults to https://anyfetch-companion.herokuapp.com)
+     * Gets the companion server url
      *
      * @return An URL prefix
      */
-    protected String getApiUrl() {
-        return mApiUrl;
+    protected String getServerUrl() {
+        return mServerUrl;
     }
 
     /**
@@ -136,7 +132,7 @@ public abstract class BaseRequest<T> extends OkHttpSpiceRequest<T> {
     protected abstract String getPath();
 
     private URI getUri() throws URISyntaxException {
-        Uri.Builder uriBuilder = Uri.parse(getApiUrl() + getPath()).buildUpon();
+        Uri.Builder uriBuilder = Uri.parse(getServerUrl() + getPath()).buildUpon();
         Map<String, String> queryParameters = getQueryParameters();
         for (String key : queryParameters.keySet()) {
             uriBuilder.appendQueryParameter(key, queryParameters.get(key));

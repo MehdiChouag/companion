@@ -14,6 +14,7 @@ import com.anyfetch.companion.ContextActivity;
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.commons.android.pojo.Event;
 import com.anyfetch.companion.commons.android.pojo.Person;
+import com.anyfetch.companion.commons.api.builders.DocumentsListRequestBuilder;
 import com.anyfetch.companion.commons.api.helpers.HtmlUtils;
 import com.anyfetch.companion.commons.api.pojo.Document;
 import com.anyfetch.companion.commons.api.pojo.DocumentsList;
@@ -58,15 +59,16 @@ public class BuildNotificationTask extends AsyncTask<Event, Object, Object> {
 
     private void buildEventNotification(Event event) throws Exception {
         // Fetch context
-        GetDocumentsListRequest request = new GetDocumentsListRequest(mContext, event.getTitle());
+        GetDocumentsListRequest request = (GetDocumentsListRequest) new DocumentsListRequestBuilder(mContext)
+                .setContextualObject(event)
+                .build();
         request.setOkHttpClient(mClient);
         DocumentsList documents = request.loadDataFromNetwork();
 
         int notificationId = (int) event.getId();
         // Main Notification Intent
         Intent viewIntent = new Intent(mContext, ContextActivity.class);
-        viewIntent.putExtra(ContextFragment.ARG_TYPE, ContextFragment.TYPE_EVENT);
-        viewIntent.putExtra(ContextFragment.ARG_PARCELABLE, event);
+        viewIntent.putExtra(ContextFragment.ARG_CONTEXTUAL_OBJECT, event);
         PendingIntent viewPendingIntent = PendingIntent.getActivity(mContext, 0, viewIntent, 0);
 
         // Big View
@@ -116,11 +118,9 @@ public class BuildNotificationTask extends AsyncTask<Event, Object, Object> {
 
     private Notification buildAttendeeNotification(int notificationId, Person attendee) throws Exception {
         // Fetch context
-        String query = "(" + attendee.getName() + ")";
-        for (String email : attendee.getEmails()) {
-            query += " OR (" + email + ")";
-        }
-        GetDocumentsListRequest request = new GetDocumentsListRequest(mContext, query);
+        GetDocumentsListRequest request = (GetDocumentsListRequest) new DocumentsListRequestBuilder(mContext)
+                .setContextualObject(attendee)
+                .build();
         request.setOkHttpClient(mClient);
         DocumentsList documents = request.loadDataFromNetwork();
 

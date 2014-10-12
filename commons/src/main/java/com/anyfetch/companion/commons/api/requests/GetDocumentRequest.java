@@ -1,7 +1,5 @@
 package com.anyfetch.companion.commons.api.requests;
 
-import android.content.Context;
-
 import com.anyfetch.companion.commons.api.helpers.BaseRequest;
 import com.anyfetch.companion.commons.api.pojo.Document;
 
@@ -17,12 +15,13 @@ public class GetDocumentRequest extends BaseRequest<Document> {
     /**
      * Constructs new documents search context
      *
-     * @param context      An Android Context
+     * @param serverUrl    The companion-server url
+     * @param apiToken     The API token
      * @param documentId   The id of the document
      * @param contextQuery An Anyfetch search query for highlighting
      */
-    public GetDocumentRequest(Context context, String documentId, String contextQuery) {
-        super(Document.class, context);
+    public GetDocumentRequest(String serverUrl, String apiToken, String documentId, String contextQuery) {
+        super(Document.class, serverUrl, apiToken);
         mDocumentId = documentId;
         mContextQuery = contextQuery;
     }

@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.commons.api.HttpSpiceService;
+import com.anyfetch.companion.commons.api.builders.DocumentRequestBuilder;
 import com.anyfetch.companion.commons.api.helpers.HtmlUtils;
 import com.anyfetch.companion.commons.api.pojo.Document;
 import com.anyfetch.companion.commons.api.requests.GetDocumentRequest;
@@ -68,7 +69,10 @@ public class FullFragment extends Fragment implements RequestListener<Document> 
 
             if (mDocument.getFull().equals("")) {
                 // TODO: bring ctx query
-                GetDocumentRequest request = new GetDocumentRequest(getActivity(), mDocument.getDocumentId(), "");
+                GetDocumentRequest request = (GetDocumentRequest) new DocumentRequestBuilder(getActivity())
+                        .setDocument(mDocument)
+                        .actionGet()
+                        .build();
                 mSpiceManager.execute(request, request.createCacheKey(), 15 * DurationInMillis.ONE_MINUTE, this);
             }
         }

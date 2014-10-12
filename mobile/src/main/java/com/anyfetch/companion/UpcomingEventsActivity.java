@@ -16,6 +16,7 @@ import com.anyfetch.companion.commons.android.AndroidSpiceService;
 import com.anyfetch.companion.commons.android.pojo.Event;
 import com.anyfetch.companion.commons.android.pojo.EventsList;
 import com.anyfetch.companion.commons.android.requests.GetUpcomingEventsRequest;
+import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
 import com.anyfetch.companion.commons.notifications.MeetingPreparationAlarm;
 import com.anyfetch.companion.fragments.ContextFragment;
 import com.octo.android.robospice.SpiceManager;
@@ -47,7 +48,7 @@ public class UpcomingEventsActivity extends Activity implements RequestListener<
         super.onCreate(savedInstanceState);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String apiToken = preferences.getString("apiToken", null);
+        String apiToken = preferences.getString(BaseRequestBuilder.PREF_API_TOKEN, null);
 
         if (apiToken == null) {
             openAuthActivity();
@@ -115,8 +116,7 @@ public class UpcomingEventsActivity extends Activity implements RequestListener<
         Event event = mListAdapter.getEvent(position);
 
         Intent intent = new Intent(getApplicationContext(), ContextActivity.class);
-        intent.putExtra(ContextFragment.ARG_TYPE, ContextFragment.TYPE_EVENT);
-        intent.putExtra(ContextFragment.ARG_PARCELABLE, event);
+        intent.putExtra(ContextFragment.ARG_CONTEXTUAL_OBJECT, event);
         startActivity(intent);
     }
 

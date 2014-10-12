@@ -10,7 +10,7 @@ public class GetImportantDocumentsListRequestTest extends BaseRequestTest {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mRequest = new GetImportantDocumentsListRequest(getContext(), "eventId", "test context");
+        mRequest = new GetImportantDocumentsListRequest(getServerUrl(), getApiToken(), "eventId", "test context");
         mRequest.setOkHttpClient(new OkHttpClient());
     }
 

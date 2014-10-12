@@ -1,7 +1,5 @@
 package com.anyfetch.companion.commons.api.requests;
 
-import android.content.Context;
-
 import com.anyfetch.companion.commons.api.helpers.BaseRequest;
 import com.anyfetch.companion.commons.api.pojo.DocumentsList;
 
@@ -17,12 +15,13 @@ public class GetImportantDocumentsListRequest extends BaseRequest<DocumentsList>
     /**
      * Constructs new important documents context
      *
-     * @param context      An Android Context
+     * @param serverUrl    The companion-server url
+     * @param apiToken     The API token
      * @param eventId      The event ID
      * @param contextQuery An Anyfetch search query
      */
-    public GetImportantDocumentsListRequest(Context context, String eventId, String contextQuery) {
-        super(DocumentsList.class, context);
+    public GetImportantDocumentsListRequest(String serverUrl, String apiToken, String eventId, String contextQuery) {
+        super(DocumentsList.class, serverUrl, apiToken);
         mEventId = eventId;
         mContextQuery = contextQuery;
     }

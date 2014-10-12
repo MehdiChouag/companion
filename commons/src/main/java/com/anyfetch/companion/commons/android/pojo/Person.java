@@ -9,13 +9,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.ContactsContract;
 
+import com.anyfetch.companion.commons.api.builders.ContextualObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Represents a Contact/Attendee
  */
-public class Person implements Parcelable {
+public class Person implements Parcelable, ContextualObject {
     public static final Parcelable.Creator<Person> CREATOR = new Parcelable.Creator<Person>() {
 
         @Override
@@ -321,5 +323,19 @@ public class Person implements Parcelable {
         dest.writeStringList(mNumbers);
         dest.writeParcelable(mThumb, flags);
         dest.writeLong(mPhotoId);
+    }
+
+    @Override
+    public String getTitle() {
+        return mName;
+    }
+
+    @Override
+    public String getSearchQuery() {
+        String query = "(" + mName + ")";
+        for (String email : mEmails) {
+            query += " OR (" + email + ")";
+        }
+        return query;
     }
 }

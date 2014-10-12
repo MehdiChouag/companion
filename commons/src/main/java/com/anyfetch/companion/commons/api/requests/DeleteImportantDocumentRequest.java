@@ -1,29 +1,27 @@
 package com.anyfetch.companion.commons.api.requests;
 
-import android.content.Context;
-
 import com.anyfetch.companion.commons.api.helpers.BaseRequest;
 import com.anyfetch.companion.commons.api.pojo.Document;
-import com.anyfetch.companion.commons.api.pojo.DocumentsList;
 
 /**
  * Unflag an important document
  */
-public class DeleteImportantDocumentRequest extends BaseRequest<DocumentsList> {
+public class DeleteImportantDocumentRequest extends BaseRequest<Document> {
     private final String mEventId;
     private final String mDocumentId;
 
     /**
      * Constructs a new important document unflagging request
      *
-     * @param context  An Android Context
-     * @param eventId  The event ID
-     * @param document The document to unflag as important
+     * @param serverUrl  The companion-server url
+     * @param apiToken   The API token
+     * @param eventId    The event ID
+     * @param documentId The document id to unflag as important
      */
-    public DeleteImportantDocumentRequest(Context context, String eventId, Document document) {
-        super(DocumentsList.class, context);
+    public DeleteImportantDocumentRequest(String serverUrl, String apiToken, String eventId, String documentId) {
+        super(Document.class, serverUrl, apiToken);
         mEventId = eventId;
-        mDocumentId = document.getDocumentId();
+        mDocumentId = documentId;
     }
 
     @Override

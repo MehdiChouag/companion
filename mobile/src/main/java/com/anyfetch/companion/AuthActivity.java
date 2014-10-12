@@ -8,6 +8,8 @@ import android.preference.PreferenceManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
+
 public class AuthActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,8 +17,7 @@ public class AuthActivity extends Activity {
         setContentView(R.layout.activity_auth);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        // TODO: get rid of -staging before merging
-        String apiUrl = preferences.getString("apiUrl", "https://anyfetch-companion-staging.herokuapp.com");
+        String serverUrl = preferences.getString(BaseRequestBuilder.PREF_SERVER_URL, BaseRequestBuilder.DEFAULT_SERVER_URL);
 
         WebView webView = (WebView) findViewById(R.id.webView);
         webView.setWebViewClient(new WebViewClient() {
@@ -34,12 +35,12 @@ public class AuthActivity extends Activity {
                 }
             }
         });
-        webView.loadUrl(apiUrl + "/init/connect");
+        webView.loadUrl(serverUrl + "/init/connect");
     }
 
     private void backToUpcoming(String apiToken) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
-        editor.putString("apiToken", apiToken);
+        editor.putString(BaseRequestBuilder.PREF_API_TOKEN, apiToken);
         editor.apply();
 
         Intent intent = new Intent(getApplicationContext(), UpcomingEventsActivity.class);

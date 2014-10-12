@@ -15,7 +15,7 @@ public class GetDocumentRequestTest extends BaseRequestTest {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mRequest = new GetDocumentRequest(getContext(), "docId", "test context");
+        mRequest = new GetDocumentRequest(getServerUrl(), getApiToken(), "docId", "test context");
         mRequest.setOkHttpClient(new OkHttpClient());
     }
 

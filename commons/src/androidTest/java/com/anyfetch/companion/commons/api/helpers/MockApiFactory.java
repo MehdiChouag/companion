@@ -16,14 +16,17 @@ public class MockApiFactory {
         DocumentsList docs = new DocumentsList();
         for (int i = 0; i < amount; i++) {
             docs.add(new Document(
-                    "file",
-                    "doc" + i,
-                    isImportant ? "company0" : null,
-                    isImportant ? "event0" : null,
-                    new Date(0),
-                    "Doc" + i,
-                    "Docu" + i,
-                    "Document" + i));
+                            "file",
+                            "Dropbox",
+                            "doc" + i,
+                            isImportant ? "company0" : null,
+                            isImportant ? "event0" : null,
+                            new Date(0),
+                            "Doc" + i,
+                            "Docu" + i,
+                            "Document" + i,
+                            false)
+            );
         }
         return docs;
     }

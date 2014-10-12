@@ -13,7 +13,7 @@ public class GetDocumentsListRequestTest extends BaseRequestTest {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mRequest = new GetDocumentsListRequest(getContext(), "test context");
+        mRequest = new GetDocumentsListRequest(getServerUrl(), getApiToken(), "test context");
         mRequest.setOkHttpClient(new OkHttpClient());
     }
 

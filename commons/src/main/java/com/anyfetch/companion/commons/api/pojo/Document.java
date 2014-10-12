@@ -22,7 +22,8 @@ public class Document implements Parcelable {
             String title = source.readString();
             String snippet = source.readString();
             String full = source.readString();
-            return new Document(type, provider, documentId, companyId, eventId, date, title, snippet, full);
+            boolean important = (source.readInt() > 0);
+            return new Document(type, provider, documentId, companyId, eventId, date, title, snippet, full, important);
         }
 
         @Override
@@ -42,6 +43,8 @@ public class Document implements Parcelable {
     private String snippet;
     private String full;
 
+    private boolean important;
+
     public Document() {
         this.type = "";
         this.provider = "";
@@ -52,9 +55,10 @@ public class Document implements Parcelable {
         this.title = "";
         this.snippet = "";
         this.full = "";
+        this.important = false;
     }
 
-    public Document(String type, String provider, String documentId, String companyId, String eventId, Date date, String title, String snippet, String full) {
+    public Document(String type, String provider, String documentId, String companyId, String eventId, Date date, String title, String snippet, String full, boolean important) {
         this.type = type;
         this.provider = provider;
         this.documentId = documentId;
@@ -64,6 +68,7 @@ public class Document implements Parcelable {
         this.title = title;
         this.snippet = snippet;
         this.full = full;
+        this.important = important;
     }
 
     public String getType() {
@@ -102,6 +107,10 @@ public class Document implements Parcelable {
         return full;
     }
 
+    public boolean isImportant() {
+        return important;
+    }
+
     @Override
     public int describeContents() {
         return DOCUMENT_PARCELABLE;
@@ -118,5 +127,6 @@ public class Document implements Parcelable {
         dest.writeString(title);
         dest.writeString(snippet);
         dest.writeString(full);
+        dest.writeInt(important ? 1 : 0);
     }
 }

@@ -1,8 +1,5 @@
 package com.anyfetch.companion.commons.api.helpers;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.test.InstrumentationTestCase;
 
 import com.squareup.okhttp.mockwebserver.MockWebServer;
@@ -10,18 +7,19 @@ import com.squareup.okhttp.mockwebserver.MockWebServer;
 public abstract class BaseRequestTest extends InstrumentationTestCase {
     public static final String DEFAULT_API_TOKEN = "testToken";
 
-    private Context mContext;
     private MockWebServer mMockServer;
+    private String mApiToken;
+    private String mServerUrl;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mContext = getInstrumentation().getContext();
-        setApiToken(DEFAULT_API_TOKEN);
+        mApiToken = DEFAULT_API_TOKEN;
 
         mMockServer = MockApiFactory.create(BaseRequestTest.DEFAULT_API_TOKEN);
         mMockServer.play();
-        setApiUrl(mMockServer.getUrl("").toString());
+
+        mServerUrl = mMockServer.getUrl("").toString();
     }
 
 
@@ -30,19 +28,11 @@ public abstract class BaseRequestTest extends InstrumentationTestCase {
         mMockServer.shutdown();
     }
 
-    protected void setApiUrl(String apiUrl) {
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
-        editor.putString("apiUrl", apiUrl);
-        editor.commit();
+    public String getApiToken() {
+        return mApiToken;
     }
 
-    protected void setApiToken(String apiToken) {
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
-        editor.putString("apiToken", apiToken);
-        editor.commit();
-    }
-
-    protected Context getContext() {
-        return mContext;
+    public String getServerUrl() {
+        return mServerUrl;
     }
 }

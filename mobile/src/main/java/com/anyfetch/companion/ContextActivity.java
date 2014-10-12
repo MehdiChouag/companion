@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.anyfetch.companion.commons.android.pojo.Event;
+import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import com.anyfetch.companion.commons.notifications.MeetingPreparationAlarm;
 import com.anyfetch.companion.fragments.ContextFragment;
 
@@ -16,8 +17,7 @@ import com.anyfetch.companion.fragments.ContextFragment;
  * Launches ContextFragment
  */
 public class ContextActivity extends Activity {
-    private String mTitle;
-    private Event mEvent = null;
+    private ContextualObject mContextualObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,19 +25,11 @@ public class ContextActivity extends Activity {
         setContentView(R.layout.activity_context);
         Intent originIntent = getIntent();
 
-        String type = originIntent.getStringExtra(ContextFragment.ARG_TYPE);
-        Parcelable parcelable = originIntent.getParcelableExtra(ContextFragment.ARG_PARCELABLE);
-        if (type.equals(ContextFragment.TYPE_EVENT)) {
-            Event event = (Event) parcelable;
-            mTitle = event.getTitle();
-            mEvent = event;
-        } else {
-            mTitle = "";
-        }
+        mContextualObject = (ContextualObject) originIntent.getParcelableExtra(ContextFragment.ARG_CONTEXTUAL_OBJECT);
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, ContextFragment.newInstance(type, parcelable))
+                    .add(R.id.container, ContextFragment.newInstance((Parcelable) mContextualObject))
                     .commit();
         }
     }
@@ -49,7 +41,7 @@ public class ContextActivity extends Activity {
         ActionBar bar = getActionBar();
         if (bar != null) {
             bar.setDisplayShowHomeEnabled(false);
-            bar.setTitle(mTitle);
+            bar.setTitle(mContextualObject.getTitle());
             bar.setDisplayHomeAsUpEnabled(true);
             bar.setHomeButtonEnabled(true);
         }
@@ -64,10 +56,10 @@ public class ContextActivity extends Activity {
                 finish();
                 break;
             case R.id.action_prepare_on_wear:
-                if (mEvent != null) {
+                if (mContextualObject instanceof Event) {
                     Intent i = new Intent();
                     i.setAction("com.anyfetch.companion.SHOW_NOTIFICATION");
-                    i.putExtra(MeetingPreparationAlarm.ARG_EVENT, mEvent);
+                    i.putExtra(MeetingPreparationAlarm.ARG_EVENT, (Event) mContextualObject);
                     this.sendBroadcast(i);
                 }
                 break;

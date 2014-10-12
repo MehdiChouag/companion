@@ -1,30 +1,28 @@
 package com.anyfetch.companion.commons.api.requests;
 
-import android.content.Context;
-
 import com.anyfetch.companion.commons.api.helpers.BaseRequest;
 import com.anyfetch.companion.commons.api.pojo.Document;
-import com.anyfetch.companion.commons.api.pojo.DocumentsList;
 
 
 /**
  * Flag a new document as important
  */
-public class PostImportantDocumentRequest extends BaseRequest<DocumentsList> {
+public class PostImportantDocumentRequest extends BaseRequest<Document> {
     private final String mEventId;
     private final String mDocumentId;
 
     /**
      * Constructs a new important document flagging request
      *
-     * @param context  An Android Context
-     * @param eventId  The event ID
-     * @param document The document to flag as important
+     * @param serverUrl  The companion-server url
+     * @param apiToken   The API token
+     * @param eventId    The event ID
+     * @param documentId The document id to flag as important
      */
-    public PostImportantDocumentRequest(Context context, String eventId, Document document) {
-        super(DocumentsList.class, context);
+    public PostImportantDocumentRequest(String serverUrl, String apiToken, String eventId, String documentId) {
+        super(Document.class, serverUrl, apiToken);
         mEventId = eventId;
-        mDocumentId = document.getDocumentId();
+        mDocumentId = documentId;
     }
 
     @Override

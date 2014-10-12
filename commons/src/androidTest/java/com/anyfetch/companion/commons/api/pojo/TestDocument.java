@@ -9,7 +9,7 @@ import java.util.Date;
 public class TestDocument extends InstrumentationTestCase {
     public void test_json() throws Exception {
         Gson gson = new Gson();
-        Document doc = gson.fromJson(gson.toJson(new Document("file", "x", "y", "z", new Date(0), "Doc", "Docu", "Document")), Document.class);
+        Document doc = gson.fromJson(gson.toJson(new Document("file", "Dropbox", "x", "y", "z", new Date(0), "Doc", "Docu", "Document", false)), Document.class);
         assertEquals("file", doc.getType());
         assertEquals("x", doc.getDocumentId());
         assertEquals("y", doc.getCompanyId());
