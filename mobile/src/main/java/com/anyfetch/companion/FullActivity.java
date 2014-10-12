@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import com.anyfetch.companion.commons.api.helpers.HtmlUtils;
 import com.anyfetch.companion.commons.api.pojo.Document;
 import com.anyfetch.companion.fragments.FullFragment;
+import com.anyfetch.companion.ui.ImageHelper;
 
 /**
  * Launches FullFragment
@@ -40,7 +41,7 @@ public class FullActivity extends Activity {
         getMenuInflater().inflate(R.menu.full, menu);
         ActionBar bar = getActionBar();
         if (bar != null) {
-            bar.setDisplayShowHomeEnabled(false);
+            bar.setIcon(ImageHelper.matchResourceForProvider(mDocument.getProvider()));
             bar.setTitle(HtmlUtils.stripHtml(mDocument.getTitle()));
             bar.setDisplayHomeAsUpEnabled(true);
             bar.setHomeButtonEnabled(true);

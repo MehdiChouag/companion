@@ -9,6 +9,8 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
+import com.anyfetch.companion.R;
+
 /**
  * Various helpers to work with bitmaps
  */
@@ -39,5 +41,25 @@ public class ImageHelper {
         canvas.drawBitmap(bitmap, rect, rect, paint);
 
         return output;
+    }
+
+    public static int matchResourceForProvider(String provider) {
+        if (provider.equals("Dropbox")) {
+            return R.drawable.ic_dropbox;
+        } else if (provider.equals("Evernote")) {
+            return R.drawable.ic_evernote;
+        } else if (provider.equals("GCalendar")) {
+            return R.drawable.ic_gcalendar;
+        } else if (provider.equals("Google Contacts")) {
+            return R.drawable.ic_gcontacts;
+        } else if (provider.equals("Google Drive")) {
+            return R.drawable.ic_gdrive;
+        } else if (provider.equals("GMail")) {
+            return R.drawable.ic_gmail;
+        } else if (provider.equals("SalesForce")) {
+            return R.drawable.ic_sfdc;
+        } else {
+            return R.drawable.ic_gcontacts;
+        }
     }
 }

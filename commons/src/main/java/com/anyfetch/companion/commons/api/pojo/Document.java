@@ -17,11 +17,12 @@ public class Document implements Parcelable {
             String companyId = source.readString();
             String eventId = source.readString();
             String type = source.readString();
+            String provider = source.readString();
             Date date = new Date(source.readLong());
             String title = source.readString();
             String snippet = source.readString();
             String full = source.readString();
-            return new Document(type, documentId, companyId, eventId, date, title, snippet, full);
+            return new Document(type, provider, documentId, companyId, eventId, date, title, snippet, full);
         }
 
         @Override
@@ -32,6 +33,7 @@ public class Document implements Parcelable {
 
     private static final int DOCUMENT_PARCELABLE = 15;
     private final String type;
+    private final String provider;
     private final String documentId;
     private final String companyId;
     private final String eventId;
@@ -42,6 +44,7 @@ public class Document implements Parcelable {
 
     public Document() {
         this.type = "";
+        this.provider = "";
         this.documentId = "";
         this.companyId = "";
         this.eventId = "";
@@ -51,8 +54,9 @@ public class Document implements Parcelable {
         this.full = "";
     }
 
-    public Document(String type, String documentId, String companyId, String eventId, Date date, String title, String snippet, String full) {
+    public Document(String type, String provider, String documentId, String companyId, String eventId, Date date, String title, String snippet, String full) {
         this.type = type;
+        this.provider = provider;
         this.documentId = documentId;
         this.companyId = companyId;
         this.eventId = eventId;
@@ -64,6 +68,10 @@ public class Document implements Parcelable {
 
     public String getType() {
         return type;
+    }
+
+    public String getProvider() {
+        return provider;
     }
 
     public String getDocumentId() {
@@ -105,6 +113,7 @@ public class Document implements Parcelable {
         dest.writeString(companyId);
         dest.writeString(eventId);
         dest.writeString(type);
+        dest.writeString(provider);
         dest.writeLong(date.getTime());
         dest.writeString(title);
         dest.writeString(snippet);

@@ -14,6 +14,7 @@ import com.anyfetch.companion.commons.api.helpers.HtmlUtils;
 import com.anyfetch.companion.commons.api.pojo.Document;
 import com.anyfetch.companion.commons.api.pojo.DocumentsList;
 import com.anyfetch.companion.fragments.FullFragment;
+import com.anyfetch.companion.ui.ImageHelper;
 
 import java.util.Date;
 
@@ -48,8 +49,9 @@ public class DocumentsListAdapter extends TimedListAdapter {
 
         final Document document = mDocuments.get(position);
 
-        ImageView dtIcon = (ImageView) convertView.findViewById(R.id.dtIcon);
-        dtIcon.setImageResource(matchIcon(document.getType()));
+        ImageView providerIcon = (ImageView) convertView.findViewById(R.id.providerIcon);
+        providerIcon.setImageResource(ImageHelper.matchResourceForProvider(document.getProvider()));
+        providerIcon.setContentDescription(document.getProvider());
 
         WebView webView = (WebView) convertView.findViewById(R.id.webView);
         String htmlString = HtmlUtils.HEADER + document.getSnippet() + HtmlUtils.FOOTER;
@@ -72,22 +74,7 @@ public class DocumentsListAdapter extends TimedListAdapter {
         return mDocuments.get(i).getDate();
     }
 
-    private int matchIcon(String dt) {
-        // TODO: replace with generic doctype icons
-        if (dt.equals("contact")) {
-            return R.drawable.ic_sfdc;
-        }
-        if (dt.equals("document") || dt.equals("file") || dt.equals("image")) {
-            return R.drawable.ic_gdrive;
-        }
-        if (dt.equals("email-thread") || dt.equals("email")) {
-            return R.drawable.ic_gmail;
-        }
-        if (dt.equals("event")) {
-            return R.drawable.ic_event;
-        }
-        return R.drawable.ic_gdrive;
-    }
+
 
 
 }
