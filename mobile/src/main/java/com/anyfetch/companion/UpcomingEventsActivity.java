@@ -12,10 +12,10 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.anyfetch.companion.adapters.EventsListAdapter;
-import com.anyfetch.companion.commons.android.AndroidSpiceService;
-import com.anyfetch.companion.commons.android.GetUpcomingEventsRequest;
 import com.anyfetch.companion.commons.android.pojo.Event;
 import com.anyfetch.companion.commons.android.pojo.EventsList;
+import com.anyfetch.companion.commons.android.requests.AndroidSpiceService;
+import com.anyfetch.companion.commons.android.requests.GetUpcomingEventsRequest;
 import com.anyfetch.companion.commons.notifications.MeetingPreparationAlarm;
 import com.anyfetch.companion.fragments.ContextFragment;
 import com.octo.android.robospice.SpiceManager;

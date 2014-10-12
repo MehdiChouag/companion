@@ -1,4 +1,4 @@
-package com.anyfetch.companion.commons.api;
+package com.anyfetch.companion.commons.api.requests;
 
 import android.content.Context;
 
@@ -8,22 +8,19 @@ import com.anyfetch.companion.commons.api.pojo.DocumentsList;
 import java.util.Map;
 
 /**
- * A request that gets the important documents for an event
+ * A Request for getting documents from a search query
  */
-public class GetImportantDocumentsListRequest extends BaseRequest<DocumentsList> {
-    private final String mEventId;
+public class GetDocumentsListRequest extends BaseRequest<DocumentsList> {
     private final String mContextQuery;
 
     /**
-     * Constructs new important documents context
+     * Constructs new documents search context
      *
      * @param context      An Android Context
-     * @param eventId      The event ID
      * @param contextQuery An Anyfetch search query
      */
-    public GetImportantDocumentsListRequest(Context context, String eventId, String contextQuery) {
+    public GetDocumentsListRequest(Context context, String contextQuery) {
         super(DocumentsList.class, context);
-        mEventId = eventId;
         mContextQuery = contextQuery;
     }
 
@@ -34,7 +31,7 @@ public class GetImportantDocumentsListRequest extends BaseRequest<DocumentsList>
 
     @Override
     protected String getPath() {
-        return "/events/" + mEventId + "/importants";
+        return "/documents";
     }
 
     @Override
@@ -45,6 +42,6 @@ public class GetImportantDocumentsListRequest extends BaseRequest<DocumentsList>
     }
 
     public String createCacheKey() {
-        return "importants." + mEventId + "." + mContextQuery;
+        return "documents." + mContextQuery;
     }
 }

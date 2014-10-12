@@ -1,4 +1,4 @@
-package com.anyfetch.companion.commons.android;
+package com.anyfetch.companion.commons.android.requests;
 
 import android.app.Application;
 import android.content.Context;

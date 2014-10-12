@@ -8,9 +8,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.anyfetch.companion.commons.android.GetUpcomingEventsRequest;
 import com.anyfetch.companion.commons.android.pojo.Event;
 import com.anyfetch.companion.commons.android.pojo.EventsList;
+import com.anyfetch.companion.commons.android.requests.GetUpcomingEventsRequest;
 
 /**
  * Sets alarms for the upcoming meetings

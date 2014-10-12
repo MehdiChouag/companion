@@ -4,6 +4,7 @@ import android.test.suitebuilder.annotation.LargeTest;
 
 import com.anyfetch.companion.commons.api.helpers.BaseRequestTest;
 import com.anyfetch.companion.commons.api.pojo.Document;
+import com.anyfetch.companion.commons.api.requests.GetDocumentRequest;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.util.Date;

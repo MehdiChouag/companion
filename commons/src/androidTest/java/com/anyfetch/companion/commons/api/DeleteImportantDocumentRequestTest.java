@@ -2,6 +2,7 @@ package com.anyfetch.companion.commons.api;
 
 import com.anyfetch.companion.commons.api.helpers.BaseRequestTest;
 import com.anyfetch.companion.commons.api.pojo.Document;
+import com.anyfetch.companion.commons.api.requests.DeleteImportantDocumentRequest;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.util.Date;
