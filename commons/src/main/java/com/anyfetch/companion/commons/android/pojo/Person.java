@@ -309,6 +309,21 @@ public class Person implements Parcelable, ContextualObject {
         return mPhotoId;
     }
 
+    /**
+     * Defines if this person should be excluded from a context
+     *
+     * @param tailedEmails The exluded emails
+     * @return If it's excluded
+     */
+    public boolean isExcluded(Set<String> tailedEmails) {
+        for (String email : mEmails) {
+            if (tailedEmails.contains(email)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public int describeContents() {
         return PERSON_PARCELABLE;

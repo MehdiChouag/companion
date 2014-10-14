@@ -226,13 +226,7 @@ public class Event implements Parcelable, ContextualObject {
     public String getSearchQuery(Set<String> tailedEmails) {
         String query = "(" + mTitle + ")";
         for (Person attendee : mAttendees) {
-            boolean visible = true;
-            for (String email : attendee.getEmails()) {
-                if (tailedEmails.contains(email)) {
-                    visible = false;
-                }
-            }
-            if (visible) {
+            if (!attendee.isExcluded(tailedEmails)) {
                 query += " OR " + attendee.getSearchQuery(null);
             }
         }
