@@ -47,7 +47,9 @@ public class DocumentsListAdapter extends TimedListAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = getInflater().inflate(R.layout.row_document, parent, false);
+        if (convertView == null) {
+            convertView = getInflater().inflate(R.layout.row_document, parent, false);
+        }
 
         final Document document = mDocuments.get(position);
 
@@ -63,6 +65,7 @@ public class DocumentsListAdapter extends TimedListAdapter {
         dtIcon.setImageResource(ImageHelper.matchIconForDocumentType(document.getType()));
 
         WebView webView = (WebView) convertView.findViewById(R.id.webView);
+        webView.loadUrl("about:blank");
         String htmlString = HtmlUtils.HEADER + document.getSnippet() + HtmlUtils.FOOTER;
         webView.loadData(htmlString, "text/html; charset=UTF-8", null);
 
