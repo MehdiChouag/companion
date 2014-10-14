@@ -87,7 +87,7 @@ public class DocumentRequestBuilder extends BaseRequestBuilder<Document> {
     public BaseRequest<Document> build() {
         String sq = "";
         if (getContextualObject() != null) {
-            sq = getContextualObject().getSearchQuery();
+            sq = getContextualObject().getSearchQuery(null);
             if (getContextualObject() instanceof Event) {
                 Event contextual = (Event) getContextualObject();
                 String eId = Long.toString(contextual.getId());

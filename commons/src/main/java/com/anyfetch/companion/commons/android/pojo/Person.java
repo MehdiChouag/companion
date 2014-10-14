@@ -13,6 +13,7 @@ import com.anyfetch.companion.commons.api.builders.ContextualObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Represents a Contact/Attendee
@@ -331,7 +332,7 @@ public class Person implements Parcelable, ContextualObject {
     }
 
     @Override
-    public String getSearchQuery() {
+    public String getSearchQuery(Set<String> tailedEmails) {
         String query = "(" + mName + ")";
         for (String email : mEmails) {
             query += " OR (" + email + ")";

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Represents a calendar event
@@ -222,10 +223,18 @@ public class Event implements Parcelable, ContextualObject {
     }
 
     @Override
-    public String getSearchQuery() {
+    public String getSearchQuery(Set<String> tailedEmails) {
         String query = "(" + mTitle + ")";
         for (Person attendee : mAttendees) {
-            query += " OR " + attendee.getSearchQuery();
+            boolean visible = true;
+            for (String email : attendee.getEmails()) {
+                if (tailedEmails.contains(email)) {
+                    visible = false;
+                }
+            }
+            if (visible) {
+                query += " OR " + attendee.getSearchQuery(null);
+            }
         }
         return query;
     }

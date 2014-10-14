@@ -1,6 +1,8 @@
 package com.anyfetch.companion.commons.api.builders;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.anyfetch.companion.commons.android.pojo.Event;
 import com.anyfetch.companion.commons.api.helpers.BaseRequest;
@@ -8,13 +10,18 @@ import com.anyfetch.companion.commons.api.pojo.DocumentsList;
 import com.anyfetch.companion.commons.api.requests.GetDocumentsListRequest;
 import com.anyfetch.companion.commons.api.requests.GetImportantDocumentsListRequest;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Made for complex documents list requests generation
  */
 public class DocumentsListRequestBuilder extends BaseRequestBuilder<DocumentsList> {
 
+    public static final String TAILED_EMAILS = "tailed_emails";
     private boolean mWithImportants;
     private boolean mWithNotImportants;
+    private Set<String> mTailedEmails;
 
     /**
      * Creates a new DocumentsListRequestBuilder
@@ -23,8 +30,10 @@ public class DocumentsListRequestBuilder extends BaseRequestBuilder<DocumentsLis
      */
     public DocumentsListRequestBuilder(Context context) {
         super(context);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         mWithImportants = false; // TODO: temporary as false
         mWithNotImportants = true;
+        mTailedEmails = prefs.getStringSet(TAILED_EMAILS, new HashSet<String>());
     }
 
     /**
@@ -48,11 +57,21 @@ public class DocumentsListRequestBuilder extends BaseRequestBuilder<DocumentsLis
         return this;
     }
 
+    /**
+     * Sets the tailed emails
+     *
+     * @param tailedEmails A set of emails
+     */
+    public DocumentsListRequestBuilder setWithNotImportants(Set<String> tailedEmails) {
+        mTailedEmails = tailedEmails;
+        return this;
+    }
+
     @Override
     public BaseRequest<DocumentsList> build() {
         String sq = "";
         if (getContextualObject() != null) {
-            sq = getContextualObject().getSearchQuery();
+            sq = getContextualObject().getSearchQuery(mTailedEmails);
             if (getContextualObject() instanceof Event) {
                 if (mWithImportants && mWithNotImportants) {
                     return null; // TODO: Client & server: batch request endpoints
@@ -60,14 +79,15 @@ public class DocumentsListRequestBuilder extends BaseRequestBuilder<DocumentsLis
                     //      getServerUrl(),
                     //      getApiToken(),
                     //      Long.toString(((Event) mContextualObject).getId()),
-                    //      mContextualObject.getSearchQuery()
+                    //      mContextualObject.getSearchQuery(mTailedEmails),
+                    //      mTailedEmails
                     // );
                 } else if (mWithImportants) {
                     return new GetImportantDocumentsListRequest(
                             getServerUrl(),
                             getApiToken(),
                             Long.toString(((Event) getContextualObject()).getId()),
-                            getContextualObject().getSearchQuery()
+                            getContextualObject().getSearchQuery(mTailedEmails)
                     );
                 }
             }
