@@ -13,6 +13,7 @@ import com.anyfetch.companion.commons.api.builders.ContextualObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Represents a Contact/Attendee
@@ -308,6 +309,21 @@ public class Person implements Parcelable, ContextualObject {
         return mPhotoId;
     }
 
+    /**
+     * Defines if this person should be excluded from a context
+     *
+     * @param tailedEmails The exluded emails
+     * @return If it's excluded
+     */
+    public boolean isExcluded(Set<String> tailedEmails) {
+        for (String email : mEmails) {
+            if (tailedEmails.contains(email)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public int describeContents() {
         return PERSON_PARCELABLE;
@@ -331,7 +347,7 @@ public class Person implements Parcelable, ContextualObject {
     }
 
     @Override
-    public String getSearchQuery() {
+    public String getSearchQuery(Set<String> tailedEmails) {
         String query = "(" + mName + ")";
         for (String email : mEmails) {
             query += " OR (" + email + ")";

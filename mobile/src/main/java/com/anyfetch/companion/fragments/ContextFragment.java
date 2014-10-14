@@ -25,7 +25,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 /**
  * Stores the context around an given context (Event, Person, …)
  */
-public class ContextFragment extends Fragment implements RequestListener<DocumentsList> {
+public class ContextFragment extends Fragment implements RequestListener<DocumentsList>, DialogFragmentChangeListener {
     public static final String ARG_CONTEXTUAL_OBJECT = "contextualObject";
 
     private SpiceManager mSpiceManager = new SpiceManager(HttpSpiceService.class);
@@ -80,14 +80,11 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         View view = inflater.inflate(R.layout.fragment_context, container, false);
         mListView = (StickyListHeadersListView) view.findViewById(R.id.listView);
         mProgress = (ProgressBar) view.findViewById(R.id.progressBar);
-
-        GetDocumentsListRequest request = (GetDocumentsListRequest) new DocumentsListRequestBuilder(getActivity())
-                .setContextualObject(mContextualObject)
-                .build();
-        mSpiceManager.execute(request, request.createCacheKey(), 15 * DurationInMillis.ONE_MINUTE, this);
+        startQuery();
 
         return view;
     }
+
 
     @Override
     public void onRequestFailure(SpiceException spiceException) {
@@ -99,5 +96,18 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         mProgress.setVisibility(View.INVISIBLE);
         mListAdapter = new DocumentsListAdapter(getActivity(), documents);
         mListView.setAdapter(mListAdapter);
+    }
+
+    @Override
+    public void onDialogFragmentChanged() {
+        startQuery();
+    }
+
+    private void startQuery() {
+        mProgress.setVisibility(View.VISIBLE);
+        GetDocumentsListRequest request = (GetDocumentsListRequest) new DocumentsListRequestBuilder(getActivity())
+                .setContextualObject(mContextualObject)
+                .build();
+        mSpiceManager.execute(request, request.createCacheKey(), 15 * DurationInMillis.ONE_MINUTE, this);
     }
 }
