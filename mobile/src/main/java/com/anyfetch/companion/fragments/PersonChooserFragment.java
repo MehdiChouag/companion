@@ -37,6 +37,7 @@ public class PersonChooserFragment extends DialogFragment implements AdapterView
     private List<Person> mPeople;
     private ListView mListView;
     private PeopleListAdapter mPeopleAdapter;
+    private DialogFragmentChangeListener mDialogFragmentChangeListener = null;
 
 
     public PersonChooserFragment() {
@@ -107,6 +108,13 @@ public class PersonChooserFragment extends DialogFragment implements AdapterView
         SharedPreferences.Editor editor = prefs.edit();
         editor.putStringSet(DocumentsListRequestBuilder.TAILED_EMAILS, emails);
         editor.commit();
+        if (mDialogFragmentChangeListener != null) {
+            mDialogFragmentChangeListener.onDialogFragmentChanged();
+        }
         mPeopleAdapter.notifyDataSetChanged();
+    }
+
+    public void setFragmentChangeListener(DialogFragmentChangeListener dialogFragmentChangeListener) {
+        mDialogFragmentChangeListener = dialogFragmentChangeListener;
     }
 }

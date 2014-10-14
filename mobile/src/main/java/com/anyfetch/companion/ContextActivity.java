@@ -21,6 +21,7 @@ import com.anyfetch.companion.fragments.PersonChooserFragment;
  */
 public class ContextActivity extends Activity {
     private ContextualObject mContextualObject;
+    private ContextFragment mFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +32,9 @@ public class ContextActivity extends Activity {
         mContextualObject = (ContextualObject) originIntent.getParcelableExtra(ContextFragment.ARG_CONTEXTUAL_OBJECT);
 
         if (savedInstanceState == null) {
+            mFragment = ContextFragment.newInstance((Parcelable) mContextualObject);
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, ContextFragment.newInstance((Parcelable) mContextualObject))
+                    .add(R.id.container, mFragment)
                     .commit();
         }
     }
@@ -77,8 +79,8 @@ public class ContextActivity extends Activity {
                     ft.addToBackStack(null);
 
                     PersonChooserFragment chooser = PersonChooserFragment.newInstance(event.getAttendees());
+                    chooser.setFragmentChangeListener(mFragment);
                     chooser.show(ft, "dialog");
-
                 }
                 break;
         }
