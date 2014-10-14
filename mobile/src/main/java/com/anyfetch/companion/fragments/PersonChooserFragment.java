@@ -94,10 +94,13 @@ public class PersonChooserFragment extends DialogFragment implements AdapterView
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         Set<String> emails = prefs.getStringSet(DocumentsListRequestBuilder.TAILED_EMAILS, new HashSet<String>());
         Person person = mPeople.get(position);
-        for (String email : person.getEmails()) {
-            if (person.isExcluded(emails)) {
+
+        if (person.isExcluded(emails)) {
+            for (String email : person.getEmails()) {
                 emails.remove(email);
-            } else {
+            }
+        } else {
+            for (String email : person.getEmails()) {
                 emails.add(email);
             }
         }

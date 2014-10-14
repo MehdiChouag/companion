@@ -2,6 +2,8 @@ package com.anyfetch.companion.adapters;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +67,12 @@ public class PeopleListAdapter extends BaseAdapter {
 
         if (person.isExcluded(mTailedEmails)) {
             nameView.setTextColor(mContext.getResources().getColor(android.R.color.darker_gray));
+            ColorMatrix cm = new ColorMatrix();
+            cm.setSaturation(0);
+            imageView.setColorFilter(new ColorMatrixColorFilter(cm));
+        } else {
+            nameView.setTextColor(mContext.getResources().getColor(android.R.color.black));
+            imageView.clearColorFilter();
         }
 
         return convertView;
