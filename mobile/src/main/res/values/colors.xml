@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="dt_contact">#b10dc9</color>
+    <color name="dt_document">#0074d9</color>
+    <color name="dt_email">#ff4136</color>
+    <color name="dt_event">#3d9970</color>
+    <color name="dt_file">#dddddd</color>
+    <color name="dt_image">#ffdc00</color>
+
+</resources>

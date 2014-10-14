@@ -8,6 +8,8 @@
         android:id="@+id/webView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_marginLeft="@dimen/ic_dt_size"
+        android:layout_marginRight="@dimen/ic_dt_size"
         android:scrollbars="none"/>
 
     <ImageView
@@ -18,6 +20,14 @@
         android:layout_margin="@dimen/ic_dp_margin"
         android:background="@android:color/white"
         android:contentDescription="Provider"/>
+
+
+    <ImageView
+        android:id="@+id/dtIcon"
+        android:layout_width="@dimen/ic_dt_size"
+        android:layout_height="fill_parent"
+        android:layout_gravity="left|center_vertical"
+        android:background="@android:color/darker_gray"/>
 
     <android.gesture.GestureOverlayView
         android:id="@+id/gestureOverlayView"

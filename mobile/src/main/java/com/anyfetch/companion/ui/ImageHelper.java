@@ -62,4 +62,22 @@ public class ImageHelper {
             return R.drawable.ic_launcher;
         }
     }
+
+    public static int matchColorForDocumentType(String dt) {
+        if (dt.equals("contact")) {
+            return R.color.dt_contact;
+        } else if (dt.equals("document")) {
+            return R.color.dt_document;
+        } else if (dt.equals("email") || dt.equals("email-thread")) {
+            return R.color.dt_email;
+        } else if (dt.equals("event")) {
+            return R.color.dt_event;
+        } else if (dt.equals("file")) {
+            return R.color.dt_file;
+        } else if (dt.equals("image")) {
+            return R.color.dt_image;
+        } else {
+            return android.R.color.darker_gray;
+        }
+    }
 }

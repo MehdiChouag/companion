@@ -58,6 +58,9 @@ public class DocumentsListAdapter extends TimedListAdapter {
         providerIcon.setColorFilter(new ColorMatrixColorFilter(cm));
         providerIcon.setContentDescription(document.getProvider());
 
+        ImageView dtIcon = (ImageView) convertView.findViewById(R.id.dtIcon);
+        dtIcon.setBackgroundColor(mContext.getResources().getColor(ImageHelper.matchColorForDocumentType(document.getType())));
+
         WebView webView = (WebView) convertView.findViewById(R.id.webView);
         String htmlString = HtmlUtils.HEADER + document.getSnippet() + HtmlUtils.FOOTER;
         webView.loadData(htmlString, "text/html; charset=UTF-8", null);
