@@ -348,9 +348,18 @@ public class Person implements Parcelable, ContextualObject {
 
     @Override
     public String getSearchQuery(Set<String> tailedEmails) {
-        String query = "(" + mName + ")";
+        String query = "";
+        boolean first = true;
+        if (mName != null) {
+            query = "(" + mName + ")";
+            first = false;
+        }
         for (String email : mEmails) {
-            query += " OR (" + email + ")";
+            if (!first) {
+                query += " OR ";
+            }
+            query += "(" + email + ")";
+            first = false;
         }
         return query;
     }

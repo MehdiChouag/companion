@@ -58,11 +58,17 @@ public class PeopleListAdapter extends BaseAdapter {
         Person person = mPeople.get(position);
 
         TextView nameView = (TextView) convertView.findViewById(R.id.nameView);
-        nameView.setText(person.getName());
+        if ((person.getName() == null || person.getName().equals("")) && person.getEmails().size() > 0) {
+            nameView.setText(person.getEmails().get(0));
+        } else {
+            nameView.setText(person.getName());
+        }
 
         ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
         if (person.getThumb() != null) {
             imageView.setImageBitmap(ImageHelper.getRoundedCornerBitmap(person.getThumb(), 200));
+        } else {
+            imageView.setImageResource(android.R.drawable.ic_menu_info_details);
         }
 
         if (person.isExcluded(mTailedEmails)) {
