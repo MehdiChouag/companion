@@ -8,4 +8,10 @@
     <color name="dt_file">#dddddd</color>
     <color name="dt_image">#ffdc00</color>
 
+    <color name="primary">#83BBE7</color>
+    <color name="primary_dark">#ff5c86a2</color>
+    <color name="text_primary">#eeeeee</color>
+    <color name="window_background">#ffffff</color>
+    <color name="navigation_bar">#ffffff</color>
+
 </resources>
