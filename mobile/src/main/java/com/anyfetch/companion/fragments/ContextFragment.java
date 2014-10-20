@@ -82,6 +82,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
 
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         mSwipeLayout.setOnRefreshListener(this);
+        mSwipeLayout.setColorSchemeColors(R.color.primary, R.color.primary_dark);
 
         startQuery(true);
 

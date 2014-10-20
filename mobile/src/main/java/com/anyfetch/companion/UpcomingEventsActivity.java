@@ -64,6 +64,7 @@ public class UpcomingEventsActivity extends Activity implements RequestListener<
 
             mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
             mSwipeLayout.setOnRefreshListener(this);
+            mSwipeLayout.setColorSchemeColors(R.color.primary, R.color.primary_dark);
 
             GetUpcomingEventsRequest request = new GetUpcomingEventsRequest(getApplicationContext());
             mSpiceManager.execute(request, request.createCacheKey(), 15 * DurationInMillis.ONE_MINUTE, this);
