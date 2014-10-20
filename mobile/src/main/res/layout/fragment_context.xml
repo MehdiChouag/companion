@@ -1,4 +1,5 @@
-<FrameLayout
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/swipeContainer"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
@@ -7,10 +8,4 @@
         android:id="@+id/listView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"/>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
-</FrameLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

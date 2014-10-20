@@ -3,10 +3,10 @@ package com.anyfetch.companion.fragments;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.adapters.DocumentsListAdapter;
@@ -25,7 +25,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 /**
  * Stores the context around an given context (Event, Person, …)
  */
-public class ContextFragment extends Fragment implements RequestListener<DocumentsList>, DialogFragmentChangeListener {
+public class ContextFragment extends Fragment implements RequestListener<DocumentsList>, DialogFragmentChangeListener, SwipeRefreshLayout.OnRefreshListener {
     public static final String ARG_CONTEXTUAL_OBJECT = "contextualObject";
 
     private SpiceManager mSpiceManager = new SpiceManager(HttpSpiceService.class);
@@ -33,7 +33,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
     private ContextualObject mContextualObject;
     private DocumentsListAdapter mListAdapter;
     private StickyListHeadersListView mListView;
-    private ProgressBar mProgress;
+    private SwipeRefreshLayout mSwipeLayout;
 
 
     public ContextFragment() {
@@ -79,8 +79,11 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_context, container, false);
         mListView = (StickyListHeadersListView) view.findViewById(R.id.listView);
-        mProgress = (ProgressBar) view.findViewById(R.id.progressBar);
-        startQuery();
+
+        mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        mSwipeLayout.setOnRefreshListener(this);
+
+        startQuery(true);
 
         return view;
     }
@@ -93,21 +96,30 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
 
     @Override
     public void onRequestSuccess(DocumentsList documents) {
-        mProgress.setVisibility(View.INVISIBLE);
+        mSwipeLayout.setRefreshing(false);
         mListAdapter = new DocumentsListAdapter(getActivity(), documents);
         mListView.setAdapter(mListAdapter);
     }
 
     @Override
     public void onDialogFragmentChanged() {
-        startQuery();
+        startQuery(true);
     }
 
-    private void startQuery() {
-        mProgress.setVisibility(View.VISIBLE);
+    private void startQuery(boolean cached) {
         GetDocumentsListRequest request = (GetDocumentsListRequest) new DocumentsListRequestBuilder(getActivity())
                 .setContextualObject(mContextualObject)
                 .build();
-        mSpiceManager.execute(request, request.createCacheKey(), 15 * DurationInMillis.ONE_MINUTE, this);
+        if (cached) {
+            mSpiceManager.execute(request, request.createCacheKey(), 15 * DurationInMillis.ONE_MINUTE, this);
+        } else {
+            mSpiceManager.execute(request, null, 0, this);
+        }
+        mSwipeLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void onRefresh() {
+        startQuery(false);
     }
 }

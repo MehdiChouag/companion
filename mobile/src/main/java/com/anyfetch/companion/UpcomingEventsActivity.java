@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,10 +27,11 @@ import com.octo.android.robospice.request.listener.RequestListener;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-public class UpcomingEventsActivity extends Activity implements RequestListener<EventsList>, AdapterView.OnItemClickListener {
+public class UpcomingEventsActivity extends Activity implements RequestListener<EventsList>, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
     protected SpiceManager mSpiceManager = new SpiceManager(AndroidSpiceService.class);
     private StickyListHeadersListView mListView;
     private EventsListAdapter mListAdapter;
+    private SwipeRefreshLayout mSwipeLayout;
 
     @Override
     protected void onStart() {
@@ -60,8 +62,12 @@ public class UpcomingEventsActivity extends Activity implements RequestListener<
             mListView.setAdapter(mListAdapter);
             mListView.setOnItemClickListener(this);
 
+            mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+            mSwipeLayout.setOnRefreshListener(this);
+
             GetUpcomingEventsRequest request = new GetUpcomingEventsRequest(getApplicationContext());
             mSpiceManager.execute(request, request.createCacheKey(), 15 * DurationInMillis.ONE_MINUTE, this);
+            mSwipeLayout.setRefreshing(true);
         }
     }
 
@@ -82,10 +88,6 @@ public class UpcomingEventsActivity extends Activity implements RequestListener<
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.action_refresh:
-                GetUpcomingEventsRequest request = new GetUpcomingEventsRequest(getApplicationContext());
-                mSpiceManager.execute(request, null, 0, this);
-                break;
             case R.id.action_settings:
                 break;
             case R.id.action_log_out:
@@ -104,6 +106,7 @@ public class UpcomingEventsActivity extends Activity implements RequestListener<
 
     @Override
     public void onRequestSuccess(EventsList events) {
+        mSwipeLayout.setRefreshing(false);
         if (events.size() > 0) {
             MeetingPreparationAlarm.setForEvent(this, events.get(0));
         }
@@ -124,5 +127,11 @@ public class UpcomingEventsActivity extends Activity implements RequestListener<
         Intent intent = new Intent(getApplicationContext(), AuthActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onRefresh() {
+        GetUpcomingEventsRequest request = new GetUpcomingEventsRequest(this);
+        mSpiceManager.execute(request, null, 0, this);
     }
 }

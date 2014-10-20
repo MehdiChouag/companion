@@ -4,11 +4,9 @@
     <item
         android:id="@+id/action_improve_context"
         android:orderInCategory="100"
-        android:showAsAction="never"
         android:title="@string/action_improve_context"/>
     <item
         android:id="@+id/action_prepare_on_wear"
         android:orderInCategory="100"
-        android:showAsAction="never"
         android:title="@string/action_prepare_on_wear"/>
 </menu>
