@@ -3,7 +3,9 @@ package com.anyfetch.companion.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -15,12 +17,13 @@ import com.anyfetch.companion.commons.api.builders.DocumentRequestBuilder;
 import com.anyfetch.companion.commons.api.helpers.HtmlUtils;
 import com.anyfetch.companion.commons.api.pojo.Document;
 import com.anyfetch.companion.commons.api.requests.GetDocumentRequest;
+import com.anyfetch.companion.ui.ImageHelper;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
-public class FullFragment extends Fragment implements RequestListener<Document> {
+public class FullFragment extends Fragment implements RequestListener<Document>, Toolbar.OnMenuItemClickListener, View.OnClickListener {
     public static final String ARG_DOCUMENT = "arg_parcelable";
 
     private SpiceManager mSpiceManager = new SpiceManager(HttpSpiceService.class);
@@ -28,6 +31,7 @@ public class FullFragment extends Fragment implements RequestListener<Document> 
     private Document mDocument;
     private WebView mFullWebView;
     private ProgressBar mProgress;
+    private Toolbar mToolbar;
 
 
     public FullFragment() {
@@ -83,6 +87,14 @@ public class FullFragment extends Fragment implements RequestListener<Document> 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_full, container, false);
 
+        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        mToolbar.setOnMenuItemClickListener(this);
+        mToolbar.setTitle(HtmlUtils.stripHtml(mDocument.getTitle()));
+        mToolbar.setNavigationIcon(R.drawable.ic_action_back);
+        mToolbar.setNavigationOnClickListener(this);
+        mToolbar.setLogo(ImageHelper.matchResourceForProvider(mDocument.getProvider()));
+        mToolbar.inflateMenu(R.menu.full);
+
         mFullWebView = (WebView) view.findViewById(R.id.fullWebView);
         mProgress = (ProgressBar) view.findViewById(R.id.progressBar);
         showFull();
@@ -108,5 +120,15 @@ public class FullFragment extends Fragment implements RequestListener<Document> 
     public void onRequestSuccess(Document document) {
         mDocument = document;
         showFull();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
+        return false;
+    }
+
+    @Override
+    public void onClick(View v) {
+        getActivity().finish();
     }
 }
