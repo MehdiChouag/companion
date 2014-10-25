@@ -1,12 +1,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="com.anyfetch.companion.ContextActivity">
     <item
         android:id="@+id/action_improve_context"
         android:orderInCategory="100"
-        android:title="@string/action_improve_context"/>
+        app:showAsAction="ifRoom"
+        android:title="@string/action_improve_context"
+        android:icon="@drawable/ic_action_group"/>
     <item
         android:id="@+id/action_prepare_on_wear"
         android:orderInCategory="100"
-        android:title="@string/action_prepare_on_wear"/>
+        app:showAsAction="ifRoom"
+        android:title="@string/action_prepare_on_wear"
+        android:icon="@drawable/ic_action_add_to_queue"/>
 </menu>
