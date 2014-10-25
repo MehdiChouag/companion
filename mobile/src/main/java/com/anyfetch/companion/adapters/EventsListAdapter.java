@@ -123,8 +123,7 @@ public class EventsListAdapter extends TimedListAdapter implements StickyListHea
             return ImageHelper.getRoundedCornerBitmap(thumbs.get(0), 200);
         }
 
-        // TODO: Change this icon
-        return BitmapFactory.decodeResource(mContext.getResources(), android.R.drawable.ic_menu_today);
+        return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_action_event);
     }
 
     public Event getEvent(int position) {

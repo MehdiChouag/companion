@@ -68,7 +68,7 @@ public class PeopleListAdapter extends BaseAdapter {
         if (person.getThumb() != null) {
             imageView.setImageBitmap(ImageHelper.getRoundedCornerBitmap(person.getThumb(), 200));
         } else {
-            imageView.setImageResource(android.R.drawable.ic_menu_info_details);
+            imageView.setImageResource(R.drawable.ic_action_person);
         }
 
         if (person.isExcluded(mTailedEmails)) {
