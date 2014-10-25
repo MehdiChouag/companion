@@ -1,16 +1,9 @@
 <resources>
-    <style name="MobileCompanionTheme" parent="android:Theme.Holo.Light">
-        <item name="android:windowBackground">@android:color/white</item>
-        <item name="android:colorBackground">@android:color/white</item>
-        <item name="android:actionBarStyle">@style/CompanionActionBarTheme</item>
-    </style>
-
-    <style name="CompanionActionBarTheme" parent="@android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:background">@color/primary</item>
-        <item name="android:titleTextStyle">@style/CompanionActionBarTitleTheme</item>
-    </style>
-
-    <style name="CompanionActionBarTitleTheme" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/text_primary</item>
+    <style name="MobileCompanionTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:colorPrimary">@color/primary</item>
+        <item name="android:colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="android:navigationBarColor">@color/navigation_bar</item>
     </style>
 </resources>

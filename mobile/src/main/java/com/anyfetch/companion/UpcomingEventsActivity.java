@@ -1,12 +1,15 @@
 package com.anyfetch.companion;
 
-import android.app.ActionBar;
-import android.app.Activity;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
+import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,11 +30,12 @@ import com.octo.android.robospice.request.listener.RequestListener;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-public class UpcomingEventsActivity extends Activity implements RequestListener<EventsList>, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class UpcomingEventsActivity extends ActionBarActivity implements RequestListener<EventsList>, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
     protected SpiceManager mSpiceManager = new SpiceManager(AndroidSpiceService.class);
     private StickyListHeadersListView mListView;
     private EventsListAdapter mListAdapter;
     private SwipeRefreshLayout mSwipeLayout;
+    private Toolbar mToolbar;
 
     @Override
     protected void onStart() {
@@ -56,6 +60,10 @@ public class UpcomingEventsActivity extends Activity implements RequestListener<
             openAuthActivity();
         } else {
             setContentView(R.layout.activity_upcoming_events);
+            mToolbar = (Toolbar) findViewById(R.id.toolbar);
+            ViewCompat.setElevation(mToolbar, 1);
+            setSupportActionBar(mToolbar);
+
             mListView = (StickyListHeadersListView) findViewById(R.id.listView);
 
             mListAdapter = new EventsListAdapter(getApplicationContext(), new EventsList());
@@ -77,7 +85,7 @@ public class UpcomingEventsActivity extends Activity implements RequestListener<
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.upcoming_events, menu);
-        ActionBar bar = getActionBar();
+        ActionBar bar = getSupportActionBar();
         if (bar != null) {
             bar.setTitle(getString(R.string.title_upcoming_meetings));
             bar.setDisplayShowHomeEnabled(false);
