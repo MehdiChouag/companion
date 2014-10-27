@@ -1,40 +1,54 @@
-<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="fill_parent"
+             android:layout_height="match_parent"
+             android:paddingBottom="@dimen/card_spacing"
+             android:paddingLeft="@dimen/card_spacing"
+             android:paddingRight="@dimen/card_spacing"
+             android:paddingTop="0dp">
 
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:cardCornerRadius="@dimen/card_padding"
-    app:cardUseCompatPadding="true"
-    app:contentPadding="@dimen/card_padding">
-
-    <WebView
-        android:id="@+id/webView"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/ic_dt_size"
-        android:scrollbars="none"/>
+        android:layout_height="match_parent"
+        app:cardCornerRadius="@dimen/card_padding"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="@dimen/card_padding">
 
-    <ImageView
-        android:id="@+id/providerIcon"
-        android:layout_width="@dimen/ic_dt_size"
-        android:layout_height="@dimen/ic_dt_size"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/ic_dp_margin"
-        android:contentDescription="Provider"/>
+        <LinearLayout
+            android:id="@+id/dtBand"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/ic_provider_size"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/dtIcon"
+                android:layout_width="@dimen/ic_provider_size"
+                android:layout_height="@dimen/ic_provider_size"
+                android:layout_gravity="top|start"
+                android:contentDescription="Document Type"/>
+        </LinearLayout>
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ic_dt_size"
+            android:scrollbars="none"/>
 
 
-    <ImageView
-        android:id="@+id/dtIcon"
-        android:layout_width="@dimen/ic_dt_size"
-        android:layout_height="fill_parent"
-        android:layout_gravity="left|center_vertical"
-        android:background="@android:color/darker_gray"/>
+        <ImageView
+            android:id="@+id/providerIcon"
+            android:layout_width="@dimen/ic_provider_size"
+            android:layout_height="@dimen/ic_provider_size"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="@dimen/ic_dp_margin"
+            android:contentDescription="Provider"/>
 
-    <android.gesture.GestureOverlayView
-        android:id="@+id/gestureOverlayView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-    </android.gesture.GestureOverlayView>
-</android.support.v7.widget.CardView>
+
+        <android.gesture.GestureOverlayView
+            android:id="@+id/gestureOverlayView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+        </android.gesture.GestureOverlayView>
+    </android.support.v7.widget.CardView>
+</FrameLayout>
