@@ -1,5 +1,7 @@
 package com.anyfetch.companion.commons.api.requests;
 
+import android.util.Log;
+
 import com.anyfetch.companion.commons.api.helpers.BaseRequest;
 import com.anyfetch.companion.commons.api.pojo.Document;
 
@@ -8,6 +10,7 @@ import com.anyfetch.companion.commons.api.pojo.Document;
  * Flag a new document as important
  */
 public class PostImportantDocumentRequest extends BaseRequest<Document> {
+    private static final String TAG = "PostImportantDocumentRequest";
     private final String mEventId;
     private final String mDocumentId;
 
@@ -21,6 +24,9 @@ public class PostImportantDocumentRequest extends BaseRequest<Document> {
      */
     public PostImportantDocumentRequest(String serverUrl, String apiToken, String eventId, String documentId) {
         super(Document.class, serverUrl, apiToken);
+        Log.i(TAG, "Create Post Imp Doc Request");
+        Log.i(TAG, "EventId: " + eventId);
+        Log.i(TAG, "DocumentId: " + documentId);
         mEventId = eventId;
         mDocumentId = documentId;
     }

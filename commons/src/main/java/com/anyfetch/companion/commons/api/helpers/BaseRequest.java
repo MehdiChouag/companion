@@ -1,6 +1,7 @@
 package com.anyfetch.companion.commons.api.helpers;
 
 import android.net.Uri;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,6 +24,7 @@ import java.util.Map;
 public abstract class BaseRequest<T> extends OkHttpSpiceRequest<T> {
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final MediaType TEXT = MediaType.parse("text/plain; charset=utf-8");
+    private static final String TAG = "BaseRequest<T>";
 
     private final String mServerUrl;
     private final String mApiToken;
@@ -36,12 +38,16 @@ public abstract class BaseRequest<T> extends OkHttpSpiceRequest<T> {
      */
     protected BaseRequest(Class<T> klass, String serverUrl, String apiToken) {
         super(klass);
+        Log.i(TAG, "Create HTTP Request");
+        Log.i(TAG, "Base server: " + serverUrl);
+        Log.i(TAG, "Api token: " + apiToken);
         mServerUrl = serverUrl;
         mApiToken = apiToken;
     }
 
     @Override
     public T loadDataFromNetwork() throws Exception {
+        Log.i(TAG, "Prepare HTTP Request");
         RequestBody body = null;
         String content = getContent();
         if (content != null) {
@@ -55,17 +61,25 @@ public abstract class BaseRequest<T> extends OkHttpSpiceRequest<T> {
             builder.addHeader(key, headers.get(key));
         }
         Request request = builder.build();
+        Log.i(TAG, "Start HTTP Request");
+        Log.i(TAG, "URL: " + getUri().toString());
+        Log.i(TAG, "Method: " + getMethod());
         Response response = getOkHttpClient().newCall(request).execute();
+        Log.i(TAG, "End HTTP Request");
         if (getExpectedCode() != response.code()) {
+            Log.e(TAG, "Got code: " + response.code());
+            Log.e(TAG, "Instead of: " + getExpectedCode());
             throw new HttpException("Server returned code " + response.code());
         }
         if (getParseJson()) {
+            Log.i(TAG, "Serialize JSON");
             Gson gson = new GsonBuilder()
                     .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
                     .create();
             String stringBody = response.body().string();
             return gson.fromJson(stringBody, getResultType());
         } else {
+            Log.i(TAG, "No serialization");
             return null;
         }
     }
