@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="@dimen/snippet_height">
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:cardCornerRadius="@dimen/card_padding"
+    app:cardUseCompatPadding="true"
+    app:contentPadding="@dimen/card_padding">
 
     <WebView
         android:id="@+id/webView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/ic_dt_size"
-        android:layout_marginRight="@dimen/ic_dt_size"
         android:scrollbars="none"/>
 
     <ImageView
@@ -18,7 +22,6 @@
         android:layout_height="@dimen/ic_dt_size"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/ic_dp_margin"
-        android:background="@android:color/white"
         android:contentDescription="Provider"/>
 
 
@@ -34,4 +37,4 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
     </android.gesture.GestureOverlayView>
-</FrameLayout>
+</android.support.v7.widget.CardView>

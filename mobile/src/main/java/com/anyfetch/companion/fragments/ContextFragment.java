@@ -94,6 +94,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         mToolbar.inflateMenu(R.menu.context);
 
         mListView = (StickyListHeadersListView) view.findViewById(R.id.listView);
+        mListView.setDivider(null);
 
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         mSwipeLayout.setOnRefreshListener(this);
