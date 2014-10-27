@@ -1,5 +1,7 @@
 package com.anyfetch.companion.commons.api.requests;
 
+import android.util.Log;
+
 import com.anyfetch.companion.commons.api.helpers.BaseRequest;
 import com.anyfetch.companion.commons.api.pojo.DocumentsList;
 
@@ -9,6 +11,7 @@ import java.util.Map;
  * A request that gets the important documents for an event
  */
 public class GetImportantDocumentsListRequest extends BaseRequest<DocumentsList> {
+    private static final String TAG = "GetImportantDocumentsListRequest";
     private final String mEventId;
     private final String mContextQuery;
 
@@ -22,6 +25,9 @@ public class GetImportantDocumentsListRequest extends BaseRequest<DocumentsList>
      */
     public GetImportantDocumentsListRequest(String serverUrl, String apiToken, String eventId, String contextQuery) {
         super(DocumentsList.class, serverUrl, apiToken);
+        Log.i(TAG, "Create Get Imp Docs Request");
+        Log.i(TAG, "EventId: " + eventId);
+        Log.i(TAG, "ContextQuery: " + contextQuery);
         mEventId = eventId;
         mContextQuery = contextQuery;
     }

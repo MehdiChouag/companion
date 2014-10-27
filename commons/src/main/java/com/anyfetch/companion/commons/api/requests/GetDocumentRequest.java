@@ -1,5 +1,7 @@
 package com.anyfetch.companion.commons.api.requests;
 
+import android.util.Log;
+
 import com.anyfetch.companion.commons.api.helpers.BaseRequest;
 import com.anyfetch.companion.commons.api.pojo.Document;
 
@@ -9,6 +11,7 @@ import java.util.Map;
  * Gets a single document
  */
 public class GetDocumentRequest extends BaseRequest<Document> {
+    private static final String TAG = "GetDocumentRequest";
     private final String mContextQuery;
     private final String mDocumentId;
 
@@ -22,6 +25,9 @@ public class GetDocumentRequest extends BaseRequest<Document> {
      */
     public GetDocumentRequest(String serverUrl, String apiToken, String documentId, String contextQuery) {
         super(Document.class, serverUrl, apiToken);
+        Log.i(TAG, "Create Get Doc Request");
+        Log.i(TAG, "DocumentId: " + documentId);
+        Log.i(TAG, "ContextQuery: " + contextQuery);
         mDocumentId = documentId;
         mContextQuery = contextQuery;
     }
