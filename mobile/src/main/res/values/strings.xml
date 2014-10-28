@@ -21,5 +21,6 @@
     <string name="action_open_in_app">Open in App</string>
     <string name="action_refresh">Refresh</string>
     <string name="choose_context_attendees">Context\'s attendees</string>
+    <string name="tab_all">All</string>
 
 </resources>

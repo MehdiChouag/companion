@@ -12,7 +12,9 @@ import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -231,6 +233,25 @@ public class Event implements Parcelable, ContextualObject {
             }
         }
         return query;
+    }
+
+    @Override
+    public Map<String, String> getAdditionalSearchQueries(Set<String> tailedEmails) {
+        Map<String, String> map = new HashMap<String, String>();
+        for (Person attendee : mAttendees) {
+            if (!attendee.isExcluded(tailedEmails)) {
+                String subCtxName = attendee.getName();
+                if (subCtxName == null || subCtxName.equals("")) {
+                    if (attendee.getEmails().size() > 0) {
+                        subCtxName = attendee.getEmails().get(0);
+                    } else {
+                        subCtxName = "Attendee";
+                    }
+                }
+                map.put(subCtxName, attendee.getSearchQuery(null));
+            }
+        }
+        return map;
     }
 
     /**

@@ -22,6 +22,7 @@ public class DocumentsListRequestBuilder extends BaseRequestBuilder<DocumentsLis
     private boolean mWithImportants;
     private boolean mWithNotImportants;
     private Set<String> mTailedEmails;
+    private String mSubcontextName;
 
     /**
      * Creates a new DocumentsListRequestBuilder
@@ -34,6 +35,17 @@ public class DocumentsListRequestBuilder extends BaseRequestBuilder<DocumentsLis
         mWithImportants = false; // TODO: temporary as false
         mWithNotImportants = true;
         mTailedEmails = prefs.getStringSet(TAILED_EMAILS, new HashSet<String>());
+    }
+
+    /**
+     * Selects a specific subcontext
+     *
+     * @param name The subcontext's name
+     * @return The chainable builder
+     */
+    public DocumentsListRequestBuilder selectSubContext(String name) {
+        mSubcontextName = name;
+        return this;
     }
 
     /**
@@ -51,6 +63,7 @@ public class DocumentsListRequestBuilder extends BaseRequestBuilder<DocumentsLis
      * Sets if we need not important documents in the results (only for events)
      *
      * @param withNotImportants Take not importants ?
+     * @return The chainable builder
      */
     public DocumentsListRequestBuilder setWithNotImportants(boolean withNotImportants) {
         mWithNotImportants = withNotImportants;
@@ -61,6 +74,7 @@ public class DocumentsListRequestBuilder extends BaseRequestBuilder<DocumentsLis
      * Sets the tailed emails
      *
      * @param tailedEmails A set of emails
+     * @return The chainable builder
      */
     public DocumentsListRequestBuilder setWithNotImportants(Set<String> tailedEmails) {
         mTailedEmails = tailedEmails;
@@ -71,7 +85,11 @@ public class DocumentsListRequestBuilder extends BaseRequestBuilder<DocumentsLis
     public BaseRequest<DocumentsList> build() {
         String sq = "";
         if (getContextualObject() != null) {
-            sq = getContextualObject().getSearchQuery(mTailedEmails);
+            if (mSubcontextName != null) {
+                sq = getContextualObject().getAdditionalSearchQueries(mTailedEmails).get(mSubcontextName);
+            } else {
+                sq = getContextualObject().getSearchQuery(mTailedEmails);
+            }
             if (getContextualObject() instanceof Event) {
                 if (mWithImportants && mWithNotImportants) {
                     return null; // TODO: Client & server: batch request endpoints

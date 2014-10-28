@@ -16,13 +16,39 @@
         android:layout_gravity="top"
         android:layout_marginLeft="@dimen/abc_action_bar_default_height_material"
         android:layout_marginTop="@dimen/abc_action_bar_default_height_material"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <TextView
+    <TextView
             android:id="@+id/headerTitle"
             style="@style/Base.TextAppearance.AppCompat.Title.Inverse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
+
+    <TabHost
+        android:id="@+id/tabHost"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="bottom">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+            </TabWidget>
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp">
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
 
 </FrameLayout>

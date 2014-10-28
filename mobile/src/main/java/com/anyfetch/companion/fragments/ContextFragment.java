@@ -3,9 +3,11 @@ package com.anyfetch.companion.fragments;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.anyfetch.companion.R;
@@ -30,13 +33,24 @@ import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
  * Stores the context around an given context (Event, Person, …)
  */
-public class ContextFragment extends Fragment implements RequestListener<DocumentsList>, DialogFragmentChangeListener, SwipeRefreshLayout.OnRefreshListener, Toolbar.OnMenuItemClickListener, View.OnClickListener, AbsListView.OnScrollListener {
+public class ContextFragment extends Fragment implements RequestListener<DocumentsList>, DialogFragmentChangeListener, SwipeRefreshLayout.OnRefreshListener, Toolbar.OnMenuItemClickListener, View.OnClickListener, AbsListView.OnScrollListener, TabHost.OnTabChangeListener {
     public static final String ARG_CONTEXTUAL_OBJECT = "contextualObject";
+    private static final String TAB_ALL = "tab_all";
+    private final TabHost.TabContentFactory EMPTY_TAB = new TabHost.TabContentFactory() {
+        @Override
+        public View createTabContent(String tag) {
+            return new View(getActivity());
+        }
+    };
 
     private SpiceManager mSpiceManager = new SpiceManager(HttpSpiceService.class);
 
@@ -46,6 +60,8 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
     private SwipeRefreshLayout mSwipeLayout;
     private Toolbar mToolbar;
     private View mContextHeader;
+    private TabHost mTabHost;
+    private String mCurrentSubcontext;
 
 
     public ContextFragment() {
@@ -107,6 +123,10 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         headerImage.setImageResource(R.drawable.bg_sf); // TODO: change it with something contextual
         headerImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
+        mTabHost = (TabHost) mContextHeader.findViewById(R.id.tabHost);
+        mTabHost.setup();
+        mTabHost.setOnTabChangedListener(this);
+
         mListView = (StickyListHeadersListView) view.findViewById(R.id.listView);
         mListView.addHeaderView(mContextHeader);
         mListView.setOnScrollListener(this);
@@ -119,9 +139,35 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         mSwipeLayout.setOnRefreshListener(this);
         mSwipeLayout.setColorSchemeColors(R.color.primary, R.color.primary_dark);
 
+        refreshTabs();
         startQuery(true);
 
         return view;
+    }
+
+    private void refreshTabs() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        Set<String> tailedEmails = prefs.getStringSet(DocumentsListRequestBuilder.TAILED_EMAILS, new HashSet<String>());
+        mTabHost.clearAllTabs();
+        Map<String, String> tabQueries = mContextualObject.getAdditionalSearchQueries(tailedEmails);
+        if (tabQueries != null && !tabQueries.isEmpty()) {
+            TabHost.TabSpec allSpec = mTabHost.newTabSpec(TAB_ALL)
+                    .setIndicator(getString(R.string.tab_all))
+                    .setContent(EMPTY_TAB);
+            mTabHost.addTab(allSpec);
+            for (String tabName : tabQueries.keySet()) {
+                TabHost.TabSpec spec = mTabHost.newTabSpec(tabName)
+                        .setIndicator(tabName)
+                        .setContent(EMPTY_TAB);
+                mTabHost.addTab(spec);
+            }
+            for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
+                TextView tv = (TextView) mTabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+                tv.setTextColor(getResources().getColor(R.color.abc_primary_text_material_dark));
+            }
+            mTabHost.setCurrentTab(0);
+        }
+        mCurrentSubcontext = null;
     }
 
 
@@ -139,11 +185,13 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
 
     @Override
     public void onDialogFragmentChanged() {
+        refreshTabs();
         startQuery(true);
     }
 
     private void startQuery(boolean cached) {
         GetDocumentsListRequest request = (GetDocumentsListRequest) new DocumentsListRequestBuilder(getActivity())
+                .selectSubContext(mCurrentSubcontext)
                 .setContextualObject(mContextualObject)
                 .build();
         if (cached) {
@@ -231,5 +279,15 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
                 Color.green(primary),
                 Color.blue(primary)
         ));
+    }
+
+    @Override
+    public void onTabChanged(String tabId) {
+        if (tabId.equals(TAB_ALL)) {
+            mCurrentSubcontext = null;
+        } else {
+            mCurrentSubcontext = tabId;
+        }
+        startQuery(true);
     }
 }

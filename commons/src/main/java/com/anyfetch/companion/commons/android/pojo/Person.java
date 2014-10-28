@@ -13,6 +13,7 @@ import com.anyfetch.companion.commons.api.builders.ContextualObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -362,5 +363,10 @@ public class Person implements Parcelable, ContextualObject {
             first = false;
         }
         return query;
+    }
+
+    @Override
+    public Map<String, String> getAdditionalSearchQueries(Set<String> tailedEmails) {
+        return null;
     }
 }
