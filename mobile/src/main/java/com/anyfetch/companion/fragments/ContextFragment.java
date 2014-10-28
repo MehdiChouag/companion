@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.anyfetch.companion.R;
@@ -102,7 +103,9 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         mContextHeader = inflater.inflate(R.layout.row_context_header, mListView, false);
         TextView headerTitle = (TextView) mContextHeader.findViewById(R.id.headerTitle);
         headerTitle.setText(mContextualObject.getTitle());
-
+        ImageView headerImage = (ImageView) mContextHeader.findViewById(R.id.headerImage);
+        headerImage.setImageResource(R.drawable.bg_sf); // TODO: change it with something contextual
+        headerImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         mListView = (StickyListHeadersListView) view.findViewById(R.id.listView);
         mListView.addHeaderView(mContextHeader);
