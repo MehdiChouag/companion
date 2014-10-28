@@ -145,31 +145,6 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         return view;
     }
 
-    private void refreshTabs() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        Set<String> tailedEmails = prefs.getStringSet(DocumentsListRequestBuilder.TAILED_EMAILS, new HashSet<String>());
-        mTabHost.clearAllTabs();
-        Map<String, String> tabQueries = mContextualObject.getAdditionalSearchQueries(tailedEmails);
-        if (tabQueries != null && !tabQueries.isEmpty()) {
-            TabHost.TabSpec allSpec = mTabHost.newTabSpec(TAB_ALL)
-                    .setIndicator(getString(R.string.tab_all))
-                    .setContent(EMPTY_TAB);
-            mTabHost.addTab(allSpec);
-            for (String tabName : tabQueries.keySet()) {
-                TabHost.TabSpec spec = mTabHost.newTabSpec(tabName)
-                        .setIndicator(tabName)
-                        .setContent(EMPTY_TAB);
-                mTabHost.addTab(spec);
-            }
-            for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
-                TextView tv = (TextView) mTabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
-                tv.setTextColor(getResources().getColor(R.color.abc_primary_text_material_dark));
-            }
-            mTabHost.setCurrentTab(0);
-        }
-        mCurrentSubcontext = null;
-    }
-
 
     @Override
     public void onRequestFailure(SpiceException spiceException) {
@@ -187,19 +162,6 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
     public void onDialogFragmentChanged() {
         refreshTabs();
         startQuery(true);
-    }
-
-    private void startQuery(boolean cached) {
-        GetDocumentsListRequest request = (GetDocumentsListRequest) new DocumentsListRequestBuilder(getActivity())
-                .selectSubContext(mCurrentSubcontext)
-                .setContextualObject(mContextualObject)
-                .build();
-        if (cached) {
-            mSpiceManager.execute(request, request.createCacheKey(), 15 * DurationInMillis.ONE_MINUTE, this);
-        } else {
-            mSpiceManager.execute(request, null, 0, this);
-        }
-        mSwipeLayout.setRefreshing(true);
     }
 
     @Override
@@ -241,10 +203,6 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
     @Override
     public void onClick(View v) { // on navigation item
         getActivity().finish();
-    }
-
-    private float clamp(float value, float max, float min) {
-        return Math.max(Math.min(value, min), max);
     }
 
     @Override
@@ -289,5 +247,47 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
             mCurrentSubcontext = tabId;
         }
         startQuery(true);
+    }
+
+    private void startQuery(boolean cached) {
+        GetDocumentsListRequest request = (GetDocumentsListRequest) new DocumentsListRequestBuilder(getActivity())
+                .selectSubContext(mCurrentSubcontext)
+                .setContextualObject(mContextualObject)
+                .build();
+        if (cached) {
+            mSpiceManager.execute(request, request.createCacheKey(), 15 * DurationInMillis.ONE_MINUTE, this);
+        } else {
+            mSpiceManager.execute(request, null, 0, this);
+        }
+        mSwipeLayout.setRefreshing(true);
+    }
+
+    private void refreshTabs() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        Set<String> tailedEmails = prefs.getStringSet(DocumentsListRequestBuilder.TAILED_EMAILS, new HashSet<String>());
+        mTabHost.clearAllTabs();
+        Map<String, String> tabQueries = mContextualObject.getAdditionalSearchQueries(tailedEmails);
+        if (tabQueries != null && !tabQueries.isEmpty()) {
+            TabHost.TabSpec allSpec = mTabHost.newTabSpec(TAB_ALL)
+                    .setIndicator(getString(R.string.tab_all))
+                    .setContent(EMPTY_TAB);
+            mTabHost.addTab(allSpec);
+            for (String tabName : tabQueries.keySet()) {
+                TabHost.TabSpec spec = mTabHost.newTabSpec(tabName)
+                        .setIndicator(tabName)
+                        .setContent(EMPTY_TAB);
+                mTabHost.addTab(spec);
+            }
+            for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
+                TextView tv = (TextView) mTabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+                tv.setTextColor(getResources().getColor(R.color.abc_primary_text_material_dark));
+            }
+            mTabHost.setCurrentTab(0);
+        }
+        mCurrentSubcontext = null;
+    }
+
+    private float clamp(float value, float max, float min) {
+        return Math.max(Math.min(value, min), max);
     }
 }
