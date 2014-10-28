@@ -95,6 +95,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
 
         mListView = (StickyListHeadersListView) view.findViewById(R.id.listView);
         mListView.setDivider(null);
+        mListView.setAreHeadersSticky(false);
 
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         mSwipeLayout.setOnRefreshListener(this);

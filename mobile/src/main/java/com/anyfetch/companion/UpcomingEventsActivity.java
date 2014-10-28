@@ -7,9 +7,9 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -69,6 +69,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
             mListAdapter = new EventsListAdapter(getApplicationContext(), new EventsList());
             mListView.setAdapter(mListAdapter);
             mListView.setOnItemClickListener(this);
+            mListView.setAreHeadersSticky(false);
 
             mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
             mSwipeLayout.setOnRefreshListener(this);
