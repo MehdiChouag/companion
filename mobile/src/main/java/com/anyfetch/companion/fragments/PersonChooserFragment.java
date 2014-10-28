@@ -1,6 +1,7 @@
 package com.anyfetch.companion.fragments;
 
 
+import android.annotation.SuppressLint;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.SharedPreferences;
@@ -35,7 +36,6 @@ public class PersonChooserFragment extends DialogFragment implements AdapterView
 
     // TODO: Rename and change types of parameters
     private List<Person> mPeople;
-    private ListView mListView;
     private PeopleListAdapter mPeopleAdapter;
     private DialogFragmentChangeListener mDialogFragmentChangeListener = null;
 
@@ -81,15 +81,16 @@ public class PersonChooserFragment extends DialogFragment implements AdapterView
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_person_chooser, container, false);
 
-        mListView = (ListView) view.findViewById(R.id.listView);
+        ListView listView = (ListView) view.findViewById(R.id.listView);
         mPeopleAdapter = new PeopleListAdapter(getActivity(), mPeople);
-        mListView.setAdapter(mPeopleAdapter);
-        mListView.setOnItemClickListener(this);
+        listView.setAdapter(mPeopleAdapter);
+        listView.setOnItemClickListener(this);
 
         return view;
     }
 
 
+    @SuppressLint("CommitPrefEdits") // We need to ensure that the commit is in sync
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());

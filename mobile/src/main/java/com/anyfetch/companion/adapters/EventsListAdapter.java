@@ -15,7 +15,6 @@ import com.anyfetch.companion.commons.android.pojo.Person;
 import com.anyfetch.companion.ui.ImageHelper;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -78,29 +77,10 @@ public class EventsListAdapter extends TimedListAdapter implements StickyListHea
         locationView.setText(location);
 
         TextView timeView = (TextView) convertView.findViewById(R.id.timeView);
-        Calendar start = Calendar.getInstance();
-        start.setTime(event.getStartDate());
-        Calendar end = Calendar.getInstance();
-        end.setTime(event.getEndDate());
-
-        if (end.getTimeInMillis() - start.getTimeInMillis() != 1000 * 60 * 60 * 24) {
-            timeView.setText(
-                    String.format("%02d:%02d - %02d:%02d",
-                            start.get(Calendar.HOUR_OF_DAY),
-                            start.get(Calendar.MINUTE),
-                            end.get(Calendar.HOUR_OF_DAY),
-                            end.get(Calendar.MINUTE)));
-        } else {
-            timeView.setText("");
-        }
+        timeView.setText(event.formatTimeRange());
 
         TextView attendeeView = (TextView) convertView.findViewById(R.id.attendeeView);
-        int attendees = event.getAttendees().size();
-        if (attendees == 1) {
-            attendeeView.setText(event.getAttendees().get(0).getName());
-        } else {
-            attendeeView.setText(String.format(mContext.getString(R.string.multiple_attendees), attendees));
-        }
+        attendeeView.setText(event.formatAttendees(mContext.getString(R.string.multiple_attendees)));
 
         return convertView;
     }
@@ -123,8 +103,7 @@ public class EventsListAdapter extends TimedListAdapter implements StickyListHea
             return ImageHelper.getRoundedCornerBitmap(thumbs.get(0), 200);
         }
 
-        // TODO: Change this icon
-        return BitmapFactory.decodeResource(mContext.getResources(), android.R.drawable.ic_menu_today);
+        return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_placeholder_event);
     }
 
     public Event getEvent(int position) {

@@ -1,11 +1,14 @@
 package com.anyfetch.companion;
 
-import android.app.ActionBar;
-import android.app.Activity;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,10 +29,11 @@ import com.octo.android.robospice.request.listener.RequestListener;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-public class UpcomingEventsActivity extends Activity implements RequestListener<EventsList>, AdapterView.OnItemClickListener {
-    protected SpiceManager mSpiceManager = new SpiceManager(AndroidSpiceService.class);
+public class UpcomingEventsActivity extends ActionBarActivity implements RequestListener<EventsList>, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
+    protected final SpiceManager mSpiceManager = new SpiceManager(AndroidSpiceService.class);
     private StickyListHeadersListView mListView;
     private EventsListAdapter mListAdapter;
+    private SwipeRefreshLayout mSwipeLayout;
 
     @Override
     protected void onStart() {
@@ -54,14 +58,24 @@ public class UpcomingEventsActivity extends Activity implements RequestListener<
             openAuthActivity();
         } else {
             setContentView(R.layout.activity_upcoming_events);
+
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+
             mListView = (StickyListHeadersListView) findViewById(R.id.listView);
 
             mListAdapter = new EventsListAdapter(getApplicationContext(), new EventsList());
             mListView.setAdapter(mListAdapter);
             mListView.setOnItemClickListener(this);
+            mListView.setAreHeadersSticky(false);
+
+            mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+            mSwipeLayout.setOnRefreshListener(this);
+            mSwipeLayout.setColorSchemeColors(R.color.primary, R.color.primary_dark);
 
             GetUpcomingEventsRequest request = new GetUpcomingEventsRequest(getApplicationContext());
             mSpiceManager.execute(request, request.createCacheKey(), 15 * DurationInMillis.ONE_MINUTE, this);
+            mSwipeLayout.setRefreshing(true);
         }
     }
 
@@ -70,7 +84,7 @@ public class UpcomingEventsActivity extends Activity implements RequestListener<
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.upcoming_events, menu);
-        ActionBar bar = getActionBar();
+        ActionBar bar = getSupportActionBar();
         if (bar != null) {
             bar.setTitle(getString(R.string.title_upcoming_meetings));
             bar.setDisplayShowHomeEnabled(false);
@@ -82,10 +96,6 @@ public class UpcomingEventsActivity extends Activity implements RequestListener<
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.action_refresh:
-                GetUpcomingEventsRequest request = new GetUpcomingEventsRequest(getApplicationContext());
-                mSpiceManager.execute(request, null, 0, this);
-                break;
             case R.id.action_settings:
                 break;
             case R.id.action_log_out:
@@ -104,6 +114,7 @@ public class UpcomingEventsActivity extends Activity implements RequestListener<
 
     @Override
     public void onRequestSuccess(EventsList events) {
+        mSwipeLayout.setRefreshing(false);
         if (events.size() > 0) {
             MeetingPreparationAlarm.setForEvent(this, events.get(0));
         }
@@ -124,5 +135,11 @@ public class UpcomingEventsActivity extends Activity implements RequestListener<
         Intent intent = new Intent(getApplicationContext(), AuthActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onRefresh() {
+        GetUpcomingEventsRequest request = new GetUpcomingEventsRequest(this);
+        mSpiceManager.execute(request, null, 0, this);
     }
 }

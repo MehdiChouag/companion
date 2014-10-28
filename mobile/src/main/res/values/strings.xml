@@ -19,7 +19,16 @@
     <string name="title_activity_full">View Document</string>
     <string name="action_important_document">Mark as Important</string>
     <string name="action_open_in_app">Open in App</string>
-    <string name="action_refresh">Refresh</string>
     <string name="choose_context_attendees">Context\'s attendees</string>
+    <string name="tab_all">All</string>
+    <string name="placeholder_document_type">Document Type</string>
+    <string name="placeholder_provider">Provider</string>
+    <string name="placeholder_event">Event</string>
+    <string name="placeholder_time_range">From - To</string>
+    <string name="placeholder_event_title">Event title</string>
+    <string name="placeholder_attendees">0 Attendees</string>
+    <string name="placeholder_location">Location</string>
+    <string name="placeholder_attendee_name">Attendee</string>
+    <string name="placeholder_header_image">Header Image</string>
 
 </resources>

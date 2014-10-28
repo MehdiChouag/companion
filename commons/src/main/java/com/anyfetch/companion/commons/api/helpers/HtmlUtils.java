@@ -18,7 +18,7 @@ public class HtmlUtils {
                     "<meta charset='utf-8'>" +
                     "<style type='text/css'>" + CSS + "</style>" +
                     "</head>" +
-                    "<body style='font-family: Roboto; font-size: 13px; margin: 0; padding: 0;'>";
+                    "<body style='font-family: Roboto; font-size: 16px; margin: 0; padding: 0; background-color: #fafafa'>";
     public static final String FOOTER =
             "</body>" +
                     "</html>";

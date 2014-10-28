@@ -39,11 +39,10 @@ public class Document implements Parcelable {
     private final String companyId;
     private final String eventId;
     private final Date date;
-    private String title;
-    private String snippet;
-    private String full;
-
-    private boolean important;
+    private final String title;
+    private final String snippet;
+    private final String full;
+    private final boolean important;
 
     public Document() {
         this.type = "";

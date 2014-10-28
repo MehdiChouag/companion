@@ -347,6 +347,31 @@ public class Person implements Parcelable, ContextualObject {
     }
 
     @Override
+    public String getInfo() {
+        String info = "";
+        if (mJob != null && !mJob.equals("") && mCompany != null && !mCompany.equals("")) {
+            info += String.format("%s, %s", mJob, mCompany);
+        } else if (mJob != null && !mJob.equals("")) {
+            info += mJob;
+        } else if (mCompany != null && !mCompany.equals("")) {
+            info += mCompany;
+        }
+        if (!mEmails.isEmpty()) {
+            info += "\n";
+            for (String email : mEmails) {
+                info += email + "  ";
+            }
+        }
+        if (!mNumbers.isEmpty()) {
+            info += "\n";
+            for (String number : mNumbers) {
+                info += number + "  ";
+            }
+        }
+        return info;
+    }
+
+    @Override
     public String getSearchQuery(Set<String> tailedEmails) {
         String query = "";
         boolean first = true;
@@ -362,5 +387,10 @@ public class Person implements Parcelable, ContextualObject {
             first = false;
         }
         return query;
+    }
+
+    @Override
+    public List<ContextualObject> getSubContexts(Set<String> tailedEmails) {
+        return null;
     }
 }

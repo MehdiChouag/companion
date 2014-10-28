@@ -1,16 +1,11 @@
-<resources>
-    <style name="MobileCompanionTheme" parent="android:Theme.Holo.Light">
-        <item name="android:windowBackground">@android:color/white</item>
-        <item name="android:colorBackground">@android:color/white</item>
-        <item name="android:actionBarStyle">@style/CompanionActionBarTheme</item>
-    </style>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="CompanionActionBarTheme" parent="@android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:background">#83BBE7</item>
-        <item name="android:titleTextStyle">@style/CompanionActionBarTitleTheme</item>
-    </style>
-
-    <style name="CompanionActionBarTitleTheme" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textColor">@android:color/white</item>
+    <style name="MobileCompanionTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- NOTE: we can ignore compat warnings as we're in an AppCompat theme -->
+        <item name="android:colorPrimary" tools:ignore="NewApi">@color/primary</item>
+        <item name="android:colorPrimaryDark" tools:ignore="NewApi">@color/primary_dark</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="android:navigationBarColor" tools:ignore="NewApi">@color/navigation_bar</item>
     </style>
 </resources>

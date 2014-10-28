@@ -51,6 +51,7 @@ public class DocumentsListRequestBuilder extends BaseRequestBuilder<DocumentsLis
      * Sets if we need not important documents in the results (only for events)
      *
      * @param withNotImportants Take not importants ?
+     * @return The chainable builder
      */
     public DocumentsListRequestBuilder setWithNotImportants(boolean withNotImportants) {
         mWithNotImportants = withNotImportants;
@@ -61,6 +62,7 @@ public class DocumentsListRequestBuilder extends BaseRequestBuilder<DocumentsLis
      * Sets the tailed emails
      *
      * @param tailedEmails A set of emails
+     * @return The chainable builder
      */
     public DocumentsListRequestBuilder setWithNotImportants(Set<String> tailedEmails) {
         mTailedEmails = tailedEmails;

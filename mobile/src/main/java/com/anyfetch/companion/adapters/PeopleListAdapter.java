@@ -55,20 +55,22 @@ public class PeopleListAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.row_person, parent, false);
         }
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
         Person person = mPeople.get(position);
 
         TextView nameView = (TextView) convertView.findViewById(R.id.nameView);
         if ((person.getName() == null || person.getName().equals("")) && person.getEmails().size() > 0) {
             nameView.setText(person.getEmails().get(0));
+            imageView.setContentDescription(person.getEmails().get(0));
         } else {
             nameView.setText(person.getName());
+            imageView.setContentDescription(person.getName());
         }
 
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
         if (person.getThumb() != null) {
             imageView.setImageBitmap(ImageHelper.getRoundedCornerBitmap(person.getThumb(), 200));
         } else {
-            imageView.setImageResource(android.R.drawable.ic_menu_info_details);
+            imageView.setImageResource(R.drawable.ic_placeholder_person);
         }
 
         if (person.isExcluded(mTailedEmails)) {
