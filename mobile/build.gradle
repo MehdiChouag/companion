@@ -43,5 +43,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:21.0.+'
 
 
-    compile 'se.emilsjolander:stickylistheaders:2.5.1'
+    compile 'se.emilsjolander:stickylistheaders:2.5.2'
 }

@@ -3,6 +3,7 @@ package com.anyfetch.companion.fragments;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.adapters.DocumentsListAdapter;
@@ -31,7 +33,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 /**
  * Stores the context around an given context (Event, Person, …)
  */
-public class ContextFragment extends Fragment implements RequestListener<DocumentsList>, DialogFragmentChangeListener, SwipeRefreshLayout.OnRefreshListener, Toolbar.OnMenuItemClickListener, View.OnClickListener {
+public class ContextFragment extends Fragment implements RequestListener<DocumentsList>, DialogFragmentChangeListener, SwipeRefreshLayout.OnRefreshListener, Toolbar.OnMenuItemClickListener, View.OnClickListener, AbsListView.OnScrollListener {
     public static final String ARG_CONTEXTUAL_OBJECT = "contextualObject";
 
     private SpiceManager mSpiceManager = new SpiceManager(HttpSpiceService.class);
@@ -41,6 +43,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
     private StickyListHeadersListView mListView;
     private SwipeRefreshLayout mSwipeLayout;
     private Toolbar mToolbar;
+    private View mContextHeader;
 
 
     public ContextFragment() {
@@ -92,10 +95,18 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         mToolbar.setNavigationIcon(R.drawable.ic_action_back);
         mToolbar.setNavigationOnClickListener(this);
         mToolbar.inflateMenu(R.menu.context);
+        mToolbar.setTitleTextColor(Color.alpha(0));
+        mToolbar.setBackgroundColor(Color.alpha(0));
+
+        mContextHeader = inflater.inflate(R.layout.row_context_header, mListView, false);
 
         mListView = (StickyListHeadersListView) view.findViewById(R.id.listView);
+        mListView.addHeaderView(mContextHeader);
+        mListView.setOnScrollListener(this);
         mListView.setDivider(null);
         mListView.setAreHeadersSticky(false);
+        mListAdapter = new DocumentsListAdapter(getActivity(), new DocumentsList());
+        mListView.setAdapter(mListAdapter);
 
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         mSwipeLayout.setOnRefreshListener(this);
@@ -175,5 +186,43 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
     @Override
     public void onClick(View v) { // on navigation item
         getActivity().finish();
+    }
+
+    private float clamp(float value, float max, float min) {
+        return Math.max(Math.min(value, min), max);
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+    }
+
+    @Override
+    public void onScroll(AbsListView listView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        // ----- Obscure calculations -----
+        View c = listView.getChildAt(0);
+        int scrollY = 0;
+        if (c != null) {
+            scrollY = -c.getTop() + listView.getFirstVisiblePosition() * c.getHeight();
+        }
+        int headerSize = getActivity().getResources().getDimensionPixelSize(R.dimen.context_header_height);
+        int minHeaderSize = getActivity().getResources().getDimensionPixelSize(R.dimen.abc_action_bar_default_height_material);
+        float ratio = clamp((float) (scrollY + minHeaderSize) / headerSize, 0, 1);
+        // ----- End of obscure calculations -----
+        float shiftedRatio = clamp(2 * ratio - 1, 0, 1);
+
+        int textPrimary = Color.WHITE;
+        int primary = getActivity().getResources().getColor(R.color.primary);
+        mToolbar.setTitleTextColor(Color.argb(
+                (int) (shiftedRatio * 255),
+                Color.red(textPrimary),
+                Color.green(textPrimary),
+                Color.blue(textPrimary)
+        ));
+        mToolbar.setBackgroundColor(Color.argb(
+                (int) (shiftedRatio * 255),
+                Color.red(primary),
+                Color.green(primary),
+                Color.blue(primary)
+        ));
     }
 }
