@@ -2,54 +2,37 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
-             android:layout_height="@dimen/context_header_height">
-
-    <ImageView
-        android:id="@+id/headerImage"
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/context_header_height"
-        android:background="@color/primary"
-        android:contentDescription="@string/placeholder_header_image"/>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_marginLeft="@dimen/abc_action_bar_default_height_material"
-        android:layout_marginTop="@dimen/abc_action_bar_default_height_material"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/headerTitle"
-            style="@style/Base.TextAppearance.AppCompat.Title.Inverse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
+             android:layout_height="@dimen/context_header_height"
+             android:background="@color/primary">
 
     <TabHost
         android:id="@+id/tabHost"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_gravity="bottom">
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/context_header_height"
+        android:layout_marginTop="@dimen/abc_action_bar_default_height_material">
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TabWidget
-                android:id="@android:id/tabs"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-            </TabWidget>
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/abc_action_bar_default_height_material"
+                android:scrollbars="none">
+
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+                </TabWidget>
+            </HorizontalScrollView>
 
             <FrameLayout
                 android:id="@android:id/tabcontent"
                 android:layout_width="fill_parent"
-                android:layout_height="0dp">
+                android:layout_height="match_parent">
             </FrameLayout>
         </LinearLayout>
     </TabHost>
-
 </FrameLayout>

@@ -12,9 +12,7 @@ import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -224,31 +222,31 @@ public class Event implements Parcelable, ContextualObject {
         return mTitle;
     }
 
+
+    @Override
+    public String getInfo() {
+        if (mLocation != null) {
+            return String.format("%s\n%s", mLocation, formatTimeRange());
+        } else {
+            return formatTimeRange();
+        }
+    }
+
     @Override
     public String getSearchQuery(Set<String> tailedEmails) {
         String query = "(" + mTitle + ")";
-        for (Person attendee : mAttendees) {
-            if (!attendee.isExcluded(tailedEmails)) {
-                query += " OR " + attendee.getSearchQuery(null);
-            }
+        for (ContextualObject attendee : getSubContexts(tailedEmails)) {
+            query += " OR " + attendee.getSearchQuery(null);
         }
         return query;
     }
 
     @Override
-    public Map<String, String> getAdditionalSearchQueries(Set<String> tailedEmails) {
-        Map<String, String> map = new HashMap<String, String>();
+    public List<ContextualObject> getSubContexts(Set<String> tailedEmails) {
+        List<ContextualObject> map = new ArrayList<ContextualObject>();
         for (Person attendee : mAttendees) {
             if (!attendee.isExcluded(tailedEmails)) {
-                String subCtxName = attendee.getName();
-                if (subCtxName == null || subCtxName.equals("")) {
-                    if (attendee.getEmails().size() > 0) {
-                        subCtxName = attendee.getEmails().get(0);
-                    } else {
-                        subCtxName = "Attendee";
-                    }
-                }
-                map.put(subCtxName, attendee.getSearchQuery(null));
+                map.add(attendee);
             }
         }
         return map;
@@ -313,5 +311,42 @@ public class Event implements Parcelable, ContextualObject {
         dest.writeLong(mEndDate.getTime());
         dest.writeTypedList(mAttendees);
         dest.writeString(mLocation);
+    }
+
+    /**
+     * Write a human-readable time range string
+     *
+     * @return A string
+     */
+    public String formatTimeRange() {
+        Calendar start = Calendar.getInstance();
+        start.setTime(this.getStartDate());
+        Calendar end = Calendar.getInstance();
+        end.setTime(this.getEndDate());
+
+        if (end.getTimeInMillis() - start.getTimeInMillis() != 1000 * 60 * 60 * 24) {
+            return String.format("%02d:%02d - %02d:%02d",
+                    start.get(Calendar.HOUR_OF_DAY),
+                    start.get(Calendar.MINUTE),
+                    end.get(Calendar.HOUR_OF_DAY),
+                    end.get(Calendar.MINUTE));
+        } else {
+            return "";
+        }
+    }
+
+    /**
+     * Write a human-readable attendees string
+     *
+     * @param multipleAttendeesFormat How to format multiple attendees count
+     * @return A string
+     */
+    public String formatAttendees(String multipleAttendeesFormat) {
+        int attendees = this.getAttendees().size();
+        if (attendees == 1) {
+            return this.getAttendees().get(0).getName();
+        } else {
+            return String.format(multipleAttendeesFormat, attendees);
+        }
     }
 }

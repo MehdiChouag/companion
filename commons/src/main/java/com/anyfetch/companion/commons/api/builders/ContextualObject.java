@@ -1,6 +1,6 @@
 package com.anyfetch.companion.commons.api.builders;
 
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,6 +15,13 @@ public interface ContextualObject {
     public String getTitle();
 
     /**
+     * Gets basic information about the context
+     *
+     * @return Infos
+     */
+    public String getInfo();
+
+    /**
      * Gets the search query
      *
      * @return An Anyfetch search query
@@ -23,11 +30,10 @@ public interface ContextualObject {
     public String getSearchQuery(Set<String> tailedEmails);
 
     /**
-     * Get additional search queries
+     * Get nested contexts
      *
      * @param tailedEmails The emails ignored by the system
-     * @return A map between the additional query names and their actual search phrases
-     * or null if there is no additional context
+     * @return A list of subcontexts or null if there is no additional context
      */
-    public Map<String, String> getAdditionalSearchQueries(Set<String> tailedEmails);
+    public List<ContextualObject> getSubContexts(Set<String> tailedEmails);
 }

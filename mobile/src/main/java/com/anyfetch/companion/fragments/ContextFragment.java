@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -34,7 +33,7 @@ import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
 import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
@@ -45,22 +44,22 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 public class ContextFragment extends Fragment implements RequestListener<DocumentsList>, DialogFragmentChangeListener, SwipeRefreshLayout.OnRefreshListener, Toolbar.OnMenuItemClickListener, View.OnClickListener, AbsListView.OnScrollListener, TabHost.OnTabChangeListener {
     public static final String ARG_CONTEXTUAL_OBJECT = "contextualObject";
     private static final String TAB_ALL = "tab_all";
-    private final TabHost.TabContentFactory EMPTY_TAB = new TabHost.TabContentFactory() {
-        @Override
-        public View createTabContent(String tag) {
-            return new View(getActivity());
-        }
-    };
-
     private final SpiceManager mSpiceManager = new SpiceManager(HttpSpiceService.class);
-
-    private ContextualObject mContextualObject;
     private DocumentsListAdapter mListAdapter;
     private StickyListHeadersListView mListView;
     private SwipeRefreshLayout mSwipeLayout;
     private Toolbar mToolbar;
     private TabHost mTabHost;
-    private String mCurrentSubcontext;
+    private View mContextTab;
+    private final TabHost.TabContentFactory CONTEXT_TAB = new TabHost.TabContentFactory() {
+        @Override
+        public View createTabContent(String tag) {
+            return mContextTab;
+        }
+    };
+    private ContextualObject mRootContextualObject;
+    private List<ContextualObject> mSubContexts;
+    private ContextualObject mSelectedContextualObject;
 
 
     public ContextFragment() {
@@ -97,7 +96,8 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mContextualObject = (ContextualObject) getArguments().getParcelable(ARG_CONTEXTUAL_OBJECT);
+            mRootContextualObject = (ContextualObject) getArguments().getParcelable(ARG_CONTEXTUAL_OBJECT);
+            mSelectedContextualObject = mRootContextualObject;
         }
     }
 
@@ -105,22 +105,23 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_context, container, false);
+        View contextHeader = inflater.inflate(R.layout.row_context_header, mListView, false);
+        mContextTab = inflater.inflate(R.layout.tab_context, null, false);
 
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mToolbar.setOnMenuItemClickListener(this);
-        mToolbar.setTitle(mContextualObject.getTitle());
         mToolbar.setNavigationIcon(R.drawable.ic_action_back);
         mToolbar.setNavigationOnClickListener(this);
         mToolbar.inflateMenu(R.menu.context);
-        mToolbar.setTitleTextColor(Color.alpha(0));
-        mToolbar.setBackgroundColor(Color.alpha(0));
+        mToolbar.setTitleTextColor(Color.TRANSPARENT);
+        mToolbar.setBackgroundColor(Color.TRANSPARENT);
 
-        View contextHeader = inflater.inflate(R.layout.row_context_header, mListView, false);
-        TextView headerTitle = (TextView) contextHeader.findViewById(R.id.headerTitle);
-        headerTitle.setText(mContextualObject.getTitle());
+
+        /*TextView headerTitle = (TextView) contextHeader.findViewById(R.id.headerTitle);
+        headerTitle.setText(mRootContextualObject.getTitle());
         ImageView headerImage = (ImageView) contextHeader.findViewById(R.id.headerImage);
         //headerImage.setImageResource(R.drawable.bg_sf);
-        headerImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        headerImage.setScaleType(ImageView.ScaleType.CENTER_CROP);*/
 
         mTabHost = (TabHost) contextHeader.findViewById(R.id.tabHost);
         mTabHost.setup();
@@ -173,16 +174,16 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         int id = item.getItemId();
         switch (id) {
             case R.id.action_prepare_on_wear:
-                if (mContextualObject instanceof Event) {
+                if (mRootContextualObject instanceof Event) {
                     Intent i = new Intent();
                     i.setAction("com.anyfetch.companion.SHOW_NOTIFICATION");
-                    i.putExtra(MeetingPreparationAlarm.ARG_EVENT, (Event) mContextualObject);
+                    i.putExtra(MeetingPreparationAlarm.ARG_EVENT, (Event) mRootContextualObject);
                     getActivity().sendBroadcast(i);
                 }
                 break;
             case R.id.action_improve_context:
-                if (mContextualObject instanceof Event) {
-                    Event event = (Event) mContextualObject;
+                if (mRootContextualObject instanceof Event) {
+                    Event event = (Event) mRootContextualObject;
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     Fragment prev = getFragmentManager().findFragmentByTag("dialog");
                     if (prev != null) {
@@ -220,38 +221,41 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         int minHeaderSize = getActivity().getResources().getDimensionPixelSize(R.dimen.abc_action_bar_default_height_material);
         float ratio = clamp((float) (scrollY + minHeaderSize) / headerSize);
         // ----- End of obscure calculations -----
-        float shiftedRatio = clamp(2 * ratio - 1);
 
         int textPrimary = Color.WHITE;
-        int primary = getActivity().getResources().getColor(R.color.primary);
+        int primaryDark = getActivity().getResources().getColor(R.color.primary_dark);
         mToolbar.setTitleTextColor(Color.argb(
-                (int) (shiftedRatio * 255),
+                (int) (clamp(2 * ratio - 1) * 255),
                 Color.red(textPrimary),
                 Color.green(textPrimary),
                 Color.blue(textPrimary)
         ));
         mToolbar.setBackgroundColor(Color.argb(
-                (int) (shiftedRatio * 255),
-                Color.red(primary),
-                Color.green(primary),
-                Color.blue(primary)
+                (int) (clamp(4 * ratio - 2) * 255),
+                Color.red(primaryDark),
+                Color.green(primaryDark),
+                Color.blue(primaryDark)
         ));
     }
 
     @Override
     public void onTabChanged(String tabId) {
         if (tabId.equals(TAB_ALL)) {
-            mCurrentSubcontext = null;
+            mSelectedContextualObject = mRootContextualObject;
         } else {
-            mCurrentSubcontext = tabId;
+            mSelectedContextualObject = mSubContexts.get(Integer.parseInt(tabId.substring(4)));
         }
+        mToolbar.setTitle(mSelectedContextualObject.getTitle());
+        TextView titleView = (TextView) mContextTab.findViewById(R.id.titleView);
+        titleView.setText(mSelectedContextualObject.getTitle());
+        TextView infoView = (TextView) mContextTab.findViewById(R.id.infoView);
+        infoView.setText(mSelectedContextualObject.getInfo());
         startQuery(true);
     }
 
     private void startQuery(boolean cached) {
         GetDocumentsListRequest request = (GetDocumentsListRequest) new DocumentsListRequestBuilder(getActivity())
-                .selectSubContext(mCurrentSubcontext)
-                .setContextualObject(mContextualObject)
+                .setContextualObject(mSelectedContextualObject)
                 .build();
         if (cached) {
             mSpiceManager.execute(request, request.createCacheKey(), 15 * DurationInMillis.ONE_MINUTE, this);
@@ -265,25 +269,31 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         Set<String> tailedEmails = prefs.getStringSet(DocumentsListRequestBuilder.TAILED_EMAILS, new HashSet<String>());
         mTabHost.clearAllTabs();
-        Map<String, String> tabQueries = mContextualObject.getAdditionalSearchQueries(tailedEmails);
-        if (tabQueries != null && !tabQueries.isEmpty()) {
+        mSubContexts = mRootContextualObject.getSubContexts(tailedEmails);
+        mSelectedContextualObject = mRootContextualObject;
+        if (mSubContexts != null && !mSubContexts.isEmpty()) {
             TabHost.TabSpec allSpec = mTabHost.newTabSpec(TAB_ALL)
                     .setIndicator(getString(R.string.tab_all))
-                    .setContent(EMPTY_TAB);
+                    .setContent(CONTEXT_TAB);
             mTabHost.addTab(allSpec);
-            for (String tabName : tabQueries.keySet()) {
-                TabHost.TabSpec spec = mTabHost.newTabSpec(tabName)
-                        .setIndicator(tabName)
-                        .setContent(EMPTY_TAB);
+            for (int i = 0; i < mSubContexts.size(); i++) {
+                ContextualObject contextualObject = mSubContexts.get(i);
+                TabHost.TabSpec spec = mTabHost.newTabSpec("tab_" + i)
+                        .setIndicator(contextualObject.getTitle())
+                        .setContent(CONTEXT_TAB);
                 mTabHost.addTab(spec);
             }
-            for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
-                TextView tv = (TextView) mTabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
-                tv.setTextColor(getResources().getColor(R.color.abc_primary_text_material_dark));
-            }
-            mTabHost.setCurrentTab(0);
+        } else {
+            TabHost.TabSpec contextSpec = mTabHost.newTabSpec(TAB_ALL)
+                    .setIndicator(mRootContextualObject.getTitle())
+                    .setContent(CONTEXT_TAB);
+            mTabHost.addTab(contextSpec);
         }
-        mCurrentSubcontext = null;
+        for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
+            TextView tv = (TextView) mTabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+            tv.setTextColor(getResources().getColor(R.color.abc_primary_text_material_dark));
+        }
+        mTabHost.setCurrentTab(0);
     }
 
     private float clamp(float value) {

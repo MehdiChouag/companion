@@ -13,7 +13,6 @@ import com.anyfetch.companion.commons.api.builders.ContextualObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -348,6 +347,31 @@ public class Person implements Parcelable, ContextualObject {
     }
 
     @Override
+    public String getInfo() {
+        String info = "";
+        if (mJob != null && !mJob.equals("") && mCompany != null && !mCompany.equals("")) {
+            info += String.format("%s, %s", mJob, mCompany);
+        } else if (mJob != null && !mJob.equals("")) {
+            info += mJob;
+        } else if (mCompany != null && !mCompany.equals("")) {
+            info += mCompany;
+        }
+        if (!mEmails.isEmpty()) {
+            info += "\n";
+            for (String email : mEmails) {
+                info += email + "  ";
+            }
+        }
+        if (!mNumbers.isEmpty()) {
+            info += "\n";
+            for (String number : mNumbers) {
+                info += number + "  ";
+            }
+        }
+        return info;
+    }
+
+    @Override
     public String getSearchQuery(Set<String> tailedEmails) {
         String query = "";
         boolean first = true;
@@ -366,7 +390,7 @@ public class Person implements Parcelable, ContextualObject {
     }
 
     @Override
-    public Map<String, String> getAdditionalSearchQueries(Set<String> tailedEmails) {
+    public List<ContextualObject> getSubContexts(Set<String> tailedEmails) {
         return null;
     }
 }
