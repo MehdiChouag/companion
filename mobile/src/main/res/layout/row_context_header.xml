@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="@dimen/context_header_height">
 
-    <View
+    <ImageView
+        android:id="@+id/headerImage"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/context_header_height"
         android:background="@color/primary"/>
-</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginLeft="@dimen/abc_action_bar_default_height_material"
+        android:layout_marginTop="@dimen/abc_action_bar_default_height_material"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/headerTitle"
+            style="@style/Base.TextAppearance.AppCompat.Title.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</FrameLayout>

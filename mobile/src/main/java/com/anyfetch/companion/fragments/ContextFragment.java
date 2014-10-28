@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.TextView;
 
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.adapters.DocumentsListAdapter;
@@ -99,6 +100,9 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         mToolbar.setBackgroundColor(Color.alpha(0));
 
         mContextHeader = inflater.inflate(R.layout.row_context_header, mListView, false);
+        TextView headerTitle = (TextView) mContextHeader.findViewById(R.id.headerTitle);
+        headerTitle.setText(mContextualObject.getTitle());
+
 
         mListView = (StickyListHeadersListView) view.findViewById(R.id.listView);
         mListView.addHeaderView(mContextHeader);
