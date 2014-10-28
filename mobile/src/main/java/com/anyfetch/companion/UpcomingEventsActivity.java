@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -31,11 +30,10 @@ import com.octo.android.robospice.request.listener.RequestListener;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 public class UpcomingEventsActivity extends ActionBarActivity implements RequestListener<EventsList>, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
-    protected SpiceManager mSpiceManager = new SpiceManager(AndroidSpiceService.class);
+    protected final SpiceManager mSpiceManager = new SpiceManager(AndroidSpiceService.class);
     private StickyListHeadersListView mListView;
     private EventsListAdapter mListAdapter;
     private SwipeRefreshLayout mSwipeLayout;
-    private Toolbar mToolbar;
 
     @Override
     protected void onStart() {
@@ -60,9 +58,9 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
             openAuthActivity();
         } else {
             setContentView(R.layout.activity_upcoming_events);
-            mToolbar = (Toolbar) findViewById(R.id.toolbar);
-            ViewCompat.setElevation(mToolbar, 1);
-            setSupportActionBar(mToolbar);
+
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
 
             mListView = (StickyListHeadersListView) findViewById(R.id.listView);
 

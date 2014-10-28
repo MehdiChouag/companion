@@ -4,8 +4,10 @@
              android:layout_width="match_parent"
              android:layout_height="@dimen/header_height"
              android:alpha="0.9"
-             android:background="@android:color/white"
+             android:paddingEnd="@dimen/list_margin"
              android:paddingLeft="@dimen/list_margin"
+             android:paddingRight="@dimen/list_margin"
+             android:paddingStart="@dimen/list_margin"
              android:paddingTop="@dimen/list_margin">
 
     <TextView

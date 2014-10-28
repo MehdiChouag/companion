@@ -52,14 +52,13 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         }
     };
 
-    private SpiceManager mSpiceManager = new SpiceManager(HttpSpiceService.class);
+    private final SpiceManager mSpiceManager = new SpiceManager(HttpSpiceService.class);
 
     private ContextualObject mContextualObject;
     private DocumentsListAdapter mListAdapter;
     private StickyListHeadersListView mListView;
     private SwipeRefreshLayout mSwipeLayout;
     private Toolbar mToolbar;
-    private View mContextHeader;
     private TabHost mTabHost;
     private String mCurrentSubcontext;
 
@@ -116,19 +115,19 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         mToolbar.setTitleTextColor(Color.alpha(0));
         mToolbar.setBackgroundColor(Color.alpha(0));
 
-        mContextHeader = inflater.inflate(R.layout.row_context_header, mListView, false);
-        TextView headerTitle = (TextView) mContextHeader.findViewById(R.id.headerTitle);
+        View contextHeader = inflater.inflate(R.layout.row_context_header, mListView, false);
+        TextView headerTitle = (TextView) contextHeader.findViewById(R.id.headerTitle);
         headerTitle.setText(mContextualObject.getTitle());
-        ImageView headerImage = (ImageView) mContextHeader.findViewById(R.id.headerImage);
+        ImageView headerImage = (ImageView) contextHeader.findViewById(R.id.headerImage);
         //headerImage.setImageResource(R.drawable.bg_sf);
         headerImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-        mTabHost = (TabHost) mContextHeader.findViewById(R.id.tabHost);
+        mTabHost = (TabHost) contextHeader.findViewById(R.id.tabHost);
         mTabHost.setup();
         mTabHost.setOnTabChangedListener(this);
 
         mListView = (StickyListHeadersListView) view.findViewById(R.id.listView);
-        mListView.addHeaderView(mContextHeader);
+        mListView.addHeaderView(contextHeader);
         mListView.setOnScrollListener(this);
         mListView.setDivider(null);
         mListView.setAreHeadersSticky(false);
@@ -219,9 +218,9 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         }
         int headerSize = getActivity().getResources().getDimensionPixelSize(R.dimen.context_header_height);
         int minHeaderSize = getActivity().getResources().getDimensionPixelSize(R.dimen.abc_action_bar_default_height_material);
-        float ratio = clamp((float) (scrollY + minHeaderSize) / headerSize, 0, 1);
+        float ratio = clamp((float) (scrollY + minHeaderSize) / headerSize);
         // ----- End of obscure calculations -----
-        float shiftedRatio = clamp(2 * ratio - 1, 0, 1);
+        float shiftedRatio = clamp(2 * ratio - 1);
 
         int textPrimary = Color.WHITE;
         int primary = getActivity().getResources().getColor(R.color.primary);
@@ -285,6 +284,10 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
             mTabHost.setCurrentTab(0);
         }
         mCurrentSubcontext = null;
+    }
+
+    private float clamp(float value) {
+        return clamp(value, 0, 1);
     }
 
     private float clamp(float value, float max, float min) {

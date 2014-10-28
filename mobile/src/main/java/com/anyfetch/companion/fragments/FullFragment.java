@@ -26,12 +26,11 @@ import com.octo.android.robospice.request.listener.RequestListener;
 public class FullFragment extends Fragment implements RequestListener<Document>, Toolbar.OnMenuItemClickListener, View.OnClickListener {
     public static final String ARG_DOCUMENT = "arg_parcelable";
 
-    private SpiceManager mSpiceManager = new SpiceManager(HttpSpiceService.class);
+    private final SpiceManager mSpiceManager = new SpiceManager(HttpSpiceService.class);
 
     private Document mDocument;
     private WebView mFullWebView;
     private ProgressBar mProgress;
-    private Toolbar mToolbar;
 
 
     public FullFragment() {
@@ -87,13 +86,13 @@ public class FullFragment extends Fragment implements RequestListener<Document>,
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_full, container, false);
 
-        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        mToolbar.setOnMenuItemClickListener(this);
-        mToolbar.setTitle(HtmlUtils.stripHtml(mDocument.getTitle()));
-        mToolbar.setNavigationIcon(R.drawable.ic_action_back);
-        mToolbar.setNavigationOnClickListener(this);
-        mToolbar.setLogo(ImageHelper.matchResourceForProvider(mDocument.getProvider()));
-        mToolbar.inflateMenu(R.menu.full);
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        toolbar.setOnMenuItemClickListener(this);
+        toolbar.setTitle(HtmlUtils.stripHtml(mDocument.getTitle()));
+        toolbar.setNavigationIcon(R.drawable.ic_action_back);
+        toolbar.setNavigationOnClickListener(this);
+        toolbar.setLogo(ImageHelper.matchResourceForProvider(mDocument.getProvider()));
+        toolbar.inflateMenu(R.menu.full);
 
         mFullWebView = (WebView) view.findViewById(R.id.fullWebView);
         mProgress = (ProgressBar) view.findViewById(R.id.progressBar);
