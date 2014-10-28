@@ -120,7 +120,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         TextView headerTitle = (TextView) mContextHeader.findViewById(R.id.headerTitle);
         headerTitle.setText(mContextualObject.getTitle());
         ImageView headerImage = (ImageView) mContextHeader.findViewById(R.id.headerImage);
-        headerImage.setImageResource(R.drawable.bg_sf); // TODO: change it with something contextual
+        //headerImage.setImageResource(R.drawable.bg_sf);
         headerImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         mTabHost = (TabHost) mContextHeader.findViewById(R.id.tabHost);
