@@ -17,6 +17,15 @@ public class HtmlUtils {
 	public static final String DOCUMENT_PLACEHOLDER = "{{document}}";
 	public static String baseDocumentHtml = null;
 
+    /**
+     * Will return true if the specified document require some JS to be formatted.
+     * @param document
+     * @return
+     */
+    public static Boolean requireJavascript(String document) {
+        return document.contains("anyfetch-date");
+    }
+
 	public static String renderDocument(Context context, String document) {
 		if(baseDocumentHtml == null) {
 			// Preload the HTML file from assets
