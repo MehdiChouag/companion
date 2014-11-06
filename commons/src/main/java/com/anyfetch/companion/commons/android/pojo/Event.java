@@ -3,10 +3,15 @@ package com.anyfetch.companion.commons.android.pojo;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.CalendarContract;
+import com.anyfetch.companion.commons.R;
 import com.anyfetch.companion.commons.api.builders.ContextualObject;
+import com.anyfetch.companion.commons.ui.ImageHelper;
 
 import java.util.*;
 
@@ -211,13 +216,26 @@ public class Event implements Parcelable, ContextualObject {
         return mId;
     }
 
-    /**
-     * Gets the title
-     *
-     * @return A title
-     */
+    @Override
     public String getTitle() {
         return mTitle;
+    }
+
+    @Override
+    public Drawable getIcon(Context context) {
+        List<Bitmap> thumbs = new ArrayList<Bitmap>();
+        for (Person attendee : mAttendees) {
+            Bitmap thumb = attendee.getThumb();
+            if (thumb != null) {
+                thumbs.add(thumb);
+            }
+        }
+        int size = thumbs.size();
+        if (size > 0) {
+            return new BitmapDrawable(context.getResources(), ImageHelper.getRoundedCornerBitmap(thumbs.get(0), 200));
+        }
+
+        return context.getResources().getDrawable(R.drawable.ic_placeholder_event);
     }
 
 

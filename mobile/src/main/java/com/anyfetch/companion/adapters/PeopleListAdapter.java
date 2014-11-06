@@ -11,11 +11,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.commons.android.pojo.Person;
 import com.anyfetch.companion.commons.api.builders.DocumentsListRequestBuilder;
-import com.anyfetch.companion.ui.ImageHelper;
 
 import java.util.HashSet;
 import java.util.List;
@@ -67,11 +65,7 @@ public class PeopleListAdapter extends BaseAdapter {
             imageView.setContentDescription(person.getName());
         }
 
-        if (person.getThumb() != null) {
-            imageView.setImageBitmap(ImageHelper.getRoundedCornerBitmap(person.getThumb(), 200));
-        } else {
-            imageView.setImageResource(R.drawable.ic_placeholder_person);
-        }
+        imageView.setImageDrawable(person.getIcon(mContext));
 
         if (person.isExcluded(mTailedEmails)) {
             nameView.setTextColor(mContext.getResources().getColor(android.R.color.darker_gray));

@@ -2,8 +2,6 @@ package com.anyfetch.companion.adapters;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +10,12 @@ import android.widget.TextView;
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.commons.android.pojo.Event;
 import com.anyfetch.companion.commons.android.pojo.EventsList;
-import com.anyfetch.companion.commons.android.pojo.Person;
 import com.anyfetch.companion.commons.api.builders.DocumentsListRequestBuilder;
-import com.anyfetch.companion.ui.ImageHelper;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Adapt events to a list
@@ -67,7 +65,7 @@ public class EventsListAdapter extends TimedListAdapter implements StickyListHea
         Event event = mEvents.get(position);
 
         ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
-        imageView.setImageBitmap(createAttendeesMosaic(event.getAttendees()));
+        imageView.setImageDrawable(event.getIcon(mContext));
 
         TextView titleView = (TextView) convertView.findViewById(R.id.titleView);
         titleView.setText(event.getTitle());
@@ -91,22 +89,6 @@ public class EventsListAdapter extends TimedListAdapter implements StickyListHea
     @Override
     public Date getDate(int i) {
         return mEvents.get(i).getStartDate();
-    }
-
-    private Bitmap createAttendeesMosaic(List<Person> attendees) {
-        List<Bitmap> thumbs = new ArrayList<Bitmap>();
-        for (Person attendee : attendees) {
-            Bitmap thumb = attendee.getThumb();
-            if (thumb != null) {
-                thumbs.add(thumb);
-            }
-        }
-        int size = thumbs.size();
-        if (size > 0) {
-            return ImageHelper.getRoundedCornerBitmap(thumbs.get(0), 200);
-        }
-
-        return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_placeholder_event);
     }
 
     public Event getEvent(int position) {

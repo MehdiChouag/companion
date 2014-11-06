@@ -12,7 +12,7 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="@dimen/thumb_event_size"
+        android:layout_width="@dimen/thumb"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:contentDescription="@string/placeholder_attendee_name"/>

@@ -9,14 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ImageView;
-
 import com.anyfetch.companion.FullActivity;
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.commons.api.helpers.HtmlUtils;
 import com.anyfetch.companion.commons.api.pojo.Document;
 import com.anyfetch.companion.commons.api.pojo.DocumentsList;
+import com.anyfetch.companion.commons.ui.ImageHelper;
 import com.anyfetch.companion.fragments.FullFragment;
-import com.anyfetch.companion.ui.ImageHelper;
 
 import java.util.Date;
 

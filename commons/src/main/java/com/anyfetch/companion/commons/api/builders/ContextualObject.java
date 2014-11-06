@@ -1,5 +1,8 @@
 package com.anyfetch.companion.commons.api.builders;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+
 import java.util.List;
 import java.util.Set;
 
@@ -13,6 +16,14 @@ public interface ContextualObject {
      * @return A title
      */
     public String getTitle();
+
+    /**
+     * Gets the associated icon
+     *
+     * @param context The context for resources
+     * @return The icon
+     */
+    public Drawable getIcon(Context context);
 
     /**
      * Gets basic information about the context

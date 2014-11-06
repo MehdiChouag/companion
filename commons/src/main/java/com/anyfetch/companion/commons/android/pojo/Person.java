@@ -5,11 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.ContactsContract;
-
+import com.anyfetch.companion.commons.R;
 import com.anyfetch.companion.commons.api.builders.ContextualObject;
+import com.anyfetch.companion.commons.ui.ImageHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -344,6 +347,15 @@ public class Person implements Parcelable, ContextualObject {
     @Override
     public String getTitle() {
         return mName;
+    }
+
+    @Override
+    public Drawable getIcon(Context context) {
+        if (mThumb == null) {
+            return context.getResources().getDrawable(R.drawable.ic_placeholder_person);
+        } else {
+            return new BitmapDrawable(context.getResources(), ImageHelper.getRoundedCornerBitmap(mThumb, 200));
+        }
     }
 
     @Override

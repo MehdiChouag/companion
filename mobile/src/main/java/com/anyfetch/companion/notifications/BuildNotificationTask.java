@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.text.Html;
-
 import com.anyfetch.companion.ContextActivity;
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.commons.android.pojo.Event;
@@ -19,8 +18,8 @@ import com.anyfetch.companion.commons.api.helpers.HtmlUtils;
 import com.anyfetch.companion.commons.api.pojo.Document;
 import com.anyfetch.companion.commons.api.pojo.DocumentsList;
 import com.anyfetch.companion.commons.api.requests.GetDocumentsListRequest;
+import com.anyfetch.companion.commons.ui.ImageHelper;
 import com.anyfetch.companion.fragments.ContextFragment;
-import com.anyfetch.companion.ui.ImageHelper;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.util.ArrayList;

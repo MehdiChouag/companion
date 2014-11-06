@@ -14,10 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.TabHost;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.adapters.DocumentsListAdapter;
 import com.anyfetch.companion.commons.android.pojo.Event;
@@ -250,6 +247,9 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         titleView.setText(mSelectedContextualObject.getTitle());
         TextView infoView = (TextView) mContextTab.findViewById(R.id.infoView);
         infoView.setText(mSelectedContextualObject.getInfo());
+        ImageView icon = (ImageView) mContextTab.findViewById(R.id.icon);
+        icon.setImageDrawable(mSelectedContextualObject.getIcon(getActivity()));
+        icon.setContentDescription(mSelectedContextualObject.getTitle());
         startQuery(true);
     }
 
@@ -279,7 +279,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
             for (int i = 0; i < mSubContexts.size(); i++) {
                 ContextualObject contextualObject = mSubContexts.get(i);
                 TabHost.TabSpec spec = mTabHost.newTabSpec("tab_" + i)
-                        .setIndicator(contextualObject.getTitle())
+                        .setIndicator(contextualObject.getTitle(), contextualObject.getIcon(getActivity()))
                         .setContent(CONTEXT_TAB);
                 mTabHost.addTab(spec);
 

@@ -10,7 +10,7 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="@dimen/thumb_event_size"
+        android:layout_width="@dimen/thumb"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|start|left"
         android:contentDescription="@string/placeholder_event"/>
@@ -19,8 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/event_height"
         android:layout_gravity="center_vertical|end|right"
-        android:layout_marginLeft="@dimen/thumb_event_size"
-        android:layout_marginStart="@dimen/thumb_event_size"
+        android:layout_marginLeft="@dimen/thumb"
+        android:layout_marginStart="@dimen/thumb"
         android:orientation="vertical"
         android:paddingLeft="@dimen/list_margin"
         android:paddingStart="@dimen/list_margin"
