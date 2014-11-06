@@ -68,7 +68,7 @@ public class DocumentsListAdapter extends TimedListAdapter {
 
         WebView webView = (WebView) convertView.findViewById(R.id.webView);
         webView.loadUrl("about:blank");
-        String htmlString = HtmlUtils.HEADER + document.getSnippet() + HtmlUtils.FOOTER;
+        String htmlString = HtmlUtils.renderDocument(convertView.getContext(), document.getSnippet());
         webView.loadData(htmlString, "text/html; charset=UTF-8", null);
 
         GestureOverlayView overlay = (GestureOverlayView) convertView.findViewById(R.id.gestureOverlayView);
