@@ -69,6 +69,7 @@ public class DocumentsListAdapter extends TimedListAdapter {
         WebView webView = (WebView) convertView.findViewById(R.id.webView);
         webView.loadUrl("about:blank");
         String htmlString = HtmlUtils.renderDocument(convertView.getContext(), document.getSnippet());
+        webView.getSettings().setJavaScriptEnabled(true);
 		webView.loadDataWithBaseURL("file:///android_asset/", htmlString, "text/html", "UTF-8", null);
 
         GestureOverlayView overlay = (GestureOverlayView) convertView.findViewById(R.id.gestureOverlayView);
