@@ -8,16 +8,27 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 
 /**
  * Tools for helping with HTML-Related stuff
  */
 public class HtmlUtils {
     public static final String DOCUMENT_PLACEHOLDER = "{{document}}";
+    public static final String LOCALE_PLACEHOLDER = "{{locale}}";
     public static String baseDocumentHtml = null;
 
+    /**
+     * Will return true if the specified document require some JS to be formatted.
+     * @param document
+     * @return
+     */
+    public static Boolean requireJavascript(String document) {
+        return document.contains("anyfetch-date");
+    }
+
     public static String renderDocument(Context context, String document) {
-        if (baseDocumentHtml == null) {
+        if(baseDocumentHtml == null) {
             // Preload the HTML file from assets
             try {
                 InputStream fin = context.getAssets().open("document.html");
@@ -32,7 +43,8 @@ public class HtmlUtils {
             }
         }
 
-        return baseDocumentHtml.replace(DOCUMENT_PLACEHOLDER, document);
+        String languageCode = Locale.getDefault().getLanguage();
+        return baseDocumentHtml.replace(DOCUMENT_PLACEHOLDER, document).replace(LOCALE_PLACEHOLDER, languageCode);
     }
 
     public static String convertHlt(String origin) {

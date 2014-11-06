@@ -9,28 +9,30 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-
 import com.anyfetch.companion.adapters.EventsListAdapter;
 import com.anyfetch.companion.commons.android.AndroidSpiceService;
 import com.anyfetch.companion.commons.android.pojo.Event;
 import com.anyfetch.companion.commons.android.pojo.EventsList;
 import com.anyfetch.companion.commons.android.requests.GetUpcomingEventsRequest;
+import com.anyfetch.companion.commons.api.HttpSpiceService;
 import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
+import com.anyfetch.companion.commons.api.requests.GetStartRequest;
 import com.anyfetch.companion.commons.notifications.MeetingPreparationAlarm;
 import com.anyfetch.companion.fragments.ContextFragment;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
-
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 public class UpcomingEventsActivity extends ActionBarActivity implements RequestListener<EventsList>, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
-    protected final SpiceManager mSpiceManager = new SpiceManager(AndroidSpiceService.class);
+    private final SpiceManager mSpiceManager = new SpiceManager(AndroidSpiceService.class);
+    private final SpiceManager mHttpSpiceManager = new SpiceManager(HttpSpiceService.class);
     private StickyListHeadersListView mListView;
     private EventsListAdapter mListAdapter;
     private SwipeRefreshLayout mSwipeLayout;
@@ -39,11 +41,13 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     protected void onStart() {
         super.onStart();
         mSpiceManager.start(this);
+        mHttpSpiceManager.start(this);
     }
 
     @Override
     protected void onStop() {
         mSpiceManager.shouldStop();
+        mHttpSpiceManager.shouldStop();
         super.onStop();
     }
 
@@ -52,11 +56,25 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
         super.onCreate(savedInstanceState);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String serverUrl = preferences.getString(BaseRequestBuilder.PREF_SERVER_URL, BaseRequestBuilder.DEFAULT_SERVER_URL);
         String apiToken = preferences.getString(BaseRequestBuilder.PREF_API_TOKEN, null);
 
         if (apiToken == null) {
             openAuthActivity();
         } else {
+            GetStartRequest startRequest = new GetStartRequest(serverUrl, apiToken);
+            mHttpSpiceManager.execute(startRequest, null, 0, new RequestListener<Object>() {
+                @Override
+                public void onRequestFailure(SpiceException spiceException) {
+
+                }
+
+                @Override
+                public void onRequestSuccess(Object o) {
+                    Log.i("LambdaRequestListener", "Company Account Updated");
+                }
+            });
+
             setContentView(R.layout.activity_upcoming_events);
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
