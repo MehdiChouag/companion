@@ -346,10 +346,13 @@ public class Event implements Parcelable, ContextualObject {
             return this.getAttendees().get(0).getName();
         } else if (attendees == 2) {
             List<String> firstMails = this.getAttendees().get(0).getEmails();
-            if (firstMails.size() > 0 && tailedEmails.contains(firstMails.get(0))) {
+            List<String> secondMails = this.getAttendees().get(1).getEmails();
+            if (firstMails.size() == 0 || !tailedEmails.contains(firstMails.get(0))) {
+                return this.getAttendees().get(0).getName();
+            } else if (secondMails.size() == 0 || !tailedEmails.contains(secondMails.get(0))) {
                 return this.getAttendees().get(1).getName();
             } else {
-                return this.getAttendees().get(0).getName();
+                return String.format(multipleAttendeesFormat, attendees);
             }
         } else {
             return String.format(multipleAttendeesFormat, attendees);
