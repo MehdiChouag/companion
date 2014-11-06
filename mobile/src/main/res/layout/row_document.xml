@@ -35,15 +35,14 @@
             android:layout_marginTop="@dimen/ic_dt_size"
             android:scrollbars="none"/>
 
-
         <ImageView
             android:id="@+id/providerIcon"
             android:layout_width="@dimen/ic_provider_size"
             android:layout_height="@dimen/ic_provider_size"
             android:layout_gravity="end|bottom"
             android:layout_margin="@dimen/ic_dp_margin"
-            android:contentDescription="@string/placeholder_provider"/>
-
+            android:contentDescription="@string/placeholder_provider"
+            android:background="#fafafa"/>
 
         <android.gesture.GestureOverlayView
             android:id="@+id/gestureOverlayView"
