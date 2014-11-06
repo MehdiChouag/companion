@@ -1,24 +1,23 @@
 package com.anyfetch.companion.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.commons.android.pojo.Event;
 import com.anyfetch.companion.commons.android.pojo.EventsList;
 import com.anyfetch.companion.commons.android.pojo.Person;
+import com.anyfetch.companion.commons.api.builders.DocumentsListRequestBuilder;
 import com.anyfetch.companion.ui.ImageHelper;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+
+import java.util.*;
 
 /**
  * Adapt events to a list
@@ -27,6 +26,7 @@ public class EventsListAdapter extends TimedListAdapter implements StickyListHea
 
     private final Context mContext;
     private final EventsList mEvents;
+    private final Set<String> mTailedEmails;
 
     /**
      * Creates a new events adapter
@@ -38,6 +38,9 @@ public class EventsListAdapter extends TimedListAdapter implements StickyListHea
         super(context);
         mContext = context;
         mEvents = events;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+
+        mTailedEmails = prefs.getStringSet(DocumentsListRequestBuilder.TAILED_EMAILS, new HashSet<String>());
     }
 
     @Override
@@ -80,7 +83,7 @@ public class EventsListAdapter extends TimedListAdapter implements StickyListHea
         timeView.setText(event.formatTimeRange());
 
         TextView attendeeView = (TextView) convertView.findViewById(R.id.attendeeView);
-        attendeeView.setText(event.formatAttendees(mContext.getString(R.string.multiple_attendees)));
+        attendeeView.setText(event.formatAttendees(mTailedEmails, mContext.getString(R.string.multiple_attendees)));
 
         return convertView;
     }

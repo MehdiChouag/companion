@@ -336,13 +336,21 @@ public class Event implements Parcelable, ContextualObject {
     /**
      * Write a human-readable attendees string
      *
+     * @param tailedEmails Ignore attendees names to show
      * @param multipleAttendeesFormat How to format multiple attendees count
      * @return A string
      */
-    public String formatAttendees(String multipleAttendeesFormat) {
+    public String formatAttendees(Set<String> tailedEmails, String multipleAttendeesFormat) {
         int attendees = this.getAttendees().size();
         if (attendees == 1) {
             return this.getAttendees().get(0).getName();
+        } else if (attendees == 2) {
+            List<String> firstMails = this.getAttendees().get(0).getEmails();
+            if (firstMails.size() > 0 && tailedEmails.contains(firstMails.get(0))) {
+                return this.getAttendees().get(1).getName();
+            } else {
+                return this.getAttendees().get(0).getName();
+            }
         } else {
             return String.format(multipleAttendeesFormat, attendees);
         }
