@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.TabHost;
 import android.widget.TextView;
-
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.adapters.DocumentsListAdapter;
 import com.anyfetch.companion.commons.android.pojo.Event;
@@ -31,12 +30,11 @@ import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
  * Stores the context around an given context (Event, Person, …)
@@ -288,10 +286,6 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
                     .setIndicator(mRootContextualObject.getTitle())
                     .setContent(CONTEXT_TAB);
             mTabHost.addTab(contextSpec);
-        }
-        for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
-            TextView tv = (TextView) mTabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
-            tv.setTextColor(getResources().getColor(R.color.abc_primary_text_material_dark));
         }
         mTabHost.setCurrentTab(0);
     }

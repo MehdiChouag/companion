@@ -18,8 +18,9 @@
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/abc_action_bar_default_height_material"
-                android:scrollbars="none">
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:fillViewport="true">
 
                 <TabWidget
                     android:id="@android:id/tabs"
