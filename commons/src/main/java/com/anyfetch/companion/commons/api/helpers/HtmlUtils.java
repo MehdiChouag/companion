@@ -3,13 +3,12 @@ package com.anyfetch.companion.commons.api.helpers;
 import android.content.Context;
 import android.util.Log;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * Tools for helping with HTML-Related stuff
@@ -24,7 +23,7 @@ public class HtmlUtils {
      * @param document
      * @return
      */
-    public static Boolean requireaJavascript(String document) {
+    public static Boolean requireJavascript(String document) {
         return document.contains("anyfetch-date");
     }
 
