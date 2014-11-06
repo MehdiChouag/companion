@@ -30,5 +30,6 @@
     <string name="placeholder_location">Location</string>
     <string name="placeholder_attendee_name">Attendee</string>
     <string name="placeholder_header_image">Header Image</string>
+    <string name="sent_to_watch">Sent to watch</string>
 
 </resources>

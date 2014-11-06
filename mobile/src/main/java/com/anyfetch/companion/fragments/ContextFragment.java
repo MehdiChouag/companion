@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.adapters.DocumentsListAdapter;
 import com.anyfetch.companion.commons.android.pojo.Event;
@@ -94,7 +95,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mRootContextualObject = (ContextualObject) getArguments().getParcelable(ARG_CONTEXTUAL_OBJECT);
+            mRootContextualObject = getArguments().getParcelable(ARG_CONTEXTUAL_OBJECT);
             mSelectedContextualObject = mRootContextualObject;
         }
     }
@@ -173,6 +174,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         switch (id) {
             case R.id.action_prepare_on_wear:
                 if (mRootContextualObject instanceof Event) {
+                    Toast.makeText(getActivity(), getString(R.string.sent_to_watch), Toast.LENGTH_LONG).show();
                     Intent i = new Intent();
                     i.setAction("com.anyfetch.companion.SHOW_NOTIFICATION");
                     i.putExtra(MeetingPreparationAlarm.ARG_EVENT, (Event) mRootContextualObject);
