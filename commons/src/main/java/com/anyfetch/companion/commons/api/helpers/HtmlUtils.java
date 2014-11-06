@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,27 +15,38 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Tools for helping with HTML-Related stuff
  */
 public class HtmlUtils {
-	public static final String DOCUMENT_PLACEHOLDER = "{{document}}";
-	public static String baseDocumentHtml = null;
+    public static final String DOCUMENT_PLACEHOLDER = "{{document}}";
+    public static final String LOCALE_PLACEHOLDER = "{{locale}}";
+    public static String baseDocumentHtml = null;
 
-	public static String renderDocument(Context context, String document) {
-		if(baseDocumentHtml == null) {
-			// Preload the HTML file from assets
-			try {
-				InputStream fin = context.getAssets().open("document.html");
-				byte[] buffer = new byte[fin.available()];
-				fin.read(buffer);
-				fin.close();
+    /**
+     * Will return true if the specified document require some JS to be formatted.
+     * @param document
+     * @return
+     */
+    public static Boolean requireaJavascript(String document) {
+        return document.contains("anyfetch-date");
+    }
 
-				baseDocumentHtml = new String(buffer);
-			} catch (IOException e) {
-				Log.e("WTF", e.toString());
-				baseDocumentHtml = DOCUMENT_PLACEHOLDER;
-			}
-		}
+    public static String renderDocument(Context context, String document) {
+        if(baseDocumentHtml == null) {
+            // Preload the HTML file from assets
+            try {
+                InputStream fin = context.getAssets().open("document.html");
+                byte[] buffer = new byte[fin.available()];
+                fin.read(buffer);
+                fin.close();
 
-		return baseDocumentHtml.replace(DOCUMENT_PLACEHOLDER, document);
-	}
+                baseDocumentHtml = new String(buffer);
+            } catch (IOException e) {
+                Log.e("WTF", e.toString());
+                baseDocumentHtml = DOCUMENT_PLACEHOLDER;
+            }
+        }
+
+        String languageCode = Locale.getDefault().getLanguage();
+        return baseDocumentHtml.replace(DOCUMENT_PLACEHOLDER, document).replace(LOCALE_PLACEHOLDER, languageCode);
+    }
 
     public static String convertHlt(String origin) {
         return origin.replaceAll("<span[^>]+?anyfetch-hlt[^>]+?>(.+?)</span>", "<b>$1</b>");

@@ -3,6 +3,8 @@ package com.anyfetch.companion.commons.api.pojo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.anyfetch.companion.commons.api.helpers.HtmlUtils;
+
 import java.util.Date;
 
 /**
@@ -108,6 +110,14 @@ public class Document implements Parcelable {
 
     public boolean isImportant() {
         return important;
+    }
+
+    public boolean snippetRequireJavascript() {
+        return HtmlUtils.requireJavascript(this.getSnippet());
+    }
+
+    public boolean fullRequireJavascript() {
+        return HtmlUtils.requireJavascript(this.getFull());
     }
 
     @Override
