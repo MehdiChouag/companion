@@ -70,7 +70,7 @@ public class DocumentsListAdapter extends TimedListAdapter {
         webView.loadUrl("about:blank");
 
         String documentSnippet = document.getSnippet();
-        String htmlString = HtmlUtils.renderDocument(convertView.getContext(), documentSnippet);
+        String htmlString = HtmlUtils.renderDocument(webView.getContext(), documentSnippet);
 
         webView.getSettings().setJavaScriptEnabled(document.snippetRequireJavascript());
 		webView.loadDataWithBaseURL("file:///android_asset/", htmlString, "text/html", "UTF-8", null);

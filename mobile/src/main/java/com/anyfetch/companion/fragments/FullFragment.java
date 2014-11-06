@@ -105,7 +105,7 @@ public class FullFragment extends Fragment implements RequestListener<Document>,
         if (mFullWebView != null && !mDocument.getFull().equals("")) {
             mProgress.setVisibility(View.INVISIBLE);
             String htmlString = HtmlUtils.renderDocument(mFullWebView.getContext(), mDocument.getFull());
-            mFullWebView.getSettings().setJavaScriptEnabled(mDocument.snippetRequireJavascript());
+            mFullWebView.getSettings().setJavaScriptEnabled(mDocument.fullRequireJavascript());
             mFullWebView.loadDataWithBaseURL("file:///android_asset/", htmlString, "text/html", "UTF-8", null);
         }
     }
