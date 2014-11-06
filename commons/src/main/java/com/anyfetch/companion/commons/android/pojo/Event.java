@@ -6,14 +6,9 @@ import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.CalendarContract;
-
 import com.anyfetch.companion.commons.api.builders.ContextualObject;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Represents a calendar event
@@ -197,7 +192,10 @@ public class Event implements Parcelable, ContextualObject {
         EventsList events = new EventsList();
         evtCur.moveToFirst();
         for (int i = 0; i < evtCur.getCount(); i++) {
-            events.add(fromCursor(context, evtCur));
+            Event e = fromCursor(context, evtCur);
+            if (e.getAttendees().size() > 0) {
+                events.add(e);
+            }
             evtCur.moveToNext();
         }
         evtCur.close();
