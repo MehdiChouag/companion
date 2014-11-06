@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
+import com.anyfetch.companion.commons.android.accounts.AccountEmails;
 import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
+import com.anyfetch.companion.commons.api.builders.DocumentsListRequestBuilder;
+
+import java.util.Set;
 
 public class AuthActivity extends Activity {
     @Override
@@ -41,6 +44,8 @@ public class AuthActivity extends Activity {
     private void backToUpcoming(String apiToken) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
         editor.putString(BaseRequestBuilder.PREF_API_TOKEN, apiToken);
+        Set<String> emails = new AccountEmails().getOwnerEmails(this);
+        editor.putStringSet(DocumentsListRequestBuilder.TAILED_EMAILS, emails);
         editor.apply();
 
         Intent intent = new Intent(getApplicationContext(), UpcomingEventsActivity.class);
