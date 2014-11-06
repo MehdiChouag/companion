@@ -280,6 +280,11 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
                         .setIndicator(contextualObject.getTitle())
                         .setContent(CONTEXT_TAB);
                 mTabHost.addTab(spec);
+
+            }
+            for (int i = 0; i < mSubContexts.size() + 1; i++) {
+                TextView tv = (TextView) mTabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+                tv.setTextColor(getResources().getColor(R.color.abc_primary_text_material_dark));
             }
         } else {
             TabHost.TabSpec contextSpec = mTabHost.newTabSpec(TAB_ALL)
