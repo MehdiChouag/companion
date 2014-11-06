@@ -17,7 +17,9 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", function(event) {
-          window.anyfetchAssets.formatDates();
+          window.anyfetchAssets.formatDates({
+            locale: "{{locale}}"
+          });
       });
     </script>
 </head>

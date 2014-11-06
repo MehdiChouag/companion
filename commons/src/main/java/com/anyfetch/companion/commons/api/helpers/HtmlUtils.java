@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,6 +16,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  */
 public class HtmlUtils {
 	public static final String DOCUMENT_PLACEHOLDER = "{{document}}";
+	public static final String LOCALE_PLACEHOLDER = "{{locale}}";
 	public static String baseDocumentHtml = null;
 
     /**
@@ -42,7 +44,8 @@ public class HtmlUtils {
 			}
 		}
 
-		return baseDocumentHtml.replace(DOCUMENT_PLACEHOLDER, document);
+        String languageCode = Locale.getDefault().getLanguage();
+		return baseDocumentHtml.replace(DOCUMENT_PLACEHOLDER, document).replace(LOCALE_PLACEHOLDER, languageCode);
 	}
 
     public static String convertHlt(String origin) {
