@@ -256,7 +256,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
                 .setContextualObject(mSelectedContextualObject)
                 .build();
         if (cached) {
-            mSpiceManager.execute(request, request.createCacheKey(), 15 * DurationInMillis.ONE_MINUTE, this);
+            mSpiceManager.execute(request, request.createCacheKey(), DurationInMillis.ONE_DAY, this);
         } else {
             mSpiceManager.execute(request, null, 0, this);
         }
