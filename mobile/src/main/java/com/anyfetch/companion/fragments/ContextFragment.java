@@ -144,7 +144,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
 
     @Override
     public void onRequestFailure(SpiceException spiceException) {
-        // TODO
+        Toast.makeText(getActivity(), getString(R.string.server_error), Toast.LENGTH_LONG).show();
     }
 
     @Override

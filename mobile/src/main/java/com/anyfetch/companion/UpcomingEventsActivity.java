@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import com.anyfetch.companion.adapters.EventsListAdapter;
 import com.anyfetch.companion.commons.android.AndroidSpiceService;
 import com.anyfetch.companion.commons.android.pojo.Event;
@@ -66,7 +67,8 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
             mHttpSpiceManager.execute(startRequest, null, 0, new RequestListener<Object>() {
                 @Override
                 public void onRequestFailure(SpiceException spiceException) {
-
+                    Toast.makeText(UpcomingEventsActivity.this, getString(R.string.auth_issue), Toast.LENGTH_LONG).show();
+                    openAuthActivity();
                 }
 
                 @Override
@@ -128,6 +130,8 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
 
     @Override
     public void onRequestFailure(SpiceException spiceException) {
+        Toast.makeText(this, getString(R.string.calendar_error), Toast.LENGTH_LONG).show();
+        finish();
     }
 
     @Override

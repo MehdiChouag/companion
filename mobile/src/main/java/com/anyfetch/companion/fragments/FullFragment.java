@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.commons.api.HttpSpiceService;
 import com.anyfetch.companion.commons.api.builders.DocumentRequestBuilder;
@@ -111,7 +112,7 @@ public class FullFragment extends Fragment implements RequestListener<Document>,
 
     @Override
     public void onRequestFailure(SpiceException spiceException) {
-        // TODO
+        Toast.makeText(getActivity(), getString(R.string.server_error), Toast.LENGTH_LONG).show();
     }
 
     @Override
