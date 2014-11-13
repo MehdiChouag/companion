@@ -6,13 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import com.anyfetch.companion.R;
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 import java.util.Calendar;
 import java.util.Date;
-
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 /**
  * Handle timed headers
@@ -36,23 +34,77 @@ public abstract class TimedListAdapter extends BaseAdapter implements StickyList
             convertView = mInflater.inflate(R.layout.row_group_header, viewGroup, false);
         }
 
-        TextView title = (TextView) convertView.findViewById(R.id.titleView);
-        String electedDate = "";
+        TextView main = (TextView) convertView.findViewById(R.id.mainTitle);
+        TextView secondary = (TextView) convertView.findViewById(R.id.secondaryTitle);
+        int color = mContext.getResources().getColor(R.color.text_primary);
+        String appendMonth = "";
         if (now.get(Calendar.YEAR) == then.get(Calendar.YEAR)) {
             if (now.get(Calendar.DAY_OF_YEAR) == then.get(Calendar.DAY_OF_YEAR)) {
-                electedDate = mContext.getString(R.string.date_today);
+                color = mContext.getResources().getColor(android.R.color.holo_blue_dark);
             } else if (now.get(Calendar.DAY_OF_YEAR) + 1 == then.get(Calendar.DAY_OF_YEAR)) {
-                electedDate = mContext.getString(R.string.date_tomorrow);
+                color = mContext.getResources().getColor(android.R.color.holo_green_dark);
             } else if (now.get(Calendar.DAY_OF_YEAR) - 1 == then.get(Calendar.DAY_OF_YEAR)) {
-                electedDate = mContext.getString(R.string.date_yesterday);
+                color = mContext.getResources().getColor(android.R.color.holo_green_dark);
+            }
+            if (now.get(Calendar.MONTH) == then.get(Calendar.MONTH)) {
+                secondary.setText(matchDayName(then.get(Calendar.DAY_OF_WEEK)));
+            } else {
+                secondary.setText(matchMonthName(then.get(Calendar.MONTH)));
             }
         }
-        if (electedDate.equals("")) {
-            electedDate = then.get(Calendar.DAY_OF_MONTH) + "/" + (then.get(Calendar.MONTH) + 1);
-        }
-        title.setText(electedDate);
+        main.setTextColor(color);
+        secondary.setTextColor(color);
+        main.setText(then.get(Calendar.DAY_OF_MONTH) + appendMonth);
 
         return convertView;
+    }
+
+    private String matchMonthName(int i) {
+        switch (i) {
+            case Calendar.JANUARY:
+                return mContext.getString(R.string.january);
+            case Calendar.FEBRUARY:
+                return mContext.getString(R.string.february);
+            case Calendar.MARCH:
+                return mContext.getString(R.string.march);
+            case Calendar.APRIL:
+                return mContext.getString(R.string.april);
+            case Calendar.MAY:
+                return mContext.getString(R.string.may);
+            case Calendar.JUNE:
+                return mContext.getString(R.string.june);
+            case Calendar.JULY:
+                return mContext.getString(R.string.july);
+            case Calendar.AUGUST:
+                return mContext.getString(R.string.august);
+            case Calendar.SEPTEMBER:
+                return mContext.getString(R.string.september);
+            case Calendar.OCTOBER:
+                return mContext.getString(R.string.october);
+            case Calendar.NOVEMBER:
+                return mContext.getString(R.string.november);
+            default:
+                return mContext.getString(R.string.december);
+        }
+    }
+
+    private String matchDayName(int i) {
+        switch (i) {
+            case Calendar.SUNDAY:
+                return mContext.getString(R.string.sunday);
+            case Calendar.MONDAY:
+                return mContext.getString(R.string.monday);
+            case Calendar.TUESDAY:
+                return mContext.getString(R.string.tuesday);
+            case Calendar.WEDNESDAY:
+                return mContext.getString(R.string.wednesday);
+            case Calendar.THURSDAY:
+                return mContext.getString(R.string.thursday);
+            case Calendar.FRIDAY:
+                return mContext.getString(R.string.friday);
+            default:
+                return mContext.getString(R.string.saturday);
+        }
     }
 
     @Override

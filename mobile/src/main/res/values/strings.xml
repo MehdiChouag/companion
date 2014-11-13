@@ -34,5 +34,24 @@
     <string name="auth_issue">Authentication issue…</string>
     <string name="calendar_error">Error retrieving calendar, please restart companion…</string>
     <string name="server_error">There\'s an issue with the server, please retry or log out and log in again.</string>
+    <string name="monday">MON</string>
+    <string name="tuesday">TUE</string>
+    <string name="wednesday">WED</string>
+    <string name="thursday">THU</string>
+    <string name="friday">FRI</string>
+    <string name="saturday">SAT</string>
+    <string name="sunday">SUN</string>
+    <string name="january">JAN</string>
+    <string name="february">FEB</string>
+    <string name="march">MAR</string>
+    <string name="april">APR</string>
+    <string name="may">MAY</string>
+    <string name="june">JUN</string>
+    <string name="july">JUL</string>
+    <string name="august">AUG</string>
+    <string name="september">SEP</string>
+    <string name="october">OCT</string>
+    <string name="november">NOV</string>
+    <string name="december">DEC</string>
 
 </resources>
