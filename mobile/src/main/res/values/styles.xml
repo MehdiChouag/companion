@@ -10,7 +10,7 @@
 
         <item name="android:windowContentTransitions" tools:ignore="NewApi">true</item>
         <item name="android:windowEnterTransition" tools:ignore="NewApi">@android:transition/slide_top</item>
-        <item name="android:windowExitTransition" tools:ignore="NewApi">@android:transition/slide_top</item>
+        <item name="android:windowExitTransition" tools:ignore="NewApi">@android:transition/slide_bottom</item>
         <item name="android:windowSharedElementEnterTransition" tools:ignore="NewApi">
             @transition/change_image_transform
         </item>
