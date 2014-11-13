@@ -3,6 +3,7 @@ package com.anyfetch.companion.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -100,6 +101,7 @@ public class FullFragment extends Fragment implements RequestListener<Document>,
         toolbar.setNavigationOnClickListener(this);
         toolbar.setLogo(ImageHelper.matchResourceForProvider(mDocument.getProvider()));
         toolbar.inflateMenu(R.menu.full);
+        ViewCompat.setElevation(toolbar, getResources().getDimension(R.dimen.toolbar_elevation));
 
         mFullWebView = (WebView) view.findViewById(R.id.fullWebView);
         mProgress = (ProgressBar) view.findViewById(R.id.progressBar);

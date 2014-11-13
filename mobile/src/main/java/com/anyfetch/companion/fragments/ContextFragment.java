@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -110,6 +111,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         mToolbar.inflateMenu(R.menu.context);
         mToolbar.setTitleTextColor(Color.TRANSPARENT);
         mToolbar.setBackgroundColor(Color.TRANSPARENT);
+        ViewCompat.setElevation(mToolbar, getResources().getDimension(R.dimen.toolbar_elevation));
 
 
         /*TextView headerTitle = (TextView) contextHeader.findViewById(R.id.headerTitle);
@@ -121,6 +123,8 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         mTabHost = (TabHost) contextHeader.findViewById(R.id.tabHost);
         mTabHost.setup();
         mTabHost.setOnTabChangedListener(this);
+        ViewCompat.setElevation(mTabHost.getTabContentView(), getResources().getDimension(R.dimen.toolbar_elevation));
+        ViewCompat.setElevation(mTabHost.getTabWidget(), getResources().getDimension(R.dimen.toolbar_elevation));
 
         mListView = (StickyListHeadersListView) view.findViewById(R.id.listView);
         mListView.addHeaderView(contextHeader);
