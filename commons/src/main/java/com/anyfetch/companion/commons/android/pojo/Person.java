@@ -392,11 +392,13 @@ public class Person implements Parcelable, ContextualObject {
             first = false;
         }
         for (String email : mEmails) {
-            if (!first) {
-                query += " OR ";
+            if (email.length() > 0) {
+                if (!first) {
+                    query += " OR ";
+                }
+                query += "(" + email + ")";
+                first = false;
             }
-            query += "(" + email + ")";
-            first = false;
         }
         return query;
     }
