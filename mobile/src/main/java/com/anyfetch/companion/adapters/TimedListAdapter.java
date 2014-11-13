@@ -6,13 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import com.anyfetch.companion.R;
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 import java.util.Calendar;
 import java.util.Date;
-
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 /**
  * Handle timed headers
@@ -36,23 +34,43 @@ public abstract class TimedListAdapter extends BaseAdapter implements StickyList
             convertView = mInflater.inflate(R.layout.row_group_header, viewGroup, false);
         }
 
-        TextView title = (TextView) convertView.findViewById(R.id.titleView);
-        String electedDate = "";
+        TextView main = (TextView) convertView.findViewById(R.id.mainTitle);
+        TextView secondary = (TextView) convertView.findViewById(R.id.secondaryTitle);
+        int color = mContext.getResources().getColor(R.color.text_primary);
         if (now.get(Calendar.YEAR) == then.get(Calendar.YEAR)) {
             if (now.get(Calendar.DAY_OF_YEAR) == then.get(Calendar.DAY_OF_YEAR)) {
-                electedDate = mContext.getString(R.string.date_today);
+                color = mContext.getResources().getColor(android.R.color.holo_blue_dark);
             } else if (now.get(Calendar.DAY_OF_YEAR) + 1 == then.get(Calendar.DAY_OF_YEAR)) {
-                electedDate = mContext.getString(R.string.date_tomorrow);
+                color = mContext.getResources().getColor(android.R.color.holo_green_dark);
             } else if (now.get(Calendar.DAY_OF_YEAR) - 1 == then.get(Calendar.DAY_OF_YEAR)) {
-                electedDate = mContext.getString(R.string.date_yesterday);
+                color = mContext.getResources().getColor(android.R.color.holo_green_dark);
             }
         }
-        if (electedDate.equals("")) {
-            electedDate = then.get(Calendar.DAY_OF_MONTH) + "/" + (then.get(Calendar.MONTH) + 1);
-        }
-        title.setText(electedDate);
+        main.setTextColor(color);
+        secondary.setTextColor(color);
+        main.setText(String.format("%d", then.get(Calendar.DAY_OF_MONTH)));
+        secondary.setText(matchDayName(then.get(Calendar.DAY_OF_WEEK)));
 
         return convertView;
+    }
+
+    private String matchDayName(int i) {
+        switch (i) {
+            case 1:
+                return mContext.getString(R.string.sunday);
+            case 2:
+                return mContext.getString(R.string.monday);
+            case 3:
+                return mContext.getString(R.string.tuesday);
+            case 4:
+                return mContext.getString(R.string.wednesday);
+            case 5:
+                return mContext.getString(R.string.thursday);
+            case 6:
+                return mContext.getString(R.string.friday);
+            default:
+                return mContext.getString(R.string.saturday);
+        }
     }
 
     @Override

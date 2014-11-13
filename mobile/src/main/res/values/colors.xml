@@ -6,5 +6,6 @@
     <color name="text_primary">#111</color>
     <color name="window_background">#fff</color>
     <color name="navigation_bar">#fff</color>
+    <color name="text_primary_inverse">#fff</color>
 
 </resources>

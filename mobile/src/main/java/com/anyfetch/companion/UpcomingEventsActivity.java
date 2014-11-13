@@ -92,7 +92,8 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
             mListAdapter = new EventsListAdapter(getApplicationContext(), new EventsList());
             mListView.setAdapter(mListAdapter);
             mListView.setOnItemClickListener(this);
-            mListView.setAreHeadersSticky(false);
+            mListView.setAreHeadersSticky(true);
+            mListView.setDividerHeight(0);
 
             mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
             mSwipeLayout.setOnRefreshListener(this);

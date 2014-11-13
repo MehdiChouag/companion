@@ -2,7 +2,7 @@
 <resources>
 
     <dimen name="thumb">40dp</dimen>
-    <dimen name="list_margin">15dp</dimen>
+    <dimen name="list_margin">7dp</dimen>
     <dimen name="header_height">60dp</dimen>
     <dimen name="event_height">44dp</dimen>
     <dimen name="ic_dt_size">20dp</dimen>
@@ -12,5 +12,7 @@
     <dimen name="card_spacing">10dp</dimen>
     <dimen name="context_header_height">200dp</dimen>
     <dimen name="toolbar_elevation">2dp</dimen>
+    <dimen name="date_header_width">50dp</dimen>
+    <dimen name="list_padding">3dp</dimen>
 
 </resources>
