@@ -38,7 +38,7 @@ public class AuthActivity extends Activity {
                 }
             }
         });
-        webView.loadUrl(serverUrl + "/init/connect");
+        webView.loadUrl(serverUrl + "/init/connect?replace_existing_token=1");
     }
 
     private void backToUpcoming(String apiToken) {
