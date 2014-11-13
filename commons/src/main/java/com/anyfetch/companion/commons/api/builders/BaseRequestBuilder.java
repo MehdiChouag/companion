@@ -12,8 +12,7 @@ import com.anyfetch.companion.commons.api.helpers.BaseRequest;
 public abstract class BaseRequestBuilder<T> {
 
     public static final String PREF_SERVER_URL = "serverUrl";
-    // TODO: remove -staging
-    public static final String DEFAULT_SERVER_URL = "https://anyfetch-companion-staging.herokuapp.com";
+    public static final String DEFAULT_SERVER_URL = "https://anyfetch-companion.herokuapp.com";
     public static final String PREF_API_TOKEN = "apiToken";
     private String mServerUrl;
     private String mApiToken;
