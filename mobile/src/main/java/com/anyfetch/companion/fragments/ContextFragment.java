@@ -247,7 +247,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         titleView.setText(mSelectedContextualObject.getTitle());
         TextView infoView = (TextView) mContextTab.findViewById(R.id.infoView);
         infoView.setText(mSelectedContextualObject.getInfo());
-        ImageView icon = (ImageView) mContextTab.findViewById(R.id.icon);
+        ImageView icon = (ImageView) mContextTab.findViewById(R.id.imageView);
         icon.setImageDrawable(mSelectedContextualObject.getIcon(getActivity()));
         icon.setContentDescription(mSelectedContextualObject.getTitle());
         startQuery(true);

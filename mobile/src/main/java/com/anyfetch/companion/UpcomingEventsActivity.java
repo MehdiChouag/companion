@@ -1,8 +1,10 @@
 package com.anyfetch.companion;
 
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewCompat;
@@ -11,6 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -149,10 +152,18 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     @Override
     public void onItemClick(AdapterView parent, View view, int position, long id) {
         Event event = mListAdapter.getEvent(position);
+        View imageView = view.findViewById(R.id.imageView);
+        View titleView = view.findViewById(R.id.titleView);
 
         Intent intent = new Intent(getApplicationContext(), ContextActivity.class);
         intent.putExtra(ContextFragment.ARG_CONTEXTUAL_OBJECT, event);
-        startActivity(intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this,
+                    Pair.create(imageView, "imageView"),
+                    Pair.create(titleView, "titleView")).toBundle());
+        } else {
+            startActivity(intent);
+        }
     }
 
     private void openAuthActivity() {

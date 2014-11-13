@@ -13,7 +13,8 @@
         android:layout_width="@dimen/thumb"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|start|left"
-        android:contentDescription="@string/placeholder_event"/>
+        android:contentDescription="@string/placeholder_event"
+        android:transitionName="imageView"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -51,7 +52,8 @@
             android:singleLine="true"
             android:text="@string/placeholder_event_title"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/text_primary"/>
+            android:textColor="@color/text_primary"
+            android:transitionName="titleView"/>
 
         <TextView
             android:id="@+id/attendeeView"
