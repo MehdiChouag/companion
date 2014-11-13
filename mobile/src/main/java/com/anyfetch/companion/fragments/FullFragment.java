@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.commons.api.HttpSpiceService;
+import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import com.anyfetch.companion.commons.api.builders.DocumentRequestBuilder;
 import com.anyfetch.companion.commons.api.helpers.HtmlUtils;
 import com.anyfetch.companion.commons.api.pojo.Document;
@@ -25,12 +26,14 @@ import com.octo.android.robospice.request.listener.RequestListener;
 
 public class FullFragment extends Fragment implements RequestListener<Document>, Toolbar.OnMenuItemClickListener, View.OnClickListener {
     public static final String ARG_DOCUMENT = "arg_parcelable";
+    public static final String ARG_CONTEXTUAL_OBJECT = "arg_query";
 
     private final SpiceManager mSpiceManager = new SpiceManager(HttpSpiceService.class);
 
     private Document mDocument;
     private WebView mFullWebView;
     private ProgressBar mProgress;
+    private ContextualObject mContextualObject;
 
 
     public FullFragment() {
@@ -42,12 +45,14 @@ public class FullFragment extends Fragment implements RequestListener<Document>,
      * this fragment using the provided parameters.
      *
      * @param document The document to pass into the full projection
+     * @param contextualObject The contextualObject for highlighting purposes
      * @return A new instance of fragment FullFragment.
      */
-    public static FullFragment newInstance(Document document) {
+    public static FullFragment newInstance(Document document, ContextualObject contextualObject) {
         FullFragment fragment = new FullFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_DOCUMENT, document);
+        args.putParcelable(ARG_CONTEXTUAL_OBJECT, contextualObject);
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,14 +74,16 @@ public class FullFragment extends Fragment implements RequestListener<Document>,
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mDocument = getArguments().getParcelable(ARG_DOCUMENT);
+            mContextualObject = getArguments().getParcelable(ARG_CONTEXTUAL_OBJECT);
 
             if (mDocument.getFull().equals("")) {
                 // TODO: bring ctx query
                 GetDocumentRequest request = (GetDocumentRequest) new DocumentRequestBuilder(getActivity())
                         .setDocument(mDocument)
                         .actionGet()
+                        .setContextualObject(mContextualObject)
                         .build();
-                mSpiceManager.execute(request, request.createCacheKey(), 15 * DurationInMillis.ONE_MINUTE, this);
+                mSpiceManager.execute(request, request.createCacheKey(), DurationInMillis.ONE_MINUTE, this);
             }
         }
     }

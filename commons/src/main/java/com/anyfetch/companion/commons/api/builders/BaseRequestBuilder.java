@@ -3,17 +3,21 @@ package com.anyfetch.companion.commons.api.builders;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
 import com.anyfetch.companion.commons.api.helpers.BaseRequest;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Base class for request building
  */
 public abstract class BaseRequestBuilder<T> {
 
+    public static final String TAILED_EMAILS = "tailed_emails";
     public static final String PREF_SERVER_URL = "serverUrl";
     public static final String DEFAULT_SERVER_URL = "https://anyfetch-companion.herokuapp.com";
     public static final String PREF_API_TOKEN = "apiToken";
+    private Set<String> mTailedEmails;
     private String mServerUrl;
     private String mApiToken;
     private ContextualObject mContextualObject;
@@ -28,6 +32,7 @@ public abstract class BaseRequestBuilder<T> {
         mServerUrl = prefs.getString(PREF_SERVER_URL, DEFAULT_SERVER_URL);
         mApiToken = prefs.getString(PREF_API_TOKEN, "");
         mContextualObject = null;
+        mTailedEmails = prefs.getStringSet(TAILED_EMAILS, new HashSet<String>());
     }
 
     /**
@@ -78,6 +83,21 @@ public abstract class BaseRequestBuilder<T> {
      */
     public BaseRequestBuilder<T> setContextualObject(ContextualObject contextualObject) {
         mContextualObject = contextualObject;
+        return this;
+    }
+
+    protected Set<String> getTailedEmails() {
+        return mTailedEmails;
+    }
+
+    /**
+     * Sets the tailed emails
+     *
+     * @param tailedEmails A set of emails
+     * @return The chainable builder
+     */
+    public BaseRequestBuilder setTailedEmails(Set<String> tailedEmails) {
+        mTailedEmails = tailedEmails;
         return this;
     }
 }

@@ -1,7 +1,6 @@
 package com.anyfetch.companion.commons.api.builders;
 
 import android.content.Context;
-
 import com.anyfetch.companion.commons.android.pojo.Event;
 import com.anyfetch.companion.commons.api.helpers.BaseRequest;
 import com.anyfetch.companion.commons.api.pojo.Document;
@@ -87,7 +86,7 @@ public class DocumentRequestBuilder extends BaseRequestBuilder<Document> {
     public BaseRequest<Document> build() {
         String sq = "";
         if (getContextualObject() != null) {
-            sq = getContextualObject().getSearchQuery(null);
+            sq = getContextualObject().getSearchQuery(getTailedEmails());
             if (getContextualObject() instanceof Event) {
                 Event contextual = (Event) getContextualObject();
                 String eId = Long.toString(contextual.getId());

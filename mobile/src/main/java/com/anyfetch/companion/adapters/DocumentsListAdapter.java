@@ -10,6 +10,7 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import com.anyfetch.companion.FullActivity;
 import com.anyfetch.companion.R;
+import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import com.anyfetch.companion.commons.api.helpers.HtmlUtils;
 import com.anyfetch.companion.commons.api.pojo.Document;
 import com.anyfetch.companion.commons.api.pojo.DocumentsList;
@@ -21,11 +22,13 @@ import java.util.Date;
 public class DocumentsListAdapter extends TimedListAdapter {
     private final DocumentsList mDocuments;
     private final Context mContext;
+    private final ContextualObject mContextualObject;
 
-    public DocumentsListAdapter(Context context, DocumentsList documents) {
+    public DocumentsListAdapter(Context context, DocumentsList documents, ContextualObject contextualObject) {
         super(context);
         mContext = context;
         mDocuments = documents;
+        mContextualObject = contextualObject;
     }
 
     @Override
@@ -71,7 +74,7 @@ public class DocumentsListAdapter extends TimedListAdapter {
         String htmlString = HtmlUtils.renderDocument(webView.getContext(), documentSnippet);
 
         webView.getSettings().setJavaScriptEnabled(document.snippetRequireJavascript());
-		webView.loadDataWithBaseURL("file:///android_asset/", htmlString, "text/html", "UTF-8", null);
+        webView.loadDataWithBaseURL("file:///android_asset/", htmlString, "text/html", "UTF-8", null);
 
         View overlay = convertView.findViewById(R.id.gestureOverlayView);
         overlay.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +82,7 @@ public class DocumentsListAdapter extends TimedListAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, FullActivity.class);
                 intent.putExtra(FullFragment.ARG_DOCUMENT, document);
+                intent.putExtra(FullFragment.ARG_CONTEXTUAL_OBJECT, mContextualObject);
                 mContext.startActivity(intent);
             }
         });

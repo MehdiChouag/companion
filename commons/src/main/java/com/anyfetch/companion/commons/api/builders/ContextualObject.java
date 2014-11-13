@@ -2,6 +2,7 @@ package com.anyfetch.companion.commons.api.builders;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Parcelable;
 
 import java.util.List;
 import java.util.Set;
@@ -9,7 +10,7 @@ import java.util.Set;
 /**
  * Represents an object that can be used as a context for a search
  */
-public interface ContextualObject {
+public interface ContextualObject extends Parcelable {
     /**
      * Gets the title of the context
      *

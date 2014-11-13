@@ -128,7 +128,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         mListView.setOnScrollListener(this);
         mListView.setDivider(null);
         mListView.setAreHeadersSticky(false);
-        mListAdapter = new DocumentsListAdapter(getActivity(), new DocumentsList());
+        mListAdapter = new DocumentsListAdapter(getActivity(), new DocumentsList(), mSelectedContextualObject);
         mListView.setAdapter(mListAdapter);
 
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
@@ -150,7 +150,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
     @Override
     public void onRequestSuccess(DocumentsList documents) {
         mSwipeLayout.setRefreshing(false);
-        mListAdapter = new DocumentsListAdapter(getActivity(), documents);
+        mListAdapter = new DocumentsListAdapter(getActivity(), documents, mSelectedContextualObject);
         mListView.setAdapter(mListAdapter);
     }
 
