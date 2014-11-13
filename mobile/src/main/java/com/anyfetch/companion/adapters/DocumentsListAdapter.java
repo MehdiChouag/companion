@@ -1,16 +1,18 @@
 package com.anyfetch.companion.adapters;
 
-import android.content.Context;
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
-import android.gesture.GestureOverlayView;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import com.anyfetch.companion.FullActivity;
 import com.anyfetch.companion.R;
+import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import com.anyfetch.companion.commons.api.helpers.HtmlUtils;
 import com.anyfetch.companion.commons.api.pojo.Document;
 import com.anyfetch.companion.commons.api.pojo.DocumentsList;
@@ -21,12 +23,14 @@ import java.util.Date;
 
 public class DocumentsListAdapter extends TimedListAdapter {
     private final DocumentsList mDocuments;
-    private final Context mContext;
+    private final Activity mActivity;
+    private final ContextualObject mContextualObject;
 
-    public DocumentsListAdapter(Context context, DocumentsList documents) {
-        super(context);
-        mContext = context;
+    public DocumentsListAdapter(Activity activity, DocumentsList documents, ContextualObject contextualObject) {
+        super(activity);
+        mActivity = activity;
         mDocuments = documents;
+        mContextualObject = contextualObject;
     }
 
     @Override
@@ -60,7 +64,7 @@ public class DocumentsListAdapter extends TimedListAdapter {
         providerIcon.setContentDescription(document.getProvider());
 
         View dtBand = convertView.findViewById(R.id.dtBand);
-        dtBand.setBackgroundColor(mContext.getResources().getColor(ImageHelper.matchColorForDocumentType(document.getType())));
+        dtBand.setBackgroundColor(mActivity.getResources().getColor(ImageHelper.matchColorForDocumentType(document.getType())));
 
         ImageView dtIcon = (ImageView) convertView.findViewById(R.id.dtIcon);
         dtIcon.setImageResource(ImageHelper.matchIconForDocumentType(document.getType()));
@@ -72,15 +76,20 @@ public class DocumentsListAdapter extends TimedListAdapter {
         String htmlString = HtmlUtils.renderDocument(webView.getContext(), documentSnippet);
 
         webView.getSettings().setJavaScriptEnabled(document.snippetRequireJavascript());
-		webView.loadDataWithBaseURL("file:///android_asset/", htmlString, "text/html", "UTF-8", null);
+        webView.loadDataWithBaseURL("file:///android_asset/", htmlString, "text/html", "UTF-8", null);
 
-        GestureOverlayView overlay = (GestureOverlayView) convertView.findViewById(R.id.gestureOverlayView);
+        View overlay = convertView.findViewById(R.id.gestureOverlayView);
         overlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, FullActivity.class);
+                Intent intent = new Intent(mActivity, FullActivity.class);
                 intent.putExtra(FullFragment.ARG_DOCUMENT, document);
-                mContext.startActivity(intent);
+                intent.putExtra(FullFragment.ARG_CONTEXTUAL_OBJECT, mContextualObject);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    mActivity.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(mActivity).toBundle());
+                } else {
+                    mActivity.startActivity(intent);
+                }
             }
         });
         return convertView;

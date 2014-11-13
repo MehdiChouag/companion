@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
 import com.anyfetch.companion.commons.android.pojo.Event;
 import com.anyfetch.companion.commons.android.pojo.EventsList;
 import com.anyfetch.companion.commons.android.requests.GetUpcomingEventsRequest;
@@ -47,7 +46,7 @@ public class MeetingPreparationAlarm extends BroadcastReceiver {
         // Broadcast a notification
         Event event = intent.getParcelableExtra(ARG_EVENT);
         Intent i = new Intent();
-        i.setAction("com.anyfetch.companion.SHOW_NOTIFICATION");
+        i.setAction("com.anyfetch.companion.MEETING_PREPARATION");
         i.putExtra(ARG_EVENT, event);
         context.sendBroadcast(i);
 

@@ -1,19 +1,24 @@
 package com.anyfetch.companion;
 
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import com.anyfetch.companion.adapters.EventsListAdapter;
 import com.anyfetch.companion.commons.android.AndroidSpiceService;
 import com.anyfetch.companion.commons.android.pojo.Event;
@@ -66,7 +71,8 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
             mHttpSpiceManager.execute(startRequest, null, 0, new RequestListener<Object>() {
                 @Override
                 public void onRequestFailure(SpiceException spiceException) {
-
+                    Toast.makeText(UpcomingEventsActivity.this, getString(R.string.auth_issue), Toast.LENGTH_LONG).show();
+                    openAuthActivity();
                 }
 
                 @Override
@@ -78,6 +84,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
             setContentView(R.layout.activity_upcoming_events);
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            ViewCompat.setElevation(toolbar, getResources().getDimension(R.dimen.toolbar_elevation));
             setSupportActionBar(toolbar);
 
             mListView = (StickyListHeadersListView) findViewById(R.id.listView);
@@ -128,6 +135,8 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
 
     @Override
     public void onRequestFailure(SpiceException spiceException) {
+        Toast.makeText(this, getString(R.string.calendar_error), Toast.LENGTH_LONG).show();
+        finish();
     }
 
     @Override
@@ -143,10 +152,18 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     @Override
     public void onItemClick(AdapterView parent, View view, int position, long id) {
         Event event = mListAdapter.getEvent(position);
+        View imageView = view.findViewById(R.id.imageView);
+        View titleView = view.findViewById(R.id.titleView);
 
         Intent intent = new Intent(getApplicationContext(), ContextActivity.class);
         intent.putExtra(ContextFragment.ARG_CONTEXTUAL_OBJECT, event);
-        startActivity(intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this,
+                    Pair.create(imageView, "imageView"),
+                    Pair.create(titleView, "titleView")).toBundle());
+        } else {
+            startActivity(intent);
+        }
     }
 
     private void openAuthActivity() {

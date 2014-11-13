@@ -252,7 +252,10 @@ public class Event implements Parcelable, ContextualObject {
     public String getSearchQuery(Set<String> tailedEmails) {
         String query = "(" + mTitle + ")";
         for (ContextualObject attendee : getSubContexts(tailedEmails)) {
-            query += " OR " + attendee.getSearchQuery(null);
+            String attQuery = attendee.getSearchQuery(null);
+            if (attQuery.length() > 0) {
+                query += " OR " + attQuery;
+            }
         }
         return query;
     }

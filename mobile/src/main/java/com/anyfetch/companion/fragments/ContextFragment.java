@@ -2,12 +2,12 @@ package com.anyfetch.companion.fragments;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -23,7 +23,7 @@ import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import com.anyfetch.companion.commons.api.builders.DocumentsListRequestBuilder;
 import com.anyfetch.companion.commons.api.pojo.DocumentsList;
 import com.anyfetch.companion.commons.api.requests.GetDocumentsListRequest;
-import com.anyfetch.companion.commons.notifications.MeetingPreparationAlarm;
+import com.anyfetch.companion.notifications.BuildNotificationTask;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
@@ -111,6 +111,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         mToolbar.inflateMenu(R.menu.context);
         mToolbar.setTitleTextColor(Color.TRANSPARENT);
         mToolbar.setBackgroundColor(Color.TRANSPARENT);
+        ViewCompat.setElevation(mToolbar, getResources().getDimension(R.dimen.toolbar_elevation));
 
 
         /*TextView headerTitle = (TextView) contextHeader.findViewById(R.id.headerTitle);
@@ -122,13 +123,15 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         mTabHost = (TabHost) contextHeader.findViewById(R.id.tabHost);
         mTabHost.setup();
         mTabHost.setOnTabChangedListener(this);
+        ViewCompat.setElevation(mTabHost.getTabContentView(), getResources().getDimension(R.dimen.toolbar_elevation));
+        ViewCompat.setElevation(mTabHost.getTabWidget(), getResources().getDimension(R.dimen.toolbar_elevation));
 
         mListView = (StickyListHeadersListView) view.findViewById(R.id.listView);
         mListView.addHeaderView(contextHeader);
         mListView.setOnScrollListener(this);
         mListView.setDivider(null);
         mListView.setAreHeadersSticky(false);
-        mListAdapter = new DocumentsListAdapter(getActivity(), new DocumentsList());
+        mListAdapter = new DocumentsListAdapter(getActivity(), new DocumentsList(), mSelectedContextualObject);
         mListView.setAdapter(mListAdapter);
 
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
@@ -144,13 +147,13 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
 
     @Override
     public void onRequestFailure(SpiceException spiceException) {
-        // TODO
+        Toast.makeText(getActivity(), getString(R.string.server_error), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onRequestSuccess(DocumentsList documents) {
         mSwipeLayout.setRefreshing(false);
-        mListAdapter = new DocumentsListAdapter(getActivity(), documents);
+        mListAdapter = new DocumentsListAdapter(getActivity(), documents, mSelectedContextualObject);
         mListView.setAdapter(mListAdapter);
     }
 
@@ -172,10 +175,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
             case R.id.action_prepare_on_wear:
                 if (mRootContextualObject instanceof Event) {
                     Toast.makeText(getActivity(), getString(R.string.sent_to_watch), Toast.LENGTH_LONG).show();
-                    Intent i = new Intent();
-                    i.setAction("com.anyfetch.companion.SHOW_NOTIFICATION");
-                    i.putExtra(MeetingPreparationAlarm.ARG_EVENT, (Event) mRootContextualObject);
-                    getActivity().sendBroadcast(i);
+                    new BuildNotificationTask(getActivity()).execute((Event) mRootContextualObject, null, null);
                 }
                 break;
             case R.id.action_improve_context:
@@ -247,7 +247,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         titleView.setText(mSelectedContextualObject.getTitle());
         TextView infoView = (TextView) mContextTab.findViewById(R.id.infoView);
         infoView.setText(mSelectedContextualObject.getInfo());
-        ImageView icon = (ImageView) mContextTab.findViewById(R.id.icon);
+        ImageView icon = (ImageView) mContextTab.findViewById(R.id.imageView);
         icon.setImageDrawable(mSelectedContextualObject.getIcon(getActivity()));
         icon.setContentDescription(mSelectedContextualObject.getTitle());
         startQuery(true);
