@@ -2,7 +2,6 @@ package com.anyfetch.companion.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.gesture.GestureOverlayView;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.view.View;
@@ -74,7 +73,7 @@ public class DocumentsListAdapter extends TimedListAdapter {
         webView.getSettings().setJavaScriptEnabled(document.snippetRequireJavascript());
 		webView.loadDataWithBaseURL("file:///android_asset/", htmlString, "text/html", "UTF-8", null);
 
-        GestureOverlayView overlay = (GestureOverlayView) convertView.findViewById(R.id.gestureOverlayView);
+        View overlay = convertView.findViewById(R.id.gestureOverlayView);
         overlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
