@@ -21,6 +21,7 @@ public class AndroidServicesMockInjecter {
         Uri uri = cr.insert(ContactsContract.RawContacts.CONTENT_URI, contact);
 
         long contactId = Long.parseLong(uri.getLastPathSegment());
+        Thread.sleep(500);
 
         ContentValues name = new ContentValues();
         name.put(ContactsContract.Data.RAW_CONTACT_ID, contactId);
