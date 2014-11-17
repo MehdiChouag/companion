@@ -8,11 +8,13 @@ import com.anyfetch.companion.commons.android.testhelpers.AndroidServicesMockInj
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 public class EventTest extends InstrumentationTestCase {
     private Context mContext;
     private long mId;
+    private Event mEvent;
 
     @Override
     protected void setUp() throws Exception {
@@ -20,6 +22,7 @@ public class EventTest extends InstrumentationTestCase {
         mContext = getInstrumentation().getContext();
         AndroidServicesMockInjecter.injectContact(mContext);
         mId = AndroidServicesMockInjecter.injectEvent(mContext);
+        mEvent = new Event(1, "a", "b", new Date(0), new Date(0), new ArrayList<Person>(), "c");
     }
 
     @Suppress
@@ -51,12 +54,29 @@ public class EventTest extends InstrumentationTestCase {
     }
 
     public void testParcels() throws Exception {
-        Event origin = new Event(1, "a", "b", new Date(), new Date(), new ArrayList<Person>(), "c");
         Bundle bundle = new Bundle();
-        bundle.putParcelable("parcel", origin);
+        bundle.putParcelable("parcel", mEvent);
         Event target = bundle.getParcelable("parcel");
-        assertEquals(origin.getId(), target.getId());
-        assertEquals(origin.getTitle(), target.getTitle());
-        assertEquals(origin.getStartDate(), target.getStartDate());
+        assertEquals(mEvent.getId(), target.getId());
+        assertEquals(mEvent.getTitle(), target.getTitle());
+        assertEquals(mEvent.getStartDate(), target.getStartDate());
+    }
+
+    public void test_getTitle() throws Exception {
+        assertEquals(mEvent.getTitle(), "a");
+    }
+
+    public void test_getId() throws Exception {
+        assertEquals(mEvent.getId(), 1);
+    }
+
+    public void test_getInfo() throws Exception {
+        assertEquals(mEvent.getInfo(), "c\n" +
+                "01:00 - 01:00");
+    }
+
+    public void test_getSearchQuery() throws Exception {
+        assertEquals(mEvent.getSearchQuery(new HashSet<String>()), "(a)");
+
     }
 }
