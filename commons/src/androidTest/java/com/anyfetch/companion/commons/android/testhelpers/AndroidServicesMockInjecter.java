@@ -92,6 +92,7 @@ public class AndroidServicesMockInjecter {
         att0.put(CalendarContract.Attendees.ATTENDEE_NAME, "Sterling Archer");
         att0.put(CalendarContract.Attendees.ATTENDEE_EMAIL, "sterling@example.com");
         cr.insert(CalendarContract.Attendees.CONTENT_URI, att0);
+        Thread.sleep(500);
 
         ContentValues att1 = new ContentValues();
         att1.put(CalendarContract.Attendees.EVENT_ID, eventID);
@@ -99,7 +100,7 @@ public class AndroidServicesMockInjecter {
         att1.put(CalendarContract.Attendees.ATTENDEE_EMAIL, "malory@example.com");
         cr.insert(CalendarContract.Attendees.CONTENT_URI, att1);
 
-        Thread.sleep(500);
+        Thread.sleep(1000);
         return eventID;
     }
 }
