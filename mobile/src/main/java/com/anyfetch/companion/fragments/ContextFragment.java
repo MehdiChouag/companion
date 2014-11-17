@@ -102,7 +102,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_context, container, false);
         View contextHeader = inflater.inflate(R.layout.row_context_header, mListView, false);
-        mContextTab = inflater.inflate(R.layout.tab_context, null, false);
+        mContextTab = inflater.inflate(R.layout.tab_context, container, false);
 
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mToolbar.setOnMenuItemClickListener(this);

@@ -17,7 +17,7 @@
         android:layout_gravity="start|center_vertical"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@android:color/black"
-        android:text="10"/>
+        android:text="@string/placeholder_day_number"/>
 
     <TextView
             android:id="@+id/secondaryTitle"
@@ -26,5 +26,5 @@
             android:layout_gravity="start|center_vertical"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@android:color/black"
-            android:text="WED"/>
+            android:text="@string/placeholder_day_of_the_week"/>
 </LinearLayout>

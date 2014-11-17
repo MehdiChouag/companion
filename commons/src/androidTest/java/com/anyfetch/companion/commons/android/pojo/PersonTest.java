@@ -23,15 +23,15 @@ public class PersonTest extends InstrumentationTestCase {
     }
 
     public void test_getPerson_email() throws Exception {
-        Person person = Person.getPerson(mContext, "sarcher@gmail.com");
+        Person person = Person.getPerson(mContext, "sarcher@example.com");
         mId = person.getId();
 
         assertEquals("Sterling Archer", person.getName());
         assertEquals(2, person.getEmails().size());
         assertEquals(1, person.getNumbers().size());
-        assertEquals("ISIS", person.getCompany());
+        assertEquals("Example", person.getCompany());
         assertEquals("Secret Agent", person.getJob());
-        assertEquals("sterling@isis.org", person.getEmails().get(0));
+        assertEquals("sterling@example.com", person.getEmails().get(0));
     }
 
     @Suppress

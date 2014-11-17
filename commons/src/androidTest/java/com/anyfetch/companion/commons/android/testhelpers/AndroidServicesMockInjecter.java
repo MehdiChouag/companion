@@ -38,21 +38,21 @@ public class AndroidServicesMockInjecter {
         ContentValues emailWork = new ContentValues();
         emailWork.put(ContactsContract.Data.RAW_CONTACT_ID, contactId);
         emailWork.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE);
-        emailWork.put(ContactsContract.CommonDataKinds.Email.DATA, "sterling@isis.org");
+        emailWork.put(ContactsContract.CommonDataKinds.Email.DATA, "sterling@example.com");
         emailWork.put(ContactsContract.CommonDataKinds.Email.TYPE, ContactsContract.CommonDataKinds.Email.TYPE_WORK);
         cr.insert(ContactsContract.Data.CONTENT_URI, emailWork);
 
         ContentValues emailHome = new ContentValues();
         emailHome.put(ContactsContract.Data.RAW_CONTACT_ID, contactId);
         emailHome.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE);
-        emailHome.put(ContactsContract.CommonDataKinds.Email.DATA, "sarcher@gmail.com");
+        emailHome.put(ContactsContract.CommonDataKinds.Email.DATA, "sarcher@example.com");
         emailHome.put(ContactsContract.CommonDataKinds.Email.TYPE, ContactsContract.CommonDataKinds.Email.TYPE_HOME);
         cr.insert(ContactsContract.Data.CONTENT_URI, emailHome);
 
         ContentValues org = new ContentValues();
         org.put(ContactsContract.Data.RAW_CONTACT_ID, contactId);
         org.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE);
-        org.put(ContactsContract.CommonDataKinds.Organization.COMPANY, "ISIS");
+        org.put(ContactsContract.CommonDataKinds.Organization.COMPANY, "Example");
         org.put(ContactsContract.CommonDataKinds.Organization.TITLE, "Secret Agent");
         org.put(ContactsContract.CommonDataKinds.Organization.TYPE, ContactsContract.CommonDataKinds.Organization.TYPE_WORK);
         cr.insert(ContactsContract.Data.CONTENT_URI, org);
@@ -94,13 +94,13 @@ public class AndroidServicesMockInjecter {
         ContentValues att0 = new ContentValues();
         att0.put(CalendarContract.Attendees.EVENT_ID, eventID);
         att0.put(CalendarContract.Attendees.ATTENDEE_NAME, "Sterling Archer");
-        att0.put(CalendarContract.Attendees.ATTENDEE_EMAIL, "sterling@isis.org");
+        att0.put(CalendarContract.Attendees.ATTENDEE_EMAIL, "sterling@example.com");
         cr.insert(CalendarContract.Attendees.CONTENT_URI, att0);
 
         ContentValues att1 = new ContentValues();
         att1.put(CalendarContract.Attendees.EVENT_ID, eventID);
         att1.put(CalendarContract.Attendees.ATTENDEE_NAME, "Malory Archer");
-        att1.put(CalendarContract.Attendees.ATTENDEE_EMAIL, "malory@isis.org");
+        att1.put(CalendarContract.Attendees.ATTENDEE_EMAIL, "malory@example.com");
         cr.insert(CalendarContract.Attendees.CONTENT_URI, att1);
 
         return eventID;

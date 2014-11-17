@@ -53,5 +53,7 @@
     <string name="october">OCT</string>
     <string name="november">NOV</string>
     <string name="december">DEC</string>
+    <string name="placeholder_day_number">10</string>
+    <string name="placeholder_day_of_the_week">WED</string>
 
 </resources>

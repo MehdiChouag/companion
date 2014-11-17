@@ -54,7 +54,8 @@
                     android:text="@string/placeholder_event_title"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/text_primary_inverse"
-                    android:transitionName="titleView"/>
+                    android:transitionName="titleView"
+                    tools:ignore="UnusedAttribute"/>
 
             <TextView
                     android:id="@+id/attendeeView"
@@ -92,6 +93,7 @@
                 android:padding="@dimen/list_padding"
                 android:layout_gravity="center_vertical|end|right"
                 android:contentDescription="@string/placeholder_event"
-                android:transitionName="imageView"/>
+                android:transitionName="imageView"
+                tools:ignore="UnusedAttribute"/>
     </FrameLayout>
 </LinearLayout>

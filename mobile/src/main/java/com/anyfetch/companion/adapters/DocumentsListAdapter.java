@@ -1,5 +1,6 @@
 package com.anyfetch.companion.adapters;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -81,6 +82,7 @@ public class DocumentsListAdapter extends TimedListAdapter {
         View overlay = convertView.findViewById(R.id.gestureOverlayView);
         overlay.setOnClickListener(new View.OnClickListener() {
             @Override
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             public void onClick(View v) {
                 Intent intent = new Intent(mActivity, FullActivity.class);
                 intent.putExtra(FullFragment.ARG_DOCUMENT, document);
