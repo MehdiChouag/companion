@@ -31,6 +31,7 @@ public class EventTest extends InstrumentationTestCase {
     }
 
     public void test_getEvent() throws Exception {
+        AndroidServicesMockInjecter.injectContact(mContext);
         long id = AndroidServicesMockInjecter.injectEvent(mContext);
         Event event = Event.getEvent(mContext, id);
 
