@@ -3,7 +3,6 @@ package com.anyfetch.companion.commons.android.testhelpers;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
 import android.provider.ContactsContract;
@@ -57,28 +56,22 @@ public class AndroidServicesMockInjecter {
         org.put(ContactsContract.CommonDataKinds.Organization.TYPE, ContactsContract.CommonDataKinds.Organization.TYPE_WORK);
         cr.insert(ContactsContract.Data.CONTENT_URI, org);
 
-        Thread.sleep(100);
+        Thread.sleep(500);
         return contactId;
     }
 
     public static long injectEvent(Context context) throws InterruptedException {
-        Cursor calCur = context.getContentResolver().query(
-                CalendarContract.Calendars.CONTENT_URI,
-                new String[]{
-                        CalendarContract.Calendars._ID
-                },
-                null,
-                null,
-                null
-        );
-        calCur.moveToFirst();
-        long calId = calCur.getLong(0);
-        calCur.close();
-
         Calendar now = Calendar.getInstance();
         now.setTime(new Date());
 
         ContentResolver cr = context.getContentResolver();
+
+        ContentValues calendar = new ContentValues();
+        calendar.put(CalendarContract.Calendars.NAME, "BobCal");
+        Uri calUri = cr.insert(CalendarContract.Calendars.CONTENT_URI, calendar);
+
+        long calId = Long.parseLong(calUri.getLastPathSegment());
+        Thread.sleep(500);
 
         ContentValues event = new ContentValues();
         event.put(CalendarContract.Events.CALENDAR_ID, calId);
@@ -91,7 +84,7 @@ public class AndroidServicesMockInjecter {
         Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, event);
 
         long eventID = Long.parseLong(uri.getLastPathSegment());
-        Thread.sleep(100);
+        Thread.sleep(500);
 
         ContentValues att0 = new ContentValues();
         att0.put(CalendarContract.Attendees.EVENT_ID, eventID);
@@ -105,7 +98,7 @@ public class AndroidServicesMockInjecter {
         att1.put(CalendarContract.Attendees.ATTENDEE_EMAIL, "malory@example.com");
         cr.insert(CalendarContract.Attendees.CONTENT_URI, att1);
 
-        Thread.sleep(100);
+        Thread.sleep(500);
         return eventID;
     }
 }
