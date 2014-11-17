@@ -71,8 +71,10 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
             mHttpSpiceManager.execute(startRequest, null, 0, new RequestListener<Object>() {
                 @Override
                 public void onRequestFailure(SpiceException spiceException) {
-                    Toast.makeText(UpcomingEventsActivity.this, getString(R.string.auth_issue), Toast.LENGTH_LONG).show();
-                    openAuthActivity();
+                    Toast.makeText(UpcomingEventsActivity.this, String.format(getString(R.string.auth_issue), spiceException.getMessage()), Toast.LENGTH_LONG).show();
+                    if (spiceException.getMessage().equals("403")) {
+                        openAuthActivity();
+                    }
                 }
 
                 @Override
