@@ -6,10 +6,7 @@ import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.Suppress;
 import com.anyfetch.companion.commons.android.testhelpers.AndroidServicesMockInjecter;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class EventTest extends InstrumentationTestCase {
     private Context mContext;
@@ -72,8 +69,10 @@ public class EventTest extends InstrumentationTestCase {
     }
 
     public void test_getInfo() throws Exception {
+        Calendar time = Calendar.getInstance();
+        time.setTime(mEvent.getStartDate());
         assertEquals(mEvent.getInfo(), "c\n" +
-                "01:00 - 01:00");
+                String.format("%02d:00 - %02d:00", time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.HOUR_OF_DAY)));
     }
 
     public void test_getSearchQuery() throws Exception {

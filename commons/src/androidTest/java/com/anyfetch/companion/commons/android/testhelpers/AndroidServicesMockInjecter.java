@@ -13,7 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class AndroidServicesMockInjecter {
-    public static long injectContact(Context context) {
+    public static long injectContact(Context context) throws InterruptedException {
         ContentResolver cr = context.getContentResolver();
 
         ContentValues contact = new ContentValues();
@@ -57,10 +57,11 @@ public class AndroidServicesMockInjecter {
         org.put(ContactsContract.CommonDataKinds.Organization.TYPE, ContactsContract.CommonDataKinds.Organization.TYPE_WORK);
         cr.insert(ContactsContract.Data.CONTENT_URI, org);
 
+        Thread.sleep(100);
         return contactId;
     }
 
-    public static long injectEvent(Context context) {
+    public static long injectEvent(Context context) throws InterruptedException {
         Cursor calCur = context.getContentResolver().query(
                 CalendarContract.Calendars.CONTENT_URI,
                 new String[]{
@@ -90,6 +91,7 @@ public class AndroidServicesMockInjecter {
         Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, event);
 
         long eventID = Long.parseLong(uri.getLastPathSegment());
+        Thread.sleep(100);
 
         ContentValues att0 = new ContentValues();
         att0.put(CalendarContract.Attendees.EVENT_ID, eventID);
@@ -103,6 +105,7 @@ public class AndroidServicesMockInjecter {
         att1.put(CalendarContract.Attendees.ATTENDEE_EMAIL, "malory@example.com");
         cr.insert(CalendarContract.Attendees.CONTENT_URI, att1);
 
+        Thread.sleep(100);
         return eventID;
     }
 }
