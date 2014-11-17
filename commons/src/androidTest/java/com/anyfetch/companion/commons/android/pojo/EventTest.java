@@ -77,6 +77,5 @@ public class EventTest extends InstrumentationTestCase {
 
     public void test_getSearchQuery() throws Exception {
         assertEquals(mEvent.getSearchQuery(new HashSet<String>()), "(a)");
-
     }
 }

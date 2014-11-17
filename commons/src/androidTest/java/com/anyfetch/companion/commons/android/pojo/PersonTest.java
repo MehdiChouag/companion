@@ -7,16 +7,19 @@ import android.test.suitebuilder.annotation.Suppress;
 import com.anyfetch.companion.commons.android.testhelpers.AndroidServicesMockInjecter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class PersonTest extends InstrumentationTestCase {
     private Context mContext;
     private long mId;
+    private Person mPerson;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         mContext = getInstrumentation().getContext();
         mId = AndroidServicesMockInjecter.injectContact(mContext);
+        mPerson = new Person(1, "a", "b", "c", new ArrayList<String>(), new ArrayList<String>(), null, 2);
     }
 
     public void test_getPerson_email() throws Exception {
@@ -39,12 +42,27 @@ public class PersonTest extends InstrumentationTestCase {
     }
 
     public void testParcels() throws Exception {
-        Person origin = new Person(1, "a", "b", "c", new ArrayList<String>(), new ArrayList<String>(), null, 2);
         Bundle bundle = new Bundle();
-        bundle.putParcelable("parcel", origin);
+        bundle.putParcelable("parcel", mPerson);
         Person target = bundle.getParcelable("parcel");
-        assertEquals(origin.getId(), target.getId());
-        assertEquals(origin.getName(), target.getName());
-        assertEquals(origin.getCompany(), target.getCompany());
+        assertEquals(mPerson.getId(), target.getId());
+        assertEquals(mPerson.getName(), target.getName());
+        assertEquals(mPerson.getCompany(), target.getCompany());
+    }
+
+    public void test_getTitle() throws Exception {
+        assertEquals(mPerson.getTitle(), mPerson.getName());
+    }
+
+    public void test_getId() throws Exception {
+        assertEquals(mPerson.getId(), 1);
+    }
+
+    public void test_getInfo() throws Exception {
+        assertEquals(mPerson.getInfo(), "c, b");
+    }
+
+    public void test_getSearchQuery() throws Exception {
+        assertEquals(mPerson.getSearchQuery(new HashSet<String>()), "(a)");
     }
 }
