@@ -1,6 +1,7 @@
 package com.anyfetch.companion;
 
 
+import android.annotation.TargetApi;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -153,6 +154,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     }
 
     @Override
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void onItemClick(AdapterView parent, View view, int position, long id) {
         Event event = mListAdapter.getEvent(position);
         View imageView = view.findViewById(R.id.imageView);
