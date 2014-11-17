@@ -13,20 +13,20 @@ import java.util.List;
 
 public class EventTest extends InstrumentationTestCase {
     private Context mContext;
-    private long mId;
     private Event mEvent;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         mContext = getInstrumentation().getContext();
-        AndroidServicesMockInjecter.injectContact(mContext);
-        mId = AndroidServicesMockInjecter.injectEvent(mContext);
+
         mEvent = new Event(1, "a", "b", new Date(0), new Date(0), new ArrayList<Person>(), "c");
     }
 
     @Suppress
     public void test_getUpcomingEvents() throws Exception {
+        AndroidServicesMockInjecter.injectContact(mContext);
+        AndroidServicesMockInjecter.injectEvent(mContext);
         List<Event> events = Event.getUpcomingEvents(mContext);
 
         assertNotSame(0, events.size());
@@ -37,7 +37,8 @@ public class EventTest extends InstrumentationTestCase {
 
     @Suppress
     public void test_getEvent() throws Exception {
-        Event event = Event.getEvent(mContext, mId);
+        long id = AndroidServicesMockInjecter.injectEvent(mContext);
+        Event event = Event.getEvent(mContext, id);
 
         assertEquals("Secret Briefing", event.getTitle());
         assertEquals("Not Disclosed", event.getDescription());

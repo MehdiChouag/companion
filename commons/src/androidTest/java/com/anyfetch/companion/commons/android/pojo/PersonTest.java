@@ -3,7 +3,6 @@ package com.anyfetch.companion.commons.android.pojo;
 import android.content.Context;
 import android.os.Bundle;
 import android.test.InstrumentationTestCase;
-import android.test.suitebuilder.annotation.Suppress;
 import com.anyfetch.companion.commons.android.testhelpers.AndroidServicesMockInjecter;
 
 import java.util.ArrayList;
@@ -11,20 +10,18 @@ import java.util.HashSet;
 
 public class PersonTest extends InstrumentationTestCase {
     private Context mContext;
-    private long mId;
     private Person mPerson;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         mContext = getInstrumentation().getContext();
-        mId = AndroidServicesMockInjecter.injectContact(mContext);
         mPerson = new Person(1, "a", "b", "c", new ArrayList<String>(), new ArrayList<String>(), null, 2);
     }
 
     public void test_getPerson_email() throws Exception {
+        AndroidServicesMockInjecter.injectContact(mContext);
         Person person = Person.getPerson(mContext, "sarcher@example.com");
-        mId = person.getId();
 
         assertEquals("Sterling Archer", person.getName());
         assertEquals(2, person.getEmails().size());
@@ -34,9 +31,9 @@ public class PersonTest extends InstrumentationTestCase {
         assertEquals("sterling@example.com", person.getEmails().get(0));
     }
 
-    @Suppress
     public void test_getPerson_id() throws Exception {
-        Person person = Person.getPerson(mContext, mId);
+        long id = AndroidServicesMockInjecter.injectContact(mContext);
+        Person person = Person.getPerson(mContext, id);
 
         assertEquals("Sterling Archer", person.getName());
     }
