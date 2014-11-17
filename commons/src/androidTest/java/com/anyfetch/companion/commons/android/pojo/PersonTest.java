@@ -3,8 +3,7 @@ package com.anyfetch.companion.commons.android.pojo;
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.Suppress;
-
-import com.anyfetch.companion.commons.android.helpers.AndroidServicesMockInjecter;
+import com.anyfetch.companion.commons.android.testhelpers.AndroidServicesMockInjecter;
 
 public class PersonTest extends InstrumentationTestCase {
     private Context mContext;

@@ -1,4 +1,4 @@
-package com.anyfetch.companion.commons.android.helpers;
+package com.anyfetch.companion.commons.android.testhelpers;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
 import android.provider.ContactsContract;
-
 import com.anyfetch.companion.commons.android.pojo.Event;
 
 import java.util.Calendar;

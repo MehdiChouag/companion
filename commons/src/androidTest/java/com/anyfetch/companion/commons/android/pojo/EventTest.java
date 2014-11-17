@@ -3,8 +3,7 @@ package com.anyfetch.companion.commons.android.pojo;
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.Suppress;
-
-import com.anyfetch.companion.commons.android.helpers.AndroidServicesMockInjecter;
+import com.anyfetch.companion.commons.android.testhelpers.AndroidServicesMockInjecter;
 
 import java.util.List;
 
@@ -47,4 +46,6 @@ public class EventTest extends InstrumentationTestCase {
         Person att1 = attendees.get(1);
         assertEquals("Malory Archer", att1.getName());
     }
+
+
 }
