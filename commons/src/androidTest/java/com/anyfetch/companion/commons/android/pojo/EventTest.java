@@ -3,7 +3,6 @@ package com.anyfetch.companion.commons.android.pojo;
 import android.content.Context;
 import android.os.Bundle;
 import android.test.InstrumentationTestCase;
-import android.test.suitebuilder.annotation.Suppress;
 import com.anyfetch.companion.commons.android.testhelpers.AndroidServicesMockInjecter;
 
 import java.util.*;
@@ -20,7 +19,6 @@ public class EventTest extends InstrumentationTestCase {
         mEvent = new Event(1, "a", "b", new Date(0), new Date(0), new ArrayList<Person>(), "c");
     }
 
-    @Suppress
     public void test_getUpcomingEvents() throws Exception {
         AndroidServicesMockInjecter.injectContact(mContext);
         AndroidServicesMockInjecter.injectEvent(mContext);
@@ -32,7 +30,6 @@ public class EventTest extends InstrumentationTestCase {
         assertEquals("Secret Briefing", event.getTitle());
     }
 
-    @Suppress
     public void test_getEvent() throws Exception {
         long id = AndroidServicesMockInjecter.injectEvent(mContext);
         Event event = Event.getEvent(mContext, id);
