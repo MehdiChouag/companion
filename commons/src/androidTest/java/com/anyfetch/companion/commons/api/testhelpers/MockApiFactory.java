@@ -1,4 +1,4 @@
-package com.anyfetch.companion.commons.api.helpers;
+package com.anyfetch.companion.commons.api.testhelpers;
 
 import com.anyfetch.companion.commons.api.pojo.Document;
 import com.anyfetch.companion.commons.api.pojo.DocumentsList;

@@ -1,7 +1,6 @@
-package com.anyfetch.companion.commons.api.helpers;
+package com.anyfetch.companion.commons.api.testhelpers;
 
 import android.test.InstrumentationTestCase;
-
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 
 public abstract class BaseRequestTest extends InstrumentationTestCase {

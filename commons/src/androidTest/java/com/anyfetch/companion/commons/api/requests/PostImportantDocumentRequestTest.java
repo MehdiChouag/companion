@@ -1,6 +1,6 @@
 package com.anyfetch.companion.commons.api.requests;
 
-import com.anyfetch.companion.commons.api.helpers.BaseRequestTest;
+import com.anyfetch.companion.commons.api.testhelpers.BaseRequestTest;
 import com.squareup.okhttp.OkHttpClient;
 
 public class PostImportantDocumentRequestTest extends BaseRequestTest {
