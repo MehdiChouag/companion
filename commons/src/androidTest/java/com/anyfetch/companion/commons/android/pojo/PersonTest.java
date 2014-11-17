@@ -1,9 +1,12 @@
 package com.anyfetch.companion.commons.android.pojo;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.Suppress;
 import com.anyfetch.companion.commons.android.testhelpers.AndroidServicesMockInjecter;
+
+import java.util.ArrayList;
 
 public class PersonTest extends InstrumentationTestCase {
     private Context mContext;
@@ -33,5 +36,15 @@ public class PersonTest extends InstrumentationTestCase {
         Person person = Person.getPerson(mContext, mId);
 
         assertEquals("Sterling Archer", person.getName());
+    }
+
+    public void testParcels() throws Exception {
+        Person origin = new Person(1, "a", "b", "c", new ArrayList<String>(), new ArrayList<String>(), null, 2);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("parcel", origin);
+        Person target = bundle.getParcelable("parcel");
+        assertEquals(origin.getId(), target.getId());
+        assertEquals(origin.getName(), target.getName());
+        assertEquals(origin.getCompany(), target.getCompany());
     }
 }

@@ -1,10 +1,13 @@
 package com.anyfetch.companion.commons.android.pojo;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.Suppress;
 import com.anyfetch.companion.commons.android.testhelpers.AndroidServicesMockInjecter;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class EventTest extends InstrumentationTestCase {
@@ -47,5 +50,13 @@ public class EventTest extends InstrumentationTestCase {
         assertEquals("Malory Archer", att1.getName());
     }
 
-
+    public void testParcels() throws Exception {
+        Event origin = new Event(1, "a", "b", new Date(), new Date(), new ArrayList<Person>(), "c");
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("parcel", origin);
+        Event target = bundle.getParcelable("parcel");
+        assertEquals(origin.getId(), target.getId());
+        assertEquals(origin.getTitle(), target.getTitle());
+        assertEquals(origin.getStartDate(), target.getStartDate());
+    }
 }
