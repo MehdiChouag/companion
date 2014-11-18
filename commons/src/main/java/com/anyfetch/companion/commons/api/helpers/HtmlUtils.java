@@ -20,13 +20,21 @@ public class HtmlUtils {
 
     /**
      * Will return true if the specified document require some JS to be formatted.
-     * @param document
-     * @return
+     *
+     * @param document The document's string
+     * @return Whether it will need JS or not
      */
     public static Boolean requireJavascript(String document) {
         return document.contains("anyfetch-date");
     }
 
+    /**
+     * Renders a document in it's proper context
+     *
+     * @param context  The android context
+     * @param document The document to inject
+     * @return A complete HTML page with CSS(+JS)
+     */
     public static String renderDocument(Context context, String document) {
         if(baseDocumentHtml == null) {
             // Preload the HTML file from assets
@@ -47,10 +55,23 @@ public class HtmlUtils {
         return baseDocumentHtml.replace(DOCUMENT_PLACEHOLDER, document).replace(LOCALE_PLACEHOLDER, languageCode);
     }
 
+    /**
+     * Convert highlights into simple bold text (for wear)
+     *
+     * @param origin The original highlighted text
+     * @return The bolded text
+     */
     public static String convertHlt(String origin) {
         return origin.replaceAll("<span[^>]+?anyfetch-hlt[^>]+?>(.+?)</span>", "<b>$1</b>");
     }
 
+    /**
+     * Selects a specific tag in the DOM
+     *
+     * @param origin The HTML to be selected from
+     * @param tag The tag to select
+     * @return The content of the tag
+     */
     public static String selectTag(String origin, String tag) {
         InputStream is = new ByteArrayInputStream(origin.getBytes());
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -64,6 +85,12 @@ public class HtmlUtils {
         return "";
     }
 
+    /**
+     * Strip HTML tags from a string
+     *
+     * @param origin An HTML string
+     * @return A text
+     */
     public static String stripHtml(String origin) {
         return origin.replaceAll("</*[^>]+?/*>", "");
     }
