@@ -21,7 +21,7 @@ public class AndroidServicesMockInjecter {
         Uri uri = cr.insert(ContactsContract.RawContacts.CONTENT_URI, contact);
 
         long contactId = Long.parseLong(uri.getLastPathSegment());
-        Thread.sleep(500);
+        Thread.sleep(200); // Wait for async saving of data
 
         ContentValues name = new ContentValues();
         name.put(ContactsContract.Data.RAW_CONTACT_ID, contactId);
@@ -57,7 +57,7 @@ public class AndroidServicesMockInjecter {
         org.put(ContactsContract.CommonDataKinds.Organization.TYPE, ContactsContract.CommonDataKinds.Organization.TYPE_WORK);
         cr.insert(ContactsContract.Data.CONTENT_URI, org);
 
-        Thread.sleep(3000);
+        Thread.sleep(500);
         return contactId;
     }
 
@@ -72,7 +72,7 @@ public class AndroidServicesMockInjecter {
         Uri calUri = cr.insert(CalendarContract.Calendars.CONTENT_URI, calendar);
 
         long calId = Long.parseLong(calUri.getLastPathSegment());
-        Thread.sleep(500);
+        Thread.sleep(200); // Wait for async saving of data
 
         ContentValues event = new ContentValues();
         event.put(CalendarContract.Events.CALENDAR_ID, calId);
@@ -85,7 +85,7 @@ public class AndroidServicesMockInjecter {
         Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, event);
 
         long eventID = Long.parseLong(uri.getLastPathSegment());
-        Thread.sleep(500);
+        Thread.sleep(200);
 
         ContentValues att0 = new ContentValues();
         att0.put(CalendarContract.Attendees.EVENT_ID, eventID);
@@ -99,7 +99,7 @@ public class AndroidServicesMockInjecter {
         att1.put(CalendarContract.Attendees.ATTENDEE_EMAIL, "malory@example.com");
         cr.insert(CalendarContract.Attendees.CONTENT_URI, att1);
 
-        Thread.sleep(1500);
+        Thread.sleep(300);
         return eventID;
     }
 }
