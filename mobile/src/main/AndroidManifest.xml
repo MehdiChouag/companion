@@ -43,13 +43,6 @@
         <receiver
             android:name=".commons.notifications.MeetingPreparationAlarm"
             android:process=":remote"/>
-        <receiver
-                android:name=".notifications.MeetingPreparationNotification"
-                tools:ignore="ExportedReceiver">
-            <intent-filter>
-                <action android:name=".MEETING_PREPARATION"/>
-            </intent-filter>
-        </receiver>
 
         <activity
             android:name=".FullActivity"
