@@ -82,7 +82,7 @@ public class ContextNotificationBuilder {
     public Notification build() {
         Intent viewIntent = new Intent(mContext, ContextActivity.class);
         viewIntent.putExtra(ContextFragment.ARG_CONTEXTUAL_OBJECT, mContextualObject);
-        PendingIntent viewPendingIntent = PendingIntent.getActivity(mContext, 0, viewIntent, 0);
+        PendingIntent viewPendingIntent = PendingIntent.getActivity(mContext, mContextualObject.getTitle().hashCode(), viewIntent, 0);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
                 .setLargeIcon(ImageHelper.toBitmap(mContextualObject.getIcon(mContext)))

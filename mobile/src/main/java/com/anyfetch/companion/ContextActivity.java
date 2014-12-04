@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-
 import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import com.anyfetch.companion.fragments.ContextFragment;
 
@@ -19,7 +18,7 @@ public class ContextActivity extends Activity {
         setContentView(R.layout.activity_context);
         Intent originIntent = getIntent();
 
-        ContextualObject contextualObject = (ContextualObject) originIntent.getParcelableExtra(ContextFragment.ARG_CONTEXTUAL_OBJECT);
+        ContextualObject contextualObject = originIntent.getParcelableExtra(ContextFragment.ARG_CONTEXTUAL_OBJECT);
 
         if (savedInstanceState == null) {
             ContextFragment fragment = ContextFragment.newInstance((Parcelable) contextualObject);
