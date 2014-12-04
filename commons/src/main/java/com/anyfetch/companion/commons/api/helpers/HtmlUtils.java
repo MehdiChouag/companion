@@ -2,6 +2,7 @@ package com.anyfetch.companion.commons.api.helpers;
 
 import android.content.Context;
 import android.util.Log;
+import org.w3c.dom.Node;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -78,7 +79,10 @@ public class HtmlUtils {
         try {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             org.w3c.dom.Document doc = dBuilder.parse(is);
-            return doc.getElementsByTagName(tag).item(0).getTextContent();
+            Node node = doc.getElementsByTagName(tag).item(0);
+            if (node != null) {
+                return node.getTextContent();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

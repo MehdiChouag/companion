@@ -3,6 +3,7 @@ package com.anyfetch.companion.commons.ui;
 import android.graphics.*;
 import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
+import android.graphics.drawable.Drawable;
 import com.anyfetch.companion.commons.R;
 
 /**
@@ -91,5 +92,13 @@ public class ImageHelper {
         } else {
             return R.drawable.ic_document;
         }
+    }
+
+    public static Bitmap toBitmap(Drawable drawable) {
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getMinimumWidth(), drawable.getMinimumHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        drawable.draw(canvas);
+        return bitmap;
     }
 }

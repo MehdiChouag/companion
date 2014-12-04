@@ -23,7 +23,7 @@ import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import com.anyfetch.companion.commons.api.builders.DocumentsListRequestBuilder;
 import com.anyfetch.companion.commons.api.pojo.DocumentsList;
 import com.anyfetch.companion.commons.api.requests.GetDocumentsListRequest;
-import com.anyfetch.companion.notifications.BuildNotificationTask;
+import com.anyfetch.companion.notifications.BuildNotificationStackTask;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
@@ -175,7 +175,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
             case R.id.action_prepare_on_wear:
                 if (mRootContextualObject instanceof Event) {
                     Toast.makeText(getActivity(), getString(R.string.sent_to_watch), Toast.LENGTH_LONG).show();
-                    new BuildNotificationTask(getActivity()).execute((Event) mRootContextualObject, null, null);
+                    new BuildNotificationStackTask(getActivity()).execute((Event) mRootContextualObject, null, null);
                 }
                 break;
             case R.id.action_improve_context:
