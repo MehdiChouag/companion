@@ -94,11 +94,9 @@ public class ContextNotificationBuilder {
                 .setGroup(mGroupKey);
 
         try {
-            NotificationCompat.Builder extender = new NotificationCompat.WearableExtender()
-                    .addPages(buildPages())
-                    .extend(builder);
-
-            return extender.build();
+            NotificationCompat.WearableExtender extender = new NotificationCompat.WearableExtender()
+                    .addPages(buildPages());
+            return extender.extend(builder).build();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -144,7 +142,10 @@ public class ContextNotificationBuilder {
                             .setContentTitle(Html.fromHtml(HtmlUtils.stripHtml(HtmlUtils.selectTag(document.getSnippet(), "ul"))))
                             .setStyle(bigView)
                             .setSmallIcon(ImageHelper.matchResourceForProvider(document.getProvider()));
-            pages.add(builder.build());
+            NotificationCompat.WearableExtender extender = new NotificationCompat.WearableExtender()
+                    .setContentIcon(ImageHelper.matchResourceForProvider(document.getProvider()));
+
+            pages.add(extender.extend(builder).build());
         }
         return pages;
     }
