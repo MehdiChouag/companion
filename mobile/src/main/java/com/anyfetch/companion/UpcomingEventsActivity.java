@@ -28,8 +28,8 @@ import com.anyfetch.companion.commons.android.requests.GetUpcomingEventsRequest;
 import com.anyfetch.companion.commons.api.HttpSpiceService;
 import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
 import com.anyfetch.companion.commons.api.requests.GetStartRequest;
-import com.anyfetch.companion.commons.notifications.MeetingPreparationAlarm;
 import com.anyfetch.companion.fragments.ContextFragment;
+import com.anyfetch.companion.notifications.ScheduleMeetingPreparationTask;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
@@ -147,7 +147,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     public void onRequestSuccess(EventsList events) {
         mSwipeLayout.setRefreshing(false);
         if (events.size() > 0) {
-            MeetingPreparationAlarm.setForEvent(this, events.get(0));
+            new ScheduleMeetingPreparationTask(this).execute(null, null, null);
         }
         mListAdapter = new EventsListAdapter(getApplicationContext(), events);
         mListView.setAdapter(mListAdapter);
