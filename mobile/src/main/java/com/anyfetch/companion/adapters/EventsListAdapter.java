@@ -2,20 +2,24 @@ package com.anyfetch.companion.adapters;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.GradientDrawable;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.commons.android.pojo.Event;
 import com.anyfetch.companion.commons.android.pojo.EventsList;
 import com.anyfetch.companion.commons.api.builders.DocumentsListRequestBuilder;
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 /**
  * Adapt events to a list
@@ -63,6 +67,14 @@ public class EventsListAdapter extends TimedListAdapter implements StickyListHea
         }
 
         Event event = mEvents.get(position);
+
+        if (event.getColor() != 0) {
+            // Set the event color -- we need  to put it to aRGB.
+            FrameLayout mainContainer = (FrameLayout) convertView.findViewById(R.id.main_container);
+            GradientDrawable shapeDrawable = (GradientDrawable) mainContainer.getBackground();
+            int color = 0xff000000 + event.getColor();
+            shapeDrawable.setColor(color);
+        }
 
         ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
         imageView.setImageDrawable(event.getIcon(mContext));

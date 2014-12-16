@@ -23,7 +23,7 @@ public class DocumentRequestBuilderTest extends InstrumentationTestCase {
         super.setUp();
         mContext = getInstrumentation().getContext();
         mDocument = new Document("a", "b", "c", "d", "e", new Date(), "f", "g", "h", true);
-        mEvent = new Event(1, "a", "b", new Date(0), new Date(0), new ArrayList<Person>(), "c");
+        mEvent = new Event(1, "a", "b", new Date(0), new Date(0), new ArrayList<Person>(), "c", 0);
     }
 
     public void test_build_simple() throws Exception {

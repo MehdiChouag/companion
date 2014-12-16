@@ -9,11 +9,16 @@ import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.CalendarContract;
+
 import com.anyfetch.companion.commons.R;
 import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import com.anyfetch.companion.commons.ui.ImageHelper;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Represents a calendar event
@@ -34,8 +39,9 @@ public class Event implements Parcelable, ContextualObject {
             List<Person> attendees = new ArrayList<Person>();
             source.readTypedList(attendees, Person.CREATOR);
             String location = source.readString();
+            int color = source.readInt();
 
-            return new Event(id, title, description, start, end, attendees, location);
+            return new Event(id, title, description, start, end, attendees, location, color);
         }
 
         @Override
@@ -49,7 +55,8 @@ public class Event implements Parcelable, ContextualObject {
             CalendarContract.Events.DESCRIPTION,
             CalendarContract.Events.DTSTART,
             CalendarContract.Events.DTEND,
-            CalendarContract.Events.EVENT_LOCATION
+            CalendarContract.Events.EVENT_LOCATION,
+            CalendarContract.Events.DISPLAY_COLOR
     };
     private static final int PRJ_EVT_ID = 0;
     private static final int PRJ_EVT_TITLE = 1;
@@ -57,6 +64,8 @@ public class Event implements Parcelable, ContextualObject {
     private static final int PRJ_EVT_DTSTART = 3;
     private static final int PRJ_EVT_DTEND = 4;
     private static final int PRJ_EVT_LOC = 5;
+    private static final int PRJ_EVT_COLOR = 6;
+
     private static final String[] ATTENDEE_PROJECTION = new String[]{
             CalendarContract.Attendees.ATTENDEE_NAME,
             CalendarContract.Attendees.ATTENDEE_EMAIL,
@@ -71,6 +80,7 @@ public class Event implements Parcelable, ContextualObject {
     private final Date mEndDate;
     private final List<Person> mAttendees;
     private final String mLocation;
+    private final int mColor;
 
     /**
      * Creates a new event
@@ -82,7 +92,7 @@ public class Event implements Parcelable, ContextualObject {
      * @param endDate     The end
      * @param attendees   The attendees
      */
-    public Event(long id, String title, String description, Date startDate, Date endDate, List<Person> attendees, String location) {
+    public Event(long id, String title, String description, Date startDate, Date endDate, List<Person> attendees, String location, int color) {
         mId = id;
         mTitle = title;
         mDescription = description;
@@ -90,6 +100,7 @@ public class Event implements Parcelable, ContextualObject {
         mEndDate = endDate;
         mAttendees = attendees;
         mLocation = location;
+        mColor = color;
     }
 
     private static Event fromCursor(Context context, Cursor cur) {
@@ -99,6 +110,9 @@ public class Event implements Parcelable, ContextualObject {
         Date dtStart = new Date(cur.getLong(PRJ_EVT_DTSTART));
         Date dtEnd = new Date(cur.getLong(PRJ_EVT_DTEND));
         String location = cur.getString(PRJ_EVT_LOC);
+
+
+        int color = cur.getInt(PRJ_EVT_COLOR);
         int eventId = cur.getInt(PRJ_EVT_ID);
         Cursor attCur = cr.query(
                 CalendarContract.Attendees.CONTENT_URI,
@@ -137,7 +151,8 @@ public class Event implements Parcelable, ContextualObject {
                 dtStart,
                 dtEnd,
                 attendees,
-                location
+                location,
+                color
         );
     }
 
@@ -316,6 +331,15 @@ public class Event implements Parcelable, ContextualObject {
         return mLocation;
     }
 
+    /**
+     * Gets the color
+     *
+     * @return A color
+     */
+    public int getColor() {
+        return mColor;
+    }
+
     @Override
     public int describeContents() {
         return EVENT_PARCELABLE;
@@ -330,6 +354,7 @@ public class Event implements Parcelable, ContextualObject {
         dest.writeLong(mEndDate.getTime());
         dest.writeTypedList(mAttendees);
         dest.writeString(mLocation);
+        dest.writeInt(mColor);
     }
 
     /**
@@ -357,7 +382,7 @@ public class Event implements Parcelable, ContextualObject {
     /**
      * Write a human-readable attendees string
      *
-     * @param tailedEmails Ignore attendees names to show
+     * @param tailedEmails            Ignore attendees names to show
      * @param multipleAttendeesFormat How to format multiple attendees count
      * @return A string
      */
