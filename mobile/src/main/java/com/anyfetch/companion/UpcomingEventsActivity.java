@@ -18,7 +18,6 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
@@ -160,6 +159,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void onItemClick(AdapterView parent, View view, int position, long id) {
         Event event = mListAdapter.getEvent(position);
+        View backgroundView = view.findViewById(R.id.main_container);
         View imageView = view.findViewById(R.id.imageView);
         View titleView = view.findViewById(R.id.titleView);
 
@@ -168,6 +168,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions animation = ActivityOptions.makeSceneTransitionAnimation(this,
                     Pair.create(imageView, "imageView"),
+                    Pair.create(backgroundView, "backgroundView"),
                     Pair.create(titleView, "titleView"));
             startActivity(intent, animation.toBundle());
         } else {
