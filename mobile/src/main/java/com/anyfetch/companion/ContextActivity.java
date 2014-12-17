@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.view.Window;
 
 import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import com.anyfetch.companion.fragments.ContextFragment;

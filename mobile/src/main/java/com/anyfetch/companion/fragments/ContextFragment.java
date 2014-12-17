@@ -14,7 +14,12 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AbsListView;
+import android.widget.ImageView;
+import android.widget.TabHost;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.adapters.DocumentsListAdapter;
 import com.anyfetch.companion.commons.android.pojo.Event;
@@ -28,11 +33,12 @@ import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
  * Stores the context around an given context (Event, Person, …)
@@ -221,6 +227,10 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
 
         int textPrimary = Color.WHITE;
         int primaryDark = getActivity().getResources().getColor(R.color.primary_dark);
+        if(mSelectedContextualObject.getColor() != -1) {
+            primaryDark = mSelectedContextualObject.getColor();
+        }
+
         mToolbar.setTitleTextColor(Color.argb(
                 (int) (clamp(2 * ratio - 1) * 255),
                 Color.red(textPrimary),
@@ -243,6 +253,12 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
             mSelectedContextualObject = mSubContexts.get(Integer.parseInt(tabId.substring(4)));
         }
         mToolbar.setTitle(mSelectedContextualObject.getTitle());
+
+        // Override the color if needed
+        if (mSelectedContextualObject.getColor() != -1) {
+            ImageView backgroundView = (ImageView) mContextTab.findViewById(R.id.backgroundView);
+            backgroundView.setBackgroundColor(mSelectedContextualObject.getColor());
+        }
         TextView titleView = (TextView) mContextTab.findViewById(R.id.titleView);
         titleView.setText(mSelectedContextualObject.getTitle());
         TextView infoView = (TextView) mContextTab.findViewById(R.id.infoView);

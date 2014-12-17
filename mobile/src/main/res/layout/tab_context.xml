@@ -11,15 +11,34 @@
         android:transitionName="backgroundView"
         android:contentDescription="@string/placeholder_event"/>
 
-    <LinearLayout
-        android:layout_marginEnd="@dimen/list_margin"
-        android:layout_marginLeft="@dimen/list_margin"
-        android:layout_marginRight="@dimen/list_margin"
-        android:layout_marginStart="@dimen/list_margin"
-        android:layout_marginTop="@dimen/list_margin"
-        android:gravity="top"
+    <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="fill_parent"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/titleView"
+            style="@style/Base.TextAppearance.AppCompat.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/placeholder_event"
+            android:textColor="@color/primary_text_default_material_dark"
+            android:transitionName="titleView"
+            tools:ignore="UnusedAttribute"
+            android:layout_toLeftOf="@+id/imageView"
+            android:layout_toStartOf="@+id/imageView"/>
+
+        <TextView
+            android:id="@+id/infoView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/placeholder_location"
+            android:textColor="@color/primary_text_default_material_dark"
+            android:layout_below="@+id/titleView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/imageView"
+            android:layout_toStartOf="@+id/imageView"/>
 
         <ImageView
             android:id="@+id/imageView"
@@ -27,32 +46,11 @@
             android:layout_height="@dimen/thumb"
             android:contentDescription="@string/placeholder_event"
             android:transitionName="imageView"
-            tools:ignore="UnusedAttribute"/>
+            tools:ignore="UnusedAttribute"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
 
-        <LinearLayout
-            android:layout_marginLeft="@dimen/list_margin"
-            android:layout_marginStart="@dimen/list_margin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/titleView"
-                style="@style/Base.TextAppearance.AppCompat.Medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/placeholder_event"
-                android:textColor="@color/primary_text_default_material_dark"
-                android:transitionName="titleView"
-                tools:ignore="UnusedAttribute"/>
-
-            <TextView
-                android:id="@+id/infoView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/placeholder_location"
-                android:textColor="@color/primary_text_default_material_dark"/>
-        </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
 </FrameLayout>
