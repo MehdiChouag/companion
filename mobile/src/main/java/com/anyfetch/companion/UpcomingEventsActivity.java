@@ -162,6 +162,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
         View backgroundView = view.findViewById(R.id.main_container);
         View imageView = view.findViewById(R.id.imageView);
         View titleView = view.findViewById(R.id.titleView);
+        View locationView = view.findViewById(R.id.locationView);
 
         Intent intent = new Intent(getApplicationContext(), ContextActivity.class);
         intent.putExtra(ContextFragment.ARG_CONTEXTUAL_OBJECT, event);
@@ -169,6 +170,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
             ActivityOptions animation = ActivityOptions.makeSceneTransitionAnimation(this,
                     Pair.create(imageView, "imageView"),
                     Pair.create(backgroundView, "backgroundView"),
+                    Pair.create(locationView, "locationView"),
                     Pair.create(titleView, "titleView")
             );
             startActivity(intent, animation.toBundle());

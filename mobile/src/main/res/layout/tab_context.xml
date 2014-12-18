@@ -30,6 +30,7 @@
 
         <TextView
             android:id="@+id/infoView"
+            android:transitionName="locationView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/placeholder_location"
