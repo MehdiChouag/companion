@@ -41,8 +41,8 @@
             android:layout_height="@dimen/ic_provider_size"
             android:layout_gravity="end|bottom"
             android:layout_margin="@dimen/ic_dp_margin"
-            android:contentDescription="@string/placeholder_provider"
-            android:background="#fafafa"/>
+            android:background="#fafafa"
+            android:contentDescription="@string/placeholder_provider"/>
 
         <View
             android:id="@+id/gestureOverlayView"

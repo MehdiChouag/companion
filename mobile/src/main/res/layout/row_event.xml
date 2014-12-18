@@ -11,27 +11,27 @@
         android:id="@+id/main_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/date_header_width"
-        android:layout_marginStart="@dimen/date_header_width"
-        android:layout_marginTop="@dimen/list_margin"
-        android:layout_marginRight="@dimen/list_margin"
+        android:layout_marginBottom="@dimen/list_margin"
         android:layout_marginEnd="@dimen/list_margin"
-        android:layout_marginBottom="@dimen/list_margin">
+        android:layout_marginLeft="@dimen/date_header_width"
+        android:layout_marginRight="@dimen/list_margin"
+        android:layout_marginStart="@dimen/date_header_width"
+        android:layout_marginTop="@dimen/list_margin">
 
         <ImageView
-            android:background="@drawable/colored_rectangle"
             android:id="@+id/backgroundView"
-            android:transitionName="backgroundView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="@drawable/colored_rectangle"
+            android:transitionName="backgroundView"/>
 
         <RelativeLayout
-            android:layout_margin="@dimen/list_padding"
             android:layout_width="match_parent"
             android:layout_height="@dimen/event_height"
             android:layout_gravity="center_vertical|start|left"
-            android:layout_marginRight="@dimen/thumb"
+            android:layout_margin="@dimen/list_padding"
             android:layout_marginEnd="@dimen/thumb"
+            android:layout_marginRight="@dimen/thumb"
             android:orientation="vertical"
             tools:ignore="RtlSymmetry">
 
@@ -39,58 +39,58 @@
                 android:id="@+id/imageView"
                 android:layout_width="@dimen/thumb"
                 android:layout_height="@dimen/thumb"
-                android:layout_margin="@dimen/list_padding"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
                 android:layout_gravity="center_vertical|end|right"
+                android:layout_margin="@dimen/list_padding"
                 android:contentDescription="@string/placeholder_event"
                 android:transitionName="imageView"
-                tools:ignore="UnusedAttribute"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"/>
+                tools:ignore="UnusedAttribute"/>
 
             <TextView
                 android:id="@+id/timeView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/imageView"
+                android:layout_toStartOf="@+id/imageView"
                 android:singleLine="true"
                 android:text="@string/placeholder_time_range"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/text_primary_inverse"
-                android:layout_alignParentTop="true"
-                android:layout_toLeftOf="@+id/imageView"
-                android:layout_toStartOf="@+id/imageView"/>
+                android:textColor="@color/text_primary_inverse"/>
 
             <TextView
                 android:id="@+id/titleView"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:layout_gravity="start|top"
+                android:layout_toLeftOf="@+id/timeView"
+                android:layout_toStartOf="@+id/timeView"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:text="@string/placeholder_event_title"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/text_primary_inverse"
                 android:transitionName="titleView"
-                tools:ignore="UnusedAttribute"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_toLeftOf="@+id/timeView"
-                android:layout_toStartOf="@+id/timeView"/>
+                tools:ignore="UnusedAttribute"/>
 
             <TextView
                 android:id="@+id/locationView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/timeView"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignRight="@+id/timeView"
+                android:layout_below="@id/titleView"
                 android:singleLine="true"
                 android:text="@string/placeholder_location"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/text_primary_inverse"
-                android:layout_alignRight="@+id/timeView"
-                android:layout_alignEnd="@+id/timeView"
-                android:layout_below="@id/titleView"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"/>
+                android:textColor="@color/text_primary_inverse"/>
         </RelativeLayout>
     </FrameLayout>
 </LinearLayout>
