@@ -79,32 +79,18 @@
                 android:layout_toStartOf="@+id/timeView"/>
 
             <TextView
-                android:id="@+id/attendeeView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@id/titleView"
-                android:paddingRight="5dp"
-                android:singleLine="true"
-                android:text="@string/placeholder_attendees"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/text_primary_inverse"/>
-
-            <TextView
                 android:id="@+id/locationView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="right|end"
                 android:singleLine="true"
                 android:text="@string/placeholder_location"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/text_primary_inverse"
-                android:transitionName="locationView"
-                android:layout_alignTop="@+id/attendeeView"
-                android:layout_toRightOf="@+id/attendeeView"
                 android:layout_alignRight="@+id/timeView"
-                android:layout_alignEnd="@+id/timeView"/>
+                android:layout_alignEnd="@+id/timeView"
+                android:layout_below="@id/titleView"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
         </RelativeLayout>
     </FrameLayout>
 </LinearLayout>

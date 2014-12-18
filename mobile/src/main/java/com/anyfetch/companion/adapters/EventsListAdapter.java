@@ -89,9 +89,6 @@ public class EventsListAdapter extends TimedListAdapter implements StickyListHea
         TextView timeView = (TextView) convertView.findViewById(R.id.timeView);
         timeView.setText(event.formatTimeRange());
 
-        TextView attendeeView = (TextView) convertView.findViewById(R.id.attendeeView);
-        attendeeView.setText(event.formatAttendees(mTailedEmails, mContext.getString(R.string.multiple_attendees)));
-
         return convertView;
     }
 
