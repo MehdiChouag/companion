@@ -254,11 +254,14 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         }
         mToolbar.setTitle(mSelectedContextualObject.getTitle());
 
+        ImageView backgroundView = (ImageView) mContextTab.findViewById(R.id.backgroundView);
+        int primaryDark = getActivity().getResources().getColor(R.color.primary_dark);
         // Override the color if needed
         if (mSelectedContextualObject.getColor() != -1) {
-            ImageView backgroundView = (ImageView) mContextTab.findViewById(R.id.backgroundView);
-            backgroundView.setBackgroundColor(mSelectedContextualObject.getColor());
+            primaryDark = mSelectedContextualObject.getColor();
         }
+        backgroundView.setBackgroundColor(primaryDark);
+
         TextView titleView = (TextView) mContextTab.findViewById(R.id.titleView);
         titleView.setText(mSelectedContextualObject.getTitle());
         TextView infoView = (TextView) mContextTab.findViewById(R.id.infoView);

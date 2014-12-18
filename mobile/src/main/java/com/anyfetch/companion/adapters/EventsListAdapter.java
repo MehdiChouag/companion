@@ -67,13 +67,11 @@ public class EventsListAdapter extends TimedListAdapter implements StickyListHea
 
         Event event = mEvents.get(position);
 
-        if (event.getColor() != 0) {
-            // Set the event color -- we need  to put it to aRGB.
-            View backgroundView = (View) convertView.findViewById(R.id.backgroundView);
-            GradientDrawable shapeDrawable = (GradientDrawable) backgroundView.getBackground();
-            int color = 0xff000000 + event.getColor();
-            shapeDrawable.setColor(color);
-        }
+        // Set the event color -- we need  to put it to aRGB.
+        View backgroundView = (View) convertView.findViewById(R.id.backgroundView);
+        GradientDrawable shapeDrawable = (GradientDrawable) backgroundView.getBackground();
+        int color = 0xff000000 + event.getColor();
+        shapeDrawable.setColor(color);
 
         ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
         imageView.setImageDrawable(event.getIcon(mContext));
