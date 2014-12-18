@@ -39,7 +39,7 @@
                 android:id="@+id/imageView"
                 android:layout_width="@dimen/thumb"
                 android:layout_height="@dimen/thumb"
-                android:padding="@dimen/list_padding"
+                android:layout_margin="@dimen/list_padding"
                 android:layout_gravity="center_vertical|end|right"
                 android:contentDescription="@string/placeholder_event"
                 android:transitionName="imageView"
