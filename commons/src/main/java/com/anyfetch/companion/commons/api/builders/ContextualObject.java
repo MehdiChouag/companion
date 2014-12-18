@@ -35,6 +35,7 @@ public interface ContextualObject extends Parcelable {
 
     /**
      * Color for the contextual object (e.g. event color)
+     *
      * @return a color, or -1 to use the default primaryDark color
      */
     public int getColor();
@@ -42,8 +43,8 @@ public interface ContextualObject extends Parcelable {
     /**
      * Gets the search query
      *
-     * @return An Anyfetch search query
      * @param tailedEmails The emails ignored by the system
+     * @return An Anyfetch search query
      */
     public String getSearchQuery(Set<String> tailedEmails);
 

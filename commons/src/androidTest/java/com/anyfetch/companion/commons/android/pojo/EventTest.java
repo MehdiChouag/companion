@@ -3,9 +3,14 @@ package com.anyfetch.companion.commons.android.pojo;
 import android.content.Context;
 import android.os.Bundle;
 import android.test.InstrumentationTestCase;
+
 import com.anyfetch.companion.commons.android.testhelpers.AndroidServicesMockInjecter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 
 public class EventTest extends InstrumentationTestCase {
     private Context mContext;

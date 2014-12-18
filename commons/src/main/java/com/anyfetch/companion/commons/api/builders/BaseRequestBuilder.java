@@ -3,6 +3,7 @@ package com.anyfetch.companion.commons.api.builders;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
 import com.anyfetch.companion.commons.api.helpers.BaseRequest;
 
 import java.util.HashSet;

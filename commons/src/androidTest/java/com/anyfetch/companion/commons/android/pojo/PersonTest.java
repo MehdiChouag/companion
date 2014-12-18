@@ -3,6 +3,7 @@ package com.anyfetch.companion.commons.android.pojo;
 import android.content.Context;
 import android.os.Bundle;
 import android.test.InstrumentationTestCase;
+
 import com.anyfetch.companion.commons.android.testhelpers.AndroidServicesMockInjecter;
 
 import java.util.ArrayList;

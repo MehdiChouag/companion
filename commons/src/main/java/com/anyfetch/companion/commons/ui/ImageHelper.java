@@ -1,9 +1,15 @@
 package com.anyfetch.companion.commons.ui;
 
-import android.graphics.*;
+import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+
 import com.anyfetch.companion.commons.R;
 
 /**

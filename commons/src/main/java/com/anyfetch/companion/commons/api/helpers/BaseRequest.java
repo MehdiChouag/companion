@@ -2,6 +2,7 @@ package com.anyfetch.companion.commons.api.helpers;
 
 import android.net.Uri;
 import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.octo.android.robospice.request.okhttp.OkHttpSpiceRequest;
@@ -9,6 +10,7 @@ import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
+
 import org.apache.http.HttpException;
 
 import java.net.URI;
