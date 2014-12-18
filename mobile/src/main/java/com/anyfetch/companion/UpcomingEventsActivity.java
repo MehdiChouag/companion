@@ -167,9 +167,12 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
         intent.putExtra(ContextFragment.ARG_CONTEXTUAL_OBJECT, event);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions animation = ActivityOptions.makeSceneTransitionAnimation(this,
-                    Pair.create(imageView, "imageView"),
-                    Pair.create(backgroundView, "backgroundView"),
-                    Pair.create(titleView, "titleView"));
+                    Pair.create(imageView, "imageView")
+                    // This is way too ugly.
+                    // TODO: fix animation with the TabHost
+                    // Pair.create(backgroundView, "backgroundView"),
+                    // Pair.create(titleView, "titleView")
+            );
             startActivity(intent, animation.toBundle());
         } else {
             startActivity(intent);
