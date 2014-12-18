@@ -1,9 +1,11 @@
 package com.anyfetch.companion.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
@@ -14,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.TabHost;
@@ -119,13 +122,6 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         mToolbar.setBackgroundColor(Color.TRANSPARENT);
         ViewCompat.setElevation(mToolbar, getResources().getDimension(R.dimen.toolbar_elevation));
 
-
-        /*TextView headerTitle = (TextView) contextHeader.findViewById(R.id.headerTitle);
-        headerTitle.setText(mRootContextualObject.getTitle());
-        ImageView headerImage = (ImageView) contextHeader.findViewById(R.id.headerImage);
-        //headerImage.setImageResource(R.drawable.bg_sf);
-        headerImage.setScaleType(ImageView.ScaleType.CENTER_CROP);*/
-
         mTabHost = (TabHost) contextHeader.findViewById(R.id.tabHost);
         mTabHost.setup();
         mTabHost.setOnTabChangedListener(this);
@@ -147,6 +143,20 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         refreshTabs();
         startQuery(true);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            final ImageView thumbnail = (ImageView) view.findViewById(R.id.imageView);
+            thumbnail.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @SuppressLint("NewApi")
+                public boolean onPreDraw() {
+                    // Once the image is ready, we can start the animation previously postponed (from activity.onCreate())
+                    // See https://plus.google.com/u/1/+AlexLockwood/posts/FJsp1N9XNLS
+                    // See http://stackoverflow.com/questions/26717515/weird-issue-when-transitioning-imageview-in-android-5-0
+                    thumbnail.getViewTreeObserver().removeOnPreDrawListener(this);
+                    getActivity().startPostponedEnterTransition();
+                    return true;
+                }
+            });
+        }
         return view;
     }
 
@@ -227,7 +237,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
 
         int textPrimary = Color.WHITE;
         int primaryDark = getActivity().getResources().getColor(R.color.primary_dark);
-        if(mSelectedContextualObject.getColor() != -1) {
+        if (mSelectedContextualObject.getColor() != -1) {
             primaryDark = mSelectedContextualObject.getColor();
         }
 
