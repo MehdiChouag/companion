@@ -1,6 +1,7 @@
 package com.anyfetch.companion.fragments;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
@@ -107,6 +108,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
     }
 
     @Override
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_context, container, false);
