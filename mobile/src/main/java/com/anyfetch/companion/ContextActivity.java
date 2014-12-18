@@ -1,5 +1,6 @@
 package com.anyfetch.companion;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
@@ -15,6 +16,7 @@ import com.anyfetch.companion.fragments.ContextFragment;
 public class ContextActivity extends Activity {
 
     @Override
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_context);
