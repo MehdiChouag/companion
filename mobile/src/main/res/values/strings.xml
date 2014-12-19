@@ -55,5 +55,10 @@
     <string name="december">DEC</string>
     <string name="placeholder_day_number">10</string>
     <string name="placeholder_day_of_the_week">WED</string>
-
+    <string name="title_activity_settings">Settings</string>
+    <string name="pref_notification">Notifications settings</string>
+    <string name="pref_notification_events">Notify me before events</string>
+    <string name="pref_notification_events_details">Display Anyfetch context before events</string>
+    <string name="pref_notification_calls">Notify me during phone calls</string>
+    <string name="pref_notification_calls_details">Display Anyfetch context during phone calls</string>
 </resources>

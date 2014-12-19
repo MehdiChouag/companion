@@ -43,6 +43,11 @@
             android:label="@string/title_activity_context">
         </activity>
 
+        <activity
+            android:name=".SettingActivity"
+            android:label="@string/title_activity_settings">
+        </activity>
+
         <receiver
             android:name=".notifications.MeetingPreparationReceiver"
             android:process=":remote"/>

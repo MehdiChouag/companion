@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/pref_notification">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="prefNotifyForEvents"
+            android:summary="@string/pref_notification_events_details"
+            android:title="@string/pref_notification_events">
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="prefNotifyForCalls"
+            android:summary="@string/pref_notification_calls_details"
+            android:title="@string/pref_notification_calls">
+        </CheckBoxPreference>
+    </PreferenceCategory>
+</PreferenceScreen>
