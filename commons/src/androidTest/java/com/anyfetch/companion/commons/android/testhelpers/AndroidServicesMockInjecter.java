@@ -6,6 +6,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.provider.CalendarContract;
 import android.provider.ContactsContract;
+
 import com.anyfetch.companion.commons.android.pojo.Event;
 
 import java.util.Calendar;

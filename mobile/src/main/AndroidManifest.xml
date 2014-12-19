@@ -41,7 +41,7 @@
         </activity>
 
         <receiver
-                android:name=".notifications.MeetingPreparationReceiver"
+            android:name=".notifications.MeetingPreparationReceiver"
             android:process=":remote"/>
 
         <activity

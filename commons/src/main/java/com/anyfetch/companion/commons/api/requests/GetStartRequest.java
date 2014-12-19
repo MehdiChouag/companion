@@ -1,6 +1,7 @@
 package com.anyfetch.companion.commons.api.requests;
 
 import android.util.Log;
+
 import com.anyfetch.companion.commons.api.helpers.BaseRequest;
 
 /**

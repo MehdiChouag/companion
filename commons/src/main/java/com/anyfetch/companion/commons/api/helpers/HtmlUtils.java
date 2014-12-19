@@ -2,14 +2,16 @@ package com.anyfetch.companion.commons.api.helpers;
 
 import android.content.Context;
 import android.util.Log;
+
 import org.w3c.dom.Node;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * Tools for helping with HTML-Related stuff
@@ -37,7 +39,7 @@ public class HtmlUtils {
      * @return A complete HTML page with CSS(+JS)
      */
     public static String renderDocument(Context context, String document) {
-        if(baseDocumentHtml == null) {
+        if (baseDocumentHtml == null) {
             // Preload the HTML file from assets
             try {
                 InputStream fin = context.getAssets().open("document.html");
@@ -70,7 +72,7 @@ public class HtmlUtils {
      * Selects a specific tag in the DOM
      *
      * @param origin The HTML to be selected from
-     * @param tag The tag to select
+     * @param tag    The tag to select
      * @return The content of the tag
      */
     public static String selectTag(String origin, String tag) {

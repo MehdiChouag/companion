@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.ContactsContract;
+
 import com.anyfetch.companion.commons.R;
 import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import com.anyfetch.companion.commons.ui.ImageHelper;

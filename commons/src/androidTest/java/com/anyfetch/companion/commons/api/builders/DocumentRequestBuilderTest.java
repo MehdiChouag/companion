@@ -2,6 +2,7 @@ package com.anyfetch.companion.commons.api.builders;
 
 import android.content.Context;
 import android.test.InstrumentationTestCase;
+
 import com.anyfetch.companion.commons.android.pojo.Event;
 import com.anyfetch.companion.commons.android.pojo.Person;
 import com.anyfetch.companion.commons.api.helpers.BaseRequest;

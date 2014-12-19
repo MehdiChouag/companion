@@ -6,7 +6,7 @@ import android.content.Intent;
 import com.anyfetch.companion.commons.android.pojo.Event;
 
 /**
- * Recieves a meeting preparation scheduled notification
+ * Receive a meeting preparation scheduled notification
  */
 public class MeetingPreparationReceiver extends BroadcastReceiver {
     @Override

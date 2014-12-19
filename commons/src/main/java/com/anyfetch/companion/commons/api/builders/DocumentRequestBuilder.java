@@ -1,6 +1,7 @@
 package com.anyfetch.companion.commons.api.builders;
 
 import android.content.Context;
+
 import com.anyfetch.companion.commons.android.pojo.Event;
 import com.anyfetch.companion.commons.api.helpers.BaseRequest;
 import com.anyfetch.companion.commons.api.pojo.Document;

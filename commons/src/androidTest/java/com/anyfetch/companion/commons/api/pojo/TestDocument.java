@@ -2,6 +2,7 @@ package com.anyfetch.companion.commons.api.pojo;
 
 import android.os.Bundle;
 import android.test.InstrumentationTestCase;
+
 import com.google.gson.Gson;
 
 import java.util.Date;
