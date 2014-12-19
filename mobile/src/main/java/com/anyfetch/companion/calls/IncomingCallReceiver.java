@@ -3,7 +3,6 @@ package com.anyfetch.companion.calls;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v4.app.NotificationManagerCompat;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -12,12 +11,7 @@ import android.util.Log;
 import com.anyfetch.companion.commons.android.pojo.Person;
 import com.anyfetch.companion.notifications.BuildNotificationStackTask;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class IncomingCallReceiver extends BroadcastReceiver {
-    public static String CALL_JOURNAL = "call_journal";
-
     private static PhoneStateListener stateListener;
 
     public void onReceive(final Context context, Intent intent) {
@@ -52,13 +46,6 @@ public class IncomingCallReceiver extends BroadcastReceiver {
 
                             if (contact != null) {
                                 // Clean up previous notification
-                                SharedPreferences callSettings = context.getSharedPreferences("calls", Context.MODE_PRIVATE);
-                                Set<String> currentCalls = callSettings.getStringSet(IncomingCallReceiver.CALL_JOURNAL, new HashSet<String>());
-                                SharedPreferences.Editor editor = callSettings.edit();
-                                currentCalls.remove(Long.toString(contact.getId()));
-                                editor.putStringSet(IncomingCallReceiver.CALL_JOURNAL, currentCalls);
-                                editor.commit();
-
                                 NotificationManagerCompat.from(context).cancel(contact.getHashCode());
                             }
                         }
