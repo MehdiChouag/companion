@@ -383,6 +383,15 @@ public class Person implements Parcelable, ContextualObject {
         return info;
     }
 
+    /**
+     * Gets the color
+     *
+     * @return always the same value for now
+     */
+    public int getColor() {
+        return -1;
+    }
+
     @Override
     public String getSearchQuery(Set<String> tailedEmails) {
         String query = "";

@@ -34,6 +34,12 @@ public interface ContextualObject extends Parcelable {
     public String getInfo();
 
     /**
+     * Color for the contextual object (e.g. event color)
+     * @return a color, or -1 to use the default primaryDark color
+     */
+    public int getColor();
+
+    /**
      * Gets the search query
      *
      * @return An Anyfetch search query

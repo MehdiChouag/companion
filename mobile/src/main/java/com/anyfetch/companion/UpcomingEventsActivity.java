@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
+
 import com.anyfetch.companion.adapters.EventsListAdapter;
 import com.anyfetch.companion.commons.android.AndroidSpiceService;
 import com.anyfetch.companion.commons.android.pojo.Event;
@@ -34,6 +35,7 @@ import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
+
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 public class UpcomingEventsActivity extends ActionBarActivity implements RequestListener<EventsList>, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
@@ -157,15 +159,21 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void onItemClick(AdapterView parent, View view, int position, long id) {
         Event event = mListAdapter.getEvent(position);
+        View backgroundView = view.findViewById(R.id.main_container);
         View imageView = view.findViewById(R.id.imageView);
         View titleView = view.findViewById(R.id.titleView);
+        View locationView = view.findViewById(R.id.locationView);
 
         Intent intent = new Intent(getApplicationContext(), ContextActivity.class);
         intent.putExtra(ContextFragment.ARG_CONTEXTUAL_OBJECT, event);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this,
+            ActivityOptions animation = ActivityOptions.makeSceneTransitionAnimation(this,
                     Pair.create(imageView, "imageView"),
-                    Pair.create(titleView, "titleView")).toBundle());
+                    Pair.create(backgroundView, "backgroundView"),
+                    Pair.create(locationView, "locationView"),
+                    Pair.create(titleView, "titleView")
+            );
+            startActivity(intent, animation.toBundle());
         } else {
             startActivity(intent);
         }

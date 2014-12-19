@@ -6,7 +6,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -68,13 +67,11 @@ public class EventsListAdapter extends TimedListAdapter implements StickyListHea
 
         Event event = mEvents.get(position);
 
-        if (event.getColor() != 0) {
-            // Set the event color -- we need  to put it to aRGB.
-            FrameLayout mainContainer = (FrameLayout) convertView.findViewById(R.id.main_container);
-            GradientDrawable shapeDrawable = (GradientDrawable) mainContainer.getBackground();
-            int color = 0xff000000 + event.getColor();
-            shapeDrawable.setColor(color);
-        }
+        // Set the event color -- we need  to put it to aRGB.
+        View backgroundView = (View) convertView.findViewById(R.id.backgroundView);
+        GradientDrawable shapeDrawable = (GradientDrawable) backgroundView.getBackground();
+        int color = 0xff000000 + event.getColor();
+        shapeDrawable.setColor(color);
 
         ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
         imageView.setImageDrawable(event.getIcon(mContext));
@@ -91,9 +88,6 @@ public class EventsListAdapter extends TimedListAdapter implements StickyListHea
 
         TextView timeView = (TextView) convertView.findViewById(R.id.timeView);
         timeView.setText(event.formatTimeRange());
-
-        TextView attendeeView = (TextView) convertView.findViewById(R.id.attendeeView);
-        attendeeView.setText(event.formatAttendees(mTailedEmails, mContext.getString(R.string.multiple_attendees)));
 
         return convertView;
     }

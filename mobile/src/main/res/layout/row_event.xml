@@ -11,8 +11,6 @@
         android:id="@+id/main_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/list_padding"
-        android:background="@drawable/colored_rectangle"
         android:layout_marginLeft="@dimen/date_header_width"
         android:layout_marginStart="@dimen/date_header_width"
         android:layout_marginTop="@dimen/list_margin"
@@ -20,7 +18,15 @@
         android:layout_marginEnd="@dimen/list_margin"
         android:layout_marginBottom="@dimen/list_margin">
 
+        <ImageView
+            android:background="@drawable/colored_rectangle"
+            android:id="@+id/backgroundView"
+            android:transitionName="backgroundView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
         <RelativeLayout
+            android:layout_margin="@dimen/list_padding"
             android:layout_width="match_parent"
             android:layout_height="@dimen/event_height"
             android:layout_gravity="center_vertical|start|left"
@@ -29,72 +35,62 @@
             android:orientation="vertical"
             tools:ignore="RtlSymmetry">
 
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="@dimen/thumb"
+                android:layout_height="@dimen/thumb"
+                android:layout_margin="@dimen/list_padding"
+                android:layout_gravity="center_vertical|end|right"
+                android:contentDescription="@string/placeholder_event"
+                android:transitionName="imageView"
+                tools:ignore="UnusedAttribute"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"/>
+
             <TextView
                 android:id="@+id/timeView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
                 android:singleLine="true"
                 android:text="@string/placeholder_time_range"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/text_primary_inverse"/>
+                android:textColor="@color/text_primary_inverse"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/imageView"
+                android:layout_toStartOf="@+id/imageView"/>
 
             <TextView
                 android:id="@+id/titleView"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
                 android:layout_gravity="start|top"
-                android:layout_marginTop="0dp"
-                android:layout_toLeftOf="@id/timeView"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:text="@string/placeholder_event_title"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/text_primary_inverse"
                 android:transitionName="titleView"
-                tools:ignore="UnusedAttribute"/>
-
-            <TextView
-                android:id="@+id/attendeeView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                tools:ignore="UnusedAttribute"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@id/titleView"
-                android:paddingRight="5dp"
-                android:singleLine="true"
-                android:text="@string/placeholder_attendees"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/text_primary_inverse"/>
+                android:layout_toLeftOf="@+id/timeView"
+                android:layout_toStartOf="@+id/timeView"/>
 
             <TextView
                 android:id="@+id/locationView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/titleView"
-                android:layout_toRightOf="@id/attendeeView"
-                android:gravity="right|end"
                 android:singleLine="true"
                 android:text="@string/placeholder_location"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/text_primary_inverse"/>
-
+                android:textColor="@color/text_primary_inverse"
+                android:layout_alignRight="@+id/timeView"
+                android:layout_alignEnd="@+id/timeView"
+                android:layout_below="@id/titleView"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
         </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="@dimen/thumb"
-            android:layout_height="@dimen/thumb"
-            android:padding="@dimen/list_padding"
-            android:layout_gravity="center_vertical|end|right"
-            android:contentDescription="@string/placeholder_event"
-            android:transitionName="imageView"
-            tools:ignore="UnusedAttribute"/>
     </FrameLayout>
 </LinearLayout>
