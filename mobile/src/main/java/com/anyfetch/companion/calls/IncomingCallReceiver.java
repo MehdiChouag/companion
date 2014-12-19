@@ -3,6 +3,7 @@ package com.anyfetch.companion.calls;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.app.NotificationManagerCompat;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -27,12 +28,10 @@ public class IncomingCallReceiver extends BroadcastReceiver {
                     @Override
                     public void onCallStateChanged(int state, String incomingNumber) {
                         Log.d("Incoming", state + "   incoming no:" + incomingNumber);
-                        Person contact;
+                        final Person contact = Person.getPersonByPhone(context, incomingNumber);;
 
                         if (state == TelephonyManager.CALL_STATE_RINGING) {
                             // Someone is calling us
-                            contact = Person.getPersonByPhone(context, incomingNumber);
-
                             if (contact == null) {
                                 Log.i("Outgoing", "Ingoing call caught, but unable to generate context for " + incomingNumber);
                             } else {
@@ -40,13 +39,17 @@ public class IncomingCallReceiver extends BroadcastReceiver {
                                 new BuildNotificationStackTask(context).execute(contact, null, null);
                             }
                         }
-
-                        if (state == TelephonyManager.CALL_STATE_IDLE) {
-                            contact = Person.getPersonByPhone(context, incomingNumber);
-
+                        else if (state == TelephonyManager.CALL_STATE_IDLE) {
                             if (contact != null) {
-                                // Clean up previous notification
-                                NotificationManagerCompat.from(context).cancel(contact.getHashCode());
+                                // Clean up previous notification after a small delay
+                                final Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        NotificationManagerCompat.from(context).cancel(contact.getHashCode());
+                                    }
+                                }, 15000);
+
                             }
                         }
                     }
