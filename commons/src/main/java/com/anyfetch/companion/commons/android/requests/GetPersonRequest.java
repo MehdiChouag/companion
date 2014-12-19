@@ -39,7 +39,7 @@ public class GetPersonRequest extends SpiceRequest<Person> {
             return Person.getPerson(mContext, mId);
         } else {
             Log.i(TAG, "Load: " + mEmail);
-            return Person.getPerson(mContext, mEmail);
+            return Person.getPersonByEmail(mContext, mEmail);
         }
     }
 

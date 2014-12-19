@@ -36,7 +36,7 @@ public class BuildNotificationStackTask extends AsyncTask<ContextualObject, Obje
         ContextNotificationBuilder builder = new ContextNotificationBuilder(mContext)
                 .setContextualObject(contextualObject);
 
-        int id = contextualObject.getTitle().hashCode();
+        int id = contextualObject.getHashCode();
         int count = 1;
         for (Notification subNotif : builder.buildSubs()) {
             mManager.notify(id + count, subNotif);

@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.text.Html;
+
 import com.anyfetch.companion.ContextActivity;
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
@@ -90,6 +91,7 @@ public class ContextNotificationBuilder {
                 .setContentTitle(mContextualObject.getTitle())
                 .setContentText(mContextualObject.getInfo())
                 .setContentIntent(viewPendingIntent)
+                .setAutoCancel(true)
                 .setColor(mContext.getResources().getColor(R.color.primary))
                 .setGroup(mGroupKey);
 
@@ -110,11 +112,14 @@ public class ContextNotificationBuilder {
      */
     public List<Notification> buildSubs() {
         List<Notification> notifs = new ArrayList<Notification>();
-        for (ContextualObject subContext : mContextualObject.getSubContexts(mTailedEmails)) {
-            notifs.add(new ContextNotificationBuilder(mContext)
-                    .setContextualObject(subContext)
-                    .setGroupKey(mGroupKey)
-                    .build());
+        List<ContextualObject> subContexts = mContextualObject.getSubContexts(mTailedEmails);
+        if (subContexts != null) {
+            for (ContextualObject subContext : subContexts) {
+                notifs.add(new ContextNotificationBuilder(mContext)
+                        .setContextualObject(subContext)
+                        .setGroupKey(mGroupKey)
+                        .build());
+            }
         }
         return notifs;
     }
@@ -129,7 +134,6 @@ public class ContextNotificationBuilder {
         for (int i = 0; i < documents.size() && i < WEAR_CONTEXT_SIZE; i++) {
             Document document = documents.get(i);
 
-            // Big View
             NotificationCompat.BigTextStyle bigView = new NotificationCompat.BigTextStyle();
             bigView.bigText(Html.fromHtml(
                     "<b>" + HtmlUtils.convertHlt(document.getTitle()) + "</b><br/>" +

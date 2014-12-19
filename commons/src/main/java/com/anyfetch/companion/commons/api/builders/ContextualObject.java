@@ -12,6 +12,21 @@ import java.util.Set;
  */
 public interface ContextualObject extends Parcelable {
     /**
+     * Gets a hash code identifying the context
+     *
+     * @return A unique hash
+     */
+    public int getHashCode();
+
+    /**
+     * Gets a identifier unique in the current context
+     *
+     * @return A id
+     */
+    public long getId();
+
+
+    /**
      * Gets the title of the context
      *
      * @return A title

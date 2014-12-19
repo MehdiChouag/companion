@@ -224,7 +224,7 @@ public class Person implements Parcelable, ContextualObject {
      * @param email   Their email
      * @return The person
      */
-    public static Person getPerson(Context context, String email) {
+    public static Person getPersonByEmail(Context context, String email) {
         ContentResolver cr = context.getContentResolver();
         Cursor emCur = cr.query(
                 ContactsContract.Data.CONTENT_URI,
@@ -242,12 +242,39 @@ public class Person implements Parcelable, ContextualObject {
     }
 
     /**
+     * Retrieve a person from one of their phone number
+     *
+     * @param context The context to fetch from
+     * @param phone   Their phone
+     * @return The person
+     */
+    public static Person getPersonByPhone(Context context, String phone) {
+        ContentResolver cr = context.getContentResolver();
+        Cursor emCur = cr.query(
+                ContactsContract.Data.CONTENT_URI,
+                PHONE_PROJECTION,
+                ContactsContract.CommonDataKinds.Phone.NORMALIZED_NUMBER + "='" + phone + "'",
+                null,
+                null);
+        emCur.moveToFirst();
+        if (emCur.getCount() < 1) {
+            return null;
+        }
+        long id = emCur.getLong(PRJ_CON_ID);
+        emCur.close();
+        return getPerson(context, id);
+    }
+    /**
      * Gets the id
      *
      * @return An ID
      */
     public long getId() {
         return mId;
+    }
+
+    public int getHashCode() {
+        return getTitle().hashCode();
     }
 
     /**
