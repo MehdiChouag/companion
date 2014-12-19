@@ -125,7 +125,7 @@ public class Event implements Parcelable, ContextualObject {
         List<Person> attendees = new ArrayList<Person>();
         for (int i = 0; i < attCur.getCount(); i++) {
             String email = attCur.getString(PRJ_ATT_EMAIL);
-            Person attendee = Person.getPerson(context, email);
+            Person attendee = Person.getPersonByEmail(context, email);
             if (attendee == null) {
                 List<String> emails = new ArrayList<String>();
                 emails.add(email);

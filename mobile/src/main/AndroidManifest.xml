@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
 
     <application
         android:allowBackup="true"
@@ -48,6 +49,13 @@
             android:name=".FullActivity"
             android:label="@string/title_activity_full">
         </activity>
+
+
+        <receiver android:name=".calls.OutgoingCallReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
