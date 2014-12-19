@@ -28,7 +28,8 @@ public class IncomingCallReceiver extends BroadcastReceiver {
                     @Override
                     public void onCallStateChanged(int state, String incomingNumber) {
                         Log.d("Incoming", state + "   incoming no:" + incomingNumber);
-                        final Person contact = Person.getPersonByPhone(context, incomingNumber);;
+                        final Person contact = Person.getPersonByPhone(context, incomingNumber);
+                        ;
 
                         if (state == TelephonyManager.CALL_STATE_RINGING) {
                             // Someone is calling us
@@ -38,8 +39,7 @@ public class IncomingCallReceiver extends BroadcastReceiver {
                                 Log.i("Outgoing", "Ingoing call caught: " + contact.getName());
                                 new BuildNotificationStackTask(context).execute(contact, null, null);
                             }
-                        }
-                        else if (state == TelephonyManager.CALL_STATE_IDLE) {
+                        } else if (state == TelephonyManager.CALL_STATE_IDLE) {
                             if (contact != null) {
                                 // Clean up previous notification after a small delay
                                 final Handler handler = new Handler();

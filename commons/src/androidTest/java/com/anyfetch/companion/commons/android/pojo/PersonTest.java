@@ -22,7 +22,7 @@ public class PersonTest extends InstrumentationTestCase {
 
     public void test_getPerson_email() throws Exception {
         AndroidServicesMockInjecter.injectContact(mContext);
-        Person person = Person.getPerson(mContext, "sarcher@example.com");
+        Person person = Person.getPersonByEmail(mContext, "sarcher@example.com");
 
         assertEquals("Sterling Archer", person.getName());
         assertEquals(2, person.getEmails().size());
