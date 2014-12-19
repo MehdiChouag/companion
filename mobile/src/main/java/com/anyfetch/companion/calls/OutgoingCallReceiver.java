@@ -17,10 +17,10 @@ public class OutgoingCallReceiver extends BroadcastReceiver {
         Person contact = Person.getPersonByPhone(context, phoneNumber);
 
         if (contact == null) {
-            Log.i("Outgoing", "Outgoing call catched, but unable to generate context for " + phoneNumber);
+            Log.i("Outgoing", "Outgoing call caught, but unable to generate context for " + phoneNumber);
         }
         else {
-            Log.i("Outgoing", "Outgoing call catched: " + contact.getName());
+            Log.i("Outgoing", "Outgoing call caught: " + contact.getName());
             new BuildNotificationStackTask(context).execute(contact, null, null);
         }
     }
