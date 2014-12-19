@@ -34,7 +34,7 @@ public class MeetingPreparationScheduler {
      * Schedules the next notification.
      * <strong>It relies on android services so it shouldn't be executed on the main thread</strong>
      */
-    public void sched() {
+    public void schedule() {
         clear();
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);

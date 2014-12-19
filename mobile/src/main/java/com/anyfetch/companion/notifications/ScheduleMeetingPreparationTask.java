@@ -15,7 +15,7 @@ public class ScheduleMeetingPreparationTask extends AsyncTask<Object, Object, Ob
 
     @Override
     protected Object doInBackground(Object... params) {
-        new MeetingPreparationScheduler(mContext).sched();
+        new MeetingPreparationScheduler(mContext).schedule();
         return null;
     }
 }
