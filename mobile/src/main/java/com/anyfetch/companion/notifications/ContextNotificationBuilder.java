@@ -91,6 +91,7 @@ public class ContextNotificationBuilder {
                 .setContentTitle(mContextualObject.getTitle())
                 .setContentText(mContextualObject.getInfo())
                 .setContentIntent(viewPendingIntent)
+                .setAutoCancel(true)
                 .setColor(mContext.getResources().getColor(R.color.primary))
                 .setGroup(mGroupKey);
 
@@ -133,7 +134,6 @@ public class ContextNotificationBuilder {
         for (int i = 0; i < documents.size() && i < WEAR_CONTEXT_SIZE; i++) {
             Document document = documents.get(i);
 
-            // Big View
             NotificationCompat.BigTextStyle bigView = new NotificationCompat.BigTextStyle();
             bigView.bigText(Html.fromHtml(
                     "<b>" + HtmlUtils.convertHlt(document.getTitle()) + "</b><br/>" +

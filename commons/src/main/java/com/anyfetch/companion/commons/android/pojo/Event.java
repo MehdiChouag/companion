@@ -231,6 +231,10 @@ public class Event implements Parcelable, ContextualObject {
         return mId;
     }
 
+    public int getHashCode() {
+        return getTitle().hashCode();
+    }
+
     @Override
     public String getTitle() {
         return mTitle;

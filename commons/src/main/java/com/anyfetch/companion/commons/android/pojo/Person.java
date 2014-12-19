@@ -273,6 +273,10 @@ public class Person implements Parcelable, ContextualObject {
         return mId;
     }
 
+    public int getHashCode() {
+        return getTitle().hashCode();
+    }
+
     /**
      * Gets the name
      *
