@@ -85,19 +85,22 @@ public class ContextNotificationBuilder {
         viewIntent.putExtra(ContextFragment.ARG_CONTEXTUAL_OBJECT, mContextualObject);
         PendingIntent viewPendingIntent = PendingIntent.getActivity(mContext, mContextualObject.getTitle().hashCode(), viewIntent, 0);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
-                .setLargeIcon(ImageHelper.toBitmap(mContextualObject.getIcon(mContext)))
-                .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle(mContextualObject.getTitle())
-                .setContentText(mContextualObject.getInfo())
-                .setContentIntent(viewPendingIntent)
-                .setAutoCancel(true)
-                .setColor(mContext.getResources().getColor(R.color.primary))
-                .setGroup(mGroupKey);
-
         try {
+            List<Notification> subPages = buildPages();
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
+                    .setLargeIcon(ImageHelper.toBitmap(mContextualObject.getIcon(mContext)))
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setContentTitle(mContextualObject.getTitle())
+                    .setContentText(subPages.size() == 0 ? mContextualObject.getInfo() : mContext.getString(R.string.context_has_match))
+                    .setContentIntent(viewPendingIntent)
+                    .setAutoCancel(true)
+                    .setColor(mContext.getResources().getColor(R.color.primary))
+                    .setGroup(mGroupKey);
+
             NotificationCompat.WearableExtender extender = new NotificationCompat.WearableExtender()
-                    .addPages(buildPages());
+                    .addPages(subPages);
+
             return extender.extend(builder).build();
         } catch (Exception e) {
             e.printStackTrace();
