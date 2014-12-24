@@ -274,6 +274,13 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         }
         backgroundView.setBackgroundColor(primaryDark);
 
+        mContextTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().startActivity(mSelectedContextualObject.getIntent());
+            }
+        });
+
         TextView titleView = (TextView) mContextTab.findViewById(R.id.titleView);
         titleView.setText(mSelectedContextualObject.getTitle());
         TextView infoView = (TextView) mContextTab.findViewById(R.id.infoView);
