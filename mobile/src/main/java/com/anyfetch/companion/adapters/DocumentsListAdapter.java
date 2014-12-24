@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ImageView;
+
 import com.anyfetch.companion.FullActivity;
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.commons.api.builders.ContextualObject;
@@ -26,12 +27,17 @@ public class DocumentsListAdapter extends TimedListAdapter {
     private final DocumentsList mDocuments;
     private final Activity mActivity;
     private final ContextualObject mContextualObject;
+    private final ColorMatrixColorFilter colorMatrixColorFilter;
 
     public DocumentsListAdapter(Activity activity, DocumentsList documents, ContextualObject contextualObject) {
         super(activity);
         mActivity = activity;
         mDocuments = documents;
         mContextualObject = contextualObject;
+
+        ColorMatrix cm = new ColorMatrix();
+        cm.setSaturation(0);
+        colorMatrixColorFilter = new ColorMatrixColorFilter(cm);
     }
 
     @Override
@@ -51,36 +57,44 @@ public class DocumentsListAdapter extends TimedListAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
         if (convertView == null) {
             convertView = getInflater().inflate(R.layout.row_document, parent, false);
+
+            // Generate a new holder
+            holder = new ViewHolder();
+            holder.dtBand = convertView.findViewById(R.id.dtBand);
+            holder.dtIcon = (ImageView) convertView.findViewById(R.id.dtIcon);
+            holder.webView = (WebView) convertView.findViewById(R.id.webView);
+            holder.providerIcon = (ImageView) convertView.findViewById(R.id.providerIcon);
+            holder.overlay = convertView.findViewById(R.id.gestureOverlayView);
+
+            convertView.setTag(holder);
+
+            // Initialize components
+            holder.providerIcon.setColorFilter(colorMatrixColorFilter);
+        }
+        else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
         final Document document = mDocuments.get(position);
 
-        ImageView providerIcon = (ImageView) convertView.findViewById(R.id.providerIcon);
-        providerIcon.setImageResource(ImageHelper.matchResourceForProvider(document.getProvider()));
-        ColorMatrix cm = new ColorMatrix();
-        cm.setSaturation(0);
-        providerIcon.setColorFilter(new ColorMatrixColorFilter(cm));
-        providerIcon.setContentDescription(document.getProvider());
+        holder.providerIcon.setImageResource(ImageHelper.matchResourceForProvider(document.getProvider()));
+        holder.providerIcon.setContentDescription(document.getProvider());
 
-        View dtBand = convertView.findViewById(R.id.dtBand);
-        dtBand.setBackgroundColor(mActivity.getResources().getColor(ImageHelper.matchColorForDocumentType(document.getType())));
+        holder.dtBand.setBackgroundColor(mActivity.getResources().getColor(ImageHelper.matchColorForDocumentType(document.getType())));
+        holder.dtIcon.setImageResource(ImageHelper.matchIconForDocumentType(document.getType()));
 
-        ImageView dtIcon = (ImageView) convertView.findViewById(R.id.dtIcon);
-        dtIcon.setImageResource(ImageHelper.matchIconForDocumentType(document.getType()));
-
-        WebView webView = (WebView) convertView.findViewById(R.id.webView);
-        webView.loadUrl("about:blank");
+        holder.webView.getSettings().setJavaScriptEnabled(document.snippetRequireJavascript());
+        holder.webView.loadUrl("about:blank");
 
         String documentSnippet = document.getSnippet();
-        String htmlString = HtmlUtils.renderDocument(webView.getContext(), documentSnippet);
+        String htmlString = HtmlUtils.renderDocument(holder.webView.getContext(), documentSnippet);
 
-        webView.getSettings().setJavaScriptEnabled(document.snippetRequireJavascript());
-        webView.loadDataWithBaseURL("file:///android_asset/", htmlString, "text/html", "UTF-8", null);
+        holder.webView.loadDataWithBaseURL("file:///android_asset/", htmlString, "text/html", "UTF-8", null);
 
-        View overlay = convertView.findViewById(R.id.gestureOverlayView);
-        overlay.setOnClickListener(new View.OnClickListener() {
+        holder.overlay.setOnClickListener(new View.OnClickListener() {
             @Override
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             public void onClick(View v) {
@@ -94,7 +108,16 @@ public class DocumentsListAdapter extends TimedListAdapter {
                 }
             }
         });
+
         return convertView;
+    }
+
+    private static class ViewHolder {
+        public View dtBand;
+        public ImageView dtIcon;
+        public WebView webView;
+        public View overlay;
+        public ImageView providerIcon;
     }
 
     @Override
