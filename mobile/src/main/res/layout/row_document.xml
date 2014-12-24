@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         app:cardCornerRadius="@dimen/card_padding"
         app:cardUseCompatPadding="true"
-        app:contentPadding="@dimen/card_padding">
+        >
 
         <LinearLayout
             android:id="@+id/dtBand"
