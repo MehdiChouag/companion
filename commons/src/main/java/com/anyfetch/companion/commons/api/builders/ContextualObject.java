@@ -1,6 +1,7 @@
 package com.anyfetch.companion.commons.api.builders;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
 
@@ -70,4 +71,10 @@ public interface ContextualObject extends Parcelable {
      * @return A list of subcontexts or null if there is no additional context
      */
     public List<ContextualObject> getSubContexts(Set<String> tailedEmails);
+
+    /**
+     * A detailed intent to view more details for the associated resource
+     * @return
+     */
+    public Intent getIntent();
 }

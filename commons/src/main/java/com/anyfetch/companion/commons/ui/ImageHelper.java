@@ -49,13 +49,13 @@ public class ImageHelper {
             return R.drawable.ic_dropbox;
         } else if (provider.equals("Evernote")) {
             return R.drawable.ic_evernote;
-        } else if (provider.equals("GCalendar")) {
+        } else if (provider.equals("Google Calendar")) {
             return R.drawable.ic_gcalendar;
         } else if (provider.equals("Google Contacts")) {
             return R.drawable.ic_gcontacts;
         } else if (provider.equals("Google Drive")) {
             return R.drawable.ic_gdrive;
-        } else if (provider.equals("GMail")) {
+        } else if (provider.equals("Gmail")) {
             return R.drawable.ic_gmail;
         } else if (provider.equals("SalesForce")) {
             return R.drawable.ic_sfdc;

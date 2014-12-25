@@ -2,10 +2,12 @@ package com.anyfetch.companion.commons.android.pojo;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.CalendarContract;
@@ -407,5 +409,12 @@ public class Event implements Parcelable, ContextualObject {
         } else {
             return String.format(multipleAttendeesFormat, attendees);
         }
+    }
+
+    public Intent getIntent() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = Uri.withAppendedPath(CalendarContract.Events.CONTENT_URI, String.valueOf(getId()));
+        intent.setData(uri);
+        return intent;
     }
 }

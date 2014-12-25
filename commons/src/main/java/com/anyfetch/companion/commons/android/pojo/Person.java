@@ -2,11 +2,13 @@ package com.anyfetch.companion.commons.android.pojo;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.ContactsContract;
@@ -443,5 +445,12 @@ public class Person implements Parcelable, ContextualObject {
     @Override
     public List<ContextualObject> getSubContexts(Set<String> tailedEmails) {
         return null;
+    }
+
+    public Intent getIntent() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(getId()));
+        intent.setData(uri);
+        return intent;
     }
 }
