@@ -292,6 +292,11 @@ public class Event implements Parcelable, ContextualObject {
         return map;
     }
 
+    public List<Person> getPersons() {
+        return mAttendees;
+    }
+
+
     /**
      * Gets the description
      *
@@ -321,10 +326,11 @@ public class Event implements Parcelable, ContextualObject {
 
     /**
      * Gets the attendees
+     * Protected, use getPersons() to access this from the outside
      *
      * @return A list of People
      */
-    public List<Person> getAttendees() {
+    protected List<Person> getAttendees() {
         return mAttendees;
     }
 
