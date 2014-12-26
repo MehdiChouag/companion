@@ -192,10 +192,8 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         int id = item.getItemId();
         switch (id) {
             case R.id.action_prepare_on_wear:
-                if (mRootContextualObject instanceof Event) {
-                    Toast.makeText(getActivity(), getString(R.string.sent_to_watch), Toast.LENGTH_LONG).show();
-                    new BuildNotificationStackTask(getActivity()).execute((Event) mRootContextualObject, null, null);
-                }
+                Toast.makeText(getActivity(), getString(R.string.sent_to_watch), Toast.LENGTH_LONG).show();
+                new BuildNotificationStackTask(getActivity()).execute(mRootContextualObject, null, null);
                 break;
             case R.id.action_improve_context:
                 if (mRootContextualObject instanceof Event) {
