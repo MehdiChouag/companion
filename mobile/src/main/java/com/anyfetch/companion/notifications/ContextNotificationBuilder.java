@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Builder for creating contexts
+ * Builder for creating notification's contexts
  */
 public class ContextNotificationBuilder {
     private static final int WEAR_CONTEXT_SIZE = 5;
@@ -76,28 +76,48 @@ public class ContextNotificationBuilder {
     }
 
     /**
+     * Build a base notification.
+     * This basic notification will later be enhanced, once we've loaded more contents asynchronously.
+     * @return a basic notification, suitable for later enhancement
+     */
+    protected NotificationCompat.Builder buildBaseNotification() {
+        Intent viewIntent = new Intent(mContext, ContextActivity.class);
+        viewIntent.putExtra(ContextFragment.ARG_CONTEXTUAL_OBJECT, mContextualObject);
+
+        PendingIntent viewPendingIntent = PendingIntent.getActivity(mContext, mContextualObject.getTitle().hashCode(), viewIntent, 0);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
+                .setLargeIcon(ImageHelper.toBitmap(mContextualObject.getIcon(mContext)))
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(mContextualObject.getTitle())
+                .setContentText(mContext.getString(R.string.notification_basic_description))
+                .setContentIntent(viewPendingIntent)
+                .setAutoCancel(true)
+                .setColor(mContext.getResources().getColor(R.color.primary))
+                .setGroup(mGroupKey);
+
+        return builder;
+    }
+
+    public Notification buildSummary() {
+        NotificationCompat.Builder builder = buildBaseNotification();
+        builder.setGroupSummary(true);
+        return builder.build();
+    }
+
+    /**
      * Builds the notification. <strong>This  method shouldn't be called from the main thread</strong>
      *
      * @return A Context Notification
      */
     public Notification build() {
-        Intent viewIntent = new Intent(mContext, ContextActivity.class);
-        viewIntent.putExtra(ContextFragment.ARG_CONTEXTUAL_OBJECT, mContextualObject);
-        PendingIntent viewPendingIntent = PendingIntent.getActivity(mContext, mContextualObject.getTitle().hashCode(), viewIntent, 0);
 
         try {
             List<Notification> subPages = buildPages();
 
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
-                    .setLargeIcon(ImageHelper.toBitmap(mContextualObject.getIcon(mContext)))
-                    .setSmallIcon(R.drawable.ic_notification)
-                    .setContentTitle(mContextualObject.getTitle())
-                    .setContentText(subPages.size() == 0 ? mContextualObject.getInfo() : mContext.getString(R.string.context_has_match))
-                    .setContentIntent(viewPendingIntent)
-                    .setAutoCancel(true)
-                    .setColor(mContext.getResources().getColor(R.color.primary))
-                    .setGroup(mGroupKey);
+            NotificationCompat.Builder builder = buildBaseNotification();
 
+            builder.setContentText(subPages.size() == 0 ? mContextualObject.getInfo() : mContext.getString(R.string.context_has_match));
             NotificationCompat.WearableExtender extender = new NotificationCompat.WearableExtender()
                     .addPages(subPages);
 

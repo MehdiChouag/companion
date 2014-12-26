@@ -7,7 +7,8 @@ import android.support.v4.app.NotificationManagerCompat;
 import com.anyfetch.companion.commons.api.builders.ContextualObject;
 
 /**
- * Because a broadcast receiver is on the main thread ...
+ * Build a notification with a list of associated documents and sub-contexts
+ * First, instantly display a "stub" notification ; then display documents once loaded
  */
 public class BuildNotificationStackTask extends AsyncTask<ContextualObject, Object, Object> {
     private final Context mContext;
@@ -33,15 +34,20 @@ public class BuildNotificationStackTask extends AsyncTask<ContextualObject, Obje
     }
 
     private void buildNotificationStack(ContextualObject contextualObject) throws Exception {
+        int id = contextualObject.getHashCode();
+
         ContextNotificationBuilder builder = new ContextNotificationBuilder(mContext)
                 .setContextualObject(contextualObject);
 
-        int id = contextualObject.getHashCode();
+        // Instantly display a "stub" with basic functionality -- we'll load the document context after, for the wear
+        mManager.notify(id - 1, builder.buildSummary());
+
         int count = 1;
         for (Notification subNotif : builder.buildSubs()) {
             mManager.notify(id + count, subNotif);
             count++;
         }
+
         mManager.notify(id, builder.build());
     }
 
