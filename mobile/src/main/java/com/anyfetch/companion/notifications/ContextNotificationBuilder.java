@@ -80,7 +80,7 @@ public class ContextNotificationBuilder {
      * This basic notification will later be enhanced, once we've loaded more contents asynchronously.
      * @return a basic notification, suitable for later enhancement
      */
-    public NotificationCompat.Builder buildBaseNotification() {
+    protected NotificationCompat.Builder buildBaseNotification() {
         Intent viewIntent = new Intent(mContext, ContextActivity.class);
         viewIntent.putExtra(ContextFragment.ARG_CONTEXTUAL_OBJECT, mContextualObject);
 
@@ -97,6 +97,12 @@ public class ContextNotificationBuilder {
                 .setGroup(mGroupKey);
 
         return builder;
+    }
+
+    public Notification buildSummary() {
+        NotificationCompat.Builder builder = buildBaseNotification();
+        builder.setGroupSummary(true);
+        return builder.build();
     }
 
     /**
