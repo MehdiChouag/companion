@@ -442,8 +442,11 @@ public class Person implements Parcelable, ContextualObject {
         return query;
     }
 
-    @Override
     public List<ContextualObject> getSubContexts(Set<String> tailedEmails) {
+        return null;
+    }
+
+    public List<Person> getPersons() {
         return null;
     }
 

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
 
+import com.anyfetch.companion.commons.android.pojo.Person;
+
 import java.util.List;
 import java.util.Set;
 
@@ -71,6 +73,13 @@ public interface ContextualObject extends Parcelable {
      * @return A list of subcontexts or null if there is no additional context
      */
     public List<ContextualObject> getSubContexts(Set<String> tailedEmails);
+
+    /**
+     * A list of persons tied to this context, for instance event's attendees
+     *
+     * @return a list of person, probably a subset of getSubContexts()
+     */
+    public List<Person> getPersons();
 
     /**
      * A detailed intent to view more details for the associated resource

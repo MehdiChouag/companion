@@ -26,7 +26,6 @@ import android.widget.Toast;
 
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.adapters.DocumentsListAdapter;
-import com.anyfetch.companion.commons.android.pojo.Event;
 import com.anyfetch.companion.commons.api.HttpSpiceService;
 import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import com.anyfetch.companion.commons.api.builders.DocumentsListRequestBuilder;
@@ -196,8 +195,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
                 new BuildNotificationStackTask(getActivity()).execute(mRootContextualObject, null, null);
                 break;
             case R.id.action_improve_context:
-                if (mRootContextualObject instanceof Event) {
-                    Event event = (Event) mRootContextualObject;
+                if (mRootContextualObject.getPersons() != null) {
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     Fragment prev = getFragmentManager().findFragmentByTag("dialog");
                     if (prev != null) {
@@ -205,7 +203,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
                     }
                     ft.addToBackStack(null);
 
-                    PersonChooserFragment chooser = PersonChooserFragment.newInstance(event.getAttendees());
+                    PersonChooserFragment chooser = PersonChooserFragment.newInstance(mRootContextualObject.getPersons());
                     chooser.setFragmentChangeListener(this);
                     chooser.show(ft, "dialog");
                 }
@@ -332,6 +330,10 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
             mTabHost.addTab(contextSpec);
         }
         mTabHost.setCurrentTab(0);
+
+        // Update the menu
+        // Hide the "Refine context" button when the current context can't be refined
+        mToolbar.getMenu().findItem(R.id.action_improve_context).setVisible(mRootContextualObject.getPersons() != null);
     }
 
     private float clamp(float value) {
