@@ -61,7 +61,7 @@
     <string name="pref_notification_events_details">Display Anyfetch context before events</string>
     <string name="pref_notification_calls">Notify me during phone calls</string>
     <string name="pref_notification_calls_details">Display Anyfetch context during phone calls</string>
-    <string name="notification_basic_description">Touch to view context</string>
+    <string name="notification_basic_description">Touch to view context.</string>
     <string name="context_has_match">Documents available for this context.</string>
     <string name="no_upcoming_shared_events">No upcoming shared events\n:(</string>
 </resources>

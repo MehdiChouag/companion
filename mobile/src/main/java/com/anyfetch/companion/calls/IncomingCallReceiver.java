@@ -49,7 +49,7 @@ public class IncomingCallReceiver extends BroadcastReceiver {
                                     handler.postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
-                                            NotificationManagerCompat.from(context).cancel(contact.getHashCode());
+                                            NotificationManagerCompat.from(context).cancel(contact.getHashCode() - 1);
                                         }
                                     }, 15000);
 

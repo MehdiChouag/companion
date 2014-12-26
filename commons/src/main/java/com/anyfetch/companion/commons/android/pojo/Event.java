@@ -271,7 +271,7 @@ public class Event implements Parcelable, ContextualObject {
 
     @Override
     public String getSearchQuery(Set<String> tailedEmails) {
-        String query = "(" + mTitle + ")";
+        String query = "(\"" + mTitle.replace("\"", "") + "\")";
         for (ContextualObject attendee : getSubContexts(tailedEmails)) {
             String attQuery = attendee.getSearchQuery(null);
             if (attQuery.length() > 0) {
