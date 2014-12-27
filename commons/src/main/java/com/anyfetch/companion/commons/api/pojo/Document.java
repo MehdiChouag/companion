@@ -24,8 +24,9 @@ public class Document implements Parcelable {
             String title = source.readString();
             String snippet = source.readString();
             String full = source.readString();
+            String actions = source.readString();
             boolean important = (source.readInt() > 0);
-            return new Document(type, provider, documentId, companyId, eventId, date, title, snippet, full, important);
+            return new Document(type, provider, documentId, companyId, eventId, date, title, snippet, full, actions, important);
         }
 
         @Override
@@ -44,6 +45,7 @@ public class Document implements Parcelable {
     private final String title;
     private final String snippet;
     private final String full;
+    private final String link;
     private final boolean important;
 
     public Document() {
@@ -56,10 +58,11 @@ public class Document implements Parcelable {
         this.title = "";
         this.snippet = "";
         this.full = "";
+        this.link = "";
         this.important = false;
     }
 
-    public Document(String type, String provider, String documentId, String companyId, String eventId, Date date, String title, String snippet, String full, boolean important) {
+    public Document(String type, String provider, String documentId, String companyId, String eventId, Date date, String title, String snippet, String full, String link, boolean important) {
         this.type = type;
         this.provider = provider;
         this.documentId = documentId;
@@ -69,6 +72,7 @@ public class Document implements Parcelable {
         this.title = title;
         this.snippet = snippet;
         this.full = full;
+        this.link = link;
         this.important = important;
     }
 
@@ -108,6 +112,10 @@ public class Document implements Parcelable {
         return full;
     }
 
+    public String getLink() {
+        return link;
+    }
+
     public boolean isImportant() {
         return important;
     }
@@ -136,6 +144,7 @@ public class Document implements Parcelable {
         dest.writeString(title);
         dest.writeString(snippet);
         dest.writeString(full);
+        dest.writeString(link);
         dest.writeInt(important ? 1 : 0);
     }
 }

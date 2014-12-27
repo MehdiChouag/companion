@@ -2,9 +2,12 @@ package com.anyfetch.companion.fragments;
 
 
 import android.app.Fragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.commons.api.HttpSpiceService;
 import com.anyfetch.companion.commons.api.builders.ContextualObject;
@@ -131,8 +135,18 @@ public class FullFragment extends Fragment implements RequestListener<Document>,
     }
 
     @Override
-    public boolean onMenuItemClick(MenuItem menuItem) {
-        return false;
+    public boolean onMenuItemClick(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_open_in_app:
+                Log.i("LeavingApp", "Leaving app to " + mDocument.getLink());
+                String url = mDocument.getLink();
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
