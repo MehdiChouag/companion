@@ -101,4 +101,21 @@ public class HtmlUtils {
         return origin.replaceAll("</*[^>]+?/*>", "");
     }
 
+    /**
+     * Try to basically format the raw text with line feeds
+     * @param origin
+     * @return a text whose only markup is <br> tag
+     */
+    public static String stripHtmlKeepLineFeed(String origin) {
+        origin = origin.replace("</p>", "</p>\n\n");
+        origin = origin.replace("</ul>", "</ul>\n\n");
+
+        // Strip all html
+        origin = stripHtml(origin);
+
+        // Restore line breaks
+        origin = origin.replace("\r", "");
+        origin = origin.replace("\n", "<br>");
+        return origin;
+    }
 }
