@@ -62,12 +62,12 @@ public class Person implements Parcelable, ContextualObject {
     private static final int PRJ_PHOTO_ID = 2;
     private static final String[] PHONE_PROJECTION = new String[]{
             ContactsContract.Data.CONTACT_ID,
-            ContactsContract.CommonDataKinds.Email.ADDRESS
+            ContactsContract.CommonDataKinds.Phone.NUMBER
     };
     private static final int PRJ_EMAIL_ADDRESS = 1;
     private static final String[] EMAIL_PROJECTION = new String[]{
             ContactsContract.Data.CONTACT_ID,
-            ContactsContract.CommonDataKinds.Phone.NUMBER
+            ContactsContract.CommonDataKinds.Email.ADDRESS
     };
     private static final int PRJ_PHONE_NUMBER = 1;
     private static final String[] JOB_PROJECTION = new String[]{

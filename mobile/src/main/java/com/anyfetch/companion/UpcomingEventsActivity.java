@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -31,6 +32,7 @@ import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
 import com.anyfetch.companion.commons.api.requests.GetStartRequest;
 import com.anyfetch.companion.fragments.ContextFragment;
 import com.anyfetch.companion.notifications.ScheduleMeetingPreparationTask;
+import com.melnykov.fab.FloatingActionButton;
 import com.newrelic.agent.android.NewRelic;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
@@ -40,6 +42,8 @@ import com.octo.android.robospice.request.listener.RequestListener;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 public class UpcomingEventsActivity extends ActionBarActivity implements RequestListener<EventsList>, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
+    private static final int REQUEST_CONTACTPICKER = 1;
+
     private final SpiceManager mSpiceManager = new SpiceManager(AndroidSpiceService.class);
     private final SpiceManager mHttpSpiceManager = new SpiceManager(HttpSpiceService.class);
     private StickyListHeadersListView mListView;
@@ -105,6 +109,15 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
             mListView.setDividerHeight(0);
             mListView.setEmptyView(findViewById(android.R.id.empty));
 
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+            fab.attachToListView(mListView.getWrappedList());
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                    startActivityForResult(intent, REQUEST_CONTACTPICKER);
+                }
+            });
             mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
             mSwipeLayout.setOnRefreshListener(this);
             mSwipeLayout.setColorSchemeColors(R.color.primary, R.color.primary_dark);
@@ -114,7 +127,6 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
             mSwipeLayout.setRefreshing(true);
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
