@@ -118,4 +118,34 @@ public class HtmlUtils {
         origin = origin.replace("\n", "<br>");
         return origin;
     }
+
+    /**
+     * TODO This is ugly :(
+     * We use this function to "format" AnyFetch HTML code for stuff we now to be of little interest in raw text.
+     *
+     * In the best of worlds, this could be some markup class indicating what is useful and what is not.
+     * In the best of world this would be done with DOM selectors instead of regexp,
+     * but org.w3c.dom does not contain CSS selectors (or even class selector)
+     * @param origin a HTML with anyfetch-namespacing
+     * @return a html with less anyfetch-namespacing, ready to be use with stripHtml
+     */
+    public static String stripNonImportantAnyfetchHtml(String origin) {
+        // Number of message in an email thread.
+        // <span class="anyfetch-number anyfetch-message-count">3</span>
+        origin = origin.replaceAll("<[^>]+anyfetch-message-count.+?</.+?>", "");
+
+        // Number of participants in an email thread.
+        // <li class=anyfetch-title-detail>2 <span class=anyfetch-icon-people></span></li>
+        origin = origin.replaceAll("<li[^>]+anyfetch-title-detail[^/]+anyfetch-icon-people.+?</li>", "");
+
+        // End date for time-span
+        // <p class="anyfetch-title-detail anyfetch-date-span"><time class=anyfetch-date>2014-12-27T18:30:00.000Z</time> <span class=anyfetch-right-arrow></span> <time class=anyfetch-date>2014-12-27T22:00:00.000Z</time></p>
+        origin = origin.replaceAll("(anyfetch-date-span.+?</time>).+?</p>", "$1</p>");
+
+        // UTC dates
+        // <time class=anyfetch-date>2014-12-27T18:30:00.000Z</time>
+        origin = origin.replaceAll("\\.000Z</time>", "</time>");
+
+        return origin;
+    }
 }

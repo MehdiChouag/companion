@@ -169,7 +169,9 @@ public class ContextNotificationBuilder {
 
             // To build the big text, we retrieve the raw text
             // and then remove the "title" that will be set at the notification mainContent
-            String bigText = HtmlUtils.stripHtmlKeepLineFeed(document.getSnippet());
+            String bigText = document.getSnippet();
+            bigText = HtmlUtils.stripNonImportantAnyfetchHtml(bigText);
+            bigText = HtmlUtils.stripHtmlKeepLineFeed(bigText);
             bigText = bigText.replaceFirst(Pattern.quote(rawTitle), "");
 
             NotificationCompat.BigTextStyle bigView = new NotificationCompat.BigTextStyle();
