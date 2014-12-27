@@ -165,7 +165,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
         if (requestCode == REQUEST_CONTACTPICKER) {
             if (resultCode == RESULT_OK) {
                 String personId = data.getData().getLastPathSegment();
-                Log.e("WTF", "Got" + personId);
+                Log.i("PersonPicker", "User picked contact " + personId);
                 Person person = Person.getPerson(this, Long.parseLong(personId));
 
                 Intent intent = new Intent(getApplicationContext(), ContextActivity.class);
