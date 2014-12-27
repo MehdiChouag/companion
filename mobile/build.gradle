@@ -8,8 +8,8 @@ android {
         applicationId "com.anyfetch.companion"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 15
-        versionName "2.1.0"
+        versionCode 16
+        versionName "2.2.0"
     }
     buildTypes {
         release {
@@ -49,4 +49,6 @@ dependencies {
     compile 'com.newrelic.agent.android:android-agent:4.+'
 
     compile 'se.emilsjolander:stickylistheaders:2.5.2'
+
+    compile 'com.melnykov:floatingactionbutton:1.1.0'
 }
