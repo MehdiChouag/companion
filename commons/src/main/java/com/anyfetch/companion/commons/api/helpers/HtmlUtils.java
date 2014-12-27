@@ -1,7 +1,6 @@
 package com.anyfetch.companion.commons.api.helpers;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.w3c.dom.Node;
 
@@ -49,7 +48,7 @@ public class HtmlUtils {
 
                 baseDocumentHtml = new String(buffer);
             } catch (IOException e) {
-                Log.e("WTF", e.toString());
+                e.printStackTrace();
                 baseDocumentHtml = DOCUMENT_PLACEHOLDER;
             }
         }
