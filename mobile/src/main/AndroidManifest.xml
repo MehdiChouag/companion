@@ -34,7 +34,6 @@
             android:label="@string/title_activity_upcoming_events">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -46,6 +45,10 @@
         <activity
             android:name=".SettingActivity"
             android:label="@string/title_activity_settings">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.NOTIFICATION_PREFERENCES" />
+            </intent-filter>
         </activity>
 
         <receiver
@@ -58,15 +61,15 @@
         </activity>
 
 
-        <receiver android:name=".calls.OutgoingCallReceiver" >
+        <receiver android:name=".calls.OutgoingCallReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
             </intent-filter>
         </receiver>
 
         <receiver android:name=".calls.IncomingCallReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE" />
+                <action android:name="android.intent.action.PHONE_STATE"/>
             </intent-filter>
         </receiver>
     </application>

@@ -39,8 +39,11 @@ public class BuildNotificationStackTask extends AsyncTask<ContextualObject, Obje
         ContextNotificationBuilder builder = new ContextNotificationBuilder(mContext)
                 .setContextualObject(contextualObject);
 
-        // Instantly display a "stub" with basic functionality -- we'll load the document context after, for the wear
+        // Instantly display the handheld device's notifications
         mManager.notify(id - 1, builder.buildSummary());
+        // And for the wear, display a "stub" with basic functionality -- we'll load the document context after
+        mManager.notify(id, builder.buildWearPlaceholder());
+
 
         int count = 1;
         for (Notification subNotif : builder.buildSubs()) {

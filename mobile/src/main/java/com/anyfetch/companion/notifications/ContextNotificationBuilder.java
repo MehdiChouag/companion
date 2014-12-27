@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * Builder for creating notification's contexts
@@ -105,6 +106,13 @@ public class ContextNotificationBuilder {
         return builder.build();
     }
 
+    public Notification buildWearPlaceholder() {
+        NotificationCompat.Builder builder = buildBaseNotification();
+        builder.setGroupSummary(false);
+        builder.setContentText(mContext.getString(R.string.context_loading));
+        return builder.build();
+    }
+
     /**
      * Builds the notification. <strong>This  method shouldn't be called from the main thread</strong>
      *
@@ -117,7 +125,7 @@ public class ContextNotificationBuilder {
 
             NotificationCompat.Builder builder = buildBaseNotification();
 
-            builder.setContentText(subPages.size() == 0 ? mContextualObject.getInfo() : mContext.getString(R.string.context_has_match));
+            builder.setContentText(subPages.size() == 0 ? mContext.getString(R.string.context_has_no_match) : mContext.getString(R.string.context_has_match));
             NotificationCompat.WearableExtender extender = new NotificationCompat.WearableExtender()
                     .addPages(subPages);
 
@@ -156,17 +164,24 @@ public class ContextNotificationBuilder {
         DocumentsList documents = request.loadDataFromNetwork();
         for (int i = 0; i < documents.size() && i < WEAR_CONTEXT_SIZE; i++) {
             Document document = documents.get(i);
+            String title = HtmlUtils.convertHlt(document.getTitle());
+            String rawTitle = HtmlUtils.stripHtml(document.getTitle());
+
+            // To build the big text, we retrieve the raw text
+            // and then remove the "title" that will be set at the notification mainContent
+            String bigText = document.getSnippet();
+            bigText = HtmlUtils.stripNonImportantAnyfetchHtml(bigText);
+            bigText = HtmlUtils.stripHtmlKeepLineFeed(bigText);
+            bigText = bigText.replaceFirst(Pattern.quote(rawTitle), "");
 
             NotificationCompat.BigTextStyle bigView = new NotificationCompat.BigTextStyle();
-            bigView.bigText(Html.fromHtml(
-                    "<b>" + HtmlUtils.convertHlt(document.getTitle()) + "</b><br/>" +
-                            HtmlUtils.stripHtml(HtmlUtils.selectTag(document.getSnippet(), "main"))
-            ));
+
+            bigView.bigText(Html.fromHtml(bigText));
 
             // Standard View
             NotificationCompat.Builder builder =
                     new NotificationCompat.Builder(mContext)
-                            .setContentTitle(Html.fromHtml(HtmlUtils.stripHtml(HtmlUtils.selectTag(document.getSnippet(), "ul"))))
+                            .setContentTitle(Html.fromHtml(title))
                             .setStyle(bigView)
                             .setSmallIcon(ImageHelper.matchResourceForProvider(document.getProvider()));
             NotificationCompat.WearableExtender extender = new NotificationCompat.WearableExtender()
