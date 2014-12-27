@@ -26,6 +26,7 @@ import com.anyfetch.companion.adapters.EventsListAdapter;
 import com.anyfetch.companion.commons.android.AndroidSpiceService;
 import com.anyfetch.companion.commons.android.pojo.Event;
 import com.anyfetch.companion.commons.android.pojo.EventsList;
+import com.anyfetch.companion.commons.android.pojo.Person;
 import com.anyfetch.companion.commons.android.requests.GetUpcomingEventsRequest;
 import com.anyfetch.companion.commons.api.HttpSpiceService;
 import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
@@ -158,6 +159,21 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CONTACTPICKER) {
+            if (resultCode == RESULT_OK) {
+                String personId = data.getData().getLastPathSegment();
+                Log.e("WTF", "Got" + personId);
+                Person person = Person.getPerson(this, Long.parseLong(personId));
+
+                Intent intent = new Intent(getApplicationContext(), ContextActivity.class);
+                intent.putExtra(ContextFragment.ARG_CONTEXTUAL_OBJECT, person);
+                startActivity(intent);
+            }
+        }
+    }
     @Override
     public void onRequestFailure(SpiceException spiceException) {
         Toast.makeText(this, getString(R.string.calendar_error), Toast.LENGTH_LONG).show();
