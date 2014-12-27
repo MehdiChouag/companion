@@ -3,6 +3,7 @@ package com.anyfetch.companion.commons.android.pojo;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -10,15 +11,18 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 
 import com.anyfetch.companion.commons.R;
+import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
 import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import com.anyfetch.companion.commons.ui.ImageHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -38,7 +42,7 @@ public class Event implements Parcelable, ContextualObject {
             String description = source.readString();
             Date start = new Date(source.readLong());
             Date end = new Date(source.readLong());
-            List<Person> attendees = new ArrayList<Person>();
+            List<Person> attendees = new ArrayList<>();
             source.readTypedList(attendees, Person.CREATOR);
             String location = source.readString();
             int color = source.readInt();
@@ -124,12 +128,12 @@ public class Event implements Parcelable, ContextualObject {
                 null
         );
         attCur.moveToFirst();
-        List<Person> attendees = new ArrayList<Person>();
+        List<Person> attendees = new ArrayList<>();
         for (int i = 0; i < attCur.getCount(); i++) {
             String email = attCur.getString(PRJ_ATT_EMAIL);
             Person attendee = Person.getPersonByEmail(context, email);
             if (attendee == null) {
-                List<String> emails = new ArrayList<String>();
+                List<String> emails = new ArrayList<>();
                 emails.add(email);
                 attendee = new Person(
                         0,
@@ -244,16 +248,18 @@ public class Event implements Parcelable, ContextualObject {
 
     @Override
     public Drawable getIcon(Context context) {
-        List<Bitmap> thumbs = new ArrayList<Bitmap>();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        Set<String> tailedEmails = prefs.getStringSet(BaseRequestBuilder.TAILED_EMAILS, new HashSet<String>());
+
         for (Person attendee : mAttendees) {
+            if(attendee.isExcluded(tailedEmails)) {
+                continue;
+            }
+
             Bitmap thumb = attendee.getThumb();
             if (thumb != null) {
-                thumbs.add(thumb);
+                return new BitmapDrawable(context.getResources(), ImageHelper.getRoundedCornerBitmap(thumb, 200));
             }
-        }
-        int size = thumbs.size();
-        if (size > 0) {
-            return new BitmapDrawable(context.getResources(), ImageHelper.getRoundedCornerBitmap(thumbs.get(0), 200));
         }
 
         return context.getResources().getDrawable(R.drawable.ic_placeholder_event);
