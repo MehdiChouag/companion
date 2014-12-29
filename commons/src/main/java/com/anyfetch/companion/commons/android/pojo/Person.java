@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.ContactsContract;
-import android.util.Log;
 
 import com.anyfetch.companion.commons.R;
 import com.anyfetch.companion.commons.api.builders.ContextualObject;
@@ -260,6 +259,9 @@ public class Person implements Parcelable, ContextualObject {
     public static Person getPersonByPhone(Context context, String phone) {
         ContentResolver cr = context.getContentResolver();
 
+        // Android provides fast access for PhoneLookup
+        // http://developer.android.com/reference/android/provider/ContactsContract.PhoneLookup.html
+        // This also abstracts us from the burden of converting phones to E.164 representation (with international code)
         Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phone));
         Cursor emCur = cr.query(uri, new String[]{ContactsContract.PhoneLookup._ID}, null, null, null);
 

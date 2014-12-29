@@ -40,13 +40,14 @@ public class IncomingCallReceiver extends BroadcastReceiver {
                             if (state == TelephonyManager.CALL_STATE_RINGING) {
                                 // Someone is calling us
                                 if (contact == null) {
-                                    Log.i("Outgoing", "Ingoing call caught, but unable to generate context for " + incomingNumber);
+                                    Log.i("Incoming", "Incoming call caught, but unable to generate context for " + incomingNumber);
                                 } else {
-                                    Log.i("Outgoing", "Ingoing call caught: " + contact.getName());
+                                    Log.i("Incoming", "Incoming call caught: " + contact.getName());
                                     new BuildNotificationStackTask(context).execute(contact, null, null);
                                 }
                             } else if (state == TelephonyManager.CALL_STATE_IDLE) {
                                 if (contact != null) {
+                                    Log.i("HangUp", "Call ended, notification for " + contact.getName() + " will be dismissed.");
                                     // Clean up previous notification after a small delay
                                     final Handler handler = new Handler();
                                     handler.postDelayed(new Runnable() {
@@ -54,7 +55,7 @@ public class IncomingCallReceiver extends BroadcastReceiver {
                                         public void run() {
                                             NotificationManagerCompat.from(context).cancel(contact.getHashCode() - 1);
                                         }
-                                    }, 15000);
+                                    }, 5000);
 
                                 }
                             }
