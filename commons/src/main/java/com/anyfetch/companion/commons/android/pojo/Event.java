@@ -178,6 +178,7 @@ public class Event implements Parcelable, ContextualObject {
                 null);
         evtCur.moveToFirst();
         if (evtCur.getCount() < 1) {
+            evtCur.close();
             return null;
         }
         Event event = fromCursor(context, evtCur);

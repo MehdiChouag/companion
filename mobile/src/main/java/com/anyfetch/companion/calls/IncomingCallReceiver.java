@@ -30,9 +30,12 @@ public class IncomingCallReceiver extends BroadcastReceiver {
                     stateListener = new android.telephony.PhoneStateListener() {
                         @Override
                         public void onCallStateChanged(int state, String incomingNumber) {
-                            Log.d("Incoming", state + "   incoming no:" + incomingNumber);
+                            if(incomingNumber.isEmpty()) {
+                                return;
+                            }
+
+                            Log.i("Incoming", state + "   incoming no:" + incomingNumber);
                             final Person contact = Person.getPersonByPhone(context, incomingNumber);
-                            ;
 
                             if (state == TelephonyManager.CALL_STATE_RINGING) {
                                 // Someone is calling us

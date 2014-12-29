@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.ContactsContract;
+import android.util.Log;
 
 import com.anyfetch.companion.commons.R;
 import com.anyfetch.companion.commons.api.builders.ContextualObject;
@@ -234,8 +235,14 @@ public class Person implements Parcelable, ContextualObject {
                 ContactsContract.CommonDataKinds.Email.ADDRESS + "='" + email + "'",
                 null,
                 null);
+
+        if(emCur == null) {
+            return null;
+        }
+
         emCur.moveToFirst();
         if (emCur.getCount() < 1) {
+            emCur.close();
             return null;
         }
         long id = emCur.getLong(PRJ_CON_ID);
@@ -252,20 +259,20 @@ public class Person implements Parcelable, ContextualObject {
      */
     public static Person getPersonByPhone(Context context, String phone) {
         ContentResolver cr = context.getContentResolver();
-        Cursor emCur = cr.query(
-                ContactsContract.Data.CONTENT_URI,
-                PHONE_PROJECTION,
-                ContactsContract.CommonDataKinds.Phone.NORMALIZED_NUMBER + "='" + phone + "'",
-                null,
-                null);
+
+        Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phone));
+        Cursor emCur = cr.query(uri, new String[]{ContactsContract.PhoneLookup._ID}, null, null, null);
+
         emCur.moveToFirst();
         if (emCur.getCount() < 1) {
+            emCur.close();
             return null;
         }
-        long id = emCur.getLong(PRJ_CON_ID);
+        long id = emCur.getLong(0);
         emCur.close();
         return getPerson(context, id);
     }
+
     /**
      * Gets the id
      *
