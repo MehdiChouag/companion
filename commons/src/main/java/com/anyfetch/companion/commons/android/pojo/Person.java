@@ -234,8 +234,14 @@ public class Person implements Parcelable, ContextualObject {
                 ContactsContract.CommonDataKinds.Email.ADDRESS + "='" + email + "'",
                 null,
                 null);
+
+        if(emCur == null) {
+            return null;
+        }
+
         emCur.moveToFirst();
         if (emCur.getCount() < 1) {
+            emCur.close();
             return null;
         }
         long id = emCur.getLong(PRJ_CON_ID);
@@ -252,20 +258,23 @@ public class Person implements Parcelable, ContextualObject {
      */
     public static Person getPersonByPhone(Context context, String phone) {
         ContentResolver cr = context.getContentResolver();
-        Cursor emCur = cr.query(
-                ContactsContract.Data.CONTENT_URI,
-                PHONE_PROJECTION,
-                ContactsContract.CommonDataKinds.Phone.NORMALIZED_NUMBER + "='" + phone + "'",
-                null,
-                null);
+
+        // Android provides fast access for PhoneLookup
+        // http://developer.android.com/reference/android/provider/ContactsContract.PhoneLookup.html
+        // This also abstracts us from the burden of converting phones to E.164 representation (with international code)
+        Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phone));
+        Cursor emCur = cr.query(uri, new String[]{ContactsContract.PhoneLookup._ID}, null, null, null);
+
         emCur.moveToFirst();
         if (emCur.getCount() < 1) {
+            emCur.close();
             return null;
         }
-        long id = emCur.getLong(PRJ_CON_ID);
+        long id = emCur.getLong(0);
         emCur.close();
         return getPerson(context, id);
     }
+
     /**
      * Gets the id
      *

@@ -15,7 +15,7 @@ public class OutgoingCallReceiver extends BroadcastReceiver {
         // Skip notification if user unchecked the settings
         if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("prefNotifyForCalls", true)) {
             String phoneNumber = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
-            Log.d(OutgoingCallReceiver.class.getSimpleName(), intent.toString() + ", call to: " + phoneNumber);
+            Log.i(OutgoingCallReceiver.class.getSimpleName(), intent.toString() + ", call to: " + phoneNumber);
 
             Person contact = Person.getPersonByPhone(context, phoneNumber);
 
