@@ -25,6 +25,7 @@ public class MockApiFactory {
                             "Doc" + i,
                             "Docu" + i,
                             "Document" + i,
+                            "url",
                             false)
             );
         }
