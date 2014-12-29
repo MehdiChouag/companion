@@ -3,10 +3,12 @@ package com.anyfetch.companion;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
 import com.anyfetch.companion.commons.android.helpers.AccountsHelper;
 import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
 import com.anyfetch.companion.commons.api.builders.DocumentsListRequestBuilder;
@@ -31,19 +33,23 @@ public class AuthActivity extends Activity {
             }
 
             @Override
-            public void onPageFinished(WebView view, String url) {
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 if (url.startsWith("https://localhost/done/")) {
                     String apiToken = url.substring(url.lastIndexOf('/') + 1, url.length());
                     backToUpcoming(apiToken);
                 }
             }
         });
-        webView.loadUrl(serverUrl + "/init/connect?replace_existing_token=1");
+        webView.loadUrl(serverUrl + "/init/connect");
     }
 
     private void backToUpcoming(String apiToken) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+
+        // Save the token
         editor.putString(BaseRequestBuilder.PREF_API_TOKEN, apiToken);
+
+        // Save a list of ignored emails
         Set<String> emails = new AccountsHelper().getOwnerEmails(this);
         editor.putStringSet(DocumentsListRequestBuilder.TAILED_EMAILS, emails);
         editor.apply();

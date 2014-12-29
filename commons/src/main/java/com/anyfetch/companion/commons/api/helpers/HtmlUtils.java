@@ -108,13 +108,16 @@ public class HtmlUtils {
     public static String stripHtmlKeepLineFeed(String origin) {
         origin = origin.replace("</p>", "</p>\n\n");
         origin = origin.replace("</ul>", "</ul>\n\n");
+        origin = origin.replace("</li>", "</li>\n");
 
         // Strip all html
         origin = stripHtml(origin);
 
         // Restore line breaks
         origin = origin.replace("\r", "");
+        origin = origin.replace("\n\n\n+", "\n\n");
         origin = origin.replace("\n", "<br>");
+
         return origin;
     }
 
