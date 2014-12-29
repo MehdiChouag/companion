@@ -13,12 +13,12 @@ public class TestDocument extends InstrumentationTestCase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        mDocument = new Document("a", "b", "c", "e", "f", new Date(), "g", "h", "i", true);
+        mDocument = new Document("a", "b", "c", "e", "f", new Date(), "g", "h", "i", "j", true);
     }
 
     public void test_json() throws Exception {
         Gson gson = new Gson();
-        Document doc = gson.fromJson(gson.toJson(new Document("file", "Dropbox", "x", "y", "z", new Date(0), "Doc", "Docu", "Document", false)), Document.class);
+        Document doc = gson.fromJson(gson.toJson(new Document("file", "Dropbox", "x", "y", "z", new Date(0), "Doc", "Docu", "Document", "url", false)), Document.class);
         assertEquals("file", doc.getType());
         assertEquals("x", doc.getDocumentId());
         assertEquals("y", doc.getCompanyId());
@@ -27,6 +27,8 @@ public class TestDocument extends InstrumentationTestCase {
         assertEquals("Doc", doc.getTitle());
         assertEquals("Docu", doc.getSnippet());
         assertEquals("Document", doc.getFull());
+        assertEquals("url", doc.getLink());
+
     }
 
     public void testParcels() throws Exception {
@@ -39,7 +41,7 @@ public class TestDocument extends InstrumentationTestCase {
     }
 
     public void test_requireJavascript() throws Exception {
-        Document jsDoc = new Document("a", "b", "c", "e", "f", new Date(), "g", "anyfetch-date", "anyfetch-date", true);
+        Document jsDoc = new Document("a", "b", "c", "e", "f", new Date(), "g", "anyfetch-date", "anyfetch-date", "url", true);
         assertTrue(jsDoc.fullRequireJavascript());
         assertTrue(jsDoc.snippetRequireJavascript());
         assertFalse(mDocument.fullRequireJavascript());
