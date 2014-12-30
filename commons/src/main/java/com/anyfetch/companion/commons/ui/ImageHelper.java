@@ -77,6 +77,8 @@ public class ImageHelper {
             return R.color.dt_file;
         } else if (dt.equals("5252ce4ce4cfcd16f55cfa3d")) {
             return R.color.dt_image;
+        } else if (dt.equals("5252ce4ce4cfcd16f55cfa3e")) {
+            return R.color.dt_trello;
         } else {
             return android.R.color.darker_gray;
         }
