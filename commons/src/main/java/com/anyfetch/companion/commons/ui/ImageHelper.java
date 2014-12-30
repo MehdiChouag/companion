@@ -9,7 +9,6 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 import com.anyfetch.companion.commons.R;
 
@@ -46,20 +45,20 @@ public class ImageHelper {
     }
 
     public static int matchResourceForProvider(String provider) {
-        if (provider.equals("Dropbox")) {
-            return R.drawable.ic_dropbox;
-        } else if (provider.equals("Evernote")) {
-            return R.drawable.ic_evernote;
-        } else if (provider.equals("Google Calendar")) {
-            return R.drawable.ic_gcalendar;
-        } else if (provider.equals("Google Contacts")) {
-            return R.drawable.ic_gcontacts;
-        } else if (provider.equals("Google Drive")) {
-            return R.drawable.ic_gdrive;
-        } else if (provider.equals("Gmail")) {
-            return R.drawable.ic_gmail;
-        } else if (provider.equals("SalesForce")) {
-            return R.drawable.ic_sfdc;
+        if (provider.equals("52bff114c8318c29e9000005")) {
+            return R.drawable.ic_provider_52bff114c8318c29e9000005;
+        } else if (provider.equals("53047faac8318c2d65000097")) {
+            return R.drawable.ic_provider_53047faac8318c2d65000097;
+        } else if (provider.equals("53047faac8318c2d65000099")) {
+            return R.drawable.ic_provider_53047faac8318c2d65000099;
+        } else if (provider.equals("52bff1eec8318cb228000001")) {
+            return R.drawable.ic_provider_52bff1eec8318cb228000001;
+        } else if (provider.equals("539ef7289f240405465a2e1f")) {
+            return R.drawable.ic_provider_539ef7289f240405465a2e1f;
+        } else if (provider.equals("53047faac8318c2d65000096")) {
+            return R.drawable.ic_provider_53047faac8318c2d65000096;
+        } else if (provider.equals("53047faac8318c2d65000100")) {
+            return R.drawable.ic_provider_53047faac8318c2d65000100;
         } else {
             return R.drawable.ic_launcher;
         }
