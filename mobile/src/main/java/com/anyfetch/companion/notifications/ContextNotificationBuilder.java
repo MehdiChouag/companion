@@ -183,9 +183,9 @@ public class ContextNotificationBuilder {
                     new NotificationCompat.Builder(mContext)
                             .setContentTitle(Html.fromHtml(title))
                             .setStyle(bigView)
-                            .setSmallIcon(ImageHelper.matchResourceForProvider(document.getProvider()));
+                            .setSmallIcon(ImageHelper.matchResourceForProvider(document.getProviderId()));
             NotificationCompat.WearableExtender extender = new NotificationCompat.WearableExtender()
-                    .setContentIcon(ImageHelper.matchResourceForProvider(document.getProvider()));
+                    .setContentIcon(ImageHelper.matchResourceForProvider(document.getProviderId()));
 
             pages.add(extender.extend(builder).build());
         }
