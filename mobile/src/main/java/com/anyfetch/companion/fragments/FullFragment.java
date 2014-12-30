@@ -103,7 +103,7 @@ public class FullFragment extends Fragment implements RequestListener<Document>,
         toolbar.setTitle(HtmlUtils.stripHtml(mDocument.getTitle()));
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
         toolbar.setNavigationOnClickListener(this);
-        toolbar.setLogo(ImageHelper.matchResourceForProvider(mDocument.getProvider()));
+        toolbar.setLogo(ImageHelper.matchResourceForProvider(mDocument.getProviderId()));
         toolbar.inflateMenu(R.menu.full);
         ViewCompat.setElevation(toolbar, getResources().getDimension(R.dimen.toolbar_elevation));
 
