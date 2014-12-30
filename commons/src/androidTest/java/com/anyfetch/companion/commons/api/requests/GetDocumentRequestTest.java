@@ -22,7 +22,7 @@ public class GetDocumentRequestTest extends BaseRequestTest {
     public void test_loadDataFromNetwork() throws Exception {
         Document doc = mRequest.loadDataFromNetwork();
 
-        assertEquals("file", doc.getType());
+        assertEquals("file", doc.getTypeId());
         assertEquals("doc0", doc.getDocumentId());
         assertEquals(new Date(0), doc.getDate());
         assertEquals("Doc0", doc.getTitle());

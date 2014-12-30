@@ -80,11 +80,11 @@ public class DocumentsListAdapter extends TimedListAdapter {
 
         final Document document = mDocuments.get(position);
 
-        holder.providerIcon.setImageResource(ImageHelper.matchResourceForProvider(document.getProvider()));
-        holder.providerIcon.setContentDescription(document.getProvider());
+        holder.providerIcon.setImageResource(ImageHelper.matchResourceForProvider(document.getProviderId()));
+        holder.providerIcon.setContentDescription(document.getProviderId());
 
-        holder.dtBand.setBackgroundColor(mActivity.getResources().getColor(ImageHelper.matchColorForDocumentType(document.getType())));
-        holder.dtIcon.setImageResource(ImageHelper.matchIconForDocumentType(document.getType()));
+        holder.dtBand.setBackgroundColor(mActivity.getResources().getColor(ImageHelper.matchColorForDocumentType(document.getTypeId())));
+        holder.dtIcon.setImageResource(ImageHelper.matchIconForDocumentType(document.getTypeId()));
 
         holder.webView.getSettings().setJavaScriptEnabled(document.snippetRequireJavascript());
         holder.webView.loadUrl("about:blank");

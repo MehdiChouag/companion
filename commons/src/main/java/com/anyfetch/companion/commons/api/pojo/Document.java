@@ -36,8 +36,8 @@ public class Document implements Parcelable {
     };
 
     private static final int DOCUMENT_PARCELABLE = 15;
-    private final String type;
-    private final String provider;
+    private final String typeId;
+    private final String providerId;
     private final String documentId;
     private final String companyId;
     private final String eventId;
@@ -49,8 +49,8 @@ public class Document implements Parcelable {
     private final boolean important;
 
     public Document() {
-        this.type = "";
-        this.provider = "";
+        this.typeId = "";
+        this.providerId = "";
         this.documentId = "";
         this.companyId = "";
         this.eventId = "";
@@ -62,9 +62,9 @@ public class Document implements Parcelable {
         this.important = false;
     }
 
-    public Document(String type, String provider, String documentId, String companyId, String eventId, Date date, String title, String snippet, String full, String link, boolean important) {
-        this.type = type;
-        this.provider = provider;
+    public Document(String typeId, String providerId, String documentId, String companyId, String eventId, Date date, String title, String snippet, String full, String link, boolean important) {
+        this.typeId = typeId;
+        this.providerId = providerId;
         this.documentId = documentId;
         this.companyId = companyId;
         this.eventId = eventId;
@@ -76,12 +76,12 @@ public class Document implements Parcelable {
         this.important = important;
     }
 
-    public String getType() {
-        return type;
+    public String getTypeId() {
+        return typeId;
     }
 
-    public String getProvider() {
-        return provider;
+    public String getProviderId() {
+        return providerId;
     }
 
     public String getDocumentId() {
@@ -138,8 +138,8 @@ public class Document implements Parcelable {
         dest.writeString(documentId);
         dest.writeString(companyId);
         dest.writeString(eventId);
-        dest.writeString(type);
-        dest.writeString(provider);
+        dest.writeString(typeId);
+        dest.writeString(providerId);
         dest.writeLong(date.getTime());
         dest.writeString(title);
         dest.writeString(snippet);

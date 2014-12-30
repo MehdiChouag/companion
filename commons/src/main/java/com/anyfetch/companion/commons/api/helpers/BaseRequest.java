@@ -103,7 +103,7 @@ public abstract class BaseRequest<T> extends OkHttpSpiceRequest<T> {
     }
 
     /**
-     * Gets the gloablly set API token
+     * Gets the globally set API token
      *
      * @return A Bearer token
      */

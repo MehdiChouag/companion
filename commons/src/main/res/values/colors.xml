@@ -7,5 +7,5 @@
     <color name="dt_event">#3d9970</color>
     <color name="dt_file">#dddddd</color>
     <color name="dt_image">#ffdc00</color>
-
+    <color name="dt_trello">#0e74af</color>
 </resources>
