@@ -59,6 +59,8 @@ public class ImageHelper {
             return R.drawable.ic_provider_53047faac8318c2d65000096;
         } else if (provider.equals("53047faac8318c2d65000100")) {
             return R.drawable.ic_provider_53047faac8318c2d65000100;
+        } else if (provider.equals("53047faac8318c2d650001a1")) {
+            return R.drawable.ic_provider_53047faac8318c2d650001a1;
         } else {
             return R.drawable.ic_launcher;
         }
