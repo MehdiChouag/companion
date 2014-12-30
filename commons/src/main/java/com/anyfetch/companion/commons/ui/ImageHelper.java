@@ -65,17 +65,17 @@ public class ImageHelper {
     }
 
     public static int matchColorForDocumentType(String dt) {
-        if (dt.equals("contact")) {
+        if (dt.equals("5252ce4ce4cfcd16f55cfa3a")) {
             return R.color.dt_contact;
-        } else if (dt.equals("document")) {
+        } else if (dt.equals("5252ce4ce4cfcd16f55cfa3c")) {
             return R.color.dt_document;
-        } else if (dt.equals("email") || dt.equals("email-thread")) {
+        } else if (dt.equals("5252ce4ce4cfcd16f55cfa3f") || dt.equals("656d61696c2d746872656164")) {
             return R.color.dt_email;
-        } else if (dt.equals("event")) {
+        } else if (dt.equals("5252ce4ce4cfcd16f55cfa40")) {
             return R.color.dt_event;
-        } else if (dt.equals("file")) {
+        } else if (dt.equals("5252ce4ce4cfcd16f55cfa3c")) {
             return R.color.dt_file;
-        } else if (dt.equals("image")) {
+        } else if (dt.equals("5252ce4ce4cfcd16f55cfa3d")) {
             return R.color.dt_image;
         } else {
             return android.R.color.darker_gray;
@@ -83,20 +83,24 @@ public class ImageHelper {
     }
 
     public static int matchIconForDocumentType(String dt) {
-        if (dt.equals("contact")) {
-            return R.drawable.ic_contact;
-        } else if (dt.equals("document")) {
-            return R.drawable.ic_document;
-        } else if (dt.equals("email") || dt.equals("email-thread")) {
-            return R.drawable.ic_email;
-        } else if (dt.equals("event")) {
-            return R.drawable.ic_event;
-        } else if (dt.equals("file")) {
-            return R.drawable.ic_document;
-        } else if (dt.equals("image")) {
-            return R.drawable.ic_image;
+        if (dt.equals("5252ce4ce4cfcd16f55cfa3a")) {
+            // Contacts
+            return R.drawable.ic_type_5252ce4ce4cfcd16f55cfa3a;
+        } else if (dt.equals("5252ce4ce4cfcd16f55cfa3c")) {
+            // Document
+            return R.drawable.ic_type_5252ce4ce4cfcd16f55cfa3c;
+        } else if (dt.equals("5252ce4ce4cfcd16f55cfa3f") || dt.equals("656d61696c2d746872656164")) {
+            // Email / email-thread
+            return R.drawable.ic_type_5252ce4ce4cfcd16f55cfa3f;
+        } else if (dt.equals("5252ce4ce4cfcd16f55cfa40")) {
+            // Event
+            return R.drawable.ic_type_5252ce4ce4cfcd16f55cfa40;
+        } else if (dt.equals("5252ce4ce4cfcd16f55cfa3d")) {
+            // Image
+            return R.drawable.ic_type_5252ce4ce4cfcd16f55cfa3d;
         } else {
-            return R.drawable.ic_document;
+            // Default (file)
+            return R.drawable.ic_type_5252ce4ce4cfcd16f55cfa3c;
         }
     }
 
