@@ -39,8 +39,14 @@ public class AnyfetchHtmlUtils {
      * @return
      */
     public static String htmlToSimpleHtml(String origin) {
+        // Preserve .hlt markup
+        origin = origin.replaceAll("<span[^>]+?anyfetch-hlt[^>]+?>(.+?)</span>", "{{[$1]}}");
+
         origin = AnyfetchHtmlUtils.stripNonImportantHtml(origin);
         origin = HtmlUtils.stripHtmlKeepLineFeed(origin);
+
+        // Restore .hlt markup
+        origin = origin.replaceAll(Pattern.quote("{{[") + "(.+?)" + Pattern.quote("]}}"), "<b>$1</b>");
         return origin;
     }
 
@@ -50,14 +56,9 @@ public class AnyfetchHtmlUtils {
      * @return
      */
     public static String htmlToSimpleHtmlTitleless(String snippet, String title) {
-        String rawTitle = HtmlUtils.stripHtml(title);
+        // Remove the first appearance of the title (thus the "titleless"), assuming the text will be displayed with the title above (in notifications for instance)
+        snippet = snippet.replaceFirst(Pattern.quote(title), "");
 
-        // TODO: factor out?
-        snippet = AnyfetchHtmlUtils.stripNonImportantHtml(snippet);
-        snippet = HtmlUtils.stripHtmlKeepLineFeed(snippet);
-
-        snippet = snippet.replaceFirst(Pattern.quote(rawTitle), "");
-
-        return snippet;
+        return htmlToSimpleHtml(snippet);
     }
 }
