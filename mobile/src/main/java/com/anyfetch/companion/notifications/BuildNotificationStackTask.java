@@ -40,18 +40,19 @@ public class BuildNotificationStackTask extends AsyncTask<ContextualObject, Obje
                 .setContextualObject(contextualObject);
 
         // Instantly display the handheld device's notifications
-        mManager.notify(id - 1, builder.buildSummary());
+        mManager.notify(id - 1, builder.buildSummaryPlaceholder());
         // And for the wear, display a "stub" with basic functionality -- we'll load the document context after
         mManager.notify(id, builder.buildWearPlaceholder());
 
-
+        // Now build sub context pages
         int count = 1;
-        for (Notification subNotif : builder.buildSubs()) {
+        for (Notification subNotif : builder.buildSubcontextWearNotifications()) {
             mManager.notify(id + count, subNotif);
             count++;
         }
 
-        mManager.notify(id, builder.build());
+        // And main context
+        mManager.notify(id, builder.buildWearNotification());
     }
 
 }
