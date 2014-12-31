@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -55,6 +56,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
     private SwipeRefreshLayout mSwipeLayout;
     private Toolbar mToolbar;
     private TabHost mTabHost;
+    private HorizontalScrollView mTabContainer;
     private View mContextTab;
     private final TabHost.TabContentFactory CONTEXT_TAB = new TabHost.TabContentFactory() {
         @Override
@@ -123,6 +125,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         mToolbar.setBackgroundColor(Color.TRANSPARENT);
         ViewCompat.setElevation(mToolbar, getResources().getDimension(R.dimen.toolbar_elevation));
 
+        mTabContainer = (HorizontalScrollView) contextHeader.findViewById(R.id.tabContainer);
         mTabHost = (TabHost) contextHeader.findViewById(R.id.tabHost);
         mTabHost.setup();
         mTabHost.setOnTabChangedListener(this);
@@ -307,6 +310,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         mSubContexts = mRootContextualObject.getSubContexts(tailedEmails);
         mSelectedContextualObject = mRootContextualObject;
         if (mSubContexts != null && !mSubContexts.isEmpty()) {
+            // Object has subcontexts.
             TabHost.TabSpec allSpec = mTabHost.newTabSpec(TAB_ALL)
                     .setIndicator(getString(R.string.tab_all))
                     .setContent(CONTEXT_TAB);
@@ -323,11 +327,14 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
                 TextView tv = (TextView) mTabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
                 tv.setTextColor(getResources().getColor(R.color.abc_primary_text_material_dark));
             }
+            mTabContainer.setVisibility(View.VISIBLE);
         } else {
+            // Object is lonely
             TabHost.TabSpec contextSpec = mTabHost.newTabSpec(TAB_ALL)
                     .setIndicator(mRootContextualObject.getTitle())
                     .setContent(CONTEXT_TAB);
             mTabHost.addTab(contextSpec);
+            mTabContainer.setVisibility(View.GONE);
         }
         mTabHost.setCurrentTab(0);
 
