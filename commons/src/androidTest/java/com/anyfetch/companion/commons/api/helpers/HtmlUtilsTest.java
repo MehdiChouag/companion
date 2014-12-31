@@ -37,8 +37,4 @@ public class HtmlUtilsTest extends InstrumentationTestCase {
     public void test_stripHtmlKeepLineFeed() throws Exception {
         assertEquals("line1<br><br>line2", HtmlUtils.stripHtmlKeepLineFeed("<p class='bob'>line1</p>line2"));
     }
-
-    public void test_stripNonImportantAnyfetchHtml() throws Exception {
-        assertEquals(" Bob", HtmlUtils.stripNonImportantAnyfetchHtml("<span class=\"anyfetch-number anyfetch-message-count\">3</span> Bob"));
-    }
 }

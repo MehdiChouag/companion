@@ -14,6 +14,7 @@ import com.anyfetch.companion.R;
 import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
 import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import com.anyfetch.companion.commons.api.builders.DocumentsListRequestBuilder;
+import com.anyfetch.companion.commons.api.helpers.AnyfetchHtmlUtils;
 import com.anyfetch.companion.commons.api.helpers.HtmlUtils;
 import com.anyfetch.companion.commons.api.pojo.Document;
 import com.anyfetch.companion.commons.api.pojo.DocumentsList;
@@ -26,7 +27,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 /**
  * Builder for creating notification's contexts
@@ -169,10 +169,7 @@ public class ContextNotificationBuilder {
 
             // To build the big text, we retrieve the raw text
             // and then remove the "title" that will be set at the notification mainContent
-            String bigText = document.getSnippet();
-            bigText = HtmlUtils.stripNonImportantAnyfetchHtml(bigText);
-            bigText = HtmlUtils.stripHtmlKeepLineFeed(bigText);
-            bigText = bigText.replaceFirst(Pattern.quote(rawTitle), "");
+            String bigText = AnyfetchHtmlUtils.htmlToSimpleHtmlTitleless(document.getSnippet(), document.getTitle());
 
             NotificationCompat.BigTextStyle bigView = new NotificationCompat.BigTextStyle();
 
