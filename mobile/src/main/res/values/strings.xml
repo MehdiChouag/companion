@@ -5,8 +5,6 @@
     <string name="title_activity_upcoming_events">Anyfetch Companion</string>
     <string name="action_settings">Settings</string>
     <string name="action_log_out">Log Out</string>
-    <string name="date_today">TODAY</string>
-    <string name="date_tomorrow">TOMORROW</string>
     <string name="title_upcoming_meetings">Upcoming Meetings</string>
     <string name="title_activity_context">Context</string>
     <string name="action_improve_context">Improve Context</string>
@@ -66,4 +64,5 @@
     <string name="no_upcoming_shared_events">No upcoming shared events\n:(</string>
     <string name="context_has_no_match">No context</string>
     <string name="context_loading">Loading context... please be patient.</string>
+    <string name="action_connect">Connect new sources</string>
 </resources>

@@ -6,14 +6,12 @@
     <string name="action_settings">Paramètres</string>
     <string name="action_connect">Ajouter des applications</string>
     <string name="action_log_out">Déconnexion</string>
-    <string name="date_today">AUJOURD\'HUI</string>
-    <string name="date_tomorrow">DEMAIN</string>
     <string name="title_upcoming_meetings">Prochains rendez-vous</string>
     <string name="title_activity_context">Contexte</string>
     <string name="action_improve_context">Enrichir le contexte</string>
     <string name="date_yesterday">Hier</string>
     <string name="action_prepare_on_wear">Preparer sur montre</string>
-    <string name="single_attendee">Participant 1</string>
+    <string name="single_attendee">1 Participant</string>
     <string name="multiple_attendees">Participant %d</string>
     <string name="minutes_before">Dans %d\'</string>
     <string name="event_s_attendee">Participants</string>
@@ -34,7 +32,7 @@
     <string name="sent_to_watch">Envoyé sur la montre</string>
     <string name="auth_issue">Problème d\'authentification: %s</string>
     <string name="calendar_error">Erreur lors de la récupération du calendrier, tentez de redémarrer companion…</string>
-    <string name="server_error">Problème serveur, réessayez en vous reconnectant.</string>
+    <string name="server_error">Problème serveur, merci de réessayer ou de vous déconnecter.</string>
     <string name="monday">LUN</string>
     <string name="tuesday">MAR</string>
     <string name="wednesday">MER</string>
