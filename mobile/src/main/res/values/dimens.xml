@@ -10,7 +10,7 @@
     <dimen name="ic_dp_margin">3dp</dimen>
     <dimen name="card_padding">4dp</dimen>
     <dimen name="card_spacing">10dp</dimen>
-    <dimen name="context_header_height">200dp</dimen>
+    <dimen name="context_header_height">120dp</dimen>
     <dimen name="toolbar_elevation">2dp</dimen>
     <dimen name="date_header_width">64dp</dimen>
     <dimen name="list_padding">3dp</dimen>
