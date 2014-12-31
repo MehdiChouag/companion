@@ -65,5 +65,4 @@
     <string name="no_upcoming_shared_events">No upcoming shared events\n:(</string>
     <string name="context_has_no_match">No context</string>
     <string name="context_loading">Loading context... please be patient.</string>
-    <string name="action_connect">Connect new sources</string>
 </resources>
