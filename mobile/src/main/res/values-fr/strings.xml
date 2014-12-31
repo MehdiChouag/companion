@@ -6,7 +6,7 @@
     <string name="action_settings">Paramètres</string>
     <string name="action_connect">Ajouter des applications</string>
     <string name="action_log_out">Déconnexion</string>
-    <string name="date_today">AUJOURD'HUI</string>
+    <string name="date_today">AUJOURD\'HUI</string>
     <string name="date_tomorrow">DEMAIN</string>
     <string name="title_upcoming_meetings">Prochains rendez-vous</string>
     <string name="title_activity_context">Contexte</string>
