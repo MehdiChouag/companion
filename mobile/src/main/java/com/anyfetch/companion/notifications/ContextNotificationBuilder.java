@@ -117,6 +117,36 @@ public class ContextNotificationBuilder {
         return builder.build();
     }
 
+    /**
+     * Builds the notification for the wear. <strong>This  method shouldn't be called from the main thread</strong>
+     *
+     * @return A Context Notification
+     */
+    public Notification buildNotification() {
+        DocumentsList documents;
+        try {
+            documents = getContextualObjectDocuments();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        NotificationCompat.Builder builder = buildBaseNotification();
+        builder.setGroupSummary(true);
+        NotificationCompat.InboxStyle inbox = new NotificationCompat.InboxStyle();
+        inbox.setBigContentTitle(mContextualObject.getTitle());
+
+        for (int i = 0; i < documents.size() && i < WEAR_CONTEXT_SIZE; i++) {
+            Document document = documents.get(i);
+            String title = HtmlUtils.convertHlt(document.getTitle());
+
+            inbox.addLine(Html.fromHtml(title));
+        }
+
+        builder.setStyle(inbox);
+        return builder.build();
+
+    }
 
     /**
      * Builds the notification for the wear. <strong>This  method shouldn't be called from the main thread</strong>

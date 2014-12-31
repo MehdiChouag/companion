@@ -44,7 +44,10 @@ public class BuildNotificationStackTask extends AsyncTask<ContextualObject, Obje
         // And for the wear, display a "stub" with basic functionality -- we'll load the document context after
         mManager.notify(id, builder.buildWearPlaceholder());
 
-        // Now build sub context pages
+        // Now, asynchronously load real context
+        mManager.notify(id - 1, builder.buildNotification());
+
+        // Also build sub context pages
         int count = 1;
         for (Notification subNotif : builder.buildSubcontextWearNotifications()) {
             mManager.notify(id + count, subNotif);
