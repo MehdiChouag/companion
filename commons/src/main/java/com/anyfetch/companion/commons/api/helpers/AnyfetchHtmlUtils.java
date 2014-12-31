@@ -1,5 +1,7 @@
 package com.anyfetch.companion.commons.api.helpers;
 
+import java.util.regex.Pattern;
+
 public class AnyfetchHtmlUtils {
     /**
      * TODO This is ugly :(
@@ -31,9 +33,31 @@ public class AnyfetchHtmlUtils {
         return origin;
     }
 
-    public static String htmlToText(String origin) {
-        origin = HtmlUtils.stripNonImportantAnyfetchHtml(origin);
+    /**
+     * Replace all HTML, only keeps .hlt markup and replace it with bold
+     * @param origin
+     * @return
+     */
+    public static String htmlToSimpleHtml(String origin) {
+        origin = AnyfetchHtmlUtils.stripNonImportantHtml(origin);
         origin = HtmlUtils.stripHtmlKeepLineFeed(origin);
         return origin;
+    }
+
+    /**
+     * Replace all HTML, only keeps .hlt markup and replace it with bold
+     * @param snippet
+     * @return
+     */
+    public static String htmlToSimpleHtmlTitleless(String snippet, String title) {
+        String rawTitle = HtmlUtils.stripHtml(title);
+
+        // TODO: factor out?
+        snippet = AnyfetchHtmlUtils.stripNonImportantHtml(snippet);
+        snippet = HtmlUtils.stripHtmlKeepLineFeed(snippet);
+
+        snippet = snippet.replaceFirst(Pattern.quote(rawTitle), "");
+
+        return snippet;
     }
 }
