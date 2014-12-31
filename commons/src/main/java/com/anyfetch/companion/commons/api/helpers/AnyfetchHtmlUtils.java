@@ -40,7 +40,7 @@ public class AnyfetchHtmlUtils {
      */
     public static String htmlToSimpleHtml(String origin) {
         // Preserve .hlt markup
-        origin = origin.replaceAll("<span[^>]+?anyfetch-hlt[^>]+?>(.+?)</span>", "{{[$1]}}");
+        origin = origin.replaceAll("<span[^>]+?anyfetch-hlt[^>]*?>(.+?)</span>", "{{[$1]}}");
 
         origin = AnyfetchHtmlUtils.stripNonImportantHtml(origin);
         origin = HtmlUtils.stripHtmlKeepLineFeed(origin);
