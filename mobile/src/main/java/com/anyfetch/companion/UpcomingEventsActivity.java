@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -148,6 +149,12 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
             case R.id.action_settings:
                 Intent intent = new Intent(this, SettingActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.action_connect:
+                String url = "https://manager.anyfetch.com/marketplace";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
                 break;
             case R.id.action_log_out:
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
