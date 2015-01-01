@@ -6,11 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
 import com.anyfetch.companion.R;
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 import java.util.Calendar;
 import java.util.Date;
+
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 /**
  * Handle timed headers
@@ -36,25 +38,33 @@ public abstract class TimedListAdapter extends BaseAdapter implements StickyList
 
         TextView main = (TextView) convertView.findViewById(R.id.mainTitle);
         TextView secondary = (TextView) convertView.findViewById(R.id.secondaryTitle);
+
         int color = mContext.getResources().getColor(R.color.text_primary);
-        String appendMonth = "";
+        String secondaryTitle = matchMonthName(then.get(Calendar.MONTH));
+        String mainTitle = Integer.toString(then.get(Calendar.DAY_OF_MONTH));
+
         if (now.get(Calendar.YEAR) == then.get(Calendar.YEAR)) {
             if (now.get(Calendar.DAY_OF_YEAR) == then.get(Calendar.DAY_OF_YEAR)) {
+                // Today
                 color = mContext.getResources().getColor(android.R.color.holo_blue_dark);
             } else if (now.get(Calendar.DAY_OF_YEAR) + 1 == then.get(Calendar.DAY_OF_YEAR)) {
+                // Tomorrow
                 color = mContext.getResources().getColor(android.R.color.holo_green_dark);
             } else if (now.get(Calendar.DAY_OF_YEAR) - 1 == then.get(Calendar.DAY_OF_YEAR)) {
+                // Toyota. Nah, just kidding, yesterday.
                 color = mContext.getResources().getColor(android.R.color.holo_green_dark);
             }
+
             if (now.get(Calendar.MONTH) == then.get(Calendar.MONTH)) {
-                secondary.setText(matchDayName(then.get(Calendar.DAY_OF_WEEK)));
-            } else {
-                secondary.setText(matchMonthName(then.get(Calendar.MONTH)));
+                // If we're in the current month, let's display the date
+                secondaryTitle = matchDayName(then.get(Calendar.DAY_OF_WEEK));
             }
         }
+
+        secondary.setText(secondaryTitle);
         main.setTextColor(color);
         secondary.setTextColor(color);
-        main.setText(then.get(Calendar.DAY_OF_MONTH) + appendMonth);
+        main.setText(mainTitle);
 
         return convertView;
     }
