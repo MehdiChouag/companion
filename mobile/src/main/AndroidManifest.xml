@@ -52,7 +52,7 @@
         </activity>
 
         <receiver
-            android:name=".notifications.MeetingPreparationReceiver"
+            android:name=".meetings.MeetingPreparationReceiver"
             android:process=":remote"/>
 
         <activity

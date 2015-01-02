@@ -33,7 +33,7 @@ import com.anyfetch.companion.commons.api.HttpSpiceService;
 import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
 import com.anyfetch.companion.commons.api.requests.GetStartRequest;
 import com.anyfetch.companion.fragments.ContextFragment;
-import com.anyfetch.companion.notifications.ScheduleMeetingPreparationTask;
+import com.anyfetch.companion.meetings.ScheduleMeetingPreparationTask;
 import com.melnykov.fab.FloatingActionButton;
 import com.newrelic.agent.android.NewRelic;
 import com.octo.android.robospice.SpiceManager;

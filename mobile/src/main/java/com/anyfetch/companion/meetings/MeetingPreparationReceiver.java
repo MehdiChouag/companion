@@ -1,9 +1,10 @@
-package com.anyfetch.companion.notifications;
+package com.anyfetch.companion.meetings;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import com.anyfetch.companion.commons.android.pojo.Event;
+import com.anyfetch.companion.notifications.BuildNotificationStackTask;
 
 /**
  * Receive a meeting preparation scheduled notification

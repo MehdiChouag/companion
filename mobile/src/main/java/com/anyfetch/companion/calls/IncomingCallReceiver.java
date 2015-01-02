@@ -34,26 +34,27 @@ public class IncomingCallReceiver extends BroadcastReceiver {
                                 return;
                             }
 
-                            Log.i("Incoming", state + "   incoming no:" + incomingNumber);
+                            Log.i("CallIncoming", state + "   incoming no:" + incomingNumber);
                             final Person contact = Person.getPersonByPhone(context, incomingNumber);
 
                             if (state == TelephonyManager.CALL_STATE_RINGING) {
                                 // Someone is calling us
                                 if (contact == null) {
-                                    Log.i("Incoming", "Incoming call caught, but unable to generate context for " + incomingNumber);
+                                    Log.i("CallIncoming", "Incoming call caught, but unable to generate context for " + incomingNumber);
                                 } else {
-                                    Log.i("Incoming", "Incoming call caught: " + contact.getName());
+                                    Log.i("CallIncoming", "Incoming call caught: " + contact.getName());
                                     new BuildNotificationStackTask(context).execute(contact, null, null);
                                 }
                             } else if (state == TelephonyManager.CALL_STATE_IDLE) {
                                 if (contact != null) {
-                                    Log.i("HangUp", "Call ended, notification for " + contact.getName() + " will be dismissed.");
+                                    Log.i("CallHangUp", "Call ended, notification for " + contact.getName() + " will be dismissed.");
                                     // Clean up previous notification after a small delay
                                     final Handler handler = new Handler();
                                     handler.postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
                                             NotificationManagerCompat.from(context).cancel(contact.getHashCode() - 1);
+                                            Log.i("CallHangUp", "Dismissed notification for " + contact.getName());
                                         }
                                     }, 5000);
 
