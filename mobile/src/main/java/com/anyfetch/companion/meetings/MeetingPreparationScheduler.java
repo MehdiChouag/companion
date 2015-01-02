@@ -1,4 +1,4 @@
-package com.anyfetch.companion.notifications;
+package com.anyfetch.companion.meetings;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import com.anyfetch.companion.commons.android.pojo.Event;
 import com.anyfetch.companion.commons.android.pojo.EventsList;
 import com.anyfetch.companion.commons.android.requests.GetUpcomingEventsRequest;
+import com.anyfetch.companion.meetings.MeetingPreparationReceiver;
 
 /**
  * Schedules the automatic event notifications (alarms

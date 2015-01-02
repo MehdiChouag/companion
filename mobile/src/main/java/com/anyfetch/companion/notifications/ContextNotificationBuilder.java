@@ -34,6 +34,7 @@ import java.util.Set;
 public class ContextNotificationBuilder {
     private static final int WEAR_CONTEXT_SIZE = 5;
     private final Context mContext;
+    private DocumentsList mContextualObjectDocuments = null;
     private final OkHttpClient mClient = new OkHttpClient();
     private ContextualObject mContextualObject;
     private Set<String> mTailedEmails;
@@ -59,6 +60,7 @@ public class ContextNotificationBuilder {
      */
     public ContextNotificationBuilder setContextualObject(ContextualObject contextualObject) {
         mContextualObject = contextualObject;
+        mContextualObjectDocuments = null;
 
         mGroupKey = Integer.toString(contextualObject.getSearchQuery(mTailedEmails).hashCode());
 
@@ -79,6 +81,7 @@ public class ContextNotificationBuilder {
     /**
      * Build a base notification.
      * This basic notification will later be enhanced, once we've loaded more contents asynchronously.
+     *
      * @return a basic notification, suitable for later enhancement
      */
     protected NotificationCompat.Builder buildBaseNotification() {
@@ -114,26 +117,27 @@ public class ContextNotificationBuilder {
     }
 
     /**
-     * Builds the notification. <strong>This  method shouldn't be called from the main thread</strong>
+     * Builds the notification for the wear. <strong>This  method shouldn't be called from the main thread</strong>
      *
      * @return A Context Notification
      */
-    public Notification build() {
-
+    public Notification buildWearNotification() {
+        List<Notification> subPages;
         try {
-            List<Notification> subPages = buildPages();
-
-            NotificationCompat.Builder builder = buildBaseNotification();
-
-            builder.setContentText(subPages.size() == 0 ? mContext.getString(R.string.context_has_no_match) : mContext.getString(R.string.context_has_match));
-            NotificationCompat.WearableExtender extender = new NotificationCompat.WearableExtender()
-                    .addPages(subPages);
-
-            return extender.extend(builder).build();
+            subPages = buildPages();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
+
+        NotificationCompat.Builder builder = buildBaseNotification();
+
+        builder.setContentText(subPages.size() == 0 ? mContext.getString(R.string.context_has_no_match) : mContext.getString(R.string.context_has_match));
+        NotificationCompat.WearableExtender extender = new NotificationCompat.WearableExtender()
+                .addPages(subPages);
+
+        return extender.extend(builder).build();
+
     }
 
     /**
@@ -141,7 +145,7 @@ public class ContextNotificationBuilder {
      *
      * @return A List of Context Notification
      */
-    public List<Notification> buildSubs() {
+    public List<Notification> buildSubcontextWearNotifications() {
         List<Notification> notifs = new ArrayList<Notification>();
         List<ContextualObject> subContexts = mContextualObject.getSubContexts(mTailedEmails);
         if (subContexts != null) {
@@ -149,23 +153,25 @@ public class ContextNotificationBuilder {
                 notifs.add(new ContextNotificationBuilder(mContext)
                         .setContextualObject(subContext)
                         .setGroupKey(mGroupKey)
-                        .build());
+                        .buildWearNotification());
             }
         }
         return notifs;
     }
 
+    /**
+     * Add pages to the Wear extender
+     *
+     * @return
+     * @throws Exception
+     */
     private List<Notification> buildPages() throws Exception {
-        GetDocumentsListRequest request = (GetDocumentsListRequest) new DocumentsListRequestBuilder(mContext)
-                .setContextualObject(mContextualObject)
-                .build();
-        request.setOkHttpClient(mClient);
+        DocumentsList documents = getContextualObjectDocuments();
+
         List<Notification> pages = new ArrayList<Notification>();
-        DocumentsList documents = request.loadDataFromNetwork();
         for (int i = 0; i < documents.size() && i < WEAR_CONTEXT_SIZE; i++) {
             Document document = documents.get(i);
             String title = HtmlUtils.convertHlt(document.getTitle());
-            String rawTitle = HtmlUtils.stripHtml(document.getTitle());
 
             // To build the big text, we retrieve the raw text
             // and then remove the "title" that will be set at the notification mainContent
@@ -187,5 +193,19 @@ public class ContextNotificationBuilder {
             pages.add(extender.extend(builder).build());
         }
         return pages;
+    }
+
+    public DocumentsList getContextualObjectDocuments() throws Exception {
+        if (mContextualObjectDocuments != null) {
+            return mContextualObjectDocuments;
+        }
+
+        GetDocumentsListRequest request = (GetDocumentsListRequest) new DocumentsListRequestBuilder(mContext)
+                .setContextualObject(mContextualObject)
+                .build();
+        request.setOkHttpClient(mClient);
+        mContextualObjectDocuments = request.loadDataFromNetwork();
+
+        return mContextualObjectDocuments;
     }
 }
