@@ -176,6 +176,10 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         mSwipeLayout.setRefreshing(false);
         mListAdapter = new DocumentsListAdapter(getActivity(), documents, mSelectedContextualObject);
         mListView.setAdapter(mListAdapter);
+
+        if(documents.size() == 0) {
+            Toast.makeText(getActivity(), getString(R.string.context_has_no_match), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
