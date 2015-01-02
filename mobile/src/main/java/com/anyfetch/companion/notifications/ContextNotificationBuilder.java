@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.text.Html;
-import android.util.Log;
 
 import com.anyfetch.companion.ContextActivity;
 import com.anyfetch.companion.R;
@@ -104,7 +103,7 @@ public class ContextNotificationBuilder {
         return builder;
     }
 
-    public Notification buildSummaryPlaceholder() {
+    public Notification buildSummary() {
         NotificationCompat.Builder builder = buildBaseNotification();
         builder.setGroupSummary(true);
         return builder.build();
@@ -115,37 +114,6 @@ public class ContextNotificationBuilder {
         builder.setGroupSummary(false);
         builder.setContentText(mContext.getString(R.string.context_loading));
         return builder.build();
-    }
-
-    /**
-     * Builds the notification for the wear. <strong>This  method shouldn't be called from the main thread</strong>
-     *
-     * @return A Context Notification
-     */
-    public Notification buildNotification() {
-        DocumentsList documents;
-        try {
-            documents = getContextualObjectDocuments();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        NotificationCompat.Builder builder = buildBaseNotification();
-        builder.setGroupSummary(true);
-        NotificationCompat.InboxStyle inbox = new NotificationCompat.InboxStyle();
-        inbox.setBigContentTitle(mContextualObject.getTitle());
-
-        for (int i = 0; i < documents.size() && i < WEAR_CONTEXT_SIZE; i++) {
-            Document document = documents.get(i);
-            String title = HtmlUtils.convertHlt(document.getTitle());
-
-            inbox.addLine(Html.fromHtml(title));
-        }
-
-        builder.setStyle(inbox);
-        return builder.build();
-
     }
 
     /**
@@ -227,10 +195,8 @@ public class ContextNotificationBuilder {
         return pages;
     }
 
-    private DocumentsList getContextualObjectDocuments() throws Exception {
-        Log.e("WTF", "getContextualObjectDocuments");
+    public DocumentsList getContextualObjectDocuments() throws Exception {
         if (mContextualObjectDocuments != null) {
-            Log.e("WTF", "getContextualObjectDocumentsFromCache");
             return mContextualObjectDocuments;
         }
 

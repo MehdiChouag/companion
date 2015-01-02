@@ -4,6 +4,8 @@ import android.app.Notification;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationManagerCompat;
+import android.util.Log;
+
 import com.anyfetch.companion.commons.api.builders.ContextualObject;
 
 /**
@@ -40,12 +42,20 @@ public class BuildNotificationStackTask extends AsyncTask<ContextualObject, Obje
                 .setContextualObject(contextualObject);
 
         // Instantly display the handheld device's notifications
-        mManager.notify(id - 1, builder.buildSummaryPlaceholder());
+        mManager.notify(id - 1, builder.buildSummary());
         // And for the wear, display a "stub" with basic functionality -- we'll load the document context after
         mManager.notify(id, builder.buildWearPlaceholder());
 
-        // Now, asynchronously load real context
-        mManager.notify(id - 1, builder.buildNotification());
+        if(builder.getContextualObjectDocuments().size() == 0) {
+            // No results; no need for a notification
+            Log.i("Notification", "Not displaying empty notification for " + contextualObject.getTitle());
+            mManager.cancel(id - 1);
+            mManager.cancel(id);
+
+            return;
+        }
+
+        Log.i("Notification", "Displaying notification for " + contextualObject.getTitle());
 
         // Also build sub context pages
         int count = 1;
