@@ -20,6 +20,7 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
@@ -69,6 +70,10 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WebView.setWebContentsDebuggingEnabled(true);
+        }
 
         // Start newrelic monitoring
         NewRelic.withApplicationToken("AA8f2983b4af8f945810684414d40a161c400b7569").start(this.getApplication());

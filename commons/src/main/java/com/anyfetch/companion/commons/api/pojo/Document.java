@@ -2,6 +2,7 @@ package com.anyfetch.companion.commons.api.pojo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.anyfetch.companion.commons.api.helpers.HtmlUtils;
 
@@ -18,7 +19,7 @@ public class Document implements Parcelable {
             String documentId = source.readString();
             String companyId = source.readString();
             String eventId = source.readString();
-            String type = source.readString();
+            String typeId = source.readString();
             String provider = source.readString();
             Date date = new Date(source.readLong());
             String title = source.readString();
@@ -26,7 +27,8 @@ public class Document implements Parcelable {
             String full = source.readString();
             String actions = source.readString();
             boolean important = (source.readInt() > 0);
-            return new Document(type, provider, documentId, companyId, eventId, date, title, snippet, full, actions, important);
+
+            return new Document(typeId, provider, documentId, companyId, eventId, date, title, snippet, full, actions, important);
         }
 
         @Override
