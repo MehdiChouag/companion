@@ -63,6 +63,6 @@
     <string name="notification_basic_description">Touch to view context.</string>
     <string name="context_has_match">Documents available for this context.</string>
     <string name="no_upcoming_shared_events">No upcoming shared events\n:(</string>
-    <string name="context_has_no_match">No context</string>
+    <string name="context_has_no_match">No documents for this context. Try connecting more sources</string>
     <string name="context_loading">Loading context... please be patient.</string>
 </resources>
