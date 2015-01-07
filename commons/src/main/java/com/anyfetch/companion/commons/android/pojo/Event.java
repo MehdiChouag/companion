@@ -24,6 +24,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -62,7 +63,7 @@ public class Event implements Parcelable, ContextualObject {
             CalendarContract.Events.DTSTART,
             CalendarContract.Events.DTEND,
             CalendarContract.Events.EVENT_LOCATION,
-            CalendarContract.Events.DISPLAY_COLOR
+            CalendarContract.Events.DISPLAY_COLOR,
     };
     private static final int PRJ_EVT_ID = 0;
     private static final int PRJ_EVT_TITLE = 1;
@@ -253,7 +254,7 @@ public class Event implements Parcelable, ContextualObject {
         Set<String> tailedEmails = prefs.getStringSet(BaseRequestBuilder.TAILED_EMAILS, new HashSet<String>());
 
         for (Person attendee : mAttendees) {
-            if(attendee.isExcluded(tailedEmails)) {
+            if (attendee.isExcluded(tailedEmails)) {
                 continue;
             }
 
@@ -388,7 +389,7 @@ public class Event implements Parcelable, ContextualObject {
         end.setTime(this.getEndDate());
 
         if (end.getTimeInMillis() - start.getTimeInMillis() != 1000 * 60 * 60 * 24) {
-            return String.format("%02d:%02d - %02d:%02d",
+            return String.format(Locale.getDefault(), "%02d:%02d - %02d:%02d",
                     start.get(Calendar.HOUR_OF_DAY),
                     start.get(Calendar.MINUTE),
                     end.get(Calendar.HOUR_OF_DAY),
