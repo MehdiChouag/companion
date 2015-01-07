@@ -10,7 +10,6 @@ if [ ! -e ${DEPS} ]; then
   echo y | android update sdk -u -a -t android-19 > /dev/null &&
   echo y | android update sdk -u -a -t android-21 > /dev/null &&
   echo y | android update sdk -u -a -t platform-tools > /dev/null &&
-  echo y | android update sdk -u -a -t build-tools-21.0.0 > /dev/null &&
   echo y | android update sdk -u -a -t sys-img-x86-android-19 > /dev/null &&
   echo y | android update sdk -u -a -t addon-google_apis-google-21 > /dev/null &&
   echo y | android update sdk -u -a -t extra-google-m2repository > /dev/null &&
