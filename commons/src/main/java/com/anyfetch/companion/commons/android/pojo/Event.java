@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
@@ -24,6 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -55,6 +57,7 @@ public class Event implements Parcelable, ContextualObject {
             return new Event[size];
         }
     };
+
     private static final String[] EVENT_PROJECTION = new String[]{
             CalendarContract.Events._ID,
             CalendarContract.Events.TITLE,
@@ -62,8 +65,18 @@ public class Event implements Parcelable, ContextualObject {
             CalendarContract.Events.DTSTART,
             CalendarContract.Events.DTEND,
             CalendarContract.Events.EVENT_LOCATION,
-            CalendarContract.Events.DISPLAY_COLOR
+            CalendarContract.Events.DISPLAY_COLOR,
     };
+
+    private static final String[] EVENT_PROJECTION_NO_COLOR = new String[]{
+            CalendarContract.Events._ID,
+            CalendarContract.Events.TITLE,
+            CalendarContract.Events.DESCRIPTION,
+            CalendarContract.Events.DTSTART,
+            CalendarContract.Events.DTEND,
+            CalendarContract.Events.EVENT_LOCATION,
+    };
+
     private static final int PRJ_EVT_ID = 0;
     private static final int PRJ_EVT_TITLE = 1;
     private static final int PRJ_EVT_DESCRIPTION = 2;
@@ -116,9 +129,8 @@ public class Event implements Parcelable, ContextualObject {
         Date dtStart = new Date(cur.getLong(PRJ_EVT_DTSTART));
         Date dtEnd = new Date(cur.getLong(PRJ_EVT_DTEND));
         String location = cur.getString(PRJ_EVT_LOC);
+        int color = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN ? cur.getInt(PRJ_EVT_COLOR) : -1;
 
-
-        int color = cur.getInt(PRJ_EVT_COLOR);
         int eventId = cur.getInt(PRJ_EVT_ID);
         Cursor attCur = cr.query(
                 CalendarContract.Attendees.CONTENT_URI,
@@ -172,7 +184,7 @@ public class Event implements Parcelable, ContextualObject {
         ContentResolver cr = context.getContentResolver();
         Cursor evtCur = cr.query(
                 CalendarContract.Events.CONTENT_URI,
-                EVENT_PROJECTION,
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN ? EVENT_PROJECTION : EVENT_PROJECTION_NO_COLOR,
                 CalendarContract.Events._ID + "=" + id,
                 null,
                 null);
@@ -211,7 +223,7 @@ public class Event implements Parcelable, ContextualObject {
 
         Cursor evtCur = cr.query(
                 CalendarContract.Events.CONTENT_URI,
-                EVENT_PROJECTION,
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN ? EVENT_PROJECTION : EVENT_PROJECTION_NO_COLOR,
                 CalendarContract.Events.DTEND + ">" + now.getTimeInMillis()
                 ,
                 null,
@@ -253,7 +265,7 @@ public class Event implements Parcelable, ContextualObject {
         Set<String> tailedEmails = prefs.getStringSet(BaseRequestBuilder.TAILED_EMAILS, new HashSet<String>());
 
         for (Person attendee : mAttendees) {
-            if(attendee.isExcluded(tailedEmails)) {
+            if (attendee.isExcluded(tailedEmails)) {
                 continue;
             }
 
@@ -388,7 +400,7 @@ public class Event implements Parcelable, ContextualObject {
         end.setTime(this.getEndDate());
 
         if (end.getTimeInMillis() - start.getTimeInMillis() != 1000 * 60 * 60 * 24) {
-            return String.format("%02d:%02d - %02d:%02d",
+            return String.format(Locale.getDefault(), "%02d:%02d - %02d:%02d",
                     start.get(Calendar.HOUR_OF_DAY),
                     start.get(Calendar.MINUTE),
                     end.get(Calendar.HOUR_OF_DAY),
