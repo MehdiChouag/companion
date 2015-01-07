@@ -118,19 +118,29 @@ public class FullFragment extends Fragment implements RequestListener<Document>,
         if (mFullWebView != null && !mDocument.getFull().equals("")) {
             mProgress.setVisibility(View.INVISIBLE);
 
-            // Load in full view by default (not zoomed in)
-            mFullWebView.getSettings().setLoadWithOverviewMode(true);
-            mFullWebView.getSettings().setUseWideViewPort(true);
+            // For "document" document type, use a special webview
+            Log.e("WTF", "TYPEID" + mDocument.getTypeId());
+            Log.e("WTF", "TYPEIDEQUALS" + mDocument.getTypeId().equals("5252ce4ce4cfcd16f55cfa3c"));
 
-            // Let user pinch-to-zoom
-            mFullWebView.getSettings().setSupportZoom(true);
-            mFullWebView.getSettings().setBuiltInZoomControls(true);
-            mFullWebView.getSettings().setDisplayZoomControls(false);
+            if(mDocument.getTypeId().equals("5252ce4ce4cfcd16f55cfa3c")) {
+                Log.e("WTF", "TYPEID OK");
+                // Let user pinch-to-zoom
+
+                // Load in full view by default (not zoomed in)
+                mFullWebView.getSettings().setLoadWithOverviewMode(true);
+                mFullWebView.getSettings().setUseWideViewPort(true);
+
+                mFullWebView.getSettings().setSupportZoom(true);
+                mFullWebView.getSettings().setBuiltInZoomControls(true);
+                mFullWebView.getSettings().setDisplayZoomControls(false);
+            }
+
 
             String htmlString = HtmlUtils.renderDocument(mFullWebView.getContext(), mDocument.getFull());
             mFullWebView.getSettings().setJavaScriptEnabled(mDocument.fullRequireJavascript());
 
             mFullWebView.loadDataWithBaseURL("file:///android_asset/", htmlString, "text/html", "UTF-8", null);
+
         }
     }
 
