@@ -68,6 +68,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     }
 
     @Override
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
