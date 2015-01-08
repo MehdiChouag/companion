@@ -28,11 +28,22 @@ public class IncomingCallReceiver extends BroadcastReceiver {
                     // We need to ensure we only register once using a static-hack
                     // See http://stackoverflow.com/questions/16016603/phone-state-listener-called-multiple-times
                     stateListener = new android.telephony.PhoneStateListener() {
+                        private String latestIncomingNumber = "";
+
                         @Override
                         public void onCallStateChanged(int state, String incomingNumber) {
+                            // Sometimes, Android does not send the incomingNumber (garbage collect, race condition, whatever...)
+                            // In such case, we have to restore the latest known number (possibly incorrect) to ensure notification is dismissed.
+                            if(incomingNumber.isEmpty() && state == TelephonyManager.CALL_STATE_IDLE) {
+                                incomingNumber = latestIncomingNumber;
+                            }
+
                             if(incomingNumber.isEmpty()) {
+                                Log.i("CallIncoming", state + "   with empty incoming number");
                                 return;
                             }
+
+                            latestIncomingNumber = incomingNumber;
 
                             Log.i("CallIncoming", state + "   incoming no:" + incomingNumber);
                             final Person contact = Person.getPersonByPhone(context, incomingNumber);
