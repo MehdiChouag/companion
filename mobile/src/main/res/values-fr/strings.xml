@@ -65,4 +65,6 @@
     <string name="no_upcoming_shared_events">Pas d\'évènements partagés\n:(</string>
     <string name="context_has_no_match">Aucun document pour ce contexte. Essayez de connecter plus de sources !</string>
     <string name="context_loading">Chargement...</string>
+    <string name="pref_dismiss_notification">Masquage automatique de notification</string>
+    <string name="pref_dismiss_notification_summary">Durée avant de supprimer une notification d\'appel</string>
 </resources>

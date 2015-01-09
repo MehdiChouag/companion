@@ -14,5 +14,13 @@
             android:summary="@string/pref_notification_calls_details"
             android:title="@string/pref_notification_calls">
         </CheckBoxPreference>
+
+        <ListPreference
+            android:defaultValue="4000"
+            android:entries="@array/dismissNotificationDelay"
+            android:entryValues="@array/dismissNotificationDelayValues"
+            android:key="prefDismissNotification"
+            android:summary="@string/pref_dismiss_notification_summary"
+            android:title="@string/pref_dismiss_notification"/>
     </PreferenceCategory>
 </PreferenceScreen>
