@@ -10,9 +10,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -221,7 +223,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
 
     @Override
     public void onClick(View v) { // on navigation item
-        getActivity().finish();
+        NavUtils.navigateUpFromSameTask(getActivity());
     }
 
     @Override
