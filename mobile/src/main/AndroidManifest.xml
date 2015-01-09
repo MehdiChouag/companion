@@ -27,7 +27,8 @@
 
         <activity
             android:name=".AuthActivity"
-            android:label="@string/title_activity_auth">
+            android:label="@string/title_activity_auth"
+            android:configChanges="orientation|screenSize">
         </activity>
         <activity
             android:name=".UpcomingEventsActivity"
