@@ -9,6 +9,10 @@ import android.os.Parcelable;
 
 import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import com.anyfetch.companion.fragments.ContextFragment;
+import com.mixpanel.android.mpmetrics.MixpanelAPI;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Launches ContextFragment
@@ -18,6 +22,15 @@ public class ContextActivity extends Activity {
     @Override
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     protected void onCreate(Bundle savedInstanceState) {
+        MixpanelAPI mixpanel = MixpanelAPI.getInstance(this, "8dbbc1e04d6535b7c52e47c9582eaeaf");
+        JSONObject props = new JSONObject();
+        try {
+            props.put("Gender", "Female");
+            props.put("Plan", "Premium");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mixpanel.track("Plan Selected", props);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_context);
 
@@ -39,6 +52,7 @@ public class ContextActivity extends Activity {
         }
     }
     protected void onDestroy() {
+        MixpanelAPI mixpanel = MixpanelAPI.getInstance(this, "8dbbc1e04d6535b7c52e47c9582eaeaf");
         mixpanel.flush();
         super.onDestroy();
     }

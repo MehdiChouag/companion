@@ -73,7 +73,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     @Override
     @TargetApi(Build.VERSION_CODES.KITKAT)
     protected void onCreate(Bundle savedInstanceState) {
-        MixpanelAPI.getInstance(context, "8dbbc1e04d6535b7c52e47c9582eaeaf");
+        MixpanelAPI mixpanel = MixpanelAPI.getInstance(this, "8dbbc1e04d6535b7c52e47c9582eaeaf");
         super.onCreate(savedInstanceState);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -241,5 +241,10 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     public void onRefresh() {
         GetUpcomingEventsRequest request = new GetUpcomingEventsRequest(this);
         mSpiceManager.execute(request, null, 0, this);
+    }
+    protected void onDestroy() {
+        MixpanelAPI mixpanel = MixpanelAPI.getInstance(this, "8dbbc1e04d6535b7c52e47c9582eaeaf");
+        mixpanel.flush();
+        super.onDestroy();
     }
 }
