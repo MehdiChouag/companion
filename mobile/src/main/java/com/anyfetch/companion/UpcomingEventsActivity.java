@@ -36,6 +36,7 @@ import com.anyfetch.companion.commons.api.requests.GetStartRequest;
 import com.anyfetch.companion.fragments.ContextFragment;
 import com.anyfetch.companion.meetings.ScheduleMeetingPreparationTask;
 import com.melnykov.fab.FloatingActionButton;
+import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.newrelic.agent.android.NewRelic;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
@@ -52,6 +53,8 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     private StickyListHeadersListView mListView;
     private EventsListAdapter mListAdapter;
     private SwipeRefreshLayout mSwipeLayout;
+
+    public static final String MIXPANEL_TOKEN = "8dbbc1e04d6535b7c52e47c9582eaeaf";
 
     @Override
     protected void onStart() {
@@ -70,6 +73,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     @Override
     @TargetApi(Build.VERSION_CODES.KITKAT)
     protected void onCreate(Bundle savedInstanceState) {
+        MixpanelAPI.getInstance(context, "8dbbc1e04d6535b7c52e47c9582eaeaf");
         super.onCreate(savedInstanceState);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

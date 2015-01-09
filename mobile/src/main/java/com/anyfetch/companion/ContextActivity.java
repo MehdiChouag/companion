@@ -38,4 +38,8 @@ public class ContextActivity extends Activity {
             }
         }
     }
+    protected void onDestroy() {
+        mixpanel.flush();
+        super.onDestroy();
+    }
 }
