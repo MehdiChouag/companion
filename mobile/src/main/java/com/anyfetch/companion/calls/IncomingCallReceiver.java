@@ -25,6 +25,8 @@ public class IncomingCallReceiver extends BroadcastReceiver {
                         .getSystemService(Context.TELEPHONY_SERVICE);
 
                 if (stateListener == null) {
+                    Log.i("IncomingCall", "Adding new listener for phone call notification");
+                    
                     // For some weird reasons, the Receiver is registered multiple time on Android.
                     // We need to ensure we only register once using a static-hack
                     // See http://stackoverflow.com/questions/16016603/phone-state-listener-called-multiple-times
@@ -33,6 +35,10 @@ public class IncomingCallReceiver extends BroadcastReceiver {
 
                         @Override
                         public void onCallStateChanged(int state, String incomingNumber) {
+                            if(incomingNumber == null) {
+                                incomingNumber = "";
+                            }
+
                             // Sometimes, Android does not send the incomingNumber (garbage collect, race condition, whatever...)
                             // In such case, we have to restore the latest known number (possibly incorrect) to ensure notification is dismissed.
                             if(incomingNumber.isEmpty() && state == TelephonyManager.CALL_STATE_IDLE) {
@@ -40,13 +46,13 @@ public class IncomingCallReceiver extends BroadcastReceiver {
                             }
 
                             if(incomingNumber.isEmpty()) {
-                                Log.i("CallIncoming", state + "   with empty incoming number");
+                                Log.i("CallIncoming", state + " with empty incoming number");
                                 return;
                             }
 
                             latestIncomingNumber = incomingNumber;
 
-                            Log.i("CallIncoming", state + "   incoming no:" + incomingNumber);
+                            Log.i("CallIncoming", state + " incoming no:" + incomingNumber);
                             final Person contact = Person.getPersonByPhone(context, incomingNumber);
 
                             if (state == TelephonyManager.CALL_STATE_RINGING) {
