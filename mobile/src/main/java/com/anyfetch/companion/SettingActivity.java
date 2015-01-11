@@ -3,7 +3,7 @@ package com.anyfetch.companion;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
-import com.anyfetch.companion.stats.MixPanel.MixPanel;
+import com.anyfetch.companion.stats.stats.MixPanel;
 
 public class SettingActivity extends PreferenceActivity {
     @Override

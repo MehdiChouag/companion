@@ -35,7 +35,7 @@ import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
 import com.anyfetch.companion.commons.api.requests.GetStartRequest;
 import com.anyfetch.companion.fragments.ContextFragment;
 import com.anyfetch.companion.meetings.ScheduleMeetingPreparationTask;
-import com.anyfetch.companion.stats.MixPanel.MixPanel;
+import com.anyfetch.companion.stats.stats.MixPanel;
 import com.melnykov.fab.FloatingActionButton;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.newrelic.agent.android.NewRelic;
@@ -198,6 +198,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
 
     @Override
     public void onRequestSuccess(EventsList events) {
+        MixPanel.getInstance(this).getPeople().set("EventsCount", events.size());
         mSwipeLayout.setRefreshing(false);
         if (events.size() > 0) {
             new ScheduleMeetingPreparationTask(this).execute(null, null, null);

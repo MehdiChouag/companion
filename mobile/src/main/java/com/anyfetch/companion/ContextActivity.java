@@ -9,10 +9,9 @@ import android.os.Parcelable;
 
 import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import com.anyfetch.companion.fragments.ContextFragment;
-import com.anyfetch.companion.stats.MixPanel.MixPanel;
+import com.anyfetch.companion.stats.stats.MixPanel;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -26,6 +25,7 @@ public class ContextActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         MixpanelAPI mixpanel = MixPanel.getInstance(this);
+        mixpanel.getPeople().increment("ContextViews", 1);
 
         setContentView(R.layout.activity_context);
 
@@ -45,13 +45,7 @@ public class ContextActivity extends Activity {
                 postponeEnterTransition();
             }
 
-            JSONObject props = new JSONObject();
-            try {
-                props.put("ContextType", contextualObject.getClass().toString());
-                props.put("Title", contextualObject.getTitle());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            JSONObject props = MixPanel.buildProp("ContextType", contextualObject.getClass().getName());
             mixpanel.track("ViewContext", props);
         }
     }
