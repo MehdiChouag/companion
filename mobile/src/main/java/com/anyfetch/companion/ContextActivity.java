@@ -9,6 +9,7 @@ import android.os.Parcelable;
 
 import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import com.anyfetch.companion.fragments.ContextFragment;
+import com.anyfetch.companion.stats.MixPanel.MixPanel;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 import org.json.JSONException;
@@ -22,16 +23,10 @@ public class ContextActivity extends Activity {
     @Override
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     protected void onCreate(Bundle savedInstanceState) {
-        MixpanelAPI mixpanel = MixpanelAPI.getInstance(this, "8dbbc1e04d6535b7c52e47c9582eaeaf");
-        JSONObject props = new JSONObject();
-        try {
-            props.put("Gender", "Female");
-            props.put("Plan", "Premium");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        mixpanel.track("Plan Selected", props);
         super.onCreate(savedInstanceState);
+
+        MixpanelAPI mixpanel = MixPanel.getInstance(this);
+
         setContentView(R.layout.activity_context);
 
         Intent originIntent = getIntent();
@@ -49,11 +44,19 @@ public class ContextActivity extends Activity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 postponeEnterTransition();
             }
+
+            JSONObject props = new JSONObject();
+            try {
+                props.put("ContextType", contextualObject.getClass().toString());
+                props.put("Title", contextualObject.getTitle());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            mixpanel.track("ViewContext", props);
         }
     }
     protected void onDestroy() {
-        MixpanelAPI mixpanel = MixpanelAPI.getInstance(this, "8dbbc1e04d6535b7c52e47c9582eaeaf");
-        mixpanel.flush();
+        MixPanel.getInstance(this).flush();
         super.onDestroy();
     }
 }

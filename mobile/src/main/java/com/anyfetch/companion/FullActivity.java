@@ -3,10 +3,11 @@ package com.anyfetch.companion;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
 import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import com.anyfetch.companion.commons.api.pojo.Document;
 import com.anyfetch.companion.fragments.FullFragment;
-import com.mixpanel.android.mpmetrics.MixpanelAPI;
+import com.anyfetch.companion.stats.MixPanel.MixPanel;
 
 /**
  * Launches FullFragment
@@ -15,8 +16,8 @@ public class FullActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        MixpanelAPI mixpanel = MixpanelAPI.getInstance(this, "8dbbc1e04d6535b7c52e47c9582eaeaf");
         super.onCreate(savedInstanceState);
+        MixPanel.getInstance(this);
         setContentView(R.layout.activity_full);
         Intent originIntent = getIntent();
 
@@ -30,8 +31,7 @@ public class FullActivity extends Activity {
         }
     }
     protected void onDestroy() {
-        MixpanelAPI mixpanel = MixpanelAPI.getInstance(this, "8dbbc1e04d6535b7c52e47c9582eaeaf");
-        mixpanel.flush();
+        MixPanel.getInstance(this).flush();
         super.onDestroy();
     }
 }

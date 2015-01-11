@@ -35,6 +35,7 @@ import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
 import com.anyfetch.companion.commons.api.requests.GetStartRequest;
 import com.anyfetch.companion.fragments.ContextFragment;
 import com.anyfetch.companion.meetings.ScheduleMeetingPreparationTask;
+import com.anyfetch.companion.stats.MixPanel.MixPanel;
 import com.melnykov.fab.FloatingActionButton;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.newrelic.agent.android.NewRelic;
@@ -54,8 +55,6 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     private EventsListAdapter mListAdapter;
     private SwipeRefreshLayout mSwipeLayout;
 
-    public static final String MIXPANEL_TOKEN = "8dbbc1e04d6535b7c52e47c9582eaeaf";
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -73,8 +72,8 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     @Override
     @TargetApi(Build.VERSION_CODES.KITKAT)
     protected void onCreate(Bundle savedInstanceState) {
-        MixpanelAPI mixpanel = MixpanelAPI.getInstance(this, "8dbbc1e04d6535b7c52e47c9582eaeaf");
         super.onCreate(savedInstanceState);
+        MixpanelAPI mixpanel = MixPanel.getInstance(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(true);
@@ -243,8 +242,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
         mSpiceManager.execute(request, null, 0, this);
     }
     protected void onDestroy() {
-        MixpanelAPI mixpanel = MixpanelAPI.getInstance(this, "8dbbc1e04d6535b7c52e47c9582eaeaf");
-        mixpanel.flush();
+        MixPanel.getInstance(this).flush();
         super.onDestroy();
     }
 }

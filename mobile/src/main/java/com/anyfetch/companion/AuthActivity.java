@@ -12,14 +12,14 @@ import android.webkit.WebViewClient;
 import com.anyfetch.companion.commons.android.helpers.AccountsHelper;
 import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
 import com.anyfetch.companion.commons.api.builders.DocumentsListRequestBuilder;
-import com.mixpanel.android.mpmetrics.MixpanelAPI;
+import com.anyfetch.companion.stats.MixPanel.MixPanel;
 
 import java.util.Set;
 
 public class AuthActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        MixpanelAPI mixpanel = MixpanelAPI.getInstance(this, "8dbbc1e04d6535b7c52e47c9582eaeaf");
+        MixPanel.getInstance(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
 
@@ -61,9 +61,9 @@ public class AuthActivity extends Activity {
         startActivity(intent);
         finish();
     }
+
     protected void onDestroy() {
-        MixpanelAPI mixpanel = MixpanelAPI.getInstance(this, "8dbbc1e04d6535b7c52e47c9582eaeaf");
-        mixpanel.flush();
+        MixPanel.getInstance(this).flush();
         super.onDestroy();
     }
 }

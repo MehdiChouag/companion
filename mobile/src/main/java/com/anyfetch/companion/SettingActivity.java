@@ -3,21 +3,21 @@ package com.anyfetch.companion;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
-import com.mixpanel.android.mpmetrics.MixpanelAPI;
+import com.anyfetch.companion.stats.MixPanel.MixPanel;
 
 public class SettingActivity extends PreferenceActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        MixpanelAPI mixpanel = MixpanelAPI.getInstance(this, "8dbbc1e04d6535b7c52e47c9582eaeaf");
         // Set up
         super.onCreate(savedInstanceState);
+
+        MixPanel.getInstance(this);
 
         // UI
         addPreferencesFromResource(R.xml.settings);
     }
     protected void onDestroy() {
-        MixpanelAPI mixpanel = MixpanelAPI.getInstance(this, "8dbbc1e04d6535b7c52e47c9582eaeaf");
-        mixpanel.flush();
+        MixPanel.getInstance(this).flush();
         super.onDestroy();
     }
 }
