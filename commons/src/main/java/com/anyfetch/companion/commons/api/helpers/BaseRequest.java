@@ -43,6 +43,9 @@ public abstract class BaseRequest<T> extends OkHttpSpiceRequest<T> {
         Log.i(TAG, "Api token: " + apiToken);
         mServerUrl = serverUrl;
         mApiToken = apiToken;
+
+        // Don't retry failed requests
+        setRetryPolicy(null);
     }
 
     @Override

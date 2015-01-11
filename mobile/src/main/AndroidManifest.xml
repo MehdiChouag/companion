@@ -27,7 +27,8 @@
 
         <activity
             android:name=".AuthActivity"
-            android:label="@string/title_activity_auth">
+            android:label="@string/title_activity_auth"
+            android:configChanges="orientation|screenSize">
         </activity>
         <activity
             android:name=".UpcomingEventsActivity"
@@ -39,15 +40,16 @@
         </activity>
         <activity
             android:name=".ContextActivity"
-            android:label="@string/title_activity_context">
+            android:label="@string/title_activity_context"
+            android:parentActivityName=".UpcomingEventsActivity">
         </activity>
 
         <activity
             android:name=".SettingActivity"
             android:label="@string/title_activity_settings">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.NOTIFICATION_PREFERENCES" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.NOTIFICATION_PREFERENCES"/>
             </intent-filter>
         </activity>
 
@@ -58,6 +60,7 @@
         <activity
             android:name=".FullActivity"
             android:label="@string/title_activity_full">
+
         </activity>
 
 

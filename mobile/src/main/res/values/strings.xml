@@ -65,4 +65,6 @@
     <string name="no_upcoming_shared_events">No upcoming shared events\n:(</string>
     <string name="context_has_no_match">No documents for this context. Try connecting more sources</string>
     <string name="context_loading">Loading context... please be patient.</string>
+    <string name="pref_dismiss_notification_summary">Time before automatically dismissing unused call notification</string>
+    <string name="pref_dismiss_notification">Automatic notification removal</string>
 </resources>

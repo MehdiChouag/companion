@@ -3,6 +3,7 @@ package com.anyfetch.companion.calls;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationManagerCompat;
@@ -58,7 +59,16 @@ public class IncomingCallReceiver extends BroadcastReceiver {
                                 }
                             } else if (state == TelephonyManager.CALL_STATE_IDLE) {
                                 if (contact != null) {
-                                    Log.i("CallHangUp", "Call ended, notification for " + contact.getName() + " will be dismissed.");
+                                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+                                    int timeBeforeDismiss = Integer.parseInt(prefs.getString("prefDismissNotification", "4000"));
+
+                                    if(timeBeforeDismiss == -1) {
+                                        // Don't discard notification
+                                        return;
+                                    }
+
+                                    Log.i("CallHangUp", "Call ended, notification for " + contact.getName() + " will be dismissed in " + timeBeforeDismiss + "ms.");
                                     // Clean up previous notification after a small delay
                                     final Handler handler = new Handler();
                                     handler.postDelayed(new Runnable() {
@@ -67,7 +77,7 @@ public class IncomingCallReceiver extends BroadcastReceiver {
                                             NotificationManagerCompat.from(context).cancel(contact.getHashCode() - 1);
                                             Log.i("CallHangUp", "Dismissed notification for " + contact.getName());
                                         }
-                                    }, 5000);
+                                    }, timeBeforeDismiss);
 
                                 }
                             }
