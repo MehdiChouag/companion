@@ -16,11 +16,12 @@ import org.json.JSONObject;
  * Launches FullFragment
  */
 public class FullActivity extends Activity {
+    private MixpanelAPI mixpanel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MixpanelAPI mixpanel = MixPanel.getInstance(this);
+        mixpanel = MixPanel.getInstance(this);
         mixpanel.getPeople().increment("FullViews", 1);
 
         setContentView(R.layout.activity_full);
@@ -43,7 +44,7 @@ public class FullActivity extends Activity {
         }
     }
     protected void onDestroy() {
-        MixPanel.getInstance(this).flush();
+        mixpanel.flush();
         super.onDestroy();
     }
 }

@@ -18,7 +18,12 @@ public class MixPanel {
     public static MixpanelAPI getInstance(Context context) {
         MixpanelAPI mixpanel = MixpanelAPI.getInstance(context, MIXPANEL_TOKEN);
         String token = PreferenceManager.getDefaultSharedPreferences(context).getString(BaseRequestBuilder.PREF_API_TOKEN, "");
-        mixpanel.identify(Integer.toString(token.hashCode()));
+        if(!token.isEmpty()) {
+            String id = Integer.toString(token.hashCode());
+            mixpanel.identify(id);
+            mixpanel.getPeople().identify(id);
+        }
+
         return mixpanel;
     }
 

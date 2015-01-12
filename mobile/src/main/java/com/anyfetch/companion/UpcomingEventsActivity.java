@@ -54,6 +54,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     private StickyListHeadersListView mListView;
     private EventsListAdapter mListAdapter;
     private SwipeRefreshLayout mSwipeLayout;
+    private MixpanelAPI mixpanel;
 
     @Override
     protected void onStart() {
@@ -73,7 +74,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     @TargetApi(Build.VERSION_CODES.KITKAT)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MixpanelAPI mixpanel = MixPanel.getInstance(this);
+        mixpanel = MixPanel.getInstance(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(true);
@@ -243,7 +244,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
         mSpiceManager.execute(request, null, 0, this);
     }
     protected void onDestroy() {
-        MixPanel.getInstance(this).flush();
+        mixpanel.flush();
         super.onDestroy();
     }
 }

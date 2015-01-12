@@ -18,13 +18,14 @@ import org.json.JSONObject;
  * Launches ContextFragment
  */
 public class ContextActivity extends Activity {
+    private MixpanelAPI mixpanel;
 
     @Override
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MixpanelAPI mixpanel = MixPanel.getInstance(this);
+        mixpanel = MixPanel.getInstance(this);
         mixpanel.getPeople().increment("ContextViews", 1);
 
         setContentView(R.layout.activity_context);
@@ -50,7 +51,7 @@ public class ContextActivity extends Activity {
         }
     }
     protected void onDestroy() {
-        MixPanel.getInstance(this).flush();
+        mixpanel.flush();
         super.onDestroy();
     }
 }

@@ -4,20 +4,23 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
 import com.anyfetch.companion.stats.MixPanel;
+import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 public class SettingActivity extends PreferenceActivity {
+    private MixpanelAPI mixpanel;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // Set up
         super.onCreate(savedInstanceState);
 
-        MixPanel.getInstance(this);
+        mixpanel = MixPanel.getInstance(this);
 
         // UI
         addPreferencesFromResource(R.xml.settings);
     }
     protected void onDestroy() {
-        MixPanel.getInstance(this).flush();
+        mixpanel.flush();
         super.onDestroy();
     }
 }
