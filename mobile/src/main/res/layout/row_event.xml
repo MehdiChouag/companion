@@ -49,18 +49,6 @@
                 tools:ignore="UnusedAttribute"/>
 
             <TextView
-                android:id="@+id/timeView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_toLeftOf="@+id/imageView"
-                android:layout_toStartOf="@+id/imageView"
-                android:singleLine="true"
-                android:text="@string/placeholder_time_range"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/text_primary_inverse"/>
-
-            <TextView
                 android:id="@+id/titleView"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
@@ -68,8 +56,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_gravity="start|top"
-                android:layout_toLeftOf="@+id/timeView"
-                android:layout_toStartOf="@+id/timeView"
+                android:layout_toLeftOf="@+id/imageView"
+                android:layout_toStartOf="@+id/imageView"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:text="@string/placeholder_event_title"
@@ -79,18 +67,30 @@
                 tools:ignore="UnusedAttribute"/>
 
             <TextView
+                android:id="@+id/timeView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="@string/placeholder_time_range"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/text_primary_inverse"
+                android:layout_below="@+id/titleView"
+                android:layout_toLeftOf="@+id/imageView"
+                android:layout_toStartOf="@+id/imageView"/>
+
+            <TextView
                 android:id="@+id/locationView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/timeView"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_alignRight="@+id/timeView"
                 android:layout_below="@id/titleView"
                 android:singleLine="true"
                 android:text="@string/placeholder_location"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/text_primary_inverse"/>
+                android:textColor="@color/text_primary_inverse"
+                android:layout_toLeftOf="@+id/timeView"
+                android:layout_toStartOf="@+id/timeView"/>
         </RelativeLayout>
     </FrameLayout>
 </LinearLayout>
