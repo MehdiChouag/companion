@@ -6,18 +6,30 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.anyfetch.companion.commons.android.helpers.AccountsHelper;
 import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
 import com.anyfetch.companion.commons.api.builders.DocumentsListRequestBuilder;
+import com.anyfetch.companion.stats.MixPanel;
+import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.Date;
 import java.util.Set;
 
 public class AuthActivity extends Activity {
+    private MixpanelAPI mixpanel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mixpanel = MixPanel.getInstance(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
 
@@ -35,28 +47,59 @@ public class AuthActivity extends Activity {
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                if (url.startsWith("https://localhost/done/")) {
-                    String apiToken = url.substring(url.lastIndexOf('/') + 1, url.length());
-                    backToUpcoming(apiToken);
+                String baseUrl = "https://localhost/done/";
+                if (url.startsWith(baseUrl)) {
+                    try {
+                        JSONObject data = new JSONObject(URLDecoder.decode(url.replace(baseUrl, ""), "UTF-8"));
+                        backToUpcoming(data);
+                    }
+                    catch(JSONException e) {
+                        e.printStackTrace();
+                    }
+                    catch(UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
         webView.loadUrl(serverUrl + "/init/connect");
     }
 
-    private void backToUpcoming(String apiToken) {
+    private void backToUpcoming(JSONObject data) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
 
-        // Save the token
-        editor.putString(BaseRequestBuilder.PREF_API_TOKEN, apiToken);
+        Log.e("JSON", data.toString());
+        try {
+            // Save the token
+            editor.putString(BaseRequestBuilder.PREF_API_TOKEN, data.getString("token"));
+            editor.putString("userEmail", data.getString("userEmail"));
+            editor.putString("userId", data.getString("userId"));
+            editor.putString("companyId", data.getString("companyId"));
+        }
+        catch(JSONException e) {
+            e.printStackTrace();
+        }
 
         // Save a list of ignored emails
         Set<String> emails = new AccountsHelper().getOwnerEmails(this);
         editor.putStringSet(DocumentsListRequestBuilder.TAILED_EMAILS, emails);
         editor.apply();
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        MixPanel.identify(mixpanel, this);
+        mixpanel.getPeople().set("$email", prefs.getString("userEmail", "unknown@email.com"));
+        mixpanel.getPeople().set("$name", prefs.getString("userEmail", "Unknown"));
+        mixpanel.getPeople().set("userId", prefs.getString("userId", "<unknown>"));
+        mixpanel.getPeople().set("companyId", prefs.getString("companyId", "<unknown>"));
+        mixpanel.getPeople().set("$created", new Date().toString());
+
         Intent intent = new Intent(getApplicationContext(), UpcomingEventsActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    protected void onDestroy() {
+        mixpanel.flush();
+        super.onDestroy();
     }
 }

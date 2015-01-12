@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.anyfetch.companion.commons.android.pojo.Person;
 import com.anyfetch.companion.notifications.BuildNotificationStackTask;
+import com.anyfetch.companion.stats.MixPanel;
+import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 public class OutgoingCallReceiver extends BroadcastReceiver {
     @Override
@@ -24,6 +26,11 @@ public class OutgoingCallReceiver extends BroadcastReceiver {
             } else {
                 Log.i("CallOutgoing", "Outgoing call caught: " + contact.getName());
                 new BuildNotificationStackTask(context).execute(contact, null, null);
+
+                MixpanelAPI mixpanel = MixPanel.getInstance(context);
+                mixpanel.getPeople().increment("OutgoingCallCount", 1);
+                mixpanel.getPeople().increment("CallCount", 1);
+                mixpanel.flush();
             }
         }
     }

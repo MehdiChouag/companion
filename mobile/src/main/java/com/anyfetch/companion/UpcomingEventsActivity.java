@@ -35,7 +35,9 @@ import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
 import com.anyfetch.companion.commons.api.requests.GetStartRequest;
 import com.anyfetch.companion.fragments.ContextFragment;
 import com.anyfetch.companion.meetings.ScheduleMeetingPreparationTask;
+import com.anyfetch.companion.stats.MixPanel;
 import com.melnykov.fab.FloatingActionButton;
+import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.newrelic.agent.android.NewRelic;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
@@ -52,6 +54,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     private StickyListHeadersListView mListView;
     private EventsListAdapter mListAdapter;
     private SwipeRefreshLayout mSwipeLayout;
+    private MixpanelAPI mixpanel;
 
     @Override
     protected void onStart() {
@@ -71,7 +74,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     @TargetApi(Build.VERSION_CODES.KITKAT)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mixpanel = MixPanel.getInstance(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(true);
         }
@@ -82,6 +85,11 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String serverUrl = preferences.getString(BaseRequestBuilder.PREF_SERVER_URL, BaseRequestBuilder.DEFAULT_SERVER_URL);
         String apiToken = preferences.getString(BaseRequestBuilder.PREF_API_TOKEN, null);
+
+        // Log out the user if no userId set (coming from version 2.5.0 or before)
+        if(preferences.getString("userId", "").isEmpty()) {
+            apiToken = null;
+        }
 
         if (apiToken == null) {
             openAuthActivity();
@@ -195,6 +203,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
 
     @Override
     public void onRequestSuccess(EventsList events) {
+        MixPanel.getInstance(this).getPeople().set("EventsCount", events.size());
         mSwipeLayout.setRefreshing(false);
         if (events.size() > 0) {
             new ScheduleMeetingPreparationTask(this).execute(null, null, null);
@@ -237,5 +246,9 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     public void onRefresh() {
         GetUpcomingEventsRequest request = new GetUpcomingEventsRequest(this);
         mSpiceManager.execute(request, null, 0, this);
+    }
+    protected void onDestroy() {
+        mixpanel.flush();
+        super.onDestroy();
     }
 }

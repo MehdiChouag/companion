@@ -82,7 +82,6 @@ public class FullFragment extends Fragment implements RequestListener<Document>,
             mContextualObject = getArguments().getParcelable(ARG_CONTEXTUAL_OBJECT);
 
             if (mDocument.getFull().equals("")) {
-                // TODO: bring ctx query
                 GetDocumentRequest request = (GetDocumentRequest) new DocumentRequestBuilder(getActivity())
                         .setDocument(mDocument)
                         .actionGet()
