@@ -5,6 +5,7 @@
              android:paddingBottom="@dimen/card_spacing"
              android:paddingLeft="@dimen/card_spacing"
              android:paddingRight="@dimen/card_spacing"
+             android:minHeight="150dp"
              android:paddingTop="0dp">
 
     <android.support.v7.widget.CardView
