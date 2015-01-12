@@ -22,7 +22,7 @@ public class FullActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mixpanel = MixPanel.getInstance(this);
-        mixpanel.getPeople().increment("FullViews", 1);
+        mixpanel.getPeople().increment("FullCount", 1);
 
         setContentView(R.layout.activity_full);
         Intent originIntent = getIntent();

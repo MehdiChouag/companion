@@ -26,7 +26,7 @@ public class ContextActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         mixpanel = MixPanel.getInstance(this);
-        mixpanel.getPeople().increment("ContextViews", 1);
+        mixpanel.getPeople().increment("ContextCount", 1);
 
         setContentView(R.layout.activity_context);
 

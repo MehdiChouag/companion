@@ -3,7 +3,6 @@ package com.anyfetch.companion.stats;
 import android.content.Context;
 import android.preference.PreferenceManager;
 
-import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 import org.json.JSONException;
@@ -15,13 +14,22 @@ import org.json.JSONObject;
 public class MixPanel {
     public static final String MIXPANEL_TOKEN = "8dbbc1e04d6535b7c52e47c9582eaeaf";
 
+    /**
+     * Get an instance of MixPanel, with identify already called.
+     * @param context
+     * @return
+     */
     public static MixpanelAPI getInstance(Context context) {
         MixpanelAPI mixpanel = MixpanelAPI.getInstance(context, MIXPANEL_TOKEN);
-        String token = PreferenceManager.getDefaultSharedPreferences(context).getString(BaseRequestBuilder.PREF_API_TOKEN, "");
-        if(!token.isEmpty()) {
-            String id = Integer.toString(token.hashCode());
-            mixpanel.identify(id);
-            mixpanel.getPeople().identify(id);
+
+        return identify(mixpanel, context);
+    }
+
+    public static MixpanelAPI identify(MixpanelAPI mixpanel, Context context) {
+        String userId = PreferenceManager.getDefaultSharedPreferences(context).getString("userId", "unknown");
+        if(!userId.isEmpty()) {
+            mixpanel.identify(userId);
+            mixpanel.getPeople().identify(userId);
         }
 
         return mixpanel;
