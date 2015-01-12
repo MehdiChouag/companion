@@ -7,7 +7,7 @@ import android.os.Bundle;
 import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import com.anyfetch.companion.commons.api.pojo.Document;
 import com.anyfetch.companion.fragments.FullFragment;
-import com.anyfetch.companion.stats.stats.MixPanel;
+import com.anyfetch.companion.stats.MixPanel;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 import org.json.JSONObject;

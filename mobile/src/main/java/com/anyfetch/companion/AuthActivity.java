@@ -12,7 +12,7 @@ import android.webkit.WebViewClient;
 import com.anyfetch.companion.commons.android.helpers.AccountsHelper;
 import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
 import com.anyfetch.companion.commons.api.builders.DocumentsListRequestBuilder;
-import com.anyfetch.companion.stats.stats.MixPanel;
+import com.anyfetch.companion.stats.MixPanel;
 
 import java.util.Set;
 

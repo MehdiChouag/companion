@@ -1,4 +1,4 @@
-package com.anyfetch.companion.stats.stats;
+package com.anyfetch.companion.stats;
 
 import android.content.Context;
 import android.preference.PreferenceManager;

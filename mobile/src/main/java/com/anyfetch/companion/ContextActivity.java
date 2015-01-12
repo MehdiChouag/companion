@@ -9,7 +9,7 @@ import android.os.Parcelable;
 
 import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import com.anyfetch.companion.fragments.ContextFragment;
-import com.anyfetch.companion.stats.stats.MixPanel;
+import com.anyfetch.companion.stats.MixPanel;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 import org.json.JSONObject;

@@ -35,7 +35,7 @@ import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
 import com.anyfetch.companion.commons.api.requests.GetStartRequest;
 import com.anyfetch.companion.fragments.ContextFragment;
 import com.anyfetch.companion.meetings.ScheduleMeetingPreparationTask;
-import com.anyfetch.companion.stats.stats.MixPanel;
+import com.anyfetch.companion.stats.MixPanel;
 import com.melnykov.fab.FloatingActionButton;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.newrelic.agent.android.NewRelic;
