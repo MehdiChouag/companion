@@ -75,7 +75,6 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mixpanel = MixPanel.getInstance(this);
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(true);
         }
@@ -86,6 +85,11 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String serverUrl = preferences.getString(BaseRequestBuilder.PREF_SERVER_URL, BaseRequestBuilder.DEFAULT_SERVER_URL);
         String apiToken = preferences.getString(BaseRequestBuilder.PREF_API_TOKEN, null);
+
+        // Log out the user if no userId set (coming from version 2.5.0 or before)
+        if(preferences.getString("userId", "").isEmpty()) {
+            apiToken = null;
+        }
 
         if (apiToken == null) {
             openAuthActivity();

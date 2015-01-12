@@ -13,11 +13,17 @@ import android.util.Log;
 
 import com.anyfetch.companion.commons.android.pojo.Person;
 import com.anyfetch.companion.notifications.BuildNotificationStackTask;
+import com.anyfetch.companion.stats.MixPanel;
+import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 public class IncomingCallReceiver extends BroadcastReceiver {
     private static PhoneStateListener stateListener;
+    private MixpanelAPI mixpanel;
 
     public void onReceive(final Context context, Intent intent) {
+        mixpanel = MixPanel.getInstance(context);
+
+
         // Only register listener when the user asked to be notified on calls
         if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("prefNotifyForCalls", true)) {
             try {
@@ -61,6 +67,11 @@ public class IncomingCallReceiver extends BroadcastReceiver {
                                     Log.i("CallIncoming", "Incoming call caught, but unable to generate context for " + incomingNumber);
                                 } else {
                                     Log.i("CallIncoming", "Incoming call caught: " + contact.getName());
+
+                                    mixpanel.getPeople().increment("IncomingCallCount", 1);
+                                    mixpanel.getPeople().increment("CallCount", 1);
+                                    mixpanel.flush();
+
                                     new BuildNotificationStackTask(context).execute(contact, null, null);
                                 }
                             } else if (state == TelephonyManager.CALL_STATE_IDLE) {
