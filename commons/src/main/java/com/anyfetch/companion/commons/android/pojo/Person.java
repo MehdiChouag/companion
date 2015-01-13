@@ -435,12 +435,12 @@ public class Person implements Parcelable, ContextualObject {
     public String getSearchQuery(Set<String> tailedEmails) {
         String query = "";
         boolean first = true;
-        if (mName != null) {
+        if (mName != null && !mName.isEmpty()) {
             query = "(" + mName + ")";
             first = false;
         }
         for (String email : mEmails) {
-            if (email.length() > 0) {
+            if (!email.isEmpty()) {
                 if (!first) {
                     query += " OR ";
                 }
