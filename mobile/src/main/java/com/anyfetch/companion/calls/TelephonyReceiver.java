@@ -17,7 +17,7 @@ import com.anyfetch.companion.notifications.BuildNotificationStackTask;
 import com.anyfetch.companion.stats.MixPanel;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
-public class IncomingCallReceiver extends BroadcastReceiver {
+public class TelephonyReceiver extends BroadcastReceiver {
     private static PhoneStateListener stateListener;
     private MixpanelAPI mixpanel = null;
 
@@ -58,6 +58,16 @@ public class IncomingCallReceiver extends BroadcastReceiver {
             Log.i("TelephonyState", "Incoming call caught: " + contact.getName());
 
             mixpanel.getPeople().increment("IncomingCallCount", 1);
+            mixpanel.getPeople().increment("CallCount", 1);
+            mixpanel.flush();
+
+            new BuildNotificationStackTask(context).execute(contact, null, null);
+        }
+        else if (state.equalsIgnoreCase(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
+            // We are calling someone
+            Log.i("TelephonyState", "Outgoing call caught: " + contact.getName());
+
+            mixpanel.getPeople().increment("OutgoingCallCount", 1);
             mixpanel.getPeople().increment("CallCount", 1);
             mixpanel.flush();
 
