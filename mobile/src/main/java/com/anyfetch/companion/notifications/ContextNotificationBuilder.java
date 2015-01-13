@@ -87,6 +87,8 @@ public class ContextNotificationBuilder {
     protected NotificationCompat.Builder buildBaseNotification() {
         Intent viewIntent = new Intent(mContext, ContextActivity.class);
         viewIntent.putExtra(ContextFragment.ARG_CONTEXTUAL_OBJECT, mContextualObject);
+        viewIntent.putExtra(ContextActivity.ORIGIN, "notification");
+
 
         PendingIntent viewPendingIntent = PendingIntent.getActivity(mContext, mContextualObject.getTitle().hashCode(), viewIntent, 0);
 

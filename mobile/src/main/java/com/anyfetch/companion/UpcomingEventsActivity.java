@@ -191,6 +191,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
 
                 Intent intent = new Intent(getApplicationContext(), ContextActivity.class);
                 intent.putExtra(ContextFragment.ARG_CONTEXTUAL_OBJECT, person);
+                intent.putExtra(ContextActivity.ORIGIN, "contactPicker");
                 startActivity(intent);
             }
         }
@@ -223,6 +224,8 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
 
         Intent intent = new Intent(getApplicationContext(), ContextActivity.class);
         intent.putExtra(ContextFragment.ARG_CONTEXTUAL_OBJECT, event);
+        intent.putExtra(ContextActivity.ORIGIN, "upcomingEventList");
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions animation = ActivityOptions.makeSceneTransitionAnimation(this,
                     Pair.create(imageView, "imageView"),

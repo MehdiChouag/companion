@@ -18,6 +18,9 @@ import org.json.JSONObject;
  * Launches ContextFragment
  */
 public class ContextActivity extends Activity {
+    // Notification origin
+    public static final String ORIGIN = "origin";
+
     private MixpanelAPI mixpanel;
 
     @Override
@@ -46,7 +49,11 @@ public class ContextActivity extends Activity {
                 postponeEnterTransition();
             }
 
-            JSONObject props = MixPanel.buildProp("ContextType", contextualObject.getClass().getName());
+            String contextType = contextualObject.getClass().getName();
+            // Remove "com.anyfetch.companion.commons...."
+            contextType = contextType.substring(contextType.lastIndexOf(".") + 1);
+            JSONObject props = MixPanel.buildProp("ContextType", contextType);
+            MixPanel.addProp(props, "Origin", originIntent.getStringExtra(ORIGIN));
             mixpanel.track("ViewContext", props);
         }
     }
