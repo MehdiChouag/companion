@@ -63,14 +63,7 @@
 
         </activity>
 
-
-        <receiver android:name=".calls.OutgoingCallReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
-            </intent-filter>
-        </receiver>
-
-        <receiver android:name=".calls.IncomingCallReceiver">
+        <receiver android:name=".calls.TelephonyReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE"/>
             </intent-filter>
