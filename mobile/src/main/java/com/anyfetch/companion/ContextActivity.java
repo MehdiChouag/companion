@@ -14,6 +14,8 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 import org.json.JSONObject;
 
+import java.util.Date;
+
 /**
  * Launches ContextFragment
  */
@@ -30,6 +32,7 @@ public class ContextActivity extends Activity {
 
         mixpanel = MixPanel.getInstance(this);
         mixpanel.getPeople().increment("ContextCount", 1);
+        mixpanel.getPeople().set("$last_login", new Date().toString());
 
         setContentView(R.layout.activity_context);
 
