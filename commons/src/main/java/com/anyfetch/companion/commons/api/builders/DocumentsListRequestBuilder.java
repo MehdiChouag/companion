@@ -16,7 +16,7 @@ import com.anyfetch.companion.commons.api.requests.GetImportantDocumentsListRequ
 public class DocumentsListRequestBuilder extends BaseRequestBuilder<DocumentsList> {
     private boolean mWithImportants;
     private boolean mWithNotImportants;
-
+    private int mLimit = -1;
     /**
      * Creates a new DocumentsListRequestBuilder
      *
@@ -27,6 +27,20 @@ public class DocumentsListRequestBuilder extends BaseRequestBuilder<DocumentsLis
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         mWithImportants = false; // TODO: temporary as false
         mWithNotImportants = true;
+    }
+
+    /**
+     * Creates a new DocumentsListRequestBuilder
+     *
+     * @param context The application/activity context
+     * @param limit number of documents to return
+     */
+    public DocumentsListRequestBuilder(Context context, int limit) {
+        super(context);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        mWithImportants = false; // TODO: temporary as false
+        mWithNotImportants = true;
+        mLimit = limit;
     }
 
     /**
@@ -80,7 +94,8 @@ public class DocumentsListRequestBuilder extends BaseRequestBuilder<DocumentsLis
         return new GetDocumentsListRequest(
                 getServerUrl(),
                 getApiToken(),
-                sq
+                sq,
+                mLimit
         );
     }
 }

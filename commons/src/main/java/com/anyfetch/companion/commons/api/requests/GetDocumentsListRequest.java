@@ -13,6 +13,7 @@ import java.util.Map;
 public class GetDocumentsListRequest extends BaseRequest<DocumentsList> {
     private static final String TAG = "GetDocumentsListRequest";
     private final String mContextQuery;
+    private final int mLimit;
 
     /**
      * Constructs new documents search context
@@ -20,12 +21,14 @@ public class GetDocumentsListRequest extends BaseRequest<DocumentsList> {
      * @param serverUrl    The companion-server url
      * @param apiToken     The API token
      * @param contextQuery An Anyfetch search query
+     * @param limit number of documents to return, send -1 to get default
      */
-    public GetDocumentsListRequest(String serverUrl, String apiToken, String contextQuery) {
+    public GetDocumentsListRequest(String serverUrl, String apiToken, String contextQuery, int limit) {
         super(DocumentsList.class, serverUrl, apiToken);
         Log.i(TAG, "Create Get Docs Request");
         Log.i(TAG, "ContextQuery: " + contextQuery);
         mContextQuery = contextQuery;
+        mLimit = limit;
     }
 
     @Override
@@ -42,6 +45,9 @@ public class GetDocumentsListRequest extends BaseRequest<DocumentsList> {
     protected Map<String, String> getQueryParameters() {
         Map<String, String> qp = super.getQueryParameters();
         qp.put("context", mContextQuery);
+        if(mLimit != -1) {
+            qp.put("limit", Integer.toString(mLimit));
+        }
         return qp;
     }
 

@@ -202,7 +202,7 @@ public class ContextNotificationBuilder {
             return mContextualObjectDocuments;
         }
 
-        GetDocumentsListRequest request = (GetDocumentsListRequest) new DocumentsListRequestBuilder(mContext)
+        GetDocumentsListRequest request = (GetDocumentsListRequest) new DocumentsListRequestBuilder(mContext, WEAR_CONTEXT_SIZE)
                 .setContextualObject(mContextualObject)
                 .build();
         request.setOkHttpClient(mClient);
