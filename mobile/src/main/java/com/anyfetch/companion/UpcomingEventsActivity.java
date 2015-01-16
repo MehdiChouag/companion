@@ -44,6 +44,8 @@ import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
+import org.json.JSONObject;
+
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 public class UpcomingEventsActivity extends ActionBarActivity implements RequestListener<EventsList>, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
@@ -171,7 +173,11 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
                 startActivity(i);
                 break;
             case R.id.action_log_out:
-                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                JSONObject props = MixPanel.buildProp("companyId", prefs.getString("companyId", "<unknown>"));
+                mixpanel.track("Sign out", props);
+
+                SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("apiToken", null);
                 editor.apply();
                 openAuthActivity();
