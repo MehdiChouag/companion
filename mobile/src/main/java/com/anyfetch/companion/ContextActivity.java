@@ -32,7 +32,7 @@ public class ContextActivity extends Activity {
 
         mixpanel = MixPanel.getInstance(this);
         mixpanel.getPeople().increment("ContextCount", 1);
-        mixpanel.getPeople().set("$last_login", new Date().toString());
+        mixpanel.getPeople().set("lastContext", new Date().toString());
 
         setContentView(R.layout.activity_context);
 
