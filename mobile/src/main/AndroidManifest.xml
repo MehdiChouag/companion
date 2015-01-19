@@ -28,10 +28,7 @@
         <activity
             android:name=".OnboardingActivity"
             android:label="@string/title_activity_onboarding">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+
         </activity>
 
         <activity
@@ -43,7 +40,10 @@
         <activity
             android:name=".UpcomingEventsActivity"
             android:label="@string/title_activity_upcoming_events">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
 
         <activity
