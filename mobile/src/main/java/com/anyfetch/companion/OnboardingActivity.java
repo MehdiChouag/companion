@@ -71,7 +71,10 @@ public class OnboardingActivity extends FragmentActivity {
         @Override
         public Fragment getItem(int position) {
             OnboardingFragment onboardingFragment = new OnboardingFragment();
-            onboardingFragment.setLayout(LAYOUTS[position]);
+
+            Bundle fragmentData = new Bundle();
+            fragmentData.putInt(OnboardingFragment.LAYOUT_RESOURCE, LAYOUTS[position]);
+            onboardingFragment.setArguments(fragmentData);
 
             return onboardingFragment;
         }
