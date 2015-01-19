@@ -19,6 +19,18 @@ public class OnboardingActivity extends FragmentActivity {
      */
     private static final int NUM_PAGES = 3;
 
+    private static final int[] IMAGES = new int[]{
+            R.drawable.screen1_onboarding,
+            R.drawable.screen2_onboarding,
+            R.drawable.screen3_onboarding,
+    };
+
+    private static final int[] TEXTS = new int[]{
+            R.string.onboarding_step_1,
+            R.string.onboarding_step_2,
+            R.string.onboarding_step_3,
+    };
+
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
      * and next wizard steps.
@@ -64,7 +76,10 @@ public class OnboardingActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return new OnboardingFragment();
+            OnboardingFragment onboardingFragment = new OnboardingFragment();
+            onboardingFragment.setResources(IMAGES[position], TEXTS[position]);
+
+            return onboardingFragment;
         }
 
         @Override
