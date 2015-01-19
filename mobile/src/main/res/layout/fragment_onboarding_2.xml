@@ -3,6 +3,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:background="@color/anyfetchBlue"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/onboarding_step_1"
+        android:text="@string/onboarding_step_2"
         android:id="@+id/onboardingText"
         android:textColor="@android:color/white"
         android:textStyle="bold"
@@ -22,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/onboardingImage"
-        android:src="@drawable/screen1_onboarding"
+        android:src="@drawable/screen2_onboarding"
         android:padding="25dp"
         android:layout_gravity="center_horizontal"/>
 </LinearLayout>

@@ -19,16 +19,10 @@ public class OnboardingActivity extends FragmentActivity {
      */
     private static final int NUM_PAGES = 3;
 
-    private static final int[] IMAGES = new int[]{
-            R.drawable.screen1_onboarding,
-            R.drawable.screen2_onboarding,
-            R.drawable.screen3_onboarding,
-    };
-
-    private static final int[] TEXTS = new int[]{
-            R.string.onboarding_step_1,
-            R.string.onboarding_step_2,
-            R.string.onboarding_step_3,
+    private static final int[] LAYOUTS = new int[]{
+            R.layout.fragment_onboarding_1,
+            R.layout.fragment_onboarding_2,
+            R.layout.fragment_onboarding_3,
     };
 
     /**
@@ -77,7 +71,7 @@ public class OnboardingActivity extends FragmentActivity {
         @Override
         public Fragment getItem(int position) {
             OnboardingFragment onboardingFragment = new OnboardingFragment();
-            onboardingFragment.setResources(IMAGES[position], TEXTS[position]);
+            onboardingFragment.setLayout(LAYOUTS[position]);
 
             return onboardingFragment;
         }
