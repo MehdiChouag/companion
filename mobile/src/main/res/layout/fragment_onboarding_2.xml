@@ -14,7 +14,6 @@
         android:text="@string/onboarding_step_2"
         android:id="@+id/onboardingText"
         android:textColor="@android:color/white"
-        android:textStyle="bold"
         android:padding="25dp"
         android:gravity="center"
         android:layout_gravity="center_horizontal"/>

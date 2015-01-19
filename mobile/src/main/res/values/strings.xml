@@ -70,7 +70,7 @@
     <string name="title_activity_onboarding">Welcome to AnyFetch Companion!</string>
     <string name="onboarding_step_1"><b>Anyfetch Companion</b> notifies you at crucial contact points – during calls and before meetings</string>
     <string name="onboarding_step_2">Contexts gather your entire contact\'s history and information</string>
-    <string name="onboarding_step_3">Contexts are also on your wear. Useful on a call!</string>
+    <string name="onboarding_step_3">Contexts are also on your wear.\nUseful on a call!</string>
 
 
 </resources>
