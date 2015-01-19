@@ -72,7 +72,6 @@ public class OnboardingActivity extends FragmentActivity {
                 dot0.setImageResource(R.drawable.dot);
                 dot1.setImageResource(R.drawable.dot);
                 dot2.setImageResource(R.drawable.dot);
-                Log.e("WTF", "POSITION IS " + i);
                 dots[i].setImageResource(R.drawable.dot_on);
             }
 
