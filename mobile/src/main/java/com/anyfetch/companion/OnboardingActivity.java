@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.widget.ImageView;
 
 import com.anyfetch.companion.fragments.OnboardingFragment;
 
@@ -24,6 +26,13 @@ public class OnboardingActivity extends FragmentActivity {
             R.layout.fragment_onboarding_2,
             R.layout.fragment_onboarding_3,
     };
+
+    private ImageView[] dots;
+
+    private ImageView dot0;
+    private ImageView dot1;
+    private ImageView dot2;
+
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -45,6 +54,33 @@ public class OnboardingActivity extends FragmentActivity {
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+
+        dot0 = (ImageView) findViewById(R.id.dot0);
+        dot1 = (ImageView) findViewById(R.id.dot1);
+        dot2 = (ImageView) findViewById(R.id.dot2);
+
+        dots = new ImageView[] {dot0, dot1, dot2};
+
+        mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i2) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                dot0.setImageResource(R.drawable.dot);
+                dot1.setImageResource(R.drawable.dot);
+                dot2.setImageResource(R.drawable.dot);
+                Log.e("WTF", "POSITION IS " + i);
+                dots[i].setImageResource(R.drawable.dot_on);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
     }
 
     @Override
