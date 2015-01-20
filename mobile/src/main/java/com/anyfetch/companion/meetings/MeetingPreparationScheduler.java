@@ -6,10 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
 import com.anyfetch.companion.commons.android.pojo.Event;
 import com.anyfetch.companion.commons.android.pojo.EventsList;
 import com.anyfetch.companion.commons.android.requests.GetUpcomingEventsRequest;
-import com.anyfetch.companion.meetings.MeetingPreparationReceiver;
 
 /**
  * Schedules the automatic event notifications (alarms

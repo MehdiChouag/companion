@@ -19,6 +19,7 @@ public class SettingActivity extends PreferenceActivity {
         // UI
         addPreferencesFromResource(R.xml.settings);
     }
+
     protected void onDestroy() {
         mixpanel.flush();
         super.onDestroy();

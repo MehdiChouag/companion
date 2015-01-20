@@ -60,6 +60,7 @@ public class ContextActivity extends Activity {
             mixpanel.track("ViewContext", props);
         }
     }
+
     protected void onDestroy() {
         mixpanel.flush();
         super.onDestroy();

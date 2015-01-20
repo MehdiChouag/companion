@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -74,8 +73,7 @@ public class DocumentsListAdapter extends TimedListAdapter {
 
             // Initialize components
             holder.providerIcon.setColorFilter(colorMatrixColorFilter);
-        }
-        else {
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
@@ -113,6 +111,11 @@ public class DocumentsListAdapter extends TimedListAdapter {
         return convertView;
     }
 
+    @Override
+    public Date getDate(int i) {
+        return mDocuments.get(i).getDate();
+    }
+
     private static class ViewHolder {
         public View dtBand;
         public ImageView dtIcon;
@@ -120,13 +123,6 @@ public class DocumentsListAdapter extends TimedListAdapter {
         public View overlay;
         public ImageView providerIcon;
     }
-
-    @Override
-    public Date getDate(int i) {
-        return mDocuments.get(i).getDate();
-    }
-
-
 
 
 }

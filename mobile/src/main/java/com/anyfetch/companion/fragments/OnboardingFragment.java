@@ -35,11 +35,11 @@ public class OnboardingFragment extends Fragment {
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
 
-        if(fab != null) {
+        if (fab != null) {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SharedPreferences prefs =  PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putBoolean(PREF_ONBOARDING_DISPLAYED, true);
                     editor.apply();

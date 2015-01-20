@@ -34,8 +34,8 @@ import java.util.Set;
 public class ContextNotificationBuilder {
     private static final int WEAR_CONTEXT_SIZE = 5;
     private final Context mContext;
-    private DocumentsList mContextualObjectDocuments = null;
     private final OkHttpClient mClient = new OkHttpClient();
+    private DocumentsList mContextualObjectDocuments = null;
     private ContextualObject mContextualObject;
     private Set<String> mTailedEmails;
     private String mGroupKey;

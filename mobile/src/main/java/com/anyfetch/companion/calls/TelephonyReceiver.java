@@ -62,8 +62,7 @@ public class TelephonyReceiver extends BroadcastReceiver {
             mixpanel.flush();
 
             new BuildNotificationStackTask(context).execute(contact, null, null);
-        }
-        else if (state.equalsIgnoreCase(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
+        } else if (state.equalsIgnoreCase(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
             // We are calling someone
             Log.i("TelephonyState", "Outgoing call caught: " + contact.getName());
 

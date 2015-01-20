@@ -43,6 +43,7 @@ public class FullActivity extends Activity {
 
         }
     }
+
     protected void onDestroy() {
         mixpanel.flush();
         super.onDestroy();

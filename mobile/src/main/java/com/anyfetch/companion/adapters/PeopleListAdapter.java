@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.commons.android.pojo.Person;
 import com.anyfetch.companion.commons.api.builders.DocumentsListRequestBuilder;

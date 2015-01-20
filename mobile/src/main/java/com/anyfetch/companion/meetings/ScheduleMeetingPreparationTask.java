@@ -4,8 +4,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 
-import com.anyfetch.companion.meetings.MeetingPreparationScheduler;
-
 /**
  * Asynchronously schedule a next meeting notification
  */

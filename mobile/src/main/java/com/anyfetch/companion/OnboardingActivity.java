@@ -58,7 +58,7 @@ public class OnboardingActivity extends FragmentActivity {
         dot1 = (ImageView) findViewById(R.id.dot1);
         dot2 = (ImageView) findViewById(R.id.dot2);
 
-        dots = new ImageView[] {dot0, dot1, dot2};
+        dots = new ImageView[]{dot0, dot1, dot2};
 
         mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

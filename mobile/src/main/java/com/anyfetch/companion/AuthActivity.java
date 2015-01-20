@@ -37,7 +37,7 @@ public class AuthActivity extends Activity {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String serverUrl = preferences.getString(BaseRequestBuilder.PREF_SERVER_URL, BaseRequestBuilder.DEFAULT_SERVER_URL);
 
-        if(!preferences.contains(OnboardingFragment.PREF_ONBOARDING_DISPLAYED)) {
+        if (!preferences.contains(OnboardingFragment.PREF_ONBOARDING_DISPLAYED)) {
             Intent intent = new Intent(getApplicationContext(), OnboardingActivity.class);
             startActivity(intent);
         }
@@ -58,11 +58,9 @@ public class AuthActivity extends Activity {
                     try {
                         JSONObject data = new JSONObject(URLDecoder.decode(url.replace(baseUrl, ""), "UTF-8"));
                         backToUpcoming(data);
-                    }
-                    catch(JSONException e) {
+                    } catch (JSONException e) {
                         e.printStackTrace();
-                    }
-                    catch(UnsupportedEncodingException e) {
+                    } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
                 }
@@ -74,15 +72,13 @@ public class AuthActivity extends Activity {
     private void backToUpcoming(JSONObject data) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
 
-        Log.e("JSON", data.toString());
         try {
             // Save the token
             editor.putString(BaseRequestBuilder.PREF_API_TOKEN, data.getString("token"));
             editor.putString("userEmail", data.getString("userEmail"));
             editor.putString("userId", data.getString("userId"));
             editor.putString("companyId", data.getString("companyId"));
-        }
-        catch(JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 

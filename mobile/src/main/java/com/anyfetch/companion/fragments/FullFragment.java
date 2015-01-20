@@ -49,7 +49,7 @@ public class FullFragment extends Fragment implements RequestListener<Document>,
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param document The document to pass into the full projection
+     * @param document         The document to pass into the full projection
      * @param contextualObject The contextualObject for highlighting purposes
      * @return A new instance of fragment FullFragment.
      */
@@ -118,11 +118,7 @@ public class FullFragment extends Fragment implements RequestListener<Document>,
             mProgress.setVisibility(View.INVISIBLE);
 
             // For "document" document type, use a special webview
-            Log.e("WTF", "TYPEID" + mDocument.getTypeId());
-            Log.e("WTF", "TYPEIDEQUALS" + mDocument.getTypeId().equals("5252ce4ce4cfcd16f55cfa3c"));
-
-            if(mDocument.getTypeId().equals("5252ce4ce4cfcd16f55cfa3c")) {
-                Log.e("WTF", "TYPEID OK");
+            if (mDocument.getTypeId().equals("5252ce4ce4cfcd16f55cfa3c")) {
                 // Let user pinch-to-zoom
 
                 // Load in full view by default (not zoomed in)

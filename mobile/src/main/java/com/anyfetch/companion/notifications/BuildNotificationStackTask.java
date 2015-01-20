@@ -46,7 +46,7 @@ public class BuildNotificationStackTask extends AsyncTask<ContextualObject, Obje
         // And for the wear, display a "stub" with basic functionality -- we'll load the document context after
         mManager.notify(id, builder.buildWearPlaceholder());
 
-        if(builder.getContextualObjectDocuments().size() == 0) {
+        if (builder.getContextualObjectDocuments().size() == 0) {
             // No results; no need for a notification
             Log.i("Notification", "Not displaying empty notification for " + contextualObject.getTitle());
             mManager.cancel(id - 1);

@@ -89,7 +89,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
         String apiToken = preferences.getString(BaseRequestBuilder.PREF_API_TOKEN, null);
 
         // Log out the user if no userId set (coming from version 2.5.0 or before)
-        if(preferences.getString("userId", "").isEmpty()) {
+        if (preferences.getString("userId", "").isEmpty()) {
             apiToken = null;
         }
 
@@ -202,6 +202,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
             }
         }
     }
+
     @Override
     public void onRequestFailure(SpiceException spiceException) {
         Toast.makeText(this, getString(R.string.calendar_error), Toast.LENGTH_LONG).show();
@@ -256,6 +257,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
         GetUpcomingEventsRequest request = new GetUpcomingEventsRequest(this);
         mSpiceManager.execute(request, null, 0, this);
     }
+
     protected void onDestroy() {
         mixpanel.flush();
         super.onDestroy();
