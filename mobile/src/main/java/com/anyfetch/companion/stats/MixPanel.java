@@ -26,7 +26,7 @@ public class MixPanel {
     }
 
     public static MixpanelAPI identify(MixpanelAPI mixpanel, Context context) {
-        String userId = PreferenceManager.getDefaultSharedPreferences(context).getString("userId", "unknown");
+        String userId = PreferenceManager.getDefaultSharedPreferences(context).getString("userId", "");
         if(!userId.isEmpty()) {
             mixpanel.identify(userId);
             mixpanel.getPeople().identify(userId);
