@@ -99,6 +99,7 @@ public class ContextNotificationBuilder {
                 .setContentText(mContext.getString(R.string.notification_basic_description))
                 .setContentIntent(viewPendingIntent)
                 .setAutoCancel(true)
+                .setCategory(Notification.CATEGORY_RECOMMENDATION)
                 .setColor(mContext.getResources().getColor(R.color.primary))
                 .setGroup(mGroupKey);
 
@@ -107,7 +108,13 @@ public class ContextNotificationBuilder {
 
     public Notification buildSummary() {
         NotificationCompat.Builder builder = buildBaseNotification();
+        builder.setPriority(Notification.PRIORITY_HIGH);
+        // Ugly hack, see http://stackoverflow.com/questions/26451893/heads-up-notification-android-lollipop
+        builder.setVibrate(new long[0]);
+
+        // Only display this one on the handheld device
         builder.setGroupSummary(true);
+
         return builder.build();
     }
 
