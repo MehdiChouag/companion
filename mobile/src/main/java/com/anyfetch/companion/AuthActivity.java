@@ -3,10 +3,8 @@ package com.anyfetch.companion;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -48,22 +46,21 @@ public class AuthActivity extends Activity {
             // Ignore redirection to browser
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                return super.shouldOverrideUrlLoading(view, url);
-            }
-
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 String baseUrl = "https://localhost/done/";
                 if (url.startsWith(baseUrl)) {
                     try {
                         JSONObject data = new JSONObject(URLDecoder.decode(url.replace(baseUrl, ""), "UTF-8"));
                         backToUpcoming(data);
+
+                        return true;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
                 }
+
+                return false;
             }
         });
         webView.loadUrl(serverUrl + "/init/connect");

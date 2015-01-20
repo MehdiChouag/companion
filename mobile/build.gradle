@@ -8,8 +8,8 @@ android {
         applicationId "com.anyfetch.companion"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 27
-        versionName "2.9"
+        versionCode 28
+        versionName "2.10"
     }
     buildTypes {
         release {
