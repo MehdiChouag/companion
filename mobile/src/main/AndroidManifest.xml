@@ -26,10 +26,17 @@
             android:exported="false"/>
 
         <activity
+            android:name=".OnboardingActivity"
+            android:label="@string/title_activity_onboarding">
+
+        </activity>
+
+        <activity
             android:name=".AuthActivity"
             android:label="@string/title_activity_auth"
             android:configChanges="orientation|screenSize">
         </activity>
+
         <activity
             android:name=".UpcomingEventsActivity"
             android:label="@string/title_activity_upcoming_events">
@@ -38,6 +45,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ContextActivity"
             android:label="@string/title_activity_context"

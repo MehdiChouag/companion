@@ -13,6 +13,7 @@ import android.webkit.WebViewClient;
 import com.anyfetch.companion.commons.android.helpers.AccountsHelper;
 import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
 import com.anyfetch.companion.commons.api.builders.DocumentsListRequestBuilder;
+import com.anyfetch.companion.fragments.OnboardingFragment;
 import com.anyfetch.companion.stats.MixPanel;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
@@ -35,6 +36,11 @@ public class AuthActivity extends Activity {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String serverUrl = preferences.getString(BaseRequestBuilder.PREF_SERVER_URL, BaseRequestBuilder.DEFAULT_SERVER_URL);
+
+        if(!preferences.contains(OnboardingFragment.PREF_ONBOARDING_DISPLAYED)) {
+            Intent intent = new Intent(getApplicationContext(), OnboardingActivity.class);
+            startActivity(intent);
+        }
 
         WebView webView = (WebView) findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);

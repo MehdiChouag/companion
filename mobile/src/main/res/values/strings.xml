@@ -67,4 +67,10 @@
     <string name="context_loading">Loading context... please be patient.</string>
     <string name="pref_dismiss_notification_summary">Time before automatically dismissing unused call notification</string>
     <string name="pref_dismiss_notification">Automatic notification removal</string>
+    <string name="title_activity_onboarding">Welcome to AnyFetch Companion!</string>
+    <string name="onboarding_step_1"><b>Anyfetch Companion</b> notifies you at crucial contact points – during calls and before meetings</string>
+    <string name="onboarding_step_2">Contexts gather your entire contact\'s history and information</string>
+    <string name="onboarding_step_3">Contexts are also on your wear.\nUseful on a call!</string>
+
+
 </resources>
