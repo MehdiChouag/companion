@@ -71,6 +71,7 @@
     <string name="onboarding_step_1"><b>AnyFetch</b> vous notifie automatiquement pendant vos appels et avant vos rendez-vous.</string>
     <string name="onboarding_step_2">Les contextes rassemblent vos informations autour d\'un contact.</string>
     <string name="onboarding_step_3">Les contextes sont aussi sur votre Wear, pratique pendant un appel !</string>
+    <string name="auth_leaving_to_external_link">Ouverture dans votre navigateur, revenez-vite !</string>
 </resources>
 
 
