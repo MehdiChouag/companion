@@ -1,0 +1,4 @@
+-keep class org.bouncycastle.**
+-dontwarn org.bouncycastle.**
+-dontwarn okio.**
+-dontwarn com.squareup.**
