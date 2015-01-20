@@ -68,7 +68,9 @@
     <string name="pref_dismiss_notification">Masquage automatique de notification</string>
     <string name="pref_dismiss_notification_summary">Durée avant de supprimer une notification d\'appel</string>
     <string name="title_activity_onboarding">Bienvenue sur le Companion AnyFetch !</string>
-    <string name="onboarding_step_1"><b>Anyfetch Companion</b> notifies you at crucial contact points – during calls and before meetings</string>
-    <string name="onboarding_step_2">Contexts gather your entire contact\'s history and information</string>
-    <string name="onboarding_step_3">Contexts are also on your wear.\nUseful on a call!</string>
+    <string name="onboarding_step_1"><b>AnyFetch</b> vous notifie automatiquement pendant vos appels et avant vos rendez-vous.</string>
+    <string name="onboarding_step_2">Les contextes rassemblent vos informations autour d\'un contact.</string>
+    <string name="onboarding_step_3">Les contextes sont aussi sur votre Wear, pratique pendant un appel !</string>
 </resources>
+
+
