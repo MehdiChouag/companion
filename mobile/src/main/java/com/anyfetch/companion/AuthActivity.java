@@ -3,10 +3,13 @@ package com.anyfetch.companion;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.anyfetch.companion.commons.android.helpers.AccountsHelper;
 import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
@@ -18,12 +21,19 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Date;
 import java.util.Set;
 
 public class AuthActivity extends Activity {
+    private static final String LOCAL_URL = "https://localhost/done/";
+    private static final String[] URLS = new String[]{
+            ".anyfetch.com/sign_in",
+            ".anyfetch.com/sign_out",
+            ".anyfetch.com/oauth/authorize",
+            ".herokuapp.com/init/callback",
+    };
+
     private MixpanelAPI mixpanel;
 
     @Override
@@ -46,21 +56,32 @@ public class AuthActivity extends Activity {
             // Ignore redirection to browser
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                String baseUrl = "https://localhost/done/";
-                if (url.startsWith(baseUrl)) {
+                // User has signed in, we can retrieve the token
+                if (url.startsWith(LOCAL_URL)) {
                     try {
-                        JSONObject data = new JSONObject(URLDecoder.decode(url.replace(baseUrl, ""), "UTF-8"));
+                        JSONObject data = new JSONObject(URLDecoder.decode(url.replace(LOCAL_URL, ""), "UTF-8"));
                         backToUpcoming(data);
 
                         return true;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (UnsupportedEncodingException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
 
-                return false;
+                // Is it a link we want to allow?
+                for (String validUrl : URLS) {
+                    if (url.contains(validUrl)) {
+                        return false;
+                    }
+                }
+
+                // External link, opening in default browser.
+                Log.i("LeavingApp", "Leaving app to " + url);
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+                Toast.makeText(AuthActivity.this, R.string.auth_leaving_to_external_link, Toast.LENGTH_SHORT).show();
+                return true;
             }
         });
         webView.loadUrl(serverUrl + "/init/connect");
