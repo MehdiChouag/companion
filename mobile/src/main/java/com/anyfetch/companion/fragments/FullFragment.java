@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -99,7 +100,8 @@ public class FullFragment extends Fragment implements RequestListener<Document>,
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         toolbar.setOnMenuItemClickListener(this);
-        toolbar.setTitle(HtmlUtils.stripHtml(mDocument.getTitle()));
+        // Remove the HTML and parse special chars
+        toolbar.setTitle(Html.fromHtml(HtmlUtils.stripHtml(mDocument.getTitle())));
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
         toolbar.setNavigationOnClickListener(this);
         toolbar.setLogo(ImageHelper.matchResourceForProvider(mDocument.getProviderId()));
