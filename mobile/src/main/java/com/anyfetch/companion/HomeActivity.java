@@ -7,18 +7,18 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.support.v4.view.ViewCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
 import android.widget.Toast;
 
-import com.anyfetch.companion.adapters.EventsListAdapter;
 import com.anyfetch.companion.commons.android.AndroidSpiceService;
 import com.anyfetch.companion.commons.android.pojo.Person;
 import com.anyfetch.companion.commons.api.HttpSpiceService;
@@ -26,6 +26,7 @@ import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
 import com.anyfetch.companion.commons.api.requests.GetStartRequest;
 import com.anyfetch.companion.fragments.ContextFragment;
 import com.anyfetch.companion.stats.MixPanel;
+import com.melnykov.fab.FloatingActionButton;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.newrelic.agent.android.NewRelic;
 import com.octo.android.robospice.SpiceManager;
@@ -34,16 +35,11 @@ import com.octo.android.robospice.request.listener.RequestListener;
 
 import org.json.JSONObject;
 
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
-
 public class HomeActivity extends ActionBarActivity {
     private static final int REQUEST_CONTACTPICKER = 1;
 
     private final SpiceManager mSpiceManager = new SpiceManager(AndroidSpiceService.class);
     private final SpiceManager mHttpSpiceManager = new SpiceManager(HttpSpiceService.class);
-    private StickyListHeadersListView mListView;
-    private EventsListAdapter mListAdapter;
-    private SwipeRefreshLayout mSwipeLayout;
     private MixpanelAPI mixpanel;
 
     @Override
@@ -83,29 +79,39 @@ public class HomeActivity extends ActionBarActivity {
 
         if (apiToken == null) {
             openAuthActivity();
-        } else {
-            GetStartRequest startRequest = new GetStartRequest(serverUrl, apiToken);
-            mHttpSpiceManager.execute(startRequest, null, 0, new RequestListener<Object>() {
-                @Override
-                public void onRequestFailure(SpiceException spiceException) {
-                    Toast.makeText(HomeActivity.this, String.format(getString(R.string.auth_issue), spiceException.getMessage()), Toast.LENGTH_LONG).show();
-                    if (spiceException.getMessage().equals("403") || spiceException.getMessage().equals("401")) {
-                        openAuthActivity();
-                    }
-                }
-
-                @Override
-                public void onRequestSuccess(Object o) {
-                    Log.i("LambdaRequestListener", "Company Account Updated");
-                }
-            });
-
-            setContentView(R.layout.activity_home);
-
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            ViewCompat.setElevation(toolbar, getResources().getDimension(R.dimen.toolbar_elevation));
-            setSupportActionBar(toolbar);
+            return;
         }
+
+        GetStartRequest startRequest = new GetStartRequest(serverUrl, apiToken);
+        mHttpSpiceManager.execute(startRequest, null, 0, new RequestListener<Object>() {
+            @Override
+            public void onRequestFailure(SpiceException spiceException) {
+                Toast.makeText(HomeActivity.this, String.format(getString(R.string.auth_issue), spiceException.getMessage()), Toast.LENGTH_LONG).show();
+                if (spiceException.getMessage().equals("403") || spiceException.getMessage().equals("401")) {
+                    openAuthActivity();
+                }
+            }
+
+            @Override
+            public void onRequestSuccess(Object o) {
+                Log.i("LambdaRequestListener", "Company Account Updated");
+            }
+        });
+
+        setContentView(R.layout.activity_home);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ViewCompat.setElevation(toolbar, getResources().getDimension(R.dimen.toolbar_elevation));
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                startActivityForResult(intent, REQUEST_CONTACTPICKER);
+            }
+        });
     }
 
     @Override
