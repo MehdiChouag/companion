@@ -25,10 +25,14 @@ import com.anyfetch.companion.commons.api.helpers.HtmlUtils;
 import com.anyfetch.companion.commons.api.pojo.Document;
 import com.anyfetch.companion.commons.api.requests.GetDocumentRequest;
 import com.anyfetch.companion.commons.ui.ImageHelper;
+import com.anyfetch.companion.stats.MixPanel;
+import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
+
+import org.json.JSONObject;
 
 public class FullFragment extends Fragment implements RequestListener<Document>, Toolbar.OnMenuItemClickListener, View.OnClickListener {
     public static final String ARG_DOCUMENT = "arg_parcelable";
@@ -158,6 +162,14 @@ public class FullFragment extends Fragment implements RequestListener<Document>,
         switch (id) {
             case R.id.action_open_in_app:
                 Log.i("LeavingApp", "Leaving app to " + mDocument.getLink());
+
+                MixpanelAPI mixpanel = MixPanel.getInstance(getActivity());
+                JSONObject props = MixPanel.buildProp("ContextType", mContextualObject.getClass().getName());
+                MixPanel.addProp(props, "DocumentType", mDocument.getTypeId());
+                MixPanel.addProp(props, "Provider", mDocument.getProviderId());
+                mixpanel.track("Opening link", props);
+                mixpanel.flush();
+
                 String url = mDocument.getLink();
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
