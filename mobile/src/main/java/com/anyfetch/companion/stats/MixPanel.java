@@ -1,6 +1,7 @@
 package com.anyfetch.companion.stats;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
@@ -27,10 +28,16 @@ public class MixPanel {
     }
 
     public static MixpanelAPI identify(MixpanelAPI mixpanel, Context context) {
-        String userId = PreferenceManager.getDefaultSharedPreferences(context).getString("userId", "");
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String userId = prefs.getString("userId", "");
+
         if (!userId.isEmpty()) {
             mixpanel.identify(userId);
             mixpanel.getPeople().identify(userId);
+            JSONObject superProps = buildProp("email", prefs.getString("userEmail", ""));
+            superProps = addProp(superProps, "companyId", prefs.getString("companyId", ""));
+            superProps = addProp(superProps, "userId", prefs.getString("userId", ""));
+            mixpanel.registerSuperProperties(superProps);
         }
 
         return mixpanel;

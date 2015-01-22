@@ -124,7 +124,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         mToolbar.inflateMenu(R.menu.context);
         mToolbar.setTitleTextColor(Color.TRANSPARENT);
         mToolbar.setBackgroundColor(Color.TRANSPARENT);
-        ViewCompat.setElevation(mToolbar, getResources().getDimension(R.dimen.toolbar_elevation));
+        ViewCompat.setElevation(mToolbar, 2 * getResources().getDimension(R.dimen.toolbar_elevation));
 
         mTabContainer = (HorizontalScrollView) contextHeader.findViewById(R.id.tabContainer);
         mTabHost = (TabHost) contextHeader.findViewById(R.id.tabHost);
@@ -272,12 +272,12 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         mToolbar.setTitle(mSelectedContextualObject.getTitle());
 
         ImageView backgroundView = (ImageView) mContextTab.findViewById(R.id.backgroundView);
-        int primaryDark = getActivity().getResources().getColor(R.color.primary_dark);
+        int lightDark = getActivity().getResources().getColor(R.color.primary_light);
         // Override the color if needed
         if (mSelectedContextualObject.getColor() != -1) {
-            primaryDark = mSelectedContextualObject.getColor();
+            lightDark = mSelectedContextualObject.getColor();
         }
-        backgroundView.setBackgroundColor(primaryDark);
+        backgroundView.setBackgroundColor(lightDark);
 
         mContextTab.setOnClickListener(new View.OnClickListener() {
             @Override

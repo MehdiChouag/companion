@@ -4,58 +4,45 @@ package com.anyfetch.companion;
 import android.annotation.TargetApi;
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anyfetch.companion.adapters.EventsListAdapter;
 import com.anyfetch.companion.commons.android.AndroidSpiceService;
 import com.anyfetch.companion.commons.android.pojo.Event;
 import com.anyfetch.companion.commons.android.pojo.EventsList;
-import com.anyfetch.companion.commons.android.pojo.Person;
 import com.anyfetch.companion.commons.android.requests.GetUpcomingEventsRequest;
 import com.anyfetch.companion.commons.api.HttpSpiceService;
-import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
-import com.anyfetch.companion.commons.api.requests.GetStartRequest;
 import com.anyfetch.companion.fragments.ContextFragment;
 import com.anyfetch.companion.meetings.ScheduleMeetingPreparationTask;
 import com.anyfetch.companion.stats.MixPanel;
-import com.melnykov.fab.FloatingActionButton;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
-import com.newrelic.agent.android.NewRelic;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
-import org.json.JSONObject;
-
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-public class UpcomingEventsActivity extends ActionBarActivity implements RequestListener<EventsList>, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
-    private static final int REQUEST_CONTACTPICKER = 1;
-
+public class UpcomingEventsActivity extends ActionBarActivity implements RequestListener<EventsList>, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
     private final SpiceManager mSpiceManager = new SpiceManager(AndroidSpiceService.class);
     private final SpiceManager mHttpSpiceManager = new SpiceManager(HttpSpiceService.class);
     private StickyListHeadersListView mListView;
     private EventsListAdapter mListAdapter;
     private SwipeRefreshLayout mSwipeLayout;
+    private TextView mEmptyView;
     private MixpanelAPI mixpanel;
 
     @Override
@@ -77,130 +64,50 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mixpanel = MixPanel.getInstance(this);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            WebView.setWebContentsDebuggingEnabled(true);
-        }
 
-        // Start newrelic monitoring
-        NewRelic.withApplicationToken("AA8f2983b4af8f945810684414d40a161c400b7569").start(this.getApplication());
+        setContentView(R.layout.activity_upcoming_events);
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String serverUrl = preferences.getString(BaseRequestBuilder.PREF_SERVER_URL, BaseRequestBuilder.DEFAULT_SERVER_URL);
-        String apiToken = preferences.getString(BaseRequestBuilder.PREF_API_TOKEN, null);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ViewCompat.setElevation(toolbar, getResources().getDimension(R.dimen.toolbar_elevation));
+        toolbar.setNavigationIcon(R.drawable.ic_action_back);
+        toolbar.setNavigationOnClickListener(this);
+        setSupportActionBar(toolbar);
 
-        // Log out the user if no userId set (coming from version 2.5.0 or before)
-        if (preferences.getString("userId", "").isEmpty()) {
-            apiToken = null;
-        }
+        mListView = (StickyListHeadersListView) findViewById(R.id.listView);
 
-        if (apiToken == null) {
-            openAuthActivity();
-        } else {
-            GetStartRequest startRequest = new GetStartRequest(serverUrl, apiToken);
-            mHttpSpiceManager.execute(startRequest, null, 0, new RequestListener<Object>() {
-                @Override
-                public void onRequestFailure(SpiceException spiceException) {
-                    Toast.makeText(UpcomingEventsActivity.this, String.format(getString(R.string.auth_issue), spiceException.getMessage()), Toast.LENGTH_LONG).show();
-                    if (spiceException.getMessage().equals("403") || spiceException.getMessage().equals("401")) {
-                        openAuthActivity();
-                    }
-                }
+        mEmptyView = (TextView) findViewById(android.R.id.empty);
+        mEmptyView.setText(getString(R.string.loading));
 
-                @Override
-                public void onRequestSuccess(Object o) {
-                    Log.i("LambdaRequestListener", "Company Account Updated");
-                }
-            });
+        mListAdapter = new EventsListAdapter(getApplicationContext(), new EventsList());
+        mListView.setAdapter(mListAdapter);
+        mListView.setOnItemClickListener(this);
+        mListView.setAreHeadersSticky(true);
+        mListView.setDividerHeight(0);
+        mListView.setEmptyView(mEmptyView);
 
-            setContentView(R.layout.activity_upcoming_events);
+        mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        mSwipeLayout.setOnRefreshListener(this);
+        mSwipeLayout.setColorSchemeColors(R.color.primary, R.color.primary_dark);
 
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            ViewCompat.setElevation(toolbar, getResources().getDimension(R.dimen.toolbar_elevation));
-            setSupportActionBar(toolbar);
 
-            mListView = (StickyListHeadersListView) findViewById(R.id.listView);
+        GetUpcomingEventsRequest request = new GetUpcomingEventsRequest(getApplicationContext());
+        mSpiceManager.execute(request, request.createCacheKey(), 15 * DurationInMillis.ONE_MINUTE, this);
+        mSwipeLayout.setRefreshing(true);
+    }
 
-            mListAdapter = new EventsListAdapter(getApplicationContext(), new EventsList());
-            mListView.setAdapter(mListAdapter);
-            mListView.setOnItemClickListener(this);
-            mListView.setAreHeadersSticky(true);
-            mListView.setDividerHeight(0);
-            mListView.setEmptyView(findViewById(android.R.id.empty));
-
-            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-            fab.attachToListView(mListView.getWrappedList());
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-                    startActivityForResult(intent, REQUEST_CONTACTPICKER);
-                }
-            });
-            mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
-            mSwipeLayout.setOnRefreshListener(this);
-            mSwipeLayout.setColorSchemeColors(R.color.primary, R.color.primary_dark);
-
-            GetUpcomingEventsRequest request = new GetUpcomingEventsRequest(getApplicationContext());
-            mSpiceManager.execute(request, request.createCacheKey(), 15 * DurationInMillis.ONE_MINUTE, this);
-            mSwipeLayout.setRefreshing(true);
-        }
+    @Override
+    public void onClick(View v) {
+        NavUtils.navigateUpFromSameTask(this);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.upcoming_events, menu);
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
             bar.setTitle(getString(R.string.title_upcoming_meetings));
-            bar.setDisplayShowHomeEnabled(false);
+            bar.setDisplayShowHomeEnabled(true);
         }
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.action_settings:
-                Intent intent = new Intent(this, SettingActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.action_connect:
-                String url = "https://manager.anyfetch.com/marketplace";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-                break;
-            case R.id.action_log_out:
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                JSONObject props = MixPanel.buildProp("companyId", prefs.getString("companyId", "<unknown>"));
-                mixpanel.track("Sign out", props);
-
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("apiToken", null);
-                editor.apply();
-                openAuthActivity();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CONTACTPICKER) {
-            if (resultCode == RESULT_OK) {
-                String personId = data.getData().getLastPathSegment();
-                Log.i("PersonPicker", "User picked contact " + personId);
-                Person person = Person.getPerson(this, Long.parseLong(personId));
-
-                Intent intent = new Intent(getApplicationContext(), ContextActivity.class);
-                intent.putExtra(ContextFragment.ARG_CONTEXTUAL_OBJECT, person);
-                intent.putExtra(ContextActivity.ORIGIN, "contactPicker");
-                startActivity(intent);
-            }
-        }
     }
 
     @Override
@@ -218,6 +125,8 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
         }
         mListAdapter = new EventsListAdapter(getApplicationContext(), events);
         mListView.setAdapter(mListAdapter);
+
+        mEmptyView.setText(getString(R.string.no_upcoming_shared_events));
     }
 
     @Override
@@ -244,12 +153,6 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
         } else {
             startActivity(intent);
         }
-    }
-
-    private void openAuthActivity() {
-        Intent intent = new Intent(getApplicationContext(), AuthActivity.class);
-        startActivity(intent);
-        finish();
     }
 
     @Override

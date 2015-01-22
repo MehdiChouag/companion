@@ -2,6 +2,18 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="com.anyfetch.companion.UpcomingEventsActivity">
+
+    <item
+        android:id="@+id/action_pick_contact"
+        android:title="@string/action_pick_contact"
+        android:icon="@drawable/ic_contact"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_pick_event"
+        android:title="@string/action_pick_event"
+        android:icon="@drawable/ic_event"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
