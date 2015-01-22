@@ -12,7 +12,7 @@
     <item
         android:id="@+id/action_pick_event"
         android:title="@string/action_pick_event"
-        android:icon="@drawable/ic_placeholder_event"
+        android:icon="@drawable/ic_event"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_settings"
