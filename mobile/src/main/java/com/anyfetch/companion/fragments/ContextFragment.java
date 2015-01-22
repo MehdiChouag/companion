@@ -138,7 +138,6 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         mListView.setOnScrollListener(this);
         mListView.setDivider(null);
         mListView.setAreHeadersSticky(false);
-        mListView.setEmptyView(view.findViewById(android.R.id.empty));
         mListAdapter = new DocumentsListAdapter(getActivity(), new DocumentsList(), mSelectedContextualObject);
         mListView.setAdapter(mListAdapter);
 

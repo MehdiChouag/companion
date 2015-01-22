@@ -61,10 +61,10 @@ public abstract class TimedListAdapter extends BaseAdapter implements StickyList
             }
         }
 
-        secondary.setText(secondaryTitle);
-        main.setTextColor(color);
-        secondary.setTextColor(color);
         main.setText(mainTitle);
+        main.setTextColor(color);
+        secondary.setText(secondaryTitle);
+        secondary.setTextColor(color);
 
         return convertView;
     }
