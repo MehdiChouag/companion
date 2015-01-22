@@ -3,7 +3,6 @@ package com.anyfetch.companion.stats;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 

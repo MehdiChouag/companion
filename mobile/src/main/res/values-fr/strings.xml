@@ -2,7 +2,7 @@
 <resources>
 
     <string name="title_activity_auth">Authentification</string>
-    <string name="title_activity_upcoming_events">Anyfetch Companion</string>
+    <string name="title_activity_upcoming_events">Événements partagés à venir</string>
     <string name="action_settings">Paramètres</string>
     <string name="action_connect">Ajouter des applications</string>
     <string name="action_log_out">Déconnexion</string>
@@ -72,6 +72,8 @@
     <string name="onboarding_step_2">Les contextes rassemblent vos informations autour d\'un contact.</string>
     <string name="onboarding_step_3">Les contextes sont aussi sur votre Wear, pratique pendant un appel !</string>
     <string name="auth_leaving_to_external_link">Ouverture dans votre navigateur, revenez-vite !</string>
+    <string name="title_activity_home">AnyFetch Companion</string>
+    <string name="home_welcome">Pick a contact or wait until you get a phone call!</string>
 </resources>
 
 

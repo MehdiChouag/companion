@@ -2,7 +2,7 @@
 <resources>
 
     <string name="title_activity_auth">Authentication</string>
-    <string name="title_activity_upcoming_events">Anyfetch Companion</string>
+    <string name="title_activity_upcoming_events">Upcoming shared events</string>
     <string name="action_settings">Settings</string>
     <string name="action_connect">Connect more sources</string>
     <string name="action_log_out">Log Out</string>
@@ -72,6 +72,8 @@
     <string name="onboarding_step_2">Contexts gather your entire contact\'s history and information</string>
     <string name="onboarding_step_3">Contexts are also on your wear.\nUseful on a call!</string>
     <string name="auth_leaving_to_external_link">Opening in default browser, hope to see you back soon!</string>
+    <string name="title_activity_home">AnyFetch Companion</string>
+    <string name="home_welcome">Pick a contact or wait until you get a phone call!</string>
 
 
 </resources>
