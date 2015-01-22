@@ -23,3 +23,5 @@ Ensure you can compile with gradle.
 ```
 gradle tasks
 ```
+
+![Onboarding](https://github.com/AnyFetch/companion/blob/master/mobile/src/main/res/drawable-hdpi/screen2_onboarding.png)
