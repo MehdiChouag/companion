@@ -3,8 +3,8 @@
              android:layout_width="fill_parent"
              android:layout_height="match_parent"
              android:paddingBottom="@dimen/card_spacing"
-             android:paddingLeft="@dimen/card_spacing"
-             android:paddingRight="@dimen/card_spacing"
+             android:paddingLeft="@dimen/card_padding"
+             android:paddingRight="@dimen/card_padding"
              android:minHeight="150dp"
              android:paddingTop="0dp">
 
