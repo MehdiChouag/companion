@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
 import android.widget.Toast;
 
@@ -101,6 +102,15 @@ public class HomeActivity extends ActionBarActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         ViewCompat.setElevation(toolbar, getResources().getDimension(R.dimen.toolbar_elevation));
         setSupportActionBar(toolbar);
+
+        View mainView = findViewById(R.id.home_layout);
+        mainView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent contactIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                startActivityForResult(contactIntent, REQUEST_CONTACTPICKER);
+            }
+        });
     }
 
     @Override

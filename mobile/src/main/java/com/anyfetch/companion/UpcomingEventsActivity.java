@@ -6,6 +6,7 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -35,7 +36,7 @@ import com.octo.android.robospice.request.listener.RequestListener;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-public class UpcomingEventsActivity extends ActionBarActivity implements RequestListener<EventsList>, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class UpcomingEventsActivity extends ActionBarActivity implements RequestListener<EventsList>, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
     private final SpiceManager mSpiceManager = new SpiceManager(AndroidSpiceService.class);
     private final SpiceManager mHttpSpiceManager = new SpiceManager(HttpSpiceService.class);
     private StickyListHeadersListView mListView;
@@ -68,6 +69,8 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         ViewCompat.setElevation(toolbar, getResources().getDimension(R.dimen.toolbar_elevation));
+        toolbar.setNavigationIcon(R.drawable.ic_action_back);
+        toolbar.setNavigationOnClickListener(this);
         setSupportActionBar(toolbar);
 
         mListView = (StickyListHeadersListView) findViewById(R.id.listView);
@@ -93,11 +96,16 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     }
 
     @Override
+    public void onClick(View v) {
+        NavUtils.navigateUpFromSameTask(this);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
             bar.setTitle(getString(R.string.title_upcoming_meetings));
-            bar.setDisplayShowHomeEnabled(false);
+            bar.setDisplayShowHomeEnabled(true);
         }
         return true;
     }

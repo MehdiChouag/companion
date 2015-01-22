@@ -48,13 +48,14 @@
 
         <activity
             android:name=".UpcomingEventsActivity"
-            android:label="@string/title_activity_upcoming_events">
+            android:label="@string/title_activity_upcoming_events"
+            android:parentActivityName=".HomeActivity">
         </activity>
 
         <activity
             android:name=".ContextActivity"
             android:label="@string/title_activity_context"
-            android:parentActivityName=".UpcomingEventsActivity">
+            android:parentActivityName=".HomeActivity">
         </activity>
 
         <activity
@@ -73,7 +74,6 @@
         <activity
             android:name=".FullActivity"
             android:label="@string/title_activity_full">
-
         </activity>
 
         <receiver android:name=".calls.TelephonyReceiver">
