@@ -15,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.WebView;
 import android.widget.Toast;
 
@@ -26,7 +25,6 @@ import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
 import com.anyfetch.companion.commons.api.requests.GetStartRequest;
 import com.anyfetch.companion.fragments.ContextFragment;
 import com.anyfetch.companion.stats.MixPanel;
-import com.melnykov.fab.FloatingActionButton;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.newrelic.agent.android.NewRelic;
 import com.octo.android.robospice.SpiceManager;
@@ -103,24 +101,15 @@ public class HomeActivity extends ActionBarActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         ViewCompat.setElevation(toolbar, getResources().getDimension(R.dimen.toolbar_elevation));
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-                startActivityForResult(intent, REQUEST_CONTACTPICKER);
-            }
-        });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.upcoming_events, menu);
+        getMenuInflater().inflate(R.menu.home, menu);
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
-            bar.setTitle(getString(R.string.title_upcoming_meetings));
+            bar.setTitle(getString(R.string.title_activity_home));
             bar.setDisplayShowHomeEnabled(false);
         }
         return true;
@@ -130,9 +119,17 @@ public class HomeActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
+            case R.id.action_pick_contact:
+                Intent contactIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                startActivityForResult(contactIntent, REQUEST_CONTACTPICKER);
+                break;
+            case R.id.action_pick_event:
+                Intent eventIntent = new Intent(this, UpcomingEventsActivity.class);
+                startActivity(eventIntent);
+                break;
             case R.id.action_settings:
-                Intent intent = new Intent(this, SettingActivity.class);
-                startActivity(intent);
+                Intent settingsIntent = new Intent(this, SettingActivity.class);
+                startActivity(settingsIntent);
                 break;
             case R.id.action_connect:
                 String url = "https://manager.anyfetch.com/marketplace";

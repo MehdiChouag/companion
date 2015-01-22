@@ -74,6 +74,8 @@
     <string name="auth_leaving_to_external_link">Opening in default browser, hope to see you back soon!</string>
     <string name="title_activity_home">AnyFetch Companion</string>
     <string name="home_welcome">Pick a contact or wait until you get a phone call!</string>
+    <string name="action_pick_contact">Pick contact</string>
+    <string name="action_pick_event">Pick event</string>
 
 
 </resources>
