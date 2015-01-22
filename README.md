@@ -1,5 +1,7 @@
 Anyfetch Companion for Android
 ==============================
+See http://companion.anyfetch.com for details and installation link.
+
 
 Setup
 -----
