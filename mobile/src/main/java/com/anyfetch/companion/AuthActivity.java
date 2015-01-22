@@ -117,7 +117,7 @@ public class AuthActivity extends Activity {
         JSONObject props = MixPanel.buildProp("companyId", prefs.getString("companyId", "<unknown>"));
         mixpanel.track("Sign in", props);
 
-        Intent intent = new Intent(getApplicationContext(), UpcomingEventsActivity.class);
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(intent);
         finish();
     }
