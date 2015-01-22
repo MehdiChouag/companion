@@ -15,6 +15,7 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anyfetch.companion.adapters.EventsListAdapter;
@@ -40,6 +41,7 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     private StickyListHeadersListView mListView;
     private EventsListAdapter mListAdapter;
     private SwipeRefreshLayout mSwipeLayout;
+    private TextView mEmptyView;
     private MixpanelAPI mixpanel;
 
     @Override
@@ -70,16 +72,20 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
 
         mListView = (StickyListHeadersListView) findViewById(R.id.listView);
 
+        mEmptyView = (TextView) findViewById(android.R.id.empty);
+        mEmptyView.setText(getString(R.string.loading));
+
         mListAdapter = new EventsListAdapter(getApplicationContext(), new EventsList());
         mListView.setAdapter(mListAdapter);
         mListView.setOnItemClickListener(this);
         mListView.setAreHeadersSticky(true);
         mListView.setDividerHeight(0);
-        mListView.setEmptyView(findViewById(android.R.id.empty));
+        mListView.setEmptyView(mEmptyView);
 
         mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         mSwipeLayout.setOnRefreshListener(this);
         mSwipeLayout.setColorSchemeColors(R.color.primary, R.color.primary_dark);
+
 
         GetUpcomingEventsRequest request = new GetUpcomingEventsRequest(getApplicationContext());
         mSpiceManager.execute(request, request.createCacheKey(), 15 * DurationInMillis.ONE_MINUTE, this);
@@ -111,6 +117,8 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
         }
         mListAdapter = new EventsListAdapter(getApplicationContext(), events);
         mListView.setAdapter(mListAdapter);
+
+        mEmptyView.setText(getString(R.string.no_upcoming_shared_events));
     }
 
     @Override
