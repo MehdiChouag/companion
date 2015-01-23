@@ -30,7 +30,8 @@
     <string name="placeholder_attendee_name">Attendee</string>
     <string name="placeholder_header_image">Header Image</string>
     <string name="sent_to_watch">Sent to watch</string>
-    <string name="auth_issue">Authentication issue: %s</string>
+    <string name="auth_issue">Authentication issue :(</string>
+    <string name="auth_issue_action">Sign in</string>
     <string name="calendar_error">Error retrieving calendar, please restart companion…</string>
     <string name="server_error">There\'s an issue with the server, please retry or log out and log in again.</string>
     <string name="monday">MON</string>

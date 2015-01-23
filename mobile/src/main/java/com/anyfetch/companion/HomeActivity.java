@@ -17,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
-import android.widget.Toast;
 
 import com.anyfetch.companion.commons.android.AndroidSpiceService;
 import com.anyfetch.companion.commons.android.pojo.Person;
@@ -88,10 +87,18 @@ public class HomeActivity extends ActionBarActivity {
         mHttpSpiceManager.execute(providersRequest, null, 0, new RequestListener<ProvidersList>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
-                Toast.makeText(HomeActivity.this, String.format(getString(R.string.auth_issue), spiceException.getMessage()), Toast.LENGTH_LONG).show();
-                if (spiceException.getMessage().contains("403") || spiceException.getMessage().contains("401")) {
-                    openAuthActivity();
-                }
+                Snackbar.with(getApplicationContext())
+                        .text(getString(R.string.auth_issue))
+                        .actionLabel(getString(R.string.auth_issue_action))
+                        .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+                        .actionColor(getResources().getColor(R.color.anyfetchOpposite))
+                        .actionListener(new ActionClickListener() {
+                            @Override
+                            public void onActionClicked(Snackbar snackbar) {
+                                signOut();
+                            }
+                        })
+                        .show(HomeActivity.this);
             }
 
             @Override
@@ -164,14 +171,7 @@ public class HomeActivity extends ActionBarActivity {
                 openMarketplace();
                 break;
             case R.id.action_log_out:
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                JSONObject props = MixPanel.buildProp("companyId", prefs.getString("companyId", "<unknown>"));
-                mixpanel.track("Sign out", props);
-
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("apiToken", null);
-                editor.apply();
-                openAuthActivity();
+                signOut();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -205,6 +205,17 @@ public class HomeActivity extends ActionBarActivity {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);
+    }
+
+    private void signOut() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        JSONObject props = MixPanel.buildProp("companyId", prefs.getString("companyId", "<unknown>"));
+        mixpanel.track("Sign out", props);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("apiToken", null);
+        editor.apply();
+        openAuthActivity();
     }
 
     protected void onDestroy() {

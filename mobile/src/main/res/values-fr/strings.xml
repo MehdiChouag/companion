@@ -30,7 +30,8 @@
     <string name="placeholder_attendee_name">Attendee</string>
     <string name="placeholder_header_image">Header Image</string>
     <string name="sent_to_watch">Envoyé sur la montre</string>
-    <string name="auth_issue">Problème d\'authentification: %s</string>
+    <string name="auth_issue">Problème d\'authentification :(</string>
+    <string name="auth_issue_action">Connexion</string>
     <string name="calendar_error">Erreur lors de la récupération du calendrier, tentez de redémarrer companion…</string>
     <string name="server_error">Problème serveur, merci de réessayer ou de vous déconnecter.</string>
     <string name="monday">LUN</string>
