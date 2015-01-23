@@ -63,7 +63,8 @@
     <string name="notification_basic_description">Appuyez pour accéder au contexte.</string>
     <string name="context_has_match">Documents en lien avec ce contexte.</string>
     <string name="no_upcoming_shared_events">Pas d\'évènements partagés\n:(</string>
-    <string name="context_has_no_match">Aucun document pour ce contexte. Essayez de connecter plus de sources !</string>
+    <string name="context_has_no_match">Aucun document pour ce contexte.</string>
+    <string name="context_has_no_match_action">Ajouter</string>
     <string name="context_loading">Chargement...</string>
     <string name="pref_dismiss_notification">Masquage automatique de notification</string>
     <string name="pref_dismiss_notification_summary">Durée avant de supprimer une notification d\'appel</string>
@@ -78,8 +79,8 @@
     <string name="action_pick_contact">Sélectionner un contact</string>
     <string name="action_pick_event">Sélectionner un évènement</string>
     <string name="loading">Chargement...</string>
-    <string name="no_providers_yet">You don\'t have any providers yet!</string>
-    <string name="no_providers_yet_action">Add one</string>
+    <string name="no_providers_yet">Aucune source de données !</string>
+    <string name="no_providers_yet_action">Ajouter</string>
 </resources>
 
 
