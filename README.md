@@ -1,5 +1,7 @@
 Anyfetch Companion for Android
 ==============================
+See http://companion.anyfetch.com for details and installation link.
+
 
 Setup
 -----
@@ -23,3 +25,5 @@ Ensure you can compile with gradle.
 ```
 gradle tasks
 ```
+
+![Onboarding](https://github.com/AnyFetch/companion/blob/master/mobile/src/main/res/drawable-hdpi/screen2_onboarding.png)
