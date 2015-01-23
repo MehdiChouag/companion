@@ -9,6 +9,7 @@ import android.graphics.ColorMatrixColorFilter;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 
@@ -86,6 +87,7 @@ public class DocumentsListAdapter extends TimedListAdapter {
         holder.dtIcon.setImageResource(ImageHelper.matchIconForDocumentType(document.getTypeId()));
 
         holder.webView.getSettings().setJavaScriptEnabled(document.snippetRequireJavascript());
+        holder.webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         holder.webView.loadUrl("about:blank");
 
         String documentSnippet = document.getSnippet();
