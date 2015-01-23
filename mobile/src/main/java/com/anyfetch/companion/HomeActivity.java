@@ -17,17 +17,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
-import android.widget.Toast;
 
 import com.anyfetch.companion.commons.android.AndroidSpiceService;
 import com.anyfetch.companion.commons.android.pojo.Person;
 import com.anyfetch.companion.commons.api.HttpSpiceService;
 import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
-import com.anyfetch.companion.commons.api.requests.GetStartRequest;
+import com.anyfetch.companion.commons.api.pojo.ProvidersList;
+import com.anyfetch.companion.commons.api.requests.GetProvidersRequest;
 import com.anyfetch.companion.fragments.ContextFragment;
 import com.anyfetch.companion.stats.MixPanel;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.newrelic.agent.android.NewRelic;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.enums.SnackbarType;
+import com.nispok.snackbar.listeners.ActionClickListener;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
@@ -81,19 +84,58 @@ public class HomeActivity extends ActionBarActivity {
             return;
         }
 
-        GetStartRequest startRequest = new GetStartRequest(serverUrl, apiToken);
-        mHttpSpiceManager.execute(startRequest, null, 0, new RequestListener<Object>() {
+        GetProvidersRequest providersRequest = new GetProvidersRequest(serverUrl, apiToken);
+        mHttpSpiceManager.execute(providersRequest, null, 0, new RequestListener<ProvidersList>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
-                Toast.makeText(HomeActivity.this, String.format(getString(R.string.auth_issue), spiceException.getMessage()), Toast.LENGTH_LONG).show();
-                if (spiceException.getMessage().equals("403") || spiceException.getMessage().equals("401")) {
-                    openAuthActivity();
-                }
+                Snackbar.with(getApplicationContext())
+                        .text(getString(R.string.auth_issue))
+                        .actionLabel(getString(R.string.auth_issue_action))
+                        .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+                        .actionColor(getResources().getColor(R.color.anyfetchOpposite))
+                        .actionListener(new ActionClickListener() {
+                            @Override
+                            public void onActionClicked(Snackbar snackbar) {
+                                signOut();
+                            }
+                        })
+                        .show(HomeActivity.this);
             }
 
             @Override
-            public void onRequestSuccess(Object o) {
-                Log.i("LambdaRequestListener", "Company Account Updated");
+            public void onRequestSuccess(ProvidersList o) {
+                Log.i("LambdaRequestListener", "Providers retrieved, count of " + o.getCount());
+
+                if (o.getCount() == 0) {
+                    Snackbar.with(getApplicationContext())
+                            .text(getString(R.string.no_providers_yet))
+                            .actionLabel(getString(R.string.no_providers_yet_action))
+                            .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+                            .actionColor(getResources().getColor(R.color.anyfetchOpposite))
+                            .actionListener(new ActionClickListener() {
+                                @Override
+                                public void onActionClicked(Snackbar snackbar) {
+                                    openMarketplace();
+                                }
+                            })
+                            .show(HomeActivity.this);
+                }
+                else if(o.getCount() < 3) {
+                    Snackbar.with(getApplicationContext())
+                            .type(SnackbarType.MULTI_LINE)
+                            .text(getString(R.string.few_providers_yet))
+                            .actionLabel(getString(R.string.no_providers_yet_action))
+                            .duration(Snackbar.SnackbarDuration.LENGTH_LONG)
+                            .actionColor(getResources().getColor(R.color.anyfetchOpposite))
+                            .actionListener(new ActionClickListener() {
+                                @Override
+                                public void onActionClicked(Snackbar snackbar) {
+                                    openMarketplace();
+                                }
+                            })
+                            .show(HomeActivity.this);
+                }
+
             }
         });
 
@@ -142,20 +184,10 @@ public class HomeActivity extends ActionBarActivity {
                 startActivity(settingsIntent);
                 break;
             case R.id.action_connect:
-                String url = "https://manager.anyfetch.com/marketplace";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
+                openMarketplace();
                 break;
             case R.id.action_log_out:
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                JSONObject props = MixPanel.buildProp("companyId", prefs.getString("companyId", "<unknown>"));
-                mixpanel.track("Sign out", props);
-
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("apiToken", null);
-                editor.apply();
-                openAuthActivity();
+                signOut();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -182,6 +214,24 @@ public class HomeActivity extends ActionBarActivity {
         Intent intent = new Intent(getApplicationContext(), AuthActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void openMarketplace() {
+        String url = "https://manager.anyfetch.com/marketplace";
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
+    }
+
+    private void signOut() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        JSONObject props = MixPanel.buildProp("companyId", prefs.getString("companyId", "<unknown>"));
+        mixpanel.track("Sign out", props);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("apiToken", null);
+        editor.apply();
+        openAuthActivity();
     }
 
     protected void onDestroy() {

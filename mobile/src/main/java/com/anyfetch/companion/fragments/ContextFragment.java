@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -34,6 +36,9 @@ import com.anyfetch.companion.commons.api.builders.DocumentsListRequestBuilder;
 import com.anyfetch.companion.commons.api.pojo.DocumentsList;
 import com.anyfetch.companion.commons.api.requests.GetDocumentsListRequest;
 import com.anyfetch.companion.notifications.BuildNotificationStackTask;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.enums.SnackbarType;
+import com.nispok.snackbar.listeners.ActionClickListener;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
@@ -178,7 +183,22 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         mListView.setAdapter(mListAdapter);
 
         if (documents.size() == 0) {
-            Toast.makeText(getActivity(), getString(R.string.context_has_no_match), Toast.LENGTH_SHORT).show();
+            Snackbar.with(getActivity().getApplicationContext())
+                    .text(getString(R.string.context_has_no_match))
+                    .actionLabel(getString(R.string.context_has_no_match_action))
+                    .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+                    .type(SnackbarType.MULTI_LINE)
+                    .actionColor(getResources().getColor(R.color.anyfetchOpposite))
+                    .actionListener(new ActionClickListener() {
+                        @Override
+                        public void onActionClicked(Snackbar snackbar) {
+                            String url = "https://manager.anyfetch.com/marketplace";
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(Uri.parse(url));
+                            startActivity(i);
+                        }
+                    })
+                    .show(getActivity());
         }
     }
 

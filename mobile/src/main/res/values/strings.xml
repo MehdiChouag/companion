@@ -30,7 +30,8 @@
     <string name="placeholder_attendee_name">Attendee</string>
     <string name="placeholder_header_image">Header Image</string>
     <string name="sent_to_watch">Sent to watch</string>
-    <string name="auth_issue">Authentication issue: %s</string>
+    <string name="auth_issue">Authentication issue :(</string>
+    <string name="auth_issue_action">Sign in</string>
     <string name="calendar_error">Error retrieving calendar, please restart companion…</string>
     <string name="server_error">There\'s an issue with the server, please retry or log out and log in again.</string>
     <string name="monday">MON</string>
@@ -57,13 +58,14 @@
     <string name="title_activity_settings">Settings</string>
     <string name="pref_notification">Notifications settings</string>
     <string name="pref_notification_events">Notify me before events</string>
-    <string name="pref_notification_events_details">Display Anyfetch context before events</string>
+    <string name="pref_notification_events_details">Display AnyFetch context before events</string>
     <string name="pref_notification_calls">Notify me during phone calls</string>
-    <string name="pref_notification_calls_details">Display Anyfetch context during phone calls</string>
+    <string name="pref_notification_calls_details">Display AnyFetch context during phone calls</string>
     <string name="notification_basic_description">Touch to view context.</string>
     <string name="context_has_match">Documents available for this context.</string>
     <string name="no_upcoming_shared_events">No upcoming shared events\n:(</string>
-    <string name="context_has_no_match">No documents for this context. Try connecting more sources</string>
+    <string name="context_has_no_match">No document for this context.</string>
+    <string name="context_has_no_match_action">Add source</string>
     <string name="context_loading">Loading context... please be patient.</string>
     <string name="pref_dismiss_notification_summary">Time before automatically dismissing unused call notification</string>
     <string name="pref_dismiss_notification">Automatic notification removal</string>
@@ -78,6 +80,7 @@
     <string name="action_pick_contact">Pick contact</string>
     <string name="action_pick_event">Pick event</string>
     <string name="loading">Loading...</string>
-
-
+    <string name="no_providers_yet">You don\'t have any providers yet!</string>
+    <string name="no_providers_yet_action">Add one</string>
+    <string name="few_providers_yet">Add more providers to improve your Companion experience</string>
 </resources>

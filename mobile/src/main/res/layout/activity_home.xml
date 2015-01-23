@@ -43,5 +43,4 @@
             android:textColor="@android:color/white"
             android:gravity="center_horizontal"/>
     </LinearLayout>
-
 </FrameLayout>
