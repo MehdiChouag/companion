@@ -29,6 +29,7 @@ import com.anyfetch.companion.stats.MixPanel;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.newrelic.agent.android.NewRelic;
 import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.enums.SnackbarType;
 import com.nispok.snackbar.listeners.ActionClickListener;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
@@ -110,6 +111,21 @@ public class HomeActivity extends ActionBarActivity {
                             .text(getString(R.string.no_providers_yet))
                             .actionLabel(getString(R.string.no_providers_yet_action))
                             .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+                            .actionColor(getResources().getColor(R.color.anyfetchOpposite))
+                            .actionListener(new ActionClickListener() {
+                                @Override
+                                public void onActionClicked(Snackbar snackbar) {
+                                    openMarketplace();
+                                }
+                            })
+                            .show(HomeActivity.this);
+                }
+                else if(o.getCount() < 3) {
+                    Snackbar.with(getApplicationContext())
+                            .type(SnackbarType.MULTI_LINE)
+                            .text(getString(R.string.few_providers_yet))
+                            .actionLabel(getString(R.string.no_providers_yet_action))
+                            .duration(Snackbar.SnackbarDuration.LENGTH_LONG)
                             .actionColor(getResources().getColor(R.color.anyfetchOpposite))
                             .actionListener(new ActionClickListener() {
                                 @Override

@@ -82,6 +82,7 @@
     <string name="loading">Chargement...</string>
     <string name="no_providers_yet">Aucune source de données !</string>
     <string name="no_providers_yet_action">Ajouter</string>
+    <string name="few_providers_yet">Ajoutez plus de sources pour profiter au mieux du Companion</string>
 </resources>
 
 
