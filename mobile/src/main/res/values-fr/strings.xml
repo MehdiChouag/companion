@@ -78,7 +78,8 @@
     <string name="action_pick_contact">Sélectionner un contact</string>
     <string name="action_pick_event">Sélectionner un évènement</string>
     <string name="loading">Chargement...</string>
-    <string name="no_providers_yet">You don\'t have any providers yet!\nTouch here to solve this.</string>
+    <string name="no_providers_yet">You don\'t have any providers yet!</string>
+    <string name="no_providers_yet_action">Add one</string>
 </resources>
 
 

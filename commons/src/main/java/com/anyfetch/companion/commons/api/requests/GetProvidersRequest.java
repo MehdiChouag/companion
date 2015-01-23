@@ -3,11 +3,12 @@ package com.anyfetch.companion.commons.api.requests;
 import android.util.Log;
 
 import com.anyfetch.companion.commons.api.helpers.BaseRequest;
+import com.anyfetch.companion.commons.api.pojo.ProvidersList;
 
 /**
  * Hook on server when the application is started
  */
-public class GetProvidersRequest extends BaseRequest<Object> {
+public class GetProvidersRequest extends BaseRequest<ProvidersList> {
     private static final String TAG = "GetProvidersRequest";
 
     /**
@@ -17,7 +18,7 @@ public class GetProvidersRequest extends BaseRequest<Object> {
      * @param apiToken  The API token
      */
     public GetProvidersRequest(String serverUrl, String apiToken) {
-        super(Object.class, serverUrl, apiToken);
+        super(ProvidersList.class, serverUrl, apiToken);
         Log.i(TAG, "Create Providers Request");
     }
 

@@ -23,11 +23,14 @@ import com.anyfetch.companion.commons.android.AndroidSpiceService;
 import com.anyfetch.companion.commons.android.pojo.Person;
 import com.anyfetch.companion.commons.api.HttpSpiceService;
 import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
+import com.anyfetch.companion.commons.api.pojo.ProvidersList;
 import com.anyfetch.companion.commons.api.requests.GetProvidersRequest;
 import com.anyfetch.companion.fragments.ContextFragment;
 import com.anyfetch.companion.stats.MixPanel;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.newrelic.agent.android.NewRelic;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.listeners.ActionClickListener;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
@@ -82,7 +85,7 @@ public class HomeActivity extends ActionBarActivity {
         }
 
         GetProvidersRequest providersRequest = new GetProvidersRequest(serverUrl, apiToken);
-        mHttpSpiceManager.execute(providersRequest, null, 0, new RequestListener<Object>() {
+        mHttpSpiceManager.execute(providersRequest, null, 0, new RequestListener<ProvidersList>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
                 Toast.makeText(HomeActivity.this, String.format(getString(R.string.auth_issue), spiceException.getMessage()), Toast.LENGTH_LONG).show();
@@ -92,8 +95,24 @@ public class HomeActivity extends ActionBarActivity {
             }
 
             @Override
-            public void onRequestSuccess(Object o) {
-                Log.i("LambdaRequestListener", "Providers retrieved");
+            public void onRequestSuccess(ProvidersList o) {
+                Log.i("LambdaRequestListener", "Providers retrieved, count of " + o.getCount());
+
+                if (o.getCount() == 0) {
+                    Snackbar.with(getApplicationContext())
+                            .text(getString(R.string.no_providers_yet))
+                            .actionLabel(getString(R.string.no_providers_yet_action))
+                            .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+                            .actionColor(getResources().getColor(R.color.anyfetchOpposite))
+                            .actionListener(new ActionClickListener() {
+                                @Override
+                                public void onActionClicked(Snackbar snackbar) {
+                                    openMarketplace();
+                                }
+                            })
+                            .show(HomeActivity.this);
+                }
+
             }
         });
 
@@ -142,10 +161,7 @@ public class HomeActivity extends ActionBarActivity {
                 startActivity(settingsIntent);
                 break;
             case R.id.action_connect:
-                String url = "https://manager.anyfetch.com/marketplace";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
+                openMarketplace();
                 break;
             case R.id.action_log_out:
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -182,6 +198,13 @@ public class HomeActivity extends ActionBarActivity {
         Intent intent = new Intent(getApplicationContext(), AuthActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void openMarketplace() {
+        String url = "https://manager.anyfetch.com/marketplace";
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
     }
 
     protected void onDestroy() {
