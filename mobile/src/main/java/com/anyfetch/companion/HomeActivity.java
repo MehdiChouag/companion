@@ -23,7 +23,7 @@ import com.anyfetch.companion.commons.android.AndroidSpiceService;
 import com.anyfetch.companion.commons.android.pojo.Person;
 import com.anyfetch.companion.commons.api.HttpSpiceService;
 import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
-import com.anyfetch.companion.commons.api.requests.GetStartRequest;
+import com.anyfetch.companion.commons.api.requests.GetProvidersRequest;
 import com.anyfetch.companion.fragments.ContextFragment;
 import com.anyfetch.companion.stats.MixPanel;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
@@ -81,19 +81,19 @@ public class HomeActivity extends ActionBarActivity {
             return;
         }
 
-        GetStartRequest startRequest = new GetStartRequest(serverUrl, apiToken);
-        mHttpSpiceManager.execute(startRequest, null, 0, new RequestListener<Object>() {
+        GetProvidersRequest providersRequest = new GetProvidersRequest(serverUrl, apiToken);
+        mHttpSpiceManager.execute(providersRequest, null, 0, new RequestListener<Object>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
                 Toast.makeText(HomeActivity.this, String.format(getString(R.string.auth_issue), spiceException.getMessage()), Toast.LENGTH_LONG).show();
-                if (spiceException.getMessage().equals("403") || spiceException.getMessage().equals("401")) {
+                if (spiceException.getMessage().contains("403") || spiceException.getMessage().contains("401")) {
                     openAuthActivity();
                 }
             }
 
             @Override
             public void onRequestSuccess(Object o) {
-                Log.i("LambdaRequestListener", "Company Account Updated");
+                Log.i("LambdaRequestListener", "Providers retrieved");
             }
         });
 
