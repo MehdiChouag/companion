@@ -43,31 +43,4 @@
             android:textColor="@android:color/white"
             android:gravity="center_horizontal"/>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_gravity="left|bottom"
-        android:layout_width="fill_parent"
-        android:background="@color/anyfetchOpposite"
-        android:gravity="center_vertical"
-        android:elevation="15dp"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_warning"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:padding="5dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/no_providers_yet"
-            android:id="@+id/textView"/>
-    </LinearLayout>
-
-
 </FrameLayout>
