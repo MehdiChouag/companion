@@ -63,6 +63,8 @@ public class HomeActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mixpanel = MixPanel.getInstance(this);
+        mixpanel.track("HomeActivity", new JSONObject());
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(true);
         }
@@ -198,6 +200,8 @@ public class HomeActivity extends ActionBarActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CONTACTPICKER) {
             if (resultCode == RESULT_OK) {
+                mixpanel.track("Pick contact", new JSONObject());
+
                 String personId = data.getData().getLastPathSegment();
                 Log.i("PersonPicker", "User picked contact " + personId);
                 Person person = Person.getPerson(this, Long.parseLong(personId));
@@ -217,6 +221,8 @@ public class HomeActivity extends ActionBarActivity {
     }
 
     private void openMarketplace() {
+        mixpanel.track("Open marketplace", new JSONObject());
+
         String url = "https://manager.anyfetch.com/marketplace";
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
@@ -225,8 +231,7 @@ public class HomeActivity extends ActionBarActivity {
 
     private void signOut() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        JSONObject props = MixPanel.buildProp("companyId", prefs.getString("companyId", "<unknown>"));
-        mixpanel.track("Sign out", props);
+        mixpanel.track("Sign out", new JSONObject());
 
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("apiToken", null);

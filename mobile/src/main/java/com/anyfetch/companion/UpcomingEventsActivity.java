@@ -34,6 +34,8 @@ import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
+import org.json.JSONObject;
+
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 public class UpcomingEventsActivity extends ActionBarActivity implements RequestListener<EventsList>, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
@@ -64,6 +66,8 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mixpanel = MixPanel.getInstance(this);
+        mixpanel.track("UpcomingEventsActivity", new JSONObject());
+
 
         setContentView(R.layout.activity_upcoming_events);
 

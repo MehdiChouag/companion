@@ -39,10 +39,12 @@ public class AuthActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mixpanel = MixPanel.getInstance(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
 
+        mixpanel = MixPanel.getInstance(this);
+        mixpanel.track("AuthActivity", new JSONObject());
+        
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String serverUrl = preferences.getString(BaseRequestBuilder.PREF_SERVER_URL, BaseRequestBuilder.DEFAULT_SERVER_URL);
 

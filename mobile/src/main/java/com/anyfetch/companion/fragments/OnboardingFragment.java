@@ -18,7 +18,6 @@ public class OnboardingFragment extends Fragment {
     public final static String LAYOUT_RESOURCE = "layoutResource";
     public final static String PREF_ONBOARDING_DISPLAYED = "hasDisplayedOnboarding";
 
-
     private int mLayoutResource;
 
     @Override

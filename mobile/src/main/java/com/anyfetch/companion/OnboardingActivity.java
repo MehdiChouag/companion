@@ -10,6 +10,10 @@ import android.support.v4.view.ViewPager;
 import android.widget.ImageView;
 
 import com.anyfetch.companion.fragments.OnboardingFragment;
+import com.anyfetch.companion.stats.MixPanel;
+import com.mixpanel.android.mpmetrics.MixpanelAPI;
+
+import org.json.JSONObject;
 
 /**
  * Created by neamar on 1/19/15.
@@ -25,6 +29,9 @@ public class OnboardingActivity extends FragmentActivity {
             R.layout.fragment_onboarding_2,
             R.layout.fragment_onboarding_3,
     };
+
+    private MixpanelAPI mixpanel;
+
 
     private ImageView[] dots;
 
@@ -48,6 +55,9 @@ public class OnboardingActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onboarding);
+
+        mixpanel = MixPanel.getInstance(this);
+        mixpanel.track("OnboardingActivity", new JSONObject());
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -91,6 +101,11 @@ public class OnboardingActivity extends FragmentActivity {
             // Otherwise, select the previous step.
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
         }
+    }
+
+    protected void onDestroy() {
+        mixpanel.flush();
+        super.onDestroy();
     }
 
     /**
