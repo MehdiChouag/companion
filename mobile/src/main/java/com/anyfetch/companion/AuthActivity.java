@@ -29,6 +29,7 @@ public class AuthActivity extends Activity {
     private static final String LOCAL_URL = "https://localhost/done/";
     private static final String[] URLS = new String[]{
             ".anyfetch.com/sign_in",
+            ".anyfetch.com/sign_up",
             ".anyfetch.com/sign_out",
             ".anyfetch.com/oauth/authorize",
             ".herokuapp.com/init/callback",
