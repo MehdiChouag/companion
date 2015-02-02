@@ -4,10 +4,8 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -28,6 +26,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anyfetch.companion.ContextActivity;
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.adapters.DocumentsListAdapter;
 import com.anyfetch.companion.commons.api.HttpSpiceService;
@@ -35,7 +34,9 @@ import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import com.anyfetch.companion.commons.api.builders.DocumentsListRequestBuilder;
 import com.anyfetch.companion.commons.api.pojo.DocumentsList;
 import com.anyfetch.companion.commons.api.requests.GetDocumentsListRequest;
+import com.anyfetch.companion.helpers.Marketpace;
 import com.anyfetch.companion.notifications.BuildNotificationStackTask;
+import com.anyfetch.companion.stats.MixPanel;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.enums.SnackbarType;
 import com.nispok.snackbar.listeners.ActionClickListener;
@@ -43,6 +44,8 @@ import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
+
+import org.json.JSONObject;
 
 import java.util.HashSet;
 import java.util.List;
@@ -192,10 +195,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
                     .actionListener(new ActionClickListener() {
                         @Override
                         public void onActionClicked(Snackbar snackbar) {
-                            String url = "https://manager.anyfetch.com/marketplace";
-                            Intent i = new Intent(Intent.ACTION_VIEW);
-                            i.setData(Uri.parse(url));
-                            startActivity(i);
+                            new Marketpace(getActivity(), getContextActivity().getMixpanel()).openMarketplace("Context");
                         }
                     })
                     .show(getActivity());
@@ -218,11 +218,16 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         int id = item.getItemId();
         switch (id) {
             case R.id.action_prepare_on_wear:
+                getContextActivity().getMixpanel().track("Sent to wear", new JSONObject());
+
                 Toast.makeText(getActivity(), getString(R.string.sent_to_watch), Toast.LENGTH_LONG).show();
                 new BuildNotificationStackTask(getActivity()).execute(mRootContextualObject, null, null);
                 break;
             case R.id.action_improve_context:
                 if (mRootContextualObject.getPersons() != null) {
+                    JSONObject props = MixPanel.buildProp("persons", Integer.toString(mRootContextualObject.getPersons().size()));
+                    getContextActivity().getMixpanel().track("Improve context", props);
+
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     Fragment prev = getFragmentManager().findFragmentByTag("dialog");
                     if (prev != null) {
@@ -246,6 +251,10 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
+    }
+
+    public ContextActivity getContextActivity() {
+        return (ContextActivity) getActivity();
     }
 
     @Override
