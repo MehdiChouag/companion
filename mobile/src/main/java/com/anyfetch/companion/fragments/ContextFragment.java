@@ -36,6 +36,7 @@ import com.anyfetch.companion.commons.api.pojo.DocumentsList;
 import com.anyfetch.companion.commons.api.requests.GetDocumentsListRequest;
 import com.anyfetch.companion.helpers.Marketpace;
 import com.anyfetch.companion.notifications.BuildNotificationStackTask;
+import com.anyfetch.companion.stats.MixPanel;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.enums.SnackbarType;
 import com.nispok.snackbar.listeners.ActionClickListener;
@@ -43,6 +44,8 @@ import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
+
+import org.json.JSONObject;
 
 import java.util.HashSet;
 import java.util.List;
@@ -192,7 +195,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
                     .actionListener(new ActionClickListener() {
                         @Override
                         public void onActionClicked(Snackbar snackbar) {
-                            new Marketpace(getActivity(), ((ContextActivity) getActivity()).getMixpanel()).openMarketplace("Context");
+                            new Marketpace(getActivity(), getContextActivity().getMixpanel()).openMarketplace("Context");
                         }
                     })
                     .show(getActivity());
@@ -215,11 +218,16 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
         int id = item.getItemId();
         switch (id) {
             case R.id.action_prepare_on_wear:
+                getContextActivity().getMixpanel().track("Sent to wear", new JSONObject());
+
                 Toast.makeText(getActivity(), getString(R.string.sent_to_watch), Toast.LENGTH_LONG).show();
                 new BuildNotificationStackTask(getActivity()).execute(mRootContextualObject, null, null);
                 break;
             case R.id.action_improve_context:
                 if (mRootContextualObject.getPersons() != null) {
+                    JSONObject props = MixPanel.buildProp("persons", Integer.toString(mRootContextualObject.getPersons().size()));
+                    getContextActivity().getMixpanel().track("Improve context", props);
+
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     Fragment prev = getFragmentManager().findFragmentByTag("dialog");
                     if (prev != null) {
@@ -243,6 +251,10 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
+    }
+
+    public ContextActivity getContextActivity() {
+        return (ContextActivity) getActivity();
     }
 
     @Override
