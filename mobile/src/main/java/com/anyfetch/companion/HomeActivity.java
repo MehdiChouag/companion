@@ -73,7 +73,7 @@ public class HomeActivity extends ActionBarActivity {
         NewRelic.withApplicationToken("AA8f2983b4af8f945810684414d40a161c400b7569").start(this.getApplication());
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String serverUrl = preferences.getString(BaseRequestBuilder.PREF_SERVER_URL, BaseRequestBuilder.DEFAULT_SERVER_URL);
+
         String apiToken = preferences.getString(BaseRequestBuilder.PREF_API_TOKEN, null);
 
         // Log out the user if no userId set (coming from version 2.5.0 or before)
@@ -85,6 +85,25 @@ public class HomeActivity extends ActionBarActivity {
             openAuthActivity();
             return;
         }
+
+        doInitCall();
+    }
+
+    @Override
+    public void onResume() {
+        // Refresh snackbar (maybe we have new providers?)
+        doInitCall();
+        super.onResume();
+    }
+
+    /**
+     * Request the number of documents currently connected
+     */
+    protected void doInitCall() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        String serverUrl = preferences.getString(BaseRequestBuilder.PREF_SERVER_URL, BaseRequestBuilder.DEFAULT_SERVER_URL);
+        String apiToken = preferences.getString(BaseRequestBuilder.PREF_API_TOKEN, null);
 
         GetProvidersRequest providersRequest = new GetProvidersRequest(serverUrl, apiToken);
         mHttpSpiceManager.execute(providersRequest, null, 0, new RequestListener<ProvidersList>() {
