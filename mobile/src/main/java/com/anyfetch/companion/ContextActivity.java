@@ -65,4 +65,8 @@ public class ContextActivity extends Activity {
         mixpanel.flush();
         super.onDestroy();
     }
+
+    public MixpanelAPI getMixpanel() {
+        return mixpanel;
+    }
 }

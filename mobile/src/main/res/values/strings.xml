@@ -83,4 +83,6 @@
     <string name="no_providers_yet">You don\'t have any providers yet!</string>
     <string name="no_providers_yet_action">Add one</string>
     <string name="few_providers_yet">Add more providers to improve your Companion experience</string>
+    <string name="opening_manager">Opening the manager</string>
+    <string name="opening_manager_description">Your default browser will appear.\nConnect your accounts and come back to the app!</string>
 </resources>

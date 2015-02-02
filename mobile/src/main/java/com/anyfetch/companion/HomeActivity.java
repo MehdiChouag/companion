@@ -3,7 +3,6 @@ package com.anyfetch.companion;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -25,6 +24,7 @@ import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
 import com.anyfetch.companion.commons.api.pojo.ProvidersList;
 import com.anyfetch.companion.commons.api.requests.GetProvidersRequest;
 import com.anyfetch.companion.fragments.ContextFragment;
+import com.anyfetch.companion.helpers.Marketpace;
 import com.anyfetch.companion.stats.MixPanel;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.newrelic.agent.android.NewRelic;
@@ -221,12 +221,7 @@ public class HomeActivity extends ActionBarActivity {
     }
 
     private void openMarketplace() {
-        mixpanel.track("Open marketplace", new JSONObject());
-
-        String url = "https://manager.anyfetch.com/marketplace";
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(url));
-        startActivity(i);
+        new Marketpace(this, mixpanel).openMarketplace("Home");
     }
 
     private void signOut() {

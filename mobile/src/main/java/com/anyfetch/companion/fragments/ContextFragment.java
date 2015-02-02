@@ -4,10 +4,8 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -28,6 +26,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anyfetch.companion.ContextActivity;
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.adapters.DocumentsListAdapter;
 import com.anyfetch.companion.commons.api.HttpSpiceService;
@@ -35,6 +34,7 @@ import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import com.anyfetch.companion.commons.api.builders.DocumentsListRequestBuilder;
 import com.anyfetch.companion.commons.api.pojo.DocumentsList;
 import com.anyfetch.companion.commons.api.requests.GetDocumentsListRequest;
+import com.anyfetch.companion.helpers.Marketpace;
 import com.anyfetch.companion.notifications.BuildNotificationStackTask;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.enums.SnackbarType;
@@ -192,10 +192,7 @@ public class ContextFragment extends Fragment implements RequestListener<Documen
                     .actionListener(new ActionClickListener() {
                         @Override
                         public void onActionClicked(Snackbar snackbar) {
-                            String url = "https://manager.anyfetch.com/marketplace";
-                            Intent i = new Intent(Intent.ACTION_VIEW);
-                            i.setData(Uri.parse(url));
-                            startActivity(i);
+                            new Marketpace(getActivity(), ((ContextActivity) getActivity()).getMixpanel()).openMarketplace("Context");
                         }
                     })
                     .show(getActivity());
