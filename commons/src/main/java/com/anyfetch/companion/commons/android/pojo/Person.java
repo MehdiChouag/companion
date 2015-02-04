@@ -385,7 +385,7 @@ public class Person implements Parcelable, ContextualObject {
 
     @Override
     public String getTitle() {
-        return mName;
+        return mName == null ? "": mName;
     }
 
     @Override
