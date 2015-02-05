@@ -28,6 +28,7 @@ import com.anyfetch.companion.commons.api.HttpSpiceService;
 import com.anyfetch.companion.fragments.ContextFragment;
 import com.anyfetch.companion.meetings.ScheduleMeetingPreparationTask;
 import com.anyfetch.companion.stats.MixPanel;
+import com.melnykov.fab.FloatingActionButton;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
@@ -88,6 +89,17 @@ public class UpcomingEventsActivity extends ActionBarActivity implements Request
         mListView.setAreHeadersSticky(true);
         mListView.setDividerHeight(0);
         mListView.setEmptyView(mEmptyView);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.attachToListView(mListView.getWrappedList());
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_EDIT);
+                intent.setType("vnd.android.cursor.item/event");
+                startActivity(intent);
+            }
+        });
 
         mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         mSwipeLayout.setOnRefreshListener(this);
