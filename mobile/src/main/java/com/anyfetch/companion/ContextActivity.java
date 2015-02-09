@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.anyfetch.companion.commons.api.builders.ContextualObject;
 import com.anyfetch.companion.fragments.ContextFragment;
@@ -14,7 +15,7 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 import org.json.JSONObject;
 
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  * Launches ContextFragment
@@ -32,7 +33,7 @@ public class ContextActivity extends Activity {
 
         mixpanel = MixPanel.getInstance(this);
         mixpanel.getPeople().increment("ContextCount", 1);
-        mixpanel.getPeople().set("lastContext", new Date().toString());
+        mixpanel.getPeople().set("lastContext", Calendar.getInstance().getTime());
 
         setContentView(R.layout.activity_context);
 
