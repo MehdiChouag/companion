@@ -4,7 +4,8 @@
     <color name="dt_contact">#4527A0</color>
     <color name="dt_document">#1565C0</color>
     <color name="dt_email">#D32F2F</color>
-    <color name="dt_event">#00796B</color>
+    <color name="dt_event">#795548</color>
+    <color name="dt_note">#388E3C</color>
     <color name="dt_file">#616161</color>
     <color name="dt_image">#FFA000</color>
     <color name="dt_trello">#303F9F</color>

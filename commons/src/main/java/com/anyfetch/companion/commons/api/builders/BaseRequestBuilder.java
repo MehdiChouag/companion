@@ -16,7 +16,7 @@ public abstract class BaseRequestBuilder<T> {
 
     public static final String TAILED_EMAILS = "tailed_emails";
     public static final String PREF_SERVER_URL = "serverUrl";
-    public static final String DEFAULT_SERVER_URL = "https://anyfetch-companion.herokuapp.com";
+    public static final String DEFAULT_SERVER_URL = "https://anyfetch-companion-staging.herokuapp.com";
     public static final String PREF_API_TOKEN = "apiToken";
     private Set<String> mTailedEmails;
     private String mServerUrl;
