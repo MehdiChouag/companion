@@ -85,8 +85,6 @@ public class HomeActivity extends ActionBarActivity {
             openAuthActivity();
             return;
         }
-
-        doInitCall();
     }
 
     @Override

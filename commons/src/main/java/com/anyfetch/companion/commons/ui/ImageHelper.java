@@ -79,6 +79,8 @@ public class ImageHelper {
             return R.color.dt_file;
         } else if (dt.equals("5252ce4ce4cfcd16f55cfa3d")) {
             return R.color.dt_image;
+        } else if (dt.equals("5252ce4ce4cfcd16f55cfa4a")) {
+            return R.color.dt_note;
         } else if (dt.equals("5252ce4ce4cfcd16f55cfa3e")) {
             return R.color.dt_trello;
         } else {
@@ -89,22 +91,25 @@ public class ImageHelper {
     public static int matchIconForDocumentType(String dt) {
         if (dt.equals("5252ce4ce4cfcd16f55cfa3a")) {
             // Contacts
-            return R.drawable.ic_type_5252ce4ce4cfcd16f55cfa3a;
+            return R.drawable.type_5252ce4ce4cfcd16f55cfa3a;
         } else if (dt.equals("5252ce4ce4cfcd16f55cfa3c")) {
             // Document
-            return R.drawable.ic_type_5252ce4ce4cfcd16f55cfa3c;
+            return R.drawable.type_5252ce4ce4cfcd16f55cfa3c;
         } else if (dt.equals("5252ce4ce4cfcd16f55cfa3f") || dt.equals("656d61696c2d746872656164")) {
             // Email / email-thread
-            return R.drawable.ic_type_5252ce4ce4cfcd16f55cfa3f;
+            return R.drawable.type_5252ce4ce4cfcd16f55cfa3f;
         } else if (dt.equals("5252ce4ce4cfcd16f55cfa40")) {
             // Event
-            return R.drawable.ic_type_5252ce4ce4cfcd16f55cfa40;
+            return R.drawable.type_5252ce4ce4cfcd16f55cfa40;
         } else if (dt.equals("5252ce4ce4cfcd16f55cfa3d")) {
             // Image
-            return R.drawable.ic_type_5252ce4ce4cfcd16f55cfa3d;
+            return R.drawable.type_5252ce4ce4cfcd16f55cfa3d;
+        } else if (dt.equals("5252ce4ce4cfcd16f55cfa4a")) {
+            // Note
+            return R.drawable.type_5252ce4ce4cfcd16f55cfa4a;
         } else {
             // Default (file)
-            return R.drawable.ic_type_5252ce4ce4cfcd16f55cfa3c;
+            return R.drawable.type_5252ce4ce4cfcd16f55cfa3c;
         }
     }
 
