@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             android:background="@color/primary_light"
-             android:orientation="vertical"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
+    <include
         android:id="@+id/toolbar"
+        layout="@layout/item_toolbar"/>
+
+    <com.astuetz.PagerSlidingTabStrip
+        android:id="@+id/sliding_tabs"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/primary"
-        android:minHeight="?attr/actionBarSize"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+        style="@style/PagerSlidingStyle"/>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -20,7 +27,8 @@
         android:orientation="vertical"
         android:id="@+id/home_layout"
         android:background="?android:attr/selectableItemBackground"
-        android:gravity="center">
+        android:gravity="center"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"

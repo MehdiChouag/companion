@@ -85,4 +85,11 @@
     <string name="few_providers_yet">Add more providers to improve your Companion experience</string>
     <string name="opening_manager">Opening the manager</string>
     <string name="opening_manager_description">Your default browser will appear.\nConnect your accounts and come back to the app!</string>
+
+    <!-- Search Menu item -->
+    <string name="search_contact">Search a contact</string>
+    <string name="search_contact_hint">@string/search_contact</string>
+
+    <!-- Home Activity -->
+    <string name="alphabet">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
 </resources>

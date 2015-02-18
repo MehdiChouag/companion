@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,15 +18,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 
+import com.anyfetch.companion.adapters.HomeSlidePagerAdapter;
 import com.anyfetch.companion.commons.android.AndroidSpiceService;
 import com.anyfetch.companion.commons.android.pojo.Person;
 import com.anyfetch.companion.commons.api.HttpSpiceService;
 import com.anyfetch.companion.commons.api.builders.BaseRequestBuilder;
 import com.anyfetch.companion.commons.api.pojo.ProvidersList;
 import com.anyfetch.companion.commons.api.requests.GetProvidersRequest;
+import com.anyfetch.companion.fragments.ContactPickerFragment;
 import com.anyfetch.companion.fragments.ContextFragment;
 import com.anyfetch.companion.helpers.Marketpace;
 import com.anyfetch.companion.stats.MixPanel;
+import com.astuetz.PagerSlidingTabStrip;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.newrelic.agent.android.NewRelic;
 import com.nispok.snackbar.Snackbar;
@@ -37,12 +41,18 @@ import com.octo.android.robospice.request.listener.RequestListener;
 
 import org.json.JSONObject;
 
-public class HomeActivity extends ActionBarActivity {
+public class HomeActivity extends ActionBarActivity implements ContactPickerFragment.OnSearchView {
     private static final int REQUEST_CONTACTPICKER = 1;
 
     private final SpiceManager mSpiceManager = new SpiceManager(AndroidSpiceService.class);
     private final SpiceManager mHttpSpiceManager = new SpiceManager(HttpSpiceService.class);
     private MixpanelAPI mixpanel;
+
+    // Ui values
+    private ViewPager mPager;
+    private PagerSlidingTabStrip mSlidingTabLayout;
+
+
 
     @Override
     protected void onStart() {
@@ -64,6 +74,7 @@ public class HomeActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         mixpanel = MixPanel.getInstance(this);
         mixpanel.track("HomeActivity", new JSONObject());
+        bindView();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(true);
@@ -85,6 +96,7 @@ public class HomeActivity extends ActionBarActivity {
             openAuthActivity();
             return;
         }
+        doInitCall();
     }
 
     @Override
@@ -93,6 +105,8 @@ public class HomeActivity extends ActionBarActivity {
         doInitCall();
         super.onResume();
     }
+
+
 
     /**
      * Request the number of documents currently connected
@@ -158,13 +172,26 @@ public class HomeActivity extends ActionBarActivity {
             }
         });
 
+    }
+
+    private void bindView() {
         setContentView(R.layout.activity_home);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        ViewCompat.setElevation(toolbar, getResources().getDimension(R.dimen.toolbar_elevation));
         setSupportActionBar(toolbar);
 
         View mainView = findViewById(R.id.home_layout);
+        mPager = (ViewPager)findViewById(R.id.view_pager);
+        mPager.setAdapter(new HomeSlidePagerAdapter(getSupportFragmentManager(), this));
+
+
+        mSlidingTabLayout= (PagerSlidingTabStrip) findViewById(R.id.sliding_tabs);
+        // Attach the view pager to the tab strip
+        mSlidingTabLayout.setViewPager(mPager);
+
+        ViewCompat.setElevation(toolbar, getResources().getDimension(R.dimen.toolbar_elevation));
+        ViewCompat.setElevation(mSlidingTabLayout, getResources().getDimension(R.dimen.toolbar_elevation));
+
         mainView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -254,5 +281,15 @@ public class HomeActivity extends ActionBarActivity {
     protected void onDestroy() {
         mixpanel.flush();
         super.onDestroy();
+    }
+
+    @Override
+    public void showSlidingTabLayout() {
+        mSlidingTabLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideSlidingTabLayout() {
+        mSlidingTabLayout.setVisibility(View.GONE);
     }
 }

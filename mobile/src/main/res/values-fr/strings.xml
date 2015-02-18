@@ -85,6 +85,12 @@
     <string name="few_providers_yet">Ajoutez plus de sources pour profiter au mieux du Companion</string>
     <string name="opening_manager">Ouverture du manager</string>
     <string name="opening_manager_description">Votre navigateur va s\'afficher.\nConnectez vos comptes et revenez sur l\'application !</string>
+
+
+    <!-- Search Menu item -->
+    <string name="search_contact">Rechercher un contact</string>
+    <string name="search_contact_hint">@string/search_contact</string>
+
 </resources>
 
 

@@ -4,6 +4,7 @@
     <color name="anyfetchOpposite">#F98D33</color>
     <color name="primary">#83BBE7</color>
     <color name="primary_dark">#6aafe7</color>
+    <color name="color_accent">#303F9F</color>
     <color name="primary_light">#9dc6e7</color>
     <color name="background">#eeeeee</color>
     <color name="text_primary">#111</color>
@@ -11,4 +12,13 @@
     <color name="navigation_bar">#fff</color>
     <color name="text_primary_inverse">#fff</color>
 
+    <!-- Color for contact pic -->
+    <color name="color_1">#F44336</color>
+    <color name="color_2">#FF9800</color>
+    <color name="color_3">#607D8B</color>
+    <color name="color_4">#00BCD4</color>
+    <color name="color_5">#673AB7</color>
+    <color name="color_6">#FDD835</color>
+    <color name="color_7">#43A047</color>
+    <color name="color_8">#009688</color>
 </resources>
