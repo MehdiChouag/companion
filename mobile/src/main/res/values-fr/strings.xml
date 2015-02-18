@@ -91,6 +91,9 @@
     <string name="search_contact">Rechercher un contact</string>
     <string name="search_contact_hint">@string/search_contact</string>
 
+    <!-- Fragment Contact Picker -->
+    <string name="none_contact">Aucun Contact</string>
+
 </resources>
 
 

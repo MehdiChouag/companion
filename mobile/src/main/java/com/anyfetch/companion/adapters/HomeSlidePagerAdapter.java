@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.anyfetch.companion.R;
 import com.anyfetch.companion.fragments.ContactPickerFragment;
+import com.anyfetch.companion.fragments.UpcomingEventsFragment;
 
 /**
  * Created by mehdichouag on 16/02/15.
@@ -29,7 +30,7 @@ public class HomeSlidePagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return ContactPickerFragment.newInstance();
             case 1:
-                return ContactPickerFragment.newInstance();
+                return UpcomingEventsFragment.newInstance();
             default:
                 return null;
         }

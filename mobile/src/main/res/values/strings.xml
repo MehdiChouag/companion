@@ -92,4 +92,7 @@
 
     <!-- Home Activity -->
     <string name="alphabet">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+
+    <!-- Fragment Contact Picker -->
+    <string name="none_contact">No contact found</string>
 </resources>

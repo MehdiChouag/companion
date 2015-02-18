@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -29,6 +28,7 @@ import com.anyfetch.companion.fragments.ContactPickerFragment;
 import com.anyfetch.companion.fragments.ContextFragment;
 import com.anyfetch.companion.helpers.Marketpace;
 import com.anyfetch.companion.stats.MixPanel;
+import com.anyfetch.companion.view.HomeViewPager;
 import com.astuetz.PagerSlidingTabStrip;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.newrelic.agent.android.NewRelic;
@@ -49,10 +49,8 @@ public class HomeActivity extends ActionBarActivity implements ContactPickerFrag
     private MixpanelAPI mixpanel;
 
     // Ui values
-    private ViewPager mPager;
+    private HomeViewPager mPager;
     private PagerSlidingTabStrip mSlidingTabLayout;
-
-
 
     @Override
     protected void onStart() {
@@ -181,9 +179,8 @@ public class HomeActivity extends ActionBarActivity implements ContactPickerFrag
         setSupportActionBar(toolbar);
 
         View mainView = findViewById(R.id.home_layout);
-        mPager = (ViewPager)findViewById(R.id.view_pager);
+        mPager = (HomeViewPager)findViewById(R.id.view_pager);
         mPager.setAdapter(new HomeSlidePagerAdapter(getSupportFragmentManager(), this));
-
 
         mSlidingTabLayout= (PagerSlidingTabStrip) findViewById(R.id.sliding_tabs);
         // Attach the view pager to the tab strip
@@ -286,10 +283,12 @@ public class HomeActivity extends ActionBarActivity implements ContactPickerFrag
     @Override
     public void showSlidingTabLayout() {
         mSlidingTabLayout.setVisibility(View.VISIBLE);
+        mPager.setSwipe(true);
     }
 
     @Override
     public void hideSlidingTabLayout() {
         mSlidingTabLayout.setVisibility(View.GONE);
+        mPager.setSwipe(false);
     }
 }

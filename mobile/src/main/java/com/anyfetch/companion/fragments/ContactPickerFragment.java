@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.anyfetch.companion.ContextActivity;
 import com.anyfetch.companion.R;
@@ -51,9 +52,11 @@ public class ContactPickerFragment extends Fragment implements LoaderManager.Loa
     private ListView mListView;
     private SearchView mSearchView;
     private OnSearchView mListener;
+    private TextView mEmpty;
 
     public interface OnSearchView {
         public void showSlidingTabLayout();
+
         public void hideSlidingTabLayout();
     }
 
@@ -96,6 +99,7 @@ public class ContactPickerFragment extends Fragment implements LoaderManager.Loa
 
     private void bindView(View rootView) {
         mListView = (ListView) rootView.findViewById(R.id.contact_list);
+        mEmpty = (TextView) rootView.findViewById(android.R.id.empty);
 
         mAdapter = new ContactCursorAdapter(getActivity(), null, 0);
         mListView.setAdapter(mAdapter);
@@ -122,13 +126,7 @@ public class ContactPickerFragment extends Fragment implements LoaderManager.Loa
 
         switch (item.getItemId()) {
             case android.R.id.home:
-                ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                mSearchView.onActionViewCollapsed();
-                mSearchView.setQuery("", false);
-                mCurFilter = null;
-                mListView.setSelection(0);
-                if (mListener != null)
-                    mListener.showSlidingTabLayout();
+                resetSearchView();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -161,6 +159,8 @@ public class ContactPickerFragment extends Fragment implements LoaderManager.Loa
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         switch (loader.getId()) {
             case LOADER_CONTACT_ID:
+                boolean displayText = data != null && data.getCount() > 0;
+                mEmpty.setVisibility(displayText ? View.GONE : View.VISIBLE);
                 mAdapter.swapCursor(data, mCurFilter);
                 break;
         }
@@ -226,5 +226,15 @@ public class ContactPickerFragment extends Fragment implements LoaderManager.Loa
     private void setFastScroll(boolean value) {
         mListView.setFastScrollEnabled(value);
         mListView.setFastScrollAlwaysVisible(value);
+    }
+
+    private void resetSearchView() {
+        ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        mSearchView.onActionViewCollapsed();
+        mSearchView.setQuery("", false);
+        mCurFilter = null;
+        mListView.setSelection(0);
+        if (mListener != null)
+            mListener.showSlidingTabLayout();
     }
 }
