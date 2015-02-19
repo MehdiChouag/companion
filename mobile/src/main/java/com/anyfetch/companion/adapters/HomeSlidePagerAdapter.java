@@ -38,9 +38,7 @@ public class HomeSlidePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        if (position < mTabsTitle.length)
-            return mTabsTitle[position];
-        return null;
+        return mTabsTitle[position];
     }
 
     @Override

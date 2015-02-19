@@ -178,8 +178,7 @@ public class HomeActivity extends ActionBarActivity implements ContactPickerFrag
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        View mainView = findViewById(R.id.home_layout);
-        mPager = (HomeViewPager)findViewById(R.id.view_pager);
+        mPager = (HomeViewPager) findViewById(R.id.view_pager);
         mPager.setAdapter(new HomeSlidePagerAdapter(getSupportFragmentManager(), this));
 
         mSlidingTabLayout= (PagerSlidingTabStrip) findViewById(R.id.sliding_tabs);
@@ -188,14 +187,6 @@ public class HomeActivity extends ActionBarActivity implements ContactPickerFrag
 
         ViewCompat.setElevation(toolbar, getResources().getDimension(R.dimen.toolbar_elevation));
         ViewCompat.setElevation(mSlidingTabLayout, getResources().getDimension(R.dimen.toolbar_elevation));
-
-        mainView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent contactIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-                startActivityForResult(contactIntent, REQUEST_CONTACTPICKER);
-            }
-        });
     }
 
     @Override

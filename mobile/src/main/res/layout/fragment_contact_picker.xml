@@ -11,7 +11,7 @@
         android:fastScrollAlwaysVisible="true"
         android:divider="@null"
         android:verticalScrollbarPosition="right"
-        android:smoothScrollbar="false"
+        android:smoothScrollbar="true"
         android:scrollbarStyle="outsideInset"/>
 
     <TextView

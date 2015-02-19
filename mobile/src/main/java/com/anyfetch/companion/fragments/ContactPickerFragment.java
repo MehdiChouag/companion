@@ -118,7 +118,7 @@ public class ContactPickerFragment extends Fragment implements LoaderManager.Loa
         mSearchView.setQueryHint(getString(R.string.search_contact_hint));
         mSearchView.setOnQueryTextListener(this);
         mSearchView.setOnCloseListener(mClose);
-        mSearchView.setOnSearchClickListener(mSearchClikListener);
+        mSearchView.setOnSearchClickListener(mSearchClickListener);
     }
 
     @Override
@@ -214,12 +214,13 @@ public class ContactPickerFragment extends Fragment implements LoaderManager.Loa
         }
     };
 
-    SearchView.OnClickListener mSearchClikListener = new SearchView.OnClickListener() {
+    SearchView.OnClickListener mSearchClickListener = new SearchView.OnClickListener() {
         @Override
         public void onClick(View v) {
             ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            if (mListener != null)
+            if (mListener != null) {
                 mListener.hideSlidingTabLayout();
+            }
         }
     };
 
@@ -234,7 +235,8 @@ public class ContactPickerFragment extends Fragment implements LoaderManager.Loa
         mSearchView.setQuery("", false);
         mCurFilter = null;
         mListView.setSelection(0);
-        if (mListener != null)
+        if (mListener != null) {
             mListener.showSlidingTabLayout();
+        }
     }
 }
