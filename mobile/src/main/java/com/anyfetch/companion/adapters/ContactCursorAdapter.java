@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.AlphabetIndexer;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
-import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
@@ -27,7 +26,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by mehdichouag on 16/02/15.
  */
-public class ContactCursorAdapter extends CursorAdapter implements SectionIndexer {
+public class ContactCursorAdapter extends CursorAdapter {
 
     private int[] mColorsArray;
 
@@ -106,7 +105,7 @@ public class ContactCursorAdapter extends CursorAdapter implements SectionIndexe
         return super.swapCursor(newCursor);
     }
 
-    @Override
+    /*@Override
     public Object[] getSections() {
         return mIndexer.getSections();
     }
@@ -119,7 +118,7 @@ public class ContactCursorAdapter extends CursorAdapter implements SectionIndexe
     @Override
     public int getSectionForPosition(int position) {
         return getCursor() != null && !getCursor().isClosed() ? mIndexer.getSectionForPosition(position) : 0;
-    }
+    } */
 
     @Override
     public int getCount() {

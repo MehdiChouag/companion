@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
 
 import com.anyfetch.companion.adapters.HomeSlidePagerAdapter;
@@ -105,7 +107,6 @@ public class HomeActivity extends ActionBarActivity implements ContactPickerFrag
     }
 
 
-
     /**
      * Request the number of documents currently connected
      */
@@ -150,8 +151,7 @@ public class HomeActivity extends ActionBarActivity implements ContactPickerFrag
                                 }
                             })
                             .show(HomeActivity.this);
-                }
-                else if(o.getCount() < 3) {
+                } else if (o.getCount() < 3) {
                     Snackbar.with(getApplicationContext())
                             .type(SnackbarType.MULTI_LINE)
                             .text(getString(R.string.few_providers_yet))
@@ -181,7 +181,7 @@ public class HomeActivity extends ActionBarActivity implements ContactPickerFrag
         mPager = (HomeViewPager) findViewById(R.id.view_pager);
         mPager.setAdapter(new HomeSlidePagerAdapter(getSupportFragmentManager(), this));
 
-        mSlidingTabLayout= (PagerSlidingTabStrip) findViewById(R.id.sliding_tabs);
+        mSlidingTabLayout = (PagerSlidingTabStrip) findViewById(R.id.sliding_tabs);
         // Attach the view pager to the tab strip
         mSlidingTabLayout.setViewPager(mPager);
 
@@ -273,13 +273,41 @@ public class HomeActivity extends ActionBarActivity implements ContactPickerFrag
 
     @Override
     public void showSlidingTabLayout() {
-        mSlidingTabLayout.setVisibility(View.VISIBLE);
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+        mSlidingTabLayout.startAnimation(animation);
+        playAnimation(View.VISIBLE, animation);
+
         mPager.setSwipe(true);
     }
 
     @Override
     public void hideSlidingTabLayout() {
-        mSlidingTabLayout.setVisibility(View.GONE);
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
+        mSlidingTabLayout.startAnimation(animation);
+        playAnimation(View.GONE, animation);
+
         mPager.setSwipe(false);
+    }
+
+    private void playAnimation(final int visibility, Animation animation) {
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                if (visibility == View.VISIBLE)
+                    mSlidingTabLayout.setVisibility(visibility);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (visibility == View.GONE)
+                    mSlidingTabLayout.setVisibility(visibility);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        mSlidingTabLayout.startAnimation(animation);
     }
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
@@ -10,10 +10,9 @@
 
     <com.astuetz.PagerSlidingTabStrip
         android:id="@+id/sliding_tabs"
+        style="@style/PagerSlidingStyle"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        style="@style/PagerSlidingStyle"/>
-
+        android:layout_height="?attr/actionBarSize"/>
 
     <com.anyfetch.companion.view.HomeViewPager
         android:id="@+id/view_pager"
@@ -21,35 +20,4 @@
         android:layout_height="0px"
         android:layout_weight="1"/>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical"
-        android:id="@+id/home_layout"
-        android:background="?android:attr/selectableItemBackground"
-        android:gravity="center"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_contact"
-            android:elevation="5dp"
-            android:layout_gravity="center_horizontal"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/home_welcome_title"
-            android:textColor="@android:color/white"
-            android:gravity="center_horizontal"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/home_welcome_subtitle"
-            android:textColor="@android:color/white"
-            android:gravity="center_horizontal"/>
-    </LinearLayout>
 </LinearLayout>
